@@ -24,13 +24,13 @@ class AppBtn extends StatelessWidget {
         width: btnAnim!.value,
         height: 40,
         alignment: FractionalOffset.center,
-        decoration: new BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [primaryLight2, primaryLight3],
               stops: [0, 1]),
-          borderRadius: new BorderRadius.all(const Radius.circular(50.0)),
+          borderRadius: BorderRadius.all(Radius.circular(50.0)),
         ),
         child: btnAnim!.value > 75.0
             ? Text(title!,
@@ -39,8 +39,8 @@ class AppBtn extends StatelessWidget {
                     .textTheme
                     .headline6
                     ?.copyWith(color: white, fontWeight: FontWeight.normal))
-            : new CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            : const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
       ),
       onPressed: () {

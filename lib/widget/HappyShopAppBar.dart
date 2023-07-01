@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:engishop/Helper/HappyShopString.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
+import 'package:engishop/Screen/HappyShopCart.dart';
+import 'package:engishop/Screen/HappyShopProfile.dart';
 
 class HappyShopAppBar extends StatefulWidget {
   const HappyShopAppBar({
@@ -69,13 +71,11 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                 : Container()
           ]),
           onTap: () async {
-            /*
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => HappyShopCart(),
                 ));
-          */
           },
         ),
         const SizedBox(
@@ -88,13 +88,11 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
             size: 26,
           ),
           onTap: () {
-            /*
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => HappyShopPeofile(),
                 ));
-          */
           },
         ),
         const SizedBox(
