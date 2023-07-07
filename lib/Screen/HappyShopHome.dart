@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:like_button/like_button.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 import 'package:engishop/Screen/HappyShopFavrite.dart';
 import 'package:engishop/Screen/HappyShopHomeTab.dart';
@@ -8,6 +5,8 @@ import 'package:engishop/Screen/HappyShopNotification.dart';
 import 'package:engishop/Screen/HappyShopTrackOrder.dart';
 import 'package:engishop/widget/HappyShopAppBar.dart';
 import 'package:engishop/widget/HappyShopDrawer.dart';
+import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 
 class HappyShopHome extends StatefulWidget {
   HappyShopHome({Key? key}) : super(key: key);
@@ -40,17 +39,33 @@ class _HappyShopHomeState extends State<HappyShopHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(56),
-        child: HappyShopAppBar(),
-      ),
-      drawer: HappyShopDrawer(),
-      backgroundColor: Colors.white10,
-      extendBodyBehindAppBar: true,
-      bottomNavigationBar: getBottomBar(),
-      body: happyShopBottomeTab![_curSelected],
-    );
+    final GlobalKey<ScaffoldState> _scaffoldKey =
+        new GlobalKey<ScaffoldState>();
+    return WillPopScope(
+        onWillPop: () async {
+          /* bool result = await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(title: 'Engi Shop'),
+          ),
+        );
+        if (result == null) result = false;*/
+
+          //return result;
+          return false;
+        },
+        child: Scaffold(
+          key: _scaffoldKey,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(56),
+            child: HappyShopAppBar(scaffoldKey: _scaffoldKey),
+          ),
+          drawer: const HappyShopDrawer(),
+          backgroundColor: Colors.white10,
+          extendBodyBehindAppBar: true,
+          bottomNavigationBar: getBottomBar(),
+          body: happyShopBottomeTab![_curSelected],
+        ));
   }
 
   getBottomBar() {

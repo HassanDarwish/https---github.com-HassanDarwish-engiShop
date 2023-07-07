@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:engishop/Helper/HappyShopString.dart';
 import 'package:engishop/Screen/HappyShopSplash.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/scheduler/binding.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HappyShopDrawer extends StatefulWidget {
   const HappyShopDrawer({
@@ -269,14 +268,13 @@ class HappyShopDrawerHeader extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 26,
                 ),
-                const Text(
-                  App_title,
-                  style: TextStyle(
+                const Text(App_title,
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 24,
-                      fontFamily: 'Open sans',
-                      fontWeight: FontWeight.w700),
-                )
+                      fontFamily: 'DancingScript',
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ))
               ],
             ),
           ),

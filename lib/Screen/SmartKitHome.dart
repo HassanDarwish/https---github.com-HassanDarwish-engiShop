@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:engishop/Helper/SmartKitColor.dart';
-
-import 'package:engishop/widget/HappyShopMain.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
+import 'package:engishop/Helper/SmartKitColor.dart';
 import 'package:engishop/Widget/SmartKtHomeTile.dart';
+import 'package:engishop/widget/HappyShopMain.dart';
+import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+
 //import 'AppSplash.dart';
 import 'SmartKitHomeLogo.dart';
 

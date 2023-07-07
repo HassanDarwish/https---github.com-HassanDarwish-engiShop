@@ -1,16 +1,14 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 import 'package:engishop/Helper/HappyShopString.dart';
 import 'package:engishop/Screen/HappyShopForgotPassword.dart';
 import 'package:engishop/Screen/HappyShopHome.dart';
 //import 'package:engi_shop/HappyShop/desktop/logindesktop.dart';
 import 'package:engishop/widget/HappyShopbtn.dart';
-import 'package:engishop/Screen/SmartKitHome.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import 'HappyShopSingUp.dart';
 
@@ -108,7 +106,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
                       children: <Widget>[
                         InkWell(
                           onTap: () {
-                            Future.delayed(Duration(milliseconds: 000))
+                            Future.delayed(const Duration(milliseconds: 000))
                                 .then((_) {
                               Navigator.pushReplacement(
                                   context,
@@ -202,7 +200,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
 
   Future<void> validatanmation() async {
     await buttonController.reverse();
-    Future.delayed(Duration(milliseconds: 500)).then((_) {
+    Future.delayed(const Duration(milliseconds: 500)).then((_) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HappyShopHome()));
     });
@@ -213,7 +211,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
   }
 
   back() {
-    return BoxDecoration(
+    return const BoxDecoration(
       gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -224,29 +222,49 @@ class _HappyShopLoginState extends State<HappyShopLogin>
 
   welcomeHappyShopTxt() {
     return Padding(
-        padding: EdgeInsets.only(top: 50.0, left: 30.0, right: 30.0),
+        padding: const EdgeInsets.only(top: 50.0, left: 30.0, right: 30.0),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            WELCOME_EngiShop,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                ?.copyWith(color: lightblack, fontWeight: FontWeight.bold),
-          ),
+          child: Row(children: [
+            Text(
+              'Welcome to ',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: lightblack,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+            ),
+            Text(
+              WELCOME_EngiShop,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: lightblack,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    fontFamily: 'DancingScript',
+                  ),
+            ),
+            Text(
+              ' Shop',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: lightblack,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+            )
+          ]),
         ));
   }
 
   eCommerceforBusinessTxt() {
     return Padding(
-        padding: EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
+        padding: const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Text(
             ECOMMERCE_APP_FOR_ALL_BUSINESS,
             style: Theme.of(context)
                 .textTheme
-                .subtitle1
+                .bodyMedium
                 ?.copyWith(color: lightblack2),
           ),
         ));
@@ -256,9 +274,9 @@ class _HappyShopLoginState extends State<HappyShopLogin>
     double height = MediaQuery.of(context).size.height * 0.9;
     double width = MediaQuery.of(context).size.width;
     return Padding(
-        padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+        padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           width: width,
           height: 50,
           decoration: BoxDecoration(
@@ -266,7 +284,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
               border: Border.all(color: darkgrey)),
           child: CountryCodePicker(
               showCountryOnly: false,
-              searchDecoration: InputDecoration(
+              searchDecoration: const InputDecoration(
                 hintText: COUNTRY_CODE_LBL,
                 fillColor: primary,
               ),
@@ -308,7 +326,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
               padding: const EdgeInsets.all(5.0),
               child: Text(
                 country.dialCode!,
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
             ),
           ),
@@ -327,7 +345,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
 
   setMobileNo() {
     return Padding(
-      padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
       child: TextFormField(
         keyboardType: TextInputType.number,
         controller: mobileController,
@@ -355,7 +373,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
 
   setPass() {
     return Padding(
-      padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
       child: TextFormField(
         keyboardType: TextInputType.text,
         obscureText: true,
@@ -403,8 +421,8 @@ class _HappyShopLoginState extends State<HappyShopLogin>
 
   accSignup() {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: 30.0, left: 30.0, right: 30.0, top: 20.0),
+      padding: const EdgeInsets.only(
+          bottom: 30.0, left: 30.0, right: 30.0, top: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -418,7 +436,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
               },
               child: Text(
                 SIGN_UP_LBL,
-                style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: primary, decoration: TextDecoration.underline),
               ))
         ],

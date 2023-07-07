@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
+import 'package:engishop/Helper/HappyShopString.dart';
 import 'package:engishop/Screen/HappyShopCart.dart';
 import 'package:engishop/Screen/HappyShopProfile.dart';
+import 'package:flutter/material.dart';
 
 class HappyShopAppBar extends StatefulWidget {
-  const HappyShopAppBar({
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  HappyShopAppBar({
     Key? key,
+    required this.scaffoldKey,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
           icon: const Icon(Icons.menu),
           onPressed: () {
             print("Leading clicked");
+            widget.scaffoldKey.currentState!.openDrawer();
           }),
       //bottom: ,
       title: Row(
@@ -30,7 +33,9 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
             App_title,
             style: TextStyle(
               color: AppTitleColor.withOpacity(0.6),
-              fontFamily: 'Open sans',
+              fontFamily: 'DancingScript',
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
             ),
           )
         ],

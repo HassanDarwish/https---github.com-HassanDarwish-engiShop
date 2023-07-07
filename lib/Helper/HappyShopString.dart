@@ -1,4 +1,4 @@
-const String App_title = "ENGI Shop";
+const String App_title = "Giorgia Shop";
 const String ID = 'id';
 const String TYPE = 'type';
 const String TYPE_ID = 'type_id';
@@ -198,7 +198,7 @@ const String DISCRIPTION2 =
 const String DISCRIPTION3 =
     'Lorem ipsum dolor sit amet,venenatis sollicitudin, mi odio libero.Nulla phasellus mauris.';
 const String GET_STARTED = 'Get Started';
-const String WELCOME_EngiShop = 'Welcome to Engi Shop';
+const String WELCOME_EngiShop = 'Giorgia';
 const String ECOMMERCE_APP_FOR_ALL_BUSINESS = 'Best Cosmetic Shop';
 const String FORGOT_PASSWORD_LBL = 'Forgot Password?';
 const String LOGIN_LBL = 'Login';

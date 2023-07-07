@@ -398,7 +398,7 @@ Widget vpnSetBottomNavigation(
 }
 
 Widget vpnSetAppbar(String bartitle) {
-  return new AppBar(
+  return AppBar(
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
