@@ -1,8 +1,8 @@
+import 'package:engishop/Screen/HappyShopSplash.dart';
 import 'package:flutter/material.dart';
-import 'UISvreen/SPlashScreen.dart';
+
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
-import 'package:engishop/Screen/HappyShopSplash.dart';
 
 void main() {
   runApp(const MyApp());

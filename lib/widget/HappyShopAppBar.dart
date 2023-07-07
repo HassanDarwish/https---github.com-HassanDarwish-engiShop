@@ -20,7 +20,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-          icon: const Icon(Icons.menu),
+          icon: Icon(Icons.menu),
           onPressed: () {
             print("Leading clicked");
             widget.scaffoldKey.currentState!.openDrawer();

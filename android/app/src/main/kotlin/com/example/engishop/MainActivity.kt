@@ -1,4 +1,4 @@
-package com.engi.engishop
+package com.giorgia.giorgiashop
 
 import io.flutter.embedding.android.FlutterActivity
 

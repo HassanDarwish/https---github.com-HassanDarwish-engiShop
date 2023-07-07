@@ -1,23 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Screen/HappyShopLogin.dart';
-import 'package:engishop/Screen/HappyShopOnbording.dart';
-import 'package:engishop/main.dart';
 import 'dart:async';
+
+import 'package:engishop/Helper/HappyShopColor.dart';
+import 'package:engishop/Helper/SmartKitColor.dart';
+import 'package:engishop/Screen/HappyShopLogin.dart';
 import 'package:engishop/widget/HappyShopAppBar.dart';
 import 'package:engishop/widget/HappyShopDrawer.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:like_button/like_button.dart';
 import 'package:engishop/widget/IntroPage.dart';
-import 'package:engishop/Helper/SmartKitColor.dart';
-import 'package:engishop/Screen/HappyShopSplash.dart';
+import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class HappyShopOnbording extends StatefulWidget {
-  const HappyShopOnbording({
+  HappyShopOnbording({
     Key? key,
   }) : super(key: key);
 
@@ -93,6 +87,9 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey =
+        new GlobalKey<ScaffoldState>();
+
     var width = MediaQuery.of(context).size.width;
     return ResponsiveApp(builder: (context) {
       return WillPopScope(
@@ -100,9 +97,10 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
             return false;
           },
           child: Scaffold(
-              appBar: const PreferredSize(
+              key: _scaffoldKey,
+              appBar: PreferredSize(
                 preferredSize: Size.fromHeight(56),
-                child: HappyShopAppBar(),
+                child: HappyShopAppBar(scaffoldKey: _scaffoldKey),
               ),
               drawer: HappyShopDrawer(),
               bottomNavigationBar: getBottomBar(),
