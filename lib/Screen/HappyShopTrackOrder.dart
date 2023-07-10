@@ -76,7 +76,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
         /* bool result = await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Engi Shop'),
+            builder: (context) => MyHomePage(title: 'Giorgia Shop'),
           ),
         );
         if (result == null) result = false;*/
@@ -92,7 +92,8 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                   style: TextStyle(color: Colors.white),
                 ),
               )
-            : PreferredSize(preferredSize: const Size.fromHeight(0), child: AppBar()),
+            : PreferredSize(
+                preferredSize: const Size.fromHeight(0), child: AppBar()),
         body: ListView.builder(
           shrinkWrap: true,
           controller: controller,
@@ -111,8 +112,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("$ORDER_ID_LBL : " +
-                                  orderList[index]['id']),
+                              Text("$ORDER_ID_LBL : " + orderList[index]['id']),
                               Text("$ORDER_DATE : " +
                                   orderList[index]['orderDate']),
                               Text("$TOTAL_PRICE:$CUR_CURRENCY " +

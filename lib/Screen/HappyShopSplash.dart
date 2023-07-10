@@ -33,7 +33,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
         /* bool result = await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Engi Shop'),
+            builder: (context) => MyHomePage(title: 'Giorgia Shop'),
           ),
         );
         if (result == null) result = false;*/

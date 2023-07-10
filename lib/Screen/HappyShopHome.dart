@@ -39,14 +39,13 @@ class _HappyShopHomeState extends State<HappyShopHome> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey =
-        GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return WillPopScope(
         onWillPop: () async {
           /* bool result = await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Engi Shop'),
+            builder: (context) => MyHomePage(title: 'Giorgia Shop'),
           ),
         );
         if (result == null) result = false;*/
