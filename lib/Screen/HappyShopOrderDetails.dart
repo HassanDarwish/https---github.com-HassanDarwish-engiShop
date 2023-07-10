@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 import 'package:engishop/Helper/HappyShopString.dart';
 
 class HappyShopOrderDetails extends StatefulWidget {
-  HappyShopOrderDetails({Key? key}) : super(key: key);
+  const HappyShopOrderDetails({Key? key}) : super(key: key);
 
   @override
   _HappyShopOrderDetailsState createState() => _HappyShopOrderDetailsState();
@@ -19,15 +18,15 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
   @override
   void initState() {
     super.initState();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -44,12 +43,12 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
   getAppBar(String title, BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: primary),
+        icon: const Icon(Icons.arrow_back_ios, color: primary),
         onPressed: () => Navigator.of(context).pop(),
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: primary,
         ),
       ),
@@ -74,13 +73,13 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(ORDER_ID_LBL + " : " + "0121345"),
-                        Text(ORDER_DATE + " : " + "01-2-2021"),
-                        Divider(),
+                        const Text("$ORDER_ID_LBL : 0121345"),
+                        const Text("$ORDER_DATE : 01-2-2021"),
+                        const Divider(),
                         ListView.builder(
                           shrinkWrap: true,
                           itemCount: 1,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, i) {
                             return Column(
                               children: [
@@ -100,12 +99,10 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text("Mac"),
-                                            Text(PAYMENT_METHOD_LBL +
-                                                " : " +
-                                                "PayPal"),
-                                            Text(QUANTITY_LBL + " : " + "5"),
-                                            Text(CUR_CURRENCY + " " + "100"),
+                                            const Text("Mac"),
+                                            const Text("$PAYMENT_METHOD_LBL : PayPal"),
+                                            const Text("$QUANTITY_LBL : 5"),
+                                            Text("$CUR_CURRENCY 100"),
                                           ],
                                         ),
                                       ),
@@ -120,7 +117,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                                         onPressed: () {},
                                       ),
                                       TextButton(
-                                        child: Text(ITEM_RETURN),
+                                        child: const Text(ITEM_RETURN),
                                         onPressed: () {},
                                       )
                                     ],
@@ -130,13 +127,13 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                             );
                           },
                         ),
-                        Divider(),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(PRICE_DETAIL,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .titleMedium
                                   ?.copyWith(color: primary)),
                         ),
                         Padding(
@@ -144,8 +141,8 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(PRICE_LBL),
-                              Text("+ " + CUR_CURRENCY + " " + "1200")
+                              const Text(PRICE_LBL),
+                              Text("+ $CUR_CURRENCY 1200")
                             ],
                           ),
                         ),
@@ -154,8 +151,8 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(DELIVERY_CHARGE),
-                              Text("+ " + CUR_CURRENCY + " " + "190")
+                              const Text(DELIVERY_CHARGE),
+                              Text("+ $CUR_CURRENCY 190")
                             ],
                           ),
                         ),
@@ -164,8 +161,8 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(TAXPER + " (" + "18%" + ")"),
-                              Text("+ " + CUR_CURRENCY + " " + "2500")
+                              const Text("$TAXPER (18%)"),
+                              Text("+ $CUR_CURRENCY 2500")
                             ],
                           ),
                         ),
@@ -174,8 +171,8 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(PROMO_CODE_DIS_LBL),
-                              Text("- " + CUR_CURRENCY + " " + "10")
+                              const Text(PROMO_CODE_DIS_LBL),
+                              Text("- $CUR_CURRENCY 10")
                             ],
                           ),
                         ),
@@ -184,57 +181,57 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(WALLET_BAL),
-                              Text("- " + CUR_CURRENCY + " " + "10")
+                              const Text(WALLET_BAL),
+                              Text("- $CUR_CURRENCY 10")
                             ],
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 TOTAL_PRICE,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                CUR_CURRENCY + " " + "1586",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                "$CUR_CURRENCY 1586",
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               )
                             ],
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(OTHER_DETAIL,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .titleMedium
                                   ?.copyWith(color: primary)),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(NAME_LBL + " : " + "Mac"),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text("$NAME_LBL : Mac"),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(MOB_LBL + " : " + "0123456789"),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text("$MOB_LBL : 0123456789"),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(ADDRESS_LBL + " : " + "xyz,xyz"),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text("$ADDRESS_LBL : xyz,xyz"),
                         ),
-                        Divider(),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             ORDER_STATUS,
                             style: Theme.of(context)
                                 .textTheme
-                                .subtitle1
+                                .titleMedium
                                 ?.copyWith(color: primary),
                           ),
                         ),
@@ -267,13 +264,13 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
   getPlaced(String pDate) {
     return Column(
       children: [
-        Text(
+        const Text(
           ORDER_NPLACED,
           style: TextStyle(fontSize: 8),
           textAlign: TextAlign.center,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 4.0),
           child: Icon(
             Icons.radio_button_checked,
             color: primary,
@@ -281,7 +278,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
         ),
         Text(
           pDate,
-          style: TextStyle(fontSize: 8),
+          style: const TextStyle(fontSize: 8),
           textAlign: TextAlign.center,
         ),
       ],
@@ -303,7 +300,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_PROCESSED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -319,7 +316,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     ),
                     Text(
                       prDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -334,7 +331,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 1,
                         child: Divider(
                           thickness: 2,
@@ -342,18 +339,18 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                         )),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           ORDER_PROCESSED,
                           style: TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.radio_button_checked,
                           color: primary,
                         ),
                         Text(
                           prDate,
-                          style: TextStyle(fontSize: 8),
+                          style: const TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -379,7 +376,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_SHIPPED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -395,7 +392,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     ),
                     Text(
                       sDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -410,25 +407,25 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 1,
                         child: Divider(
                           thickness: 2,
                         )),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           ORDER_SHIPPED,
                           style: TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.radio_button_checked,
                           color: primary,
                         ),
                         Text(
                           sDate,
-                          style: TextStyle(fontSize: 8),
+                          style: const TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -452,7 +449,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                 )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_DELIVERED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -468,7 +465,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     ),
                     Text(
                       dDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -485,7 +482,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
             flex: 1,
             child: Row(
               children: [
-                Flexible(
+                const Flexible(
                     flex: 1,
                     child: Divider(
                       thickness: 2,
@@ -493,13 +490,13 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_CANCLED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4.0),
                       child: Icon(
                         Icons.radio_button_checked,
                         color: Colors.red,
@@ -507,7 +504,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                     ),
                     Text(
                       cDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -526,7 +523,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
+          const Flexible(
               flex: 1,
               child: Divider(
                 thickness: 2,
@@ -534,13 +531,13 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
               )),
           Column(
             children: [
-              Text(
+              const Text(
                 ORDER_RETURNED,
                 style: TextStyle(fontSize: 8),
                 textAlign: TextAlign.center,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0),
                 child: Icon(
                   Icons.radio_button_checked,
                   color: Colors.red,
@@ -548,7 +545,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
               ),
               Text(
                 rDate,
-                style: TextStyle(fontSize: 8),
+                style: const TextStyle(fontSize: 8),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -564,45 +561,33 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
     if (orderItem.listStatus.contains(PLACED)) {
       pDate = orderItem.listDate[orderItem.listStatus.indexOf(PLACED)];
 
-      if (pDate != null) {
-        List d = pDate.split(" ");
-        pDate = d[0] + "\n" + d[1] + d[2];
-      }
+      List d = pDate.split(" ");
+      pDate = d[0] + "\n" + d[1] + d[2];
     }
     if (orderItem.listStatus.contains(PROCESSED)) {
       prDate = orderItem.listDate[orderItem.listStatus.indexOf(PROCESSED)];
-      if (prDate != null) {
-        List d = prDate.split(" ");
-        prDate = d[0] + "\n" + d[1] + d[2];
-      }
+      List d = prDate.split(" ");
+      prDate = d[0] + "\n" + d[1] + d[2];
     }
     if (orderItem.listStatus.contains(SHIPED)) {
       sDate = orderItem.listDate[orderItem.listStatus.indexOf(SHIPED)];
-      if (sDate != null) {
-        List d = sDate.split(" ");
-        sDate = d[0] + "\n" + d[1] + d[2];
-      }
+      List d = sDate.split(" ");
+      sDate = d[0] + "\n" + d[1] + d[2];
     }
     if (orderItem.listStatus.contains(DELIVERD)) {
       dDate = orderItem.listDate[orderItem.listStatus.indexOf(DELIVERD)];
-      if (dDate != null) {
-        List d = dDate.split(" ");
-        dDate = d[0] + "\n" + d[1] + d[2];
-      }
+      List d = dDate.split(" ");
+      dDate = d[0] + "\n" + d[1] + d[2];
     }
     if (orderItem.listStatus.contains(CANCLED)) {
       cDate = orderItem.listDate[orderItem.listStatus.indexOf(CANCLED)];
-      if (cDate != null) {
-        List d = cDate.split(" ");
-        cDate = d[0] + "\n" + d[1] + d[2];
-      }
+      List d = cDate.split(" ");
+      cDate = d[0] + "\n" + d[1] + d[2];
     }
     if (orderItem.listStatus.contains(RETURNED)) {
       rDate = orderItem.listDate[orderItem.listStatus.indexOf(RETURNED)];
-      if (rDate != null) {
-        List d = rDate.split(" ");
-        rDate = d[0] + "\n" + d[1] + "\n" + d[2];
-      }
+      List d = rDate.split(" ");
+      rDate = d[0] + "\n" + d[1] + "\n" + d[2];
     }
     print("length=========${model.itemList.length}");
     return Column(
@@ -621,17 +606,17 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(orderItem.name),
-                    Text(PAYMENT_METHOD_LBL + " : " + model.payMethod),
-                    Text(QUANTITY_LBL + " : " + orderItem.qty),
-                    Text(CUR_CURRENCY + " " + orderItem.price),
+                    Text("$PAYMENT_METHOD_LBL : " + model.payMethod),
+                    Text("$QUANTITY_LBL : " + orderItem.qty),
+                    Text("$CUR_CURRENCY " + orderItem.price),
                   ],
                 ),
               ),
             )
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [],
@@ -653,7 +638,7 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
                                 orderItem.isReturn == "1" &&
                                 orderItem.isAlrReturned == "0")
                             ? TextButton(
-                                child: Text(ITEM_RETURN),
+                                child: const Text(ITEM_RETURN),
                                 onPressed: () {},
                               )
                             : Container(),

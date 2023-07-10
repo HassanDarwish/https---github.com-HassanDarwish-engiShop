@@ -9,7 +9,7 @@ import 'package:engishop/Helper/HappyShopString.dart';
 import 'HappyShopHome.dart';
 
 class HappyShopForgotPassword extends StatefulWidget {
-  HappyShopForgotPassword({Key? key}) : super(key: key);
+  const HappyShopForgotPassword({Key? key}) : super(key: key);
 
   @override
   _HappyShopForgotPasswordState createState() =>
@@ -19,7 +19,7 @@ class HappyShopForgotPassword extends StatefulWidget {
 class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
     with TickerProviderStateMixin {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isCodeSent = false;
   late String mobile, name, email, id, otp, countrycode, countryName;
   final mobileController = TextEditingController();
@@ -58,7 +58,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
     }
   }
 
-  Future<Null> _playAnimation() async {
+  Future<void> _playAnimation() async {
     try {
       await buttonController.forward();
     } on TickerCanceled {}
@@ -69,7 +69,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
       await buttonController.reverse();
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HappyShopHome()));
+          context, MaterialPageRoute(builder: (context) => const HappyShopHome()));
     });
   }
 
@@ -86,13 +86,13 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
         width: buttonSqueezeanimation.value,
         height: 45,
         alignment: FractionalOffset.center,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [primaryLight2, primaryLight3],
               stops: [0, 1]),
-          borderRadius: BorderRadius.all(const Radius.circular(50.0)),
+          borderRadius: BorderRadius.all(Radius.circular(50.0)),
         ),
         child: buttonSqueezeanimation.value > 75.0
             ? Text(GET_PASSWORD,
@@ -101,8 +101,8 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
                     .textTheme
                     .bodyMedium
                     ?.copyWith(color: white, fontWeight: FontWeight.normal))
-            : CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            : const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
       ),
       onPressed: () {
@@ -122,7 +122,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
 
   imageView() {
     return Container(
-      padding: EdgeInsets.only(top: 100.0),
+      padding: const EdgeInsets.only(top: 100.0),
       child: Center(
         child: SvgPicture.network(
           'https://smartkit.wrteam.in/smartkit/images/happyshopwhitelogo.svg',
@@ -135,13 +135,13 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
 
   forgotPassTxt() {
     return Padding(
-        padding: EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
+        padding: const EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
         child: Center(
-          child: new Text(
+          child: Text(
             FORGOT_PASSWORDTITILE,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .titleLarge
                 ?.copyWith(color: lightblack, fontWeight: FontWeight.bold),
           ),
         ));
@@ -151,7 +151,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Padding(
-        padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+        padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
         child: Container(
           width: width,
           height: 49,
@@ -160,7 +160,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
               border: Border.all(color: darkgrey)),
           child: CountryCodePicker(
               showCountryOnly: false,
-              searchDecoration: InputDecoration(
+              searchDecoration: const InputDecoration(
                 hintText: COUNTRY_CODE_LBL,
                 fillColor: primary,
               ),
@@ -171,13 +171,13 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
               builder: _buildCountryPicker,
               onChanged: (CountryCode countryCode) {
                 countrycode = countryCode.toString().replaceFirst("+", "");
-                print("New Country selected: " + countryCode.toString());
+                print("New Country selected: $countryCode");
                 countryName = countryCode.name!;
               },
               onInit: (code) {
                 print("on init ${code!.name} ${code.dialCode} ${code.name}");
                 countrycode = code.toString().replaceFirst("+", "");
-                print("New Country selected: " + code.toString());
+                print("New Country selected: $code");
               }),
         ));
   }
@@ -186,10 +186,10 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new Flexible(
+          Flexible(
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: new Image.asset(
+              child: Image.asset(
                 country!.flagUri!,
                 package: 'country_code_picker',
                 height: 35,
@@ -197,16 +197,16 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
               ),
             ),
           ),
-          new Flexible(
+          Flexible(
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: new Text(country.dialCode!),
+              child: Text(country.dialCode!),
             ),
           ),
-          new Flexible(
+          Flexible(
             child: Padding(
               padding: const EdgeInsets.all(2.0),
-              child: new Text(
+              child: Text(
                 country.name!,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -218,7 +218,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
 
   setMobileNo() {
     return Padding(
-      padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
       child: TextFormField(
         keyboardType: TextInputType.number,
         controller: mobileController,
@@ -227,9 +227,9 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
           print('Mobile no:$mobile');
         },
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.call),
+            prefixIcon: const Icon(Icons.call),
             hintText: MOBILEHINT_LBL,
-            contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+            contentPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
       ),
@@ -238,19 +238,19 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
 
   expandedBottomView() {
     return Expanded(
-        child: Container(
+        child: SizedBox(
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.only(top: 60.0),
+                    padding: const EdgeInsets.only(top: 60.0),
                     child: Form(
                       key: _formkey,
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        margin: EdgeInsets.all(20.0),
+                        margin: const EdgeInsets.all(20.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -269,7 +269,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
   }
 
   back() {
-    return BoxDecoration(
+    return const BoxDecoration(
       gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -293,7 +293,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
                 expandedBottomView(),
               ],
             ),
-            desktop: Container(
+            desktop: SizedBox(
               width: MediaQuery.of(context).size.width / 3,
               child: Center(
                 child: Column(

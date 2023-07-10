@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 import 'package:engishop/Helper/HappyShopString.dart';
 
 class HappyShopCatogeryAll extends StatefulWidget {
-  HappyShopCatogeryAll({Key? key}) : super(key: key);
+  const HappyShopCatogeryAll({Key? key}) : super(key: key);
 
   @override
   _HappyShopCatogeryAllState createState() => _HappyShopCatogeryAllState();
@@ -14,7 +13,7 @@ class HappyShopCatogeryAll extends StatefulWidget {
 class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   int offset = perPage;
   int total = 0;
-  ScrollController controller = new ScrollController();
+  ScrollController controller = ScrollController();
   List tempList = [];
 
   List catList = [
@@ -55,12 +54,12 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   getAppBar(String title, BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: primary),
+        icon: const Icon(Icons.arrow_back_ios, color: primary),
         onPressed: () => Navigator.of(context).pop(),
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: primary,
         ),
       ),
@@ -76,16 +75,16 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
         appBar: getAppBar(ALL_CAT, context),
         body: GridView.count(
             controller: controller,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             crossAxisCount: 4,
             shrinkWrap: true,
             childAspectRatio: .8,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: List.generate(
               (offset < total) ? catList.length + 1 : catList.length,
               (index) {
                 return (index == catList.length)
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : catItem(index, context);
               },
             )));
@@ -112,7 +111,7 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.copyWith(color: Colors.black),
             ),
           )

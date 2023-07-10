@@ -19,9 +19,9 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: <Widget>[
           const HappyShopDrawerHeader(),
           HappyShopDrawerListTile(
@@ -32,7 +32,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HappyShopSplash(), //HappyShopCart(),
+                    builder: (context) => const HappyShopSplash(), //HappyShopCart(),
                   ),
                 );
               }),
@@ -184,7 +184,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
   }
 
   _getDivider() {
-    return Divider(
+    return const Divider(
       color: Colors.grey,
       height: 1,
     );
@@ -194,7 +194,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HappyShopSplash(),
+        builder: (context) => const HappyShopSplash(),
       ),
     );
   }
@@ -206,7 +206,7 @@ class HappyShopDrawerListTile extends StatelessWidget {
   final Function route;
   final bool img;
 
-  HappyShopDrawerListTile({
+  const HappyShopDrawerListTile({
     Key? key,
     required this.icon,
     required this.title,
@@ -230,9 +230,9 @@ class HappyShopDrawerListTile extends StatelessWidget {
               ),
         title: Text(
           title!,
-          style: TextStyle(color: textcolor),
+          style: const TextStyle(color: textcolor),
         ),
-        trailing: Icon(
+        trailing: const Icon(
           Icons.keyboard_arrow_right,
           color: happyshopcolor2,
         ),
@@ -253,7 +253,7 @@ class HappyShopDrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(gradient: happyshopgradient),
-      padding: EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.only(top: 24),
       child: InkWell(
         child: Align(
           alignment: Alignment.center,

@@ -7,7 +7,7 @@ import 'HappyShopOrderDetails.dart';
 
 class HappyShopTreackOrder extends StatefulWidget {
   final bool? appbar;
-  HappyShopTreackOrder({Key? key, this.appbar}) : super(key: key);
+  const HappyShopTreackOrder({Key? key, this.appbar}) : super(key: key);
 
   @override
   _HappyShopTreackOrderState createState() => _HappyShopTreackOrderState();
@@ -21,7 +21,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
     with TickerProviderStateMixin {
   List tempList = [];
 
-  ScrollController controller = new ScrollController();
+  ScrollController controller = ScrollController();
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
 
@@ -30,15 +30,15 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
     offset = 0;
     total = 0;
 
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -87,17 +87,17 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
       child: Scaffold(
         appBar: widget.appbar == true
             ? AppBar(
-                title: Text(
+                title: const Text(
                   "Track order",
                   style: TextStyle(color: Colors.white),
                 ),
               )
-            : PreferredSize(preferredSize: Size.fromHeight(0), child: AppBar()),
+            : PreferredSize(preferredSize: const Size.fromHeight(0), child: AppBar()),
         body: ListView.builder(
           shrinkWrap: true,
           controller: controller,
           itemCount: orderList.length,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             return Card(
               child: Padding(
@@ -111,22 +111,17 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(ORDER_ID_LBL +
-                                  " : " +
+                              Text("$ORDER_ID_LBL : " +
                                   orderList[index]['id']),
-                              Text(ORDER_DATE +
-                                  " : " +
+                              Text("$ORDER_DATE : " +
                                   orderList[index]['orderDate']),
-                              Text(TOTAL_PRICE +
-                                  ":" +
-                                  CUR_CURRENCY +
-                                  " " +
+                              Text("$TOTAL_PRICE:$CUR_CURRENCY " +
                                   orderList[index]['total']),
                             ],
                           ),
                         ),
                         IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.keyboard_arrow_right,
                               color: primary,
                             ),
@@ -135,21 +130,21 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        HappyShopOrderDetails()),
+                                        const HappyShopOrderDetails()),
                               );
                             })
                       ],
                     ),
-                    Divider(),
+                    const Divider(),
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: orderList[index]['itemList'].length,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i) {
                         return productItem(index, orderList[index]['itemList']);
                       },
                     ),
-                    Divider(),
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -188,7 +183,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                 )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_DELIVERED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -204,7 +199,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     ),
                     Text(
                       dDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -221,7 +216,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
             flex: 1,
             child: Row(
               children: [
-                Flexible(
+                const Flexible(
                     flex: 1,
                     child: Divider(
                       thickness: 2,
@@ -229,7 +224,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_CANCLED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -243,7 +238,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     ),
                     Text(
                       cDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -261,7 +256,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Flexible(
+                const Flexible(
                     flex: 1,
                     child: Divider(
                       thickness: 2,
@@ -269,7 +264,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_RETURNED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -283,7 +278,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     ),
                     Text(
                       rDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -310,7 +305,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_SHIPPED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -326,7 +321,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     ),
                     Text(
                       sDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -341,25 +336,25 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 1,
                         child: Divider(
                           thickness: 2,
                         )),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           ORDER_SHIPPED,
                           style: TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.radio_button_checked,
                           color: happyshopcolor8,
                         ),
                         Text(
                           sDate,
-                          style: TextStyle(fontSize: 8),
+                          style: const TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -384,7 +379,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     )),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       ORDER_PROCESSED,
                       style: TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
@@ -400,7 +395,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     ),
                     Text(
                       prDate,
-                      style: TextStyle(fontSize: 8),
+                      style: const TextStyle(fontSize: 8),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -417,10 +412,10 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10.0,
                     ),
-                    Flexible(
+                    const Flexible(
                         flex: 1,
                         child: Divider(
                           thickness: 2,
@@ -428,18 +423,18 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                         )),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           ORDER_PROCESSED,
                           style: TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.radio_button_checked,
                           color: happyshopcolor8,
                         ),
                         Text(
                           prDate,
-                          style: TextStyle(fontSize: 8),
+                          style: const TextStyle(fontSize: 8),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -452,13 +447,13 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
   getPlaced(String pDate) {
     return Column(
       children: [
-        Text(
+        const Text(
           ORDER_NPLACED,
           style: TextStyle(fontSize: 8),
           textAlign: TextAlign.center,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 4.0),
           child: Icon(
             Icons.radio_button_checked,
             color: happyshopcolor8,
@@ -466,7 +461,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
         ),
         Text(
           pDate,
-          style: TextStyle(fontSize: 8),
+          style: const TextStyle(fontSize: 8),
           textAlign: TextAlign.center,
         ),
       ],
@@ -486,8 +481,8 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(orderItem[index]['name']),
-              Text(QUANTITY_LBL + ": " + orderItem[index]['qty']),
-              Text(CUR_CURRENCY + " " + orderItem[index]['price']),
+              Text("$QUANTITY_LBL: " + orderItem[index]['qty']),
+              Text("$CUR_CURRENCY " + orderItem[index]['price']),
             ],
           ),
         )

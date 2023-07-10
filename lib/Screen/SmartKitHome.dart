@@ -9,7 +9,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'SmartKitHomeLogo.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({
+  const MyHomePage({
     Key? key,
   }) : super(key: key);
 
@@ -21,7 +21,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TabController _tabController;
   late DateTime _currentBackPressTime;
 
-  GlobalKey<ScaffoldState> _globalKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   @override
   void initState() {
     _tabController = TabController(length: 4, vsync: this);
@@ -36,11 +36,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Future<bool> _onWillPop() async {
     var now = DateTime.now();
-    if (_currentBackPressTime == null ||
-        now.difference(_currentBackPressTime) > Duration(seconds: 2)) {
+    if (now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
       _currentBackPressTime = now;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
+        content: const Text(
           'Double tap to exit app',
           style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
@@ -83,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   labelColor: purpal,
                   indicatorColor: purpal,
                   unselectedLabelColor: purpalOpacity22,
-                  tabs: [
+                  tabs: const [
                     Tab(
                       child: SamrtKitTabText(
                         title: "Full Application",
@@ -135,7 +134,7 @@ class SamrtKitHomeTabView extends StatelessWidget {
     return Expanded(
       child: TabBarView(
         controller: _tabController,
-        children: [
+        children: const [
           HomeGrid(), /*UIScreens(), WidgetRoute(), IntegrationRoute()*/
         ],
       ),
@@ -163,7 +162,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': eStudy2,
         'subtitleGradient2': eStudy3,
         'screentext': '+ 15 screens',
-        'route': HappyShopMain() //EStudyMain()
+        'route': const HappyShopMain() //EStudyMain()
       },
       {
         'isnew': true,
@@ -177,7 +176,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': foodmaster2,
         'subtitleGradient2': foodmaster3,
         'screentext': '+18 screens',
-        'route': HappyShopMain() //FoodMasterMain()
+        'route': const HappyShopMain() //FoodMasterMain()
       },
       {
         'isnew': false,
@@ -191,7 +190,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': grobag2,
         'subtitleGradient2': grobag3,
         'screentext': '20+ screens',
-        'route': HappyShopMain() //GrobagMain()
+        'route': const HappyShopMain() //GrobagMain()
       },
       {
         'isnew': false,
@@ -205,7 +204,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': news2,
         'subtitleGradient2': news3,
         'screentext': '16+ screens',
-        'route': HappyShopMain() //NewsApp()
+        'route': const HappyShopMain() //NewsApp()
       },
       {
         'isnew': false,
@@ -219,7 +218,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': happyshopcolor2,
         'subtitleGradient2': happyshopcolor3,
         'screentext': '16+ screens',
-        'route': HappyShopMain()
+        'route': const HappyShopMain()
       },
       {
         'isnew': false,
@@ -233,7 +232,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': cryptocolor2,
         'subtitleGradient2': cryptocolor3,
         'screentext': '12+ screens',
-        'route': HappyShopMain() //CryptoTechMain()
+        'route': const HappyShopMain() //CryptoTechMain()
       },
       {
         'isnew': false,
@@ -247,7 +246,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': bookKing2,
         'subtitleGradient2': bookKing3,
         'screentext': '5+ screens',
-        'route': HappyShopMain() //BookKingMain()
+        'route': const HappyShopMain() //BookKingMain()
       },
       {
         'isnew': false,
@@ -261,7 +260,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': smartkey2,
         'subtitleGradient2': smartkey3,
         'screentext': '15+ screens',
-        'route': HappyShopMain() //SmartKeyMain()
+        'route': const HappyShopMain() //SmartKeyMain()
       },
       {
         'isnew': false,
@@ -275,7 +274,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': vpn22,
         'subtitleGradient2': vpn33,
         'screentext': '6+ screens',
-        'route': HappyShopMain() //VpnMain()
+        'route': const HappyShopMain() //VpnMain()
       },
       {
         'isnew': false,
@@ -289,7 +288,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': music2,
         'subtitleGradient2': music3,
         'screentext': '+8 screens',
-        'route': HappyShopMain() // MusicMain()
+        'route': const HappyShopMain() // MusicMain()
       },
       {
         'isnew': false,
@@ -303,7 +302,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': quotes2,
         'subtitleGradient2': quotes3,
         'screentext': '+6 screens',
-        'route': HappyShopMain() //QuotesMain()
+        'route': const HappyShopMain() //QuotesMain()
       },
       {
         'isnew': false,
@@ -317,7 +316,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': webApp2,
         'subtitleGradient2': webApp3,
         'screentext': '+3 screens',
-        'route': HappyShopMain() //WebAppMain()
+        'route': const HappyShopMain() //WebAppMain()
       },
     ];
     final List gridlistdesktop = [
@@ -333,7 +332,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': grobag2,
         'subtitleGradient2': grobag3,
         'screentext': '20+ screens',
-        'route': HappyShopMain() //GrobagMain()
+        'route': const HappyShopMain() //GrobagMain()
       },
       {
         'isnew': false,
@@ -347,7 +346,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': eStudy2,
         'subtitleGradient2': eStudy3,
         'screentext': '+ 15 screens',
-        'route': HappyShopMain() //EStudyMain()
+        'route': const HappyShopMain() //EStudyMain()
       },
       {
         'isnew': false,
@@ -361,7 +360,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': foodmaster2,
         'subtitleGradient2': foodmaster3,
         'screentext': '+18 screens',
-        'route': HappyShopMain() //FoodMasterMain()
+        'route': const HappyShopMain() //FoodMasterMain()
       },
       {
         'isnew': false,
@@ -375,7 +374,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': news2,
         'subtitleGradient2': news3,
         'screentext': '16+ screens',
-        'route': HappyShopMain() //NewsApp()
+        'route': const HappyShopMain() //NewsApp()
       },
       {
         'isnew': false,
@@ -389,7 +388,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': happyshopcolor2,
         'subtitleGradient2': happyshopcolor3,
         'screentext': '16+ screens',
-        'route': HappyShopMain()
+        'route': const HappyShopMain()
       },
       {
         'isnew': false,
@@ -403,7 +402,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': smartkey2,
         'subtitleGradient2': smartkey3,
         'screentext': '15+ screens',
-        'route': HappyShopMain() //SmartKeyMain()
+        'route': const HappyShopMain() //SmartKeyMain()
       },
       {
         'isnew': false,
@@ -417,7 +416,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': bookKing2,
         'subtitleGradient2': bookKing3,
         'screentext': '5+ screens',
-        'route': HappyShopMain() //BookKingMain()
+        'route': const HappyShopMain() //BookKingMain()
       },
       {
         'isnew': false,
@@ -431,7 +430,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': vpn22,
         'subtitleGradient2': vpn33,
         'screentext': '6+ screens',
-        'route': HappyShopMain() //VpnMain()
+        'route': const HappyShopMain() //VpnMain()
       },
       {
         'isnew': false,
@@ -445,7 +444,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': music2,
         'subtitleGradient2': music3,
         'screentext': '+8 screens',
-        'route': HappyShopMain() //MusicMain()
+        'route': const HappyShopMain() //MusicMain()
       },
       {
         'isnew': false,
@@ -459,7 +458,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': quotes2,
         'subtitleGradient2': quotes3,
         'screentext': '+6 screens',
-        'route': HappyShopMain() //QuotesMain()
+        'route': const HappyShopMain() //QuotesMain()
       },
       {
         'isnew': false,
@@ -473,7 +472,7 @@ class HomeGrid extends StatelessWidget {
         'subtitleGradient1': cryptocolor2,
         'subtitleGradient2': cryptocolor3,
         'screentext': '12+ screens',
-        'route': HappyShopMain() //CryptoTechMain()
+        'route': const HappyShopMain() //CryptoTechMain()
       },
     ];
 
@@ -484,7 +483,7 @@ class HomeGrid extends StatelessWidget {
           crossAxisCount: 2,
           children: List.generate(12, (index) {
             return Container(
-              margin: new EdgeInsets.all(6.0),
+              margin: const EdgeInsets.all(6.0),
               child: SmartKitHomeTile(
                 isnew: gridlistmobile[index]['isnew'],
                 bg: gridlistmobile[index]['bg'],
@@ -509,7 +508,7 @@ class HomeGrid extends StatelessWidget {
           crossAxisCount: 3,
           children: List.generate(11, (index) {
             return Container(
-              margin: new EdgeInsets.all(6.0),
+              margin: const EdgeInsets.all(6.0),
               child: SmartKitHomeTile(
                 isnew: gridlistdesktop[index]['isnew'],
                 bg: gridlistdesktop[index]['bg'],
@@ -536,7 +535,7 @@ class HomeGrid extends StatelessWidget {
           crossAxisCount: 4,
           children: List.generate(11, (index) {
             return Container(
-              margin: new EdgeInsets.all(6.0),
+              margin: const EdgeInsets.all(6.0),
               child: SmartKitHomeTile(
                 isnew: gridlistdesktop[index]['isnew'],
                 bg: gridlistdesktop[index]['bg'],
@@ -577,19 +576,19 @@ class SamrtKitTabText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 12.0,
           ),
           Text(
             title!,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Open Sans',
               fontSize: 21,
               fontWeight: FontWeight.w600,
             ),
             textAlign: TextAlign.left,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5.0,
           ),
         ],

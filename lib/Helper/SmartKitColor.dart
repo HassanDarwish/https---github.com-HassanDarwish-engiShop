@@ -3,14 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 // SmartKit Color //
-final Color purpal = Color(0xff3d3270);
+const Color purpal = Color(0xff3d3270);
 final Color purpalOpacity22 = purpal.withOpacity(0.22);
 
-final Color smarKitcolor1 = Color(0xFFe59999);
-final Color smarKitcolor2 = Color(0xFFFFFFFF);
-final Color color1 = Color(0xFFFB2A59);
-final Color color2 = Color(0xFF7E152D);
-final Color color3 = Color(0xFF132735);
+const Color smarKitcolor1 = Color(0xFFe59999);
+const Color smarKitcolor2 = Color(0xFFFFFFFF);
+const Color color1 = Color(0xFFFB2A59);
+const Color color2 = Color(0xFF7E152D);
+const Color color3 = Color(0xFF132735);
 /*AppBarTheme appBarTheme() {
   return AppBarTheme(
     brightness: Brightness.light,
@@ -29,35 +29,35 @@ final Color color3 = Color(0xFF132735);
 }*/
 
 List<Color> tilecolor = [
-  Color(0xFFF5F9F9),
-  Color(0xFFFEF4F4),
-  Color(0xFFFDF9FB),
-  Color(0xFFF6F5FB),
+  const Color(0xFFF5F9F9),
+  const Color(0xFFFEF4F4),
+  const Color(0xFFFDF9FB),
+  const Color(0xFFF6F5FB),
 ];
 List<Color> tileiconbgcolor = [
-  Color(0xFFCDE4E4),
-  Color(0xFFFCE0DB),
-  Color(0xFFFBD7ED),
-  Color(0xFFE8E5F3),
+  const Color(0xFFCDE4E4),
+  const Color(0xFFFCE0DB),
+  const Color(0xFFFBD7ED),
+  const Color(0xFFE8E5F3),
 ];
 List<Color> tiletextcolor = [
-  Color(0xFF469695),
-  Color(0xFFFD3627),
-  Color(0xFFC93F8D),
-  Color(0xFF3C326F),
+  const Color(0xFF469695),
+  const Color(0xFFFD3627),
+  const Color(0xFFC93F8D),
+  const Color(0xFF3C326F),
 ];
 
 // Grobag1 //
 
-final Color grobag1 = Color(0xffF1FFF6);
-final Color grobag2 = Color(0xff00B65F);
-final Color grobag3 = Color(0xff005B30);
-final Color grobag4 = Color(0xffF1FFF6);
-final Color grobag5 = Color(0x3349DE7F);
-final Color grobag6 = Color(0xFF9FF5CD);
-final Color grobag7 = Colors.black;
-final Color grobag8 = Color(0xFF777777);
-Gradient grobaggradient = LinearGradient(
+const Color grobag1 = Color(0xffF1FFF6);
+const Color grobag2 = Color(0xff00B65F);
+const Color grobag3 = Color(0xff005B30);
+const Color grobag4 = Color(0xffF1FFF6);
+const Color grobag5 = Color(0x3349DE7F);
+const Color grobag6 = Color(0xFF9FF5CD);
+const Color grobag7 = Colors.black;
+const Color grobag8 = Color(0xFF777777);
+Gradient grobaggradient = const LinearGradient(
   begin: Alignment(1.0, 1.0),
   end: Alignment(-1.0, -1.0),
   colors: [grobag3, grobag2],
@@ -66,16 +66,16 @@ Gradient grobaggradient = LinearGradient(
 
 // CryptoTech //
 
-final Color cryptocolor1 = Color(0xfff4fdfe);
-final Color cryptocolor2 = Color(0xff00e2d3);
-final Color cryptocolor3 = Color(0xff00b3d5);
-final Color cryptocolor4 = Color(0xfff4fdfe);
-final Color cryptocolor5 = Color(0x3360efff);
-final Color cryptocolor6 = Color(0xFFDBF4F6);
-final Color cryptocolor7 = Colors.black;
-final Color cryptocolor8 = Color(0xFF777777);
+const Color cryptocolor1 = Color(0xfff4fdfe);
+const Color cryptocolor2 = Color(0xff00e2d3);
+const Color cryptocolor3 = Color(0xff00b3d5);
+const Color cryptocolor4 = Color(0xfff4fdfe);
+const Color cryptocolor5 = Color(0x3360efff);
+const Color cryptocolor6 = Color(0xFFDBF4F6);
+const Color cryptocolor7 = Colors.black;
+const Color cryptocolor8 = Color(0xFF777777);
 
-Gradient gradient = LinearGradient(
+Gradient gradient = const LinearGradient(
   colors: [
     cryptocolor3,
     cryptocolor2,
@@ -93,7 +93,7 @@ BoxShadow boxShadow = const BoxShadow(
 
 BoxShadow transboxShadow = BoxShadow(
   color: Colors.white.withOpacity(0.0),
-  offset: Offset(3, 3),
+  offset: const Offset(3, 3),
   blurRadius: 5,
 );
 BoxDecoration gradient_box = BoxDecoration(
@@ -104,11 +104,11 @@ BoxDecoration gradient_box = BoxDecoration(
 );
 
 OutlineInputBorder outlineborderedittext = OutlineInputBorder(
-  borderSide: BorderSide(width: 0.5, color: Colors.white),
+  borderSide: const BorderSide(width: 0.5, color: Colors.white),
   borderRadius: BorderRadius.circular(10.0),
 );
 
-Gradient appbargradient = LinearGradient(
+Gradient appbargradient = const LinearGradient(
     stops: [0, 1],
     begin: Alignment(-0.00, -1.00),
     end: Alignment(0.00, 1.00),
@@ -130,14 +130,14 @@ BoxDecoration outlineboxtext = BoxDecoration(
 
 // BookKing //
 
-final Color bookKing1 = Color(0xfff1f2ff);
-final Color bookKing2 = Color(0xff789af9);
-final Color bookKing3 = Color(0xff3b9ca9);
-final Color bookKing4 = Color(0xfff1f2ff);
-final Color bookKing5 = Color(0x33bcc1ff);
-final Color bookKing6 = Color(0xFFD5D8FD);
+const Color bookKing1 = Color(0xfff1f2ff);
+const Color bookKing2 = Color(0xff789af9);
+const Color bookKing3 = Color(0xff3b9ca9);
+const Color bookKing4 = Color(0xfff1f2ff);
+const Color bookKing5 = Color(0x33bcc1ff);
+const Color bookKing6 = Color(0xFFD5D8FD);
 
-Gradient bookKinggradient = LinearGradient(
+Gradient bookKinggradient = const LinearGradient(
   begin: Alignment(1.0, 1.0),
   end: Alignment(-1.0, -1.0),
   colors: [bookKing3, bookKing2],
@@ -146,84 +146,84 @@ Gradient bookKinggradient = LinearGradient(
 
 // // SmartKey //
 
-final Color smartkey1 = Color(0xfff5fbf9);
-final Color smartkey2 = Color(0xff69dea0);
-final Color smartkey3 = Color(0xff3c9ea8);
-final Color smartkey4 = Color(0xfff5fbf9);
-final Color smartkey5 = Color(0x3379ffd2);
-final Color smartkey6 = Color(0xFFD4FCEE);
+const Color smartkey1 = Color(0xfff5fbf9);
+const Color smartkey2 = Color(0xff69dea0);
+const Color smartkey3 = Color(0xff3c9ea8);
+const Color smartkey4 = Color(0xfff5fbf9);
+const Color smartkey5 = Color(0x3379ffd2);
+const Color smartkey6 = Color(0xFFD4FCEE);
 
-Gradient smartkeygradient = LinearGradient(
+Gradient smartkeygradient = const LinearGradient(
   begin: Alignment(1.0, 1.0),
   end: Alignment(-1.0, -1.0),
   colors: [smartkey3, smartkey2],
   stops: [0.0, 1.0],
 );
 
-final Shader linearGradient = LinearGradient(
+final Shader linearGradient = const LinearGradient(
   colors: <Color>[Color(0xff3c9ea8), Color(0xff69dea0)],
-).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
 // Music //
-final Color music1 = Color(0xffFFEAF3);
-final Color music2 = Color(0xffC40F8E);
-final Color music3 = Color(0xffFB5293);
-final Color music4 = Color(0xFFE99DBE);
-final Color music5 = Color(0x33FFD9E8);
-final Color music6 = Color(0xFFF8B1E3);
+const Color music1 = Color(0xffFFEAF3);
+const Color music2 = Color(0xffC40F8E);
+const Color music3 = Color(0xffFB5293);
+const Color music4 = Color(0xFFE99DBE);
+const Color music5 = Color(0x33FFD9E8);
+const Color music6 = Color(0xFFF8B1E3);
 
 // Quotes //
-final Color quotes1 = Color(0xffF8E9FF);
-final Color quotes2 = Color(0xff6A0FC4);
-final Color quotes3 = Color(0xffD998FA);
-final Color quotes4 = Color(0xffF8E9FF);
-final Color quotes5 = Color(0x33A4A7FF);
-final Color quotes6 = Color(0xFFDBBFF8);
+const Color quotes1 = Color(0xffF8E9FF);
+const Color quotes2 = Color(0xff6A0FC4);
+const Color quotes3 = Color(0xffD998FA);
+const Color quotes4 = Color(0xffF8E9FF);
+const Color quotes5 = Color(0x33A4A7FF);
+const Color quotes6 = Color(0xFFDBBFF8);
 
 // WebApp //
-final Color webApp1 = Color(0xffD8F1FF);
-final Color webApp2 = Color(0xff1D6CBA);
-final Color webApp3 = Color(0xff54C1FF);
-final Color webApp4 = Color(0xffD8F1FF);
-final Color webApp5 = Color(0x337BCFFE);
-final Color webApp6 = Color(0xFFAFD0F1);
+const Color webApp1 = Color(0xffD8F1FF);
+const Color webApp2 = Color(0xff1D6CBA);
+const Color webApp3 = Color(0xff54C1FF);
+const Color webApp4 = Color(0xffD8F1FF);
+const Color webApp5 = Color(0x337BCFFE);
+const Color webApp6 = Color(0xFFAFD0F1);
 
 // eStudy //
 
-final Color eStudy1 = Color(0xfff7f1ff);
-final Color eStudy2 = Color(0xff838aea);
-final Color eStudy3 = Color(0xff796fc1);
-final Color eStudy4 = Color(0xfff7f1ff);
-final Color eStudy5 = Color(0x33cca7ff);
-final Color eStudy6 = Color(0xFFDFCCF8);
+const Color eStudy1 = Color(0xfff7f1ff);
+const Color eStudy2 = Color(0xff838aea);
+const Color eStudy3 = Color(0xff796fc1);
+const Color eStudy4 = Color(0xfff7f1ff);
+const Color eStudy5 = Color(0x33cca7ff);
+const Color eStudy6 = Color(0xFFDFCCF8);
 
 // FoodMaster //
 
-final Color foodmaster1 = Color(0xfffef4f4);
-final Color foodmaster2 = Color(0xffffcca6);
-final Color foodmaster3 = Color(0xffff9b9c);
-final Color foodmaster4 = Color(0xfffef4f4);
-final Color foodmaster5 = Color(0x33ffa4a4);
-final Color foodmaster6 = Color(0xFFFDDCDC);
+const Color foodmaster1 = Color(0xfffef4f4);
+const Color foodmaster2 = Color(0xffffcca6);
+const Color foodmaster3 = Color(0xffff9b9c);
+const Color foodmaster4 = Color(0xfffef4f4);
+const Color foodmaster5 = Color(0x33ffa4a4);
+const Color foodmaster6 = Color(0xFFFDDCDC);
 
 // News //
-final Color news1 = Color(0xfff1f2ff);
-final Color news2 = Color(0xff7D8CEB);
-final Color news3 = Color(0xff345EB4);
-final Color news4 = Color(0xfff1f2ff);
-final Color news5 = Color(0x33bcc1ff);
-final Color news6 = Color(0xFFFDDCDC);
+const Color news1 = Color(0xfff1f2ff);
+const Color news2 = Color(0xff7D8CEB);
+const Color news3 = Color(0xff345EB4);
+const Color news4 = Color(0xfff1f2ff);
+const Color news5 = Color(0x33bcc1ff);
+const Color news6 = Color(0xFFFDDCDC);
 
 // VPN //
-final Color vpn11 = Color(0xffFEFAF1);
-final Color vpn22 = Color(0xffF7C331);
-final Color vpn33 = Color(0xffF7882F);
-final Color vpn44 = Color(0xfff7f1ff);
-final Color vpn55 = Color(0x33FFA7A7);
-final Color vpn66 = Color(0xFFFAE9BB);
-final Color vpn77 = Color(0xFF777777);
+const Color vpn11 = Color(0xffFEFAF1);
+const Color vpn22 = Color(0xffF7C331);
+const Color vpn33 = Color(0xffF7882F);
+const Color vpn44 = Color(0xfff7f1ff);
+const Color vpn55 = Color(0x33FFA7A7);
+const Color vpn66 = Color(0xFFFAE9BB);
+const Color vpn77 = Color(0xFF777777);
 
-Gradient vpntopgradient = LinearGradient(
+Gradient vpntopgradient = const LinearGradient(
   colors: [
     vpn22,
     vpn33,
@@ -246,7 +246,7 @@ BoxDecoration vpncirculargradient_box = BoxDecoration(
   ],
 );
 
-Gradient vpngradient = LinearGradient(
+Gradient vpngradient = const LinearGradient(
   colors: [
     vpn22,
     vpn33,
@@ -264,7 +264,7 @@ BoxDecoration vpngradient_box = BoxDecoration(
 
 BoxDecoration vpntopradiusbox = BoxDecoration(
   gradient: vpngradient,
-  borderRadius: BorderRadius.only(
+  borderRadius: const BorderRadius.only(
       topLeft: Radius.circular(20), topRight: Radius.circular(20)),
   boxShadow: [
     boxShadow,
@@ -276,12 +276,12 @@ Widget vpnSetBottomNavigation(
   bool ismain = false;
   if (pos == 0 || fromotherpage) ismain = true;
 
-  return new BottomAppBar(
+  return BottomAppBar(
     color: vpn11,
     child: ScreenTypeLayout(
       desktop: Container(
         decoration: vpntopradiusbox,
-        padding: EdgeInsets.only(top: 5, bottom: 5),
+        padding: const EdgeInsets.only(top: 5, bottom: 5),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -319,7 +319,7 @@ Widget vpnSetBottomNavigation(
       ),
       mobile: Container(
         decoration: vpntopradiusbox,
-        padding: EdgeInsets.only(top: 5, bottom: 5),
+        padding: const EdgeInsets.only(top: 5, bottom: 5),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -357,7 +357,7 @@ Widget vpnSetBottomNavigation(
       ),
       tablet: Container(
         decoration: vpntopradiusbox,
-        padding: EdgeInsets.only(top: 5, bottom: 5),
+        padding: const EdgeInsets.only(top: 5, bottom: 5),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -399,14 +399,14 @@ Widget vpnSetBottomNavigation(
 
 Widget vpnSetAppbar(String bartitle) {
   return AppBar(
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: Colors.white,
       ),
       elevation: 0.0,
       flexibleSpace:
           Container(width: double.infinity, decoration: vpngradient_box),
       centerTitle: true,
-      title: Text(bartitle, style: TextStyle(color: Colors.white)));
+      title: Text(bartitle, style: const TextStyle(color: Colors.white)));
 }
 
 BoxDecoration vpncircularbox(Color color) {

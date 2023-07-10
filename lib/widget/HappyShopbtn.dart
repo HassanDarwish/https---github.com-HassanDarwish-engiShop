@@ -14,8 +14,8 @@ class AppBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new AnimatedBuilder(
-        builder: _buildBtnAnimation, animation: this.btnCntrl!);
+    return AnimatedBuilder(
+        builder: _buildBtnAnimation, animation: btnCntrl!);
   }
 
   Widget _buildBtnAnimation(BuildContext context, Widget? child) {
@@ -37,7 +37,7 @@ class AppBtn extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .titleLarge
                     ?.copyWith(color: white, fontWeight: FontWeight.normal))
             : const CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

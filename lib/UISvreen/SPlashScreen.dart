@@ -7,7 +7,7 @@ import 'package:engishop/Screen/HappyShopSplash.dart';
 class SPlashScreen extends StatefulWidget {
   final String titlee;
 
-  SPlashScreen({Key? key, required this.titlee}) : super(key: key);
+  const SPlashScreen({Key? key, required this.titlee}) : super(key: key);
 
   @override
   State<SPlashScreen> createState() => _SPlashScreenState();

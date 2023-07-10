@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -13,7 +12,7 @@ import 'HappyShopCart.dart';
 import 'HappyShopProductPriview.dart';
 
 class HappyShopProductDetail extends StatefulWidget {
-  HappyShopProductDetail({
+  const HappyShopProductDetail({
     Key? key,
     this.imgurl,
     this.tag,
@@ -25,7 +24,7 @@ class HappyShopProductDetail extends StatefulWidget {
 
 class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late ChoiceChip choiceChip;
   int _selVarient = 0, _oldSelVarient = 0;
@@ -33,10 +32,10 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   int offset = 0;
   int total = 0;
   bool isLoadingmore = true;
-  ScrollController controller = new ScrollController();
+  ScrollController controller = ScrollController();
 
   bool _isCommentEnable = false;
-  TextEditingController _commentC = new TextEditingController();
+  final TextEditingController _commentC = TextEditingController();
   double initialRate = 0;
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
@@ -57,15 +56,15 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
 
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -104,9 +103,9 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                       Navigator.push(
                           context,
                           PageRouteBuilder(
-                            transitionDuration: Duration(seconds: 1),
+                            transitionDuration: const Duration(seconds: 1),
                             pageBuilder: (_, __, ___) =>
-                                HappyShopProductPreview(),
+                                const HappyShopProductPreview(),
                           ));
                     },
                     child: Stack(
@@ -128,7 +127,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                             child: IconButton(
                                 icon: Icon(
                                   Icons.arrow_back_ios,
-                                  color: Color(0xFF333333).withOpacity(0.5),
+                                  color: const Color(0xFF333333).withOpacity(0.5),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -149,7 +148,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                           padding: const EdgeInsets.all(8.0),
                                           child: Icon(
                                             Icons.favorite,
-                                            color: Color(0xFF333333)
+                                            color: const Color(0xFF333333)
                                                 .withOpacity(0.5),
                                           ),
                                         ),
@@ -158,33 +157,32 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                   Material(
                                     color: Colors.transparent,
                                     child: InkWell(
-                                      child: new Stack(children: <Widget>[
+                                      child: Stack(children: <Widget>[
                                         Center(
                                           child: Icon(
                                             Icons.shopping_cart_rounded,
-                                            color: Color(0xFF333333)
+                                            color: const Color(0xFF333333)
                                                 .withOpacity(0.5),
                                             size: 26,
                                           ),
                                         ),
-                                        (CUR_CART_COUNT != null &&
-                                                CUR_CART_COUNT.isNotEmpty &&
+                                        (CUR_CART_COUNT.isNotEmpty &&
                                                 CUR_CART_COUNT != "0")
-                                            ? new Positioned(
+                                            ? Positioned(
                                                 top: 0.0,
                                                 right: 5.0,
                                                 bottom: 15,
                                                 child: Container(
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                         shape: BoxShape.circle,
                                                         color: Colors.red),
-                                                    child: new Center(
+                                                    child: Center(
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(4),
-                                                        child: new Text(
+                                                            const EdgeInsets.all(4),
+                                                        child: Text(
                                                           CUR_CART_COUNT,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 8,
                                                               color:
                                                                   Colors.white),
@@ -199,12 +197,12 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  HappyShopCart(),
+                                                  const HappyShopCart(),
                                             ));
                                       },
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10.0,
                                   )
                                 ],
@@ -214,7 +212,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                     ),
                   ),
                   // _slider(),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   _rate(),
@@ -251,7 +249,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HappyShopCart(),
+                builder: (context) => const HappyShopCart(),
               ),
             );
           },
@@ -260,14 +258,14 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
             decoration: BoxDecoration(
               color: Colors.white,
               gradient: happyshopgradient,
-              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
+              boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 10)],
             ),
             child: Center(
                 child: Text(
               "Add to Cart",
               style: Theme.of(context)
                   .textTheme
-                  .button
+                  .labelLarge
                   ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
             )),
           ),
@@ -280,13 +278,13 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     String madeIn = "India";
     return madeIn != null
         ? Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListTile(
               trailing: Text(madeIn),
               dense: true,
               title: Text(
                 'Made In',
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
           )
@@ -296,10 +294,10 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   _rate() {
     return Row(
       children: [
-        Card(
-          margin: const EdgeInsets.only(left: 20.0, bottom: 5),
+        const Card(
+          margin: EdgeInsets.only(left: 20.0, bottom: 5),
           child: Padding(
-            padding: const EdgeInsets.all(2.0),
+            padding: EdgeInsets.all(2.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -308,14 +306,14 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                   color: Colors.yellow,
                   size: 15,
                 ),
-                Text(" " + "4.5")
+                Text(" " "4.5")
               ],
             ),
           ),
         ),
         Text(
-          " " + "150" + " Ratings",
-          style: Theme.of(context).textTheme.caption,
+          " 150 Ratings",
+          style: Theme.of(context).textTheme.bodySmall,
         )
       ],
     );
@@ -324,8 +322,8 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   _price() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-      child: Text(CUR_CURRENCY + " " + "1200",
-          style: Theme.of(context).textTheme.headline6),
+      child: Text("$CUR_CURRENCY 1200",
+          style: Theme.of(context).textTheme.titleLarge),
     );
   }
 
@@ -335,22 +333,22 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       child: Row(
         children: <Widget>[
           Text(
-            CUR_CURRENCY + " " + "1100",
-            style: Theme.of(context).textTheme.bodyText2?.copyWith(
+            "$CUR_CURRENCY 1100",
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   decoration: TextDecoration.lineThrough,
                 ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 10),
-            padding: EdgeInsets.all(4),
-            child: Text("8.4" + "% off",
+            margin: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                color: primary.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(4.0)),
+            child: Text("8.4" "% off",
                 style: Theme.of(context)
                     .textTheme
-                    .overline
+                    .labelSmall
                     ?.copyWith(color: primary, letterSpacing: 0.5)),
-            decoration: new BoxDecoration(
-                color: primary.withOpacity(0.2),
-                borderRadius: new BorderRadius.circular(4.0)),
           ),
         ],
       ),
@@ -364,15 +362,15 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         "Nike Shoes",
         style: Theme.of(context)
             .textTheme
-            .headline6
+            .titleLarge
             ?.copyWith(color: Colors.black),
       ),
     );
   }
 
   _desc() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy"),
     );
@@ -383,7 +381,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
         selectVarient,
-        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: primary),
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: primary),
       ),
     );
   }
@@ -393,22 +391,22 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     List<String> attrValue = ["7", "8"];
 
     return InkWell(
+        onTap: _chooseVarient,
         child: ListView.builder(
             shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: attrName.length,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return ListTile(
                 dense: true,
                 title: Text(
-                  attrName[index] + " : " + attrValue[index],
-                  style: Theme.of(context).textTheme.subtitle2,
+                  "${attrName[index]} : ${attrValue[index]}",
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
-                trailing: Icon(Icons.keyboard_arrow_right),
+                trailing: const Icon(Icons.keyboard_arrow_right),
               );
-            }),
-        onTap: _chooseVarient);
+            }));
   }
 
   void _chooseVarient() {
@@ -431,16 +429,16 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                   padding: const EdgeInsets.all(15.0),
                   child: Text(
                     selectVarient,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 _title(),
                 _price(),
                 _offPrice(),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       "Variant",
                       textAlign: TextAlign.left,
                     ),
@@ -451,11 +449,11 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                           children: [
                             Center(
                               child: ChoiceChip(
-                                key: ValueKey<String>(
+                                key: const ValueKey<String>(
                                   "1",
                                 ),
                                 selected: false,
-                                label: Text("1",
+                                label: const Text("1",
                                     style: TextStyle(color: Colors.white)),
                                 backgroundColor: primary.withOpacity(0.45),
                                 selectedColor: primary,
@@ -467,15 +465,15 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                 },
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             ChoiceChip(
-                              key: ValueKey<String>(
+                              key: const ValueKey<String>(
                                 "2",
                               ),
                               selected: true,
-                              label: Text("1",
+                              label: const Text("1",
                                   style: TextStyle(color: Colors.white)),
                               backgroundColor: primary.withOpacity(0.45),
                               selectedColor: primary,
@@ -490,17 +488,17 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Padding(
                   padding: const EdgeInsets.only(right: 18.0, bottom: 8),
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: primary,
+                        backgroundColor: primary,
                       ),
                       onPressed: available ? applyVarient : null,
-                      child: Text(
+                      child: const Text(
                         'Apply',
                         style: TextStyle(color: Colors.white),
                       ),
@@ -525,25 +523,26 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: Text(
         'Other Details',
-        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: primary),
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: primary),
       ),
     );
   }
 
   _cancleable() {
     String cancleable = "1";
-    if (cancleable == "1")
+    if (cancleable == "1") {
       cancleable = "Yes";
-    else
+    } else {
       cancleable = "No";
+    }
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
         trailing: Text(cancleable),
         dense: true,
         title: Text(
           'Cancleable',
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
     );
@@ -557,7 +556,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: Text(
         'Ratings & Reviews',
-        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: primary),
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: primary),
       ),
     );
     // : Container();
@@ -572,8 +571,8 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         allowHalfRating: true,
         itemCount: 5,
         itemSize: 32,
-        itemPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
-        itemBuilder: (context, _) => Icon(
+        itemPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+        itemBuilder: (context, _) => const Icon(
           Icons.star,
           color: Colors.amber,
         ),
@@ -602,14 +601,14 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
               }
             },
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              prefixIcon: Icon(Icons.rate_review, color: primary),
+              contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              prefixIcon: const Icon(Icons.rate_review, color: primary),
               hintText: 'Write your review..',
               hintStyle: TextStyle(color: primary.withOpacity(0.5)),
-              enabledBorder: UnderlineInputBorder(
+              enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
-              focusedBorder: UnderlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
             ),
@@ -639,10 +638,10 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     ];
     return ListView.separated(
         shrinkWrap: true,
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: reviewList.length,
-        physics: NeverScrollableScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) => Divider(),
+        physics: const NeverScrollableScrollPhysics(),
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (context, index) {
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -658,21 +657,21 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Icon(
+                          const Icon(
                             Icons.star,
                             color: Colors.yellow,
                             size: 15,
                           ),
                           Text(
                             " " + reviewList[index]['rating'],
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           )
                         ],
                       ),
                     ),
                   ),
                   Text("  " + reviewList[index]['username']),
-                  Spacer(),
+                  const Spacer(),
                   Text(reviewList[index]['date'])
                 ],
               ),

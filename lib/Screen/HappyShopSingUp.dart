@@ -1,6 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -13,7 +12,7 @@ import 'HappyShopLogin.dart';
 import 'HappyShopMobailVerification.dart';
 
 class HappyShopSingUp extends StatefulWidget {
-  HappyShopSingUp({Key? key}) : super(key: key);
+  const HappyShopSingUp({Key? key}) : super(key: key);
 
   @override
   _HappyShopSingUpState createState() => _HappyShopSingUpState();
@@ -23,7 +22,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
     with TickerProviderStateMixin {
   bool _showPassword = false;
   bool visible = false;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final mobileController = TextEditingController();
@@ -43,7 +42,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
     }
   }
 
-  Future<Null> _playAnimation() async {
+  Future<void> _playAnimation() async {
     try {
       await buttonController.forward();
     } on TickerCanceled {}
@@ -51,11 +50,11 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
 
   Future<void> validatanimations() async {
     await buttonController.reverse();
-    Future.delayed(Duration(milliseconds: 500)).then((_) async {
+    Future.delayed(const Duration(milliseconds: 500)).then((_) async {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => HappyShopMobailVerification()));
+              builder: (context) => const HappyShopMobailVerification()));
     });
   }
 
@@ -100,7 +99,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
 
   subLogo() {
     return Container(
-      padding: EdgeInsets.only(top: 50.0),
+      padding: const EdgeInsets.only(top: 50.0),
       child: Center(
         child: SvgPicture.network(
           'https://smartkit.wrteam.in/smartkit/images/happyshopwhitelogo.svg',
@@ -135,9 +134,9 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
         decoration: InputDecoration(
             prefixIcon: const Icon(Icons.person_outline),
             hintText: NAMEHINT_LBL,
-            prefixIconConstraints: BoxConstraints(minWidth: 40, maxHeight: 20),
+            prefixIconConstraints: const BoxConstraints(minWidth: 40, maxHeight: 20),
             isDense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(7.0))),
       ),
@@ -157,7 +156,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
               border: Border.all(color: darkgrey)),
           child: CountryCodePicker(
               showCountryOnly: false,
-              searchDecoration: InputDecoration(
+              searchDecoration: const InputDecoration(
                 hintText: COUNTRY_CODE_LBL,
                 fillColor: primary,
               ),
@@ -168,13 +167,13 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
               builder: _buildCountryPicker,
               onChanged: (CountryCode countryCode) {
                 countrycode = countryCode.toString().replaceFirst("+", "");
-                print("New Country selected: " + countryCode.toString());
+                print("New Country selected: $countryCode");
                 countryName = countryCode.name;
               },
               onInit: (code) {
                 print("on init ${code!.name} ${code.dialCode} ${code.name}");
                 countrycode = code.toString().replaceFirst("+", "");
-                print("New Country selected: " + code.toString());
+                print("New Country selected: $code");
               }),
         ));
   }
@@ -183,10 +182,10 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new Flexible(
+          Flexible(
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: new Image.asset(
+              child: Image.asset(
                 country!.flagUri!,
                 package: 'country_code_picker',
                 height: 40,
@@ -194,16 +193,16 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
               ),
             ),
           ),
-          new Flexible(
+          const Flexible(
             child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: new Text("country!.dialCode!"),
+              padding: EdgeInsets.all(5.0),
+              child: Text("country!.dialCode!"),
             ),
           ),
-          new Flexible(
+          const Flexible(
             child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: new Text(
+              padding: EdgeInsets.all(2.0),
+              child: Text(
                 "country!.name!",
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -215,7 +214,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
 
   setMobileNo() {
     return Padding(
-      padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
       child: TextFormField(
         keyboardType: TextInputType.number,
         controller: mobileController,
@@ -225,11 +224,11 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
           print('Mobile no:$mobile');
         },
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.call_outlined),
+            prefixIcon: const Icon(Icons.call_outlined),
             hintText: MOBILEHINT_LBL,
-            prefixIconConstraints: BoxConstraints(minWidth: 40, maxHeight: 20),
+            prefixIconConstraints: const BoxConstraints(minWidth: 40, maxHeight: 20),
             isDense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(7.0))),
       ),
@@ -238,7 +237,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
 
   setEmail() {
     return Padding(
-      padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         controller: emailController,
@@ -246,11 +245,11 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
           email = value;
         },
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.email_outlined),
+            prefixIcon: const Icon(Icons.email_outlined),
             hintText: EMAILHINT_LBL,
-            prefixIconConstraints: BoxConstraints(minWidth: 40, maxHeight: 20),
+            prefixIconConstraints: const BoxConstraints(minWidth: 40, maxHeight: 20),
             isDense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(7.0))),
       ),
@@ -259,18 +258,18 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
 
   setPass() {
     return Padding(
-      padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
       child: TextFormField(
         keyboardType: TextInputType.text,
-        obscureText: !this._showPassword,
+        obscureText: !_showPassword,
         controller: passwordController,
         onSaved: (val) => password = val,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.lock_outline),
+            prefixIcon: const Icon(Icons.lock_outline),
             hintText: PASSHINT_LBL,
-            prefixIconConstraints: BoxConstraints(minWidth: 40, maxHeight: 20),
+            prefixIconConstraints: const BoxConstraints(minWidth: 40, maxHeight: 20),
             isDense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(7.0))),
       ),
@@ -279,7 +278,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
 
   showPass() {
     return Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 30.0,
           right: 30.0,
         ),
@@ -297,7 +296,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
             Text(SHOW_PASSWORD,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyLarge
                     ?.copyWith(color: lightblack2))
           ],
         ));
@@ -316,24 +315,24 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
 
   loginTxt() {
     return Padding(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 30.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 30.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(ALREADY_A_CUSTOMER,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1
+                  .bodyLarge
                   ?.copyWith(color: lightblack)),
           InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => HappyShopLogin(),
+                  builder: (BuildContext context) => const HappyShopLogin(),
                 ));
               },
               child: Text(
                 LOG_IN_LBL,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: primary, decoration: TextDecoration.underline),
               ))
         ],
@@ -344,20 +343,20 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
   expandedBottomView() {
     double width = MediaQuery.of(context).size.width;
     return ScreenTypeLayout(
-      mobile: Container(
+      mobile: SizedBox(
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Container(
                 width: width,
-                padding: EdgeInsets.only(top: 20.0),
+                padding: const EdgeInsets.only(top: 20.0),
                 child: Form(
                   key: _formkey,
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    margin: EdgeInsets.all(20.0),
+                    margin: const EdgeInsets.all(20.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
@@ -399,15 +398,15 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
   @override
   void initState() {
     super.initState();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),

@@ -27,9 +27,9 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
   @override
   void initState() {
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
     animationController = AnimationController(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 
@@ -53,14 +53,14 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
     return ScreenTypeLayout(
       mobile: Center(
         child: Container(
-          padding: EdgeInsets.only(left: 50, right: 50, bottom: 60),
+          padding: const EdgeInsets.only(left: 50, right: 50, bottom: 60),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: SvgPicture.network(widget.imgurl!),
                   ),
                   SizedBox(
@@ -75,7 +75,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
                     widget.titletext!,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xFF656565),
                         fontSize: 24,
                         fontWeight: FontWeight.bold),
@@ -83,7 +83,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               FadeTransition(
@@ -94,7 +94,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   child: Text(
                     widget.subtext!,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: color1,
                       fontSize: 14,
                     ),

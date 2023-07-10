@@ -327,7 +327,7 @@ List sectList = [
 // ];
 
 class HappyShopHpmeTab extends StatefulWidget {
-  HappyShopHpmeTab({Key? key}) : super(key: key);
+  const HappyShopHpmeTab({Key? key}) : super(key: key);
 
   @override
   _HappyShopHpmeTabState createState() => _HappyShopHpmeTabState();
@@ -370,8 +370,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   @override
   void initState() {
     super.initState();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 1000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
   }
@@ -387,11 +387,9 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     return WillPopScope(
       onWillPop: () async {
         bool? result = await Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => MyHomePage()),
+            MaterialPageRoute(builder: (context) => const MyHomePage()),
             (Route<dynamic> route) => false);
-        if (result == null) {
-          result = false;
-        }
+        result ??= false;
         return result;
       },
       child: Scaffold(
@@ -402,12 +400,12 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
               children: [
                 Container(
                     width: double.infinity,
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                         bottom: 0,
                         top: kToolbarHeight * 1.4,
                         right: 0,
                         left: 0),
-                    child: CarouselWithIndicator()),
+                    child: const CarouselWithIndicator()),
                 Column(
                   children: [
                     // category //
@@ -419,14 +417,14 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                         children: <Widget>[
                           Text(
                             category,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           InkWell(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 seeAll,
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ),
                             onTap: () async {
@@ -434,7 +432,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        HappyShopCatogeryAll()),
+                                        const HappyShopCatogeryAll()),
                               );
                             },
                           ),
@@ -442,13 +440,13 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                       ),
                     ),
 
-                    Container(
+                    SizedBox(
                       height: 100,
                       child: ListView.builder(
                         itemCount: catList.length < 10 ? catList.length : 10,
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return InkWell(
                             child: Padding(
@@ -460,9 +458,9 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 5.0),
-                                    child: new ClipRRect(
+                                    child: ClipRRect(
                                       borderRadius: BorderRadius.circular(25.0),
-                                      child: new CachedNetworkImage(
+                                      child: CachedNetworkImage(
                                         imageUrl: catList[index]['img'],
                                         height: 50.0,
                                         width: 50.0,
@@ -470,13 +468,13 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       ),
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
+                                    width: 50,
                                     child: Text(
                                       catList[index]['title'],
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    width: 50,
                                   ),
                                 ],
                               ),
@@ -485,9 +483,9 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
-                                    transitionDuration: Duration(seconds: 1),
+                                    transitionDuration: const Duration(seconds: 1),
                                     pageBuilder: (_, __, ___) =>
-                                        HappyShopStaggeredList()),
+                                        const HappyShopStaggeredList()),
                               );
                             },
                           );
@@ -505,11 +503,11 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                       child: ScreenTypeLayout(
                         mobile: Container(
                           child: GridView.count(
-                              padding: EdgeInsets.only(top: 5),
+                              padding: const EdgeInsets.only(top: 5),
                               crossAxisCount: 2,
                               shrinkWrap: true,
                               childAspectRatio: 0.7,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               children: List.generate(
                                 4,
                                 (index) {
@@ -563,12 +561,12 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                       child: _getHeading("Top Brands"),
                     ),
 
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.width / 3.4,
                       child: ListView.builder(
                         itemCount: sectList[3]['productList'].length,
                         shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Card(
@@ -591,7 +589,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       fit: BoxFit.fill,
                                     )),
                                 child: Container(
-                                  padding: EdgeInsets.only(bottom: 10.0),
+                                  padding: const EdgeInsets.only(bottom: 10.0),
                                   decoration: BoxDecoration(
                                     color: Colors.black.withOpacity(0.4),
                                     borderRadius: BorderRadius.circular(10.0),
@@ -600,7 +598,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                   child: Text(
                                     sectList[3]['productList'][index]['name'],
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18.0,
                                         fontFamily: 'bold',
                                         fontWeight: FontWeight.bold,
@@ -613,9 +611,9 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                      transitionDuration: Duration(seconds: 1),
+                                      transitionDuration: const Duration(seconds: 1),
                                       pageBuilder: (_, __, ___) =>
-                                          HappyShopStaggeredList()),
+                                          const HappyShopStaggeredList()),
                                 );
                               },
                             ),
@@ -635,11 +633,11 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                       child: ScreenTypeLayout(
                         mobile: Container(
                           child: GridView.count(
-                              padding: EdgeInsets.only(top: 5),
+                              padding: const EdgeInsets.only(top: 5),
                               crossAxisCount: 2,
                               shrinkWrap: true,
                               childAspectRatio: 0.7,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               children: List.generate(
                                 4,
                                 (index) {
@@ -692,12 +690,12 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                       child: _getHeading("Collections"),
                     ),
                     ScreenTypeLayout(
-                      mobile: Container(
+                      mobile: SizedBox(
                         height: MediaQuery.of(context).size.width / 2,
                         child: ListView.builder(
                           itemCount: sectList[1]['productList'].length,
                           shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return Card(
@@ -725,7 +723,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          HappyShopStaggeredList(),
+                                          const HappyShopStaggeredList(),
                                     ),
                                   );
                                   // Navigator.push(
@@ -796,21 +794,21 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(title, style: Theme.of(context).textTheme.headline6),
+              Text(title, style: Theme.of(context).textTheme.titleLarge),
               InkWell(
-                child: Text(
-                  seeAll,
-                  style: Theme.of(context).textTheme.caption,
-                ),
                 splashColor: primary.withOpacity(0.2),
                 onTap: () {
                   Navigator.push(
                     context,
                     PageRouteBuilder(
-                        transitionDuration: Duration(seconds: 1),
-                        pageBuilder: (_, __, ___) => HappyShopStaggeredList()),
+                        transitionDuration: const Duration(seconds: 1),
+                        pageBuilder: (_, __, ___) => const HappyShopStaggeredList()),
                   );
                 },
+                child: Text(
+                  seeAll,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
             ],
           ),
@@ -820,7 +818,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   }
 
   void _animateSlider() {
-    Future.delayed(Duration(seconds: 30)).then((_) {
+    Future.delayed(const Duration(seconds: 30)).then((_) {
       if (mounted) {
         int nextPage = _controller.hasClients
             ? (_controller.page?.round())! + 1
@@ -829,11 +827,12 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
         if (nextPage == homeSliderList.length) {
           nextPage = 0;
         }
-        if (_controller.hasClients)
+        if (_controller.hasClients) {
           _controller
               .animateToPage(nextPage,
-                  duration: Duration(seconds: 1), curve: Curves.easeIn)
+                  duration: const Duration(seconds: 1), curve: Curves.easeIn)
               .then((_) => _animateSlider());
+        }
       }
     });
   }
@@ -864,13 +863,13 @@ class ItemCardSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: [BoxShadow(color: happyshopcolor5, blurRadius: 10)],
       ),
       child: Card(
         elevation: 0.0,
         child: InkWell(
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.2,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -883,7 +882,7 @@ class ItemCardSmall extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 0.0),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(5),
                               topRight: Radius.circular(5)),
                           child: CachedNetworkImage(
@@ -899,7 +898,7 @@ class ItemCardSmall extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.yellow,
                                 size: 10,
@@ -908,7 +907,7 @@ class ItemCardSmall extends StatelessWidget {
                                 rating!,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .overline
+                                    .labelSmall
                                     ?.copyWith(letterSpacing: 0.2),
                               ),
                             ],
@@ -922,7 +921,7 @@ class ItemCardSmall extends StatelessWidget {
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
                     itemname!,
-                    style: Theme.of(context).textTheme.overline?.copyWith(
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: Colors.black,
                         fontSize: 16.0,
                         letterSpacing: 0.5),
@@ -940,25 +939,25 @@ class ItemCardSmall extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Text(CUR_CURRENCY + "" + descprice!,
+                            Text("$CUR_CURRENCY${descprice!}",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .overline
+                                    .labelSmall
                                     ?.copyWith(
                                         decoration: TextDecoration.lineThrough,
                                         letterSpacing: 1),
                                 textAlign: TextAlign.left),
                             Text(
-                              CUR_CURRENCY + " " + price!,
-                              style: TextStyle(color: primary),
+                              "$CUR_CURRENCY ${price!}",
+                              style: const TextStyle(color: primary),
                               textAlign: TextAlign.left,
                             ),
                           ],
                         ),
                       ),
                       InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 3),
                             child: Icon(
                               Icons.favorite,
@@ -1005,7 +1004,7 @@ class _ItemCardState extends State<ItemCard> {
     return Container(
       height: MediaQuery.of(context).size.width / 100,
       decoration: widget.shadow!
-          ? BoxDecoration(
+          ? const BoxDecoration(
               boxShadow: [BoxShadow(color: happyshopcolor5, blurRadius: 10)],
             )
           : null,
@@ -1020,7 +1019,7 @@ class _ItemCardState extends State<ItemCard> {
                   alignment: Alignment.topRight,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5)),
                       child: Hero(
@@ -1046,7 +1045,7 @@ class _ItemCardState extends State<ItemCard> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.yellow,
                               size: 10,
@@ -1055,7 +1054,7 @@ class _ItemCardState extends State<ItemCard> {
                               widget.rating!,
                               style: Theme.of(context)
                                   .textTheme
-                                  .overline
+                                  .labelSmall
                                   ?.copyWith(letterSpacing: 0.2),
                             ),
                           ],
@@ -1076,7 +1075,7 @@ class _ItemCardState extends State<ItemCard> {
                     Expanded(
                       child: Text(
                         widget.itemname!,
-                        style: Theme.of(context).textTheme.overline?.copyWith(
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color: Colors.black,
                             fontSize: 16.0,
                             letterSpacing: 0.5),
@@ -1091,14 +1090,14 @@ class _ItemCardState extends State<ItemCard> {
                 padding: const EdgeInsets.only(left: 5.0, bottom: 5),
                 child: Row(
                   children: <Widget>[
-                    Text(" " + CUR_CURRENCY + " " + widget.price!,
-                        style: TextStyle(color: primary)),
-                    SizedBox(
+                    Text(" $CUR_CURRENCY ${widget.price!}",
+                        style: const TextStyle(color: primary)),
+                    const SizedBox(
                       width: 5.0,
                     ),
                     Text(
-                      CUR_CURRENCY + "" + widget.descprice!,
-                      style: Theme.of(context).textTheme.overline?.copyWith(
+                      "$CUR_CURRENCY${widget.descprice!}",
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           decoration: TextDecoration.lineThrough,
                           letterSpacing: 1),
                     ),
@@ -1110,7 +1109,7 @@ class _ItemCardState extends State<ItemCard> {
           onTap: () {
             Navigator.of(context).push(
               PageRouteBuilder(
-                transitionDuration: Duration(milliseconds: 1000),
+                transitionDuration: const Duration(milliseconds: 1000),
                 pageBuilder: (BuildContext context, Animation<double> animation,
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
@@ -1118,7 +1117,7 @@ class _ItemCardState extends State<ItemCard> {
                     tag: widget.tag!,
                   );
                 },
-                reverseTransitionDuration: Duration(milliseconds: 800),
+                reverseTransitionDuration: const Duration(milliseconds: 800),
               ),
             );
           },
@@ -1129,6 +1128,8 @@ class _ItemCardState extends State<ItemCard> {
 }
 
 class CarouselWithIndicator extends StatefulWidget {
+  const CarouselWithIndicator({super.key});
+
   @override
   _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
 }
@@ -1161,12 +1162,12 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             return Container(
               width: 8.0,
               height: 8.0,
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == index
                       ? primary
-                      : Color.fromRGBO(0, 0, 0, 0.1)),
+                      : const Color.fromRGBO(0, 0, 0, 0.1)),
             );
           },
         ),
@@ -1179,9 +1180,9 @@ final List<Widget> child = map<Widget>(
   homeSliderList,
   (index, i) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         child: Stack(children: <Widget>[
           CachedNetworkImage(
             imageUrl: i,

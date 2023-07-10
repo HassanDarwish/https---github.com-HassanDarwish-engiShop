@@ -11,7 +11,7 @@ import 'package:like_button/like_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class HappyShopOnbording extends StatefulWidget {
-  HappyShopOnbording({
+  const HappyShopOnbording({
     Key? key,
   }) : super(key: key);
 
@@ -21,7 +21,7 @@ class HappyShopOnbording extends StatefulWidget {
 
 class _HappyShopOnbordingState extends State<HappyShopOnbording>
     with TickerProviderStateMixin {
-  /***********************************************************/
+  /// ********************************************************
   late AnimationController _animationController, animationController;
   bool dragFromLeft = false;
 
@@ -30,7 +30,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
 
   double opacityLevel = 0.0;
   late Animation animation;
-  /***********************************************************/
+  /// ********************************************************
   int _curSelected = 0;
   late List<Widget> happyShopBottomeTab;
   @override
@@ -38,9 +38,9 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
     _pageController = PageController(initialPage: 0);
 
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
     animationController = AnimationController(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 
@@ -64,7 +64,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
   void onAddButtonTapped(int index) {
     // use this to animate to the page
     _pageController.animateToPage(index,
-        duration: Duration(milliseconds: 1000), curve: Curves.elasticInOut);
+        duration: const Duration(milliseconds: 1000), curve: Curves.elasticInOut);
 
     // or this to jump to it without animating
     _pageController.jumpToPage(index);
@@ -72,10 +72,10 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
 
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         height: 6,
         width: isActive ? 15 : 5,
-        margin: EdgeInsets.only(right: 5),
+        margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           // gradient:
@@ -87,8 +87,8 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey =
+        GlobalKey<ScaffoldState>();
 
     var width = MediaQuery.of(context).size.width;
     return ResponsiveApp(builder: (context) {
@@ -97,12 +97,12 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
             return false;
           },
           child: Scaffold(
-              key: _scaffoldKey,
+              key: scaffoldKey,
               appBar: PreferredSize(
-                preferredSize: Size.fromHeight(56),
-                child: HappyShopAppBar(scaffoldKey: _scaffoldKey),
+                preferredSize: const Size.fromHeight(56),
+                child: HappyShopAppBar(scaffoldKey: scaffoldKey),
               ),
-              drawer: HappyShopDrawer(),
+              drawer: const HappyShopDrawer(),
               bottomNavigationBar: getBottomBar(),
               body: Stack(
                 children: [
@@ -113,7 +113,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                       });
                     },
                     controller: _pageController,
-                    children: <Widget>[
+                    children: const <Widget>[
                       IntroPage(
                         // imgurl: "https://smartkit.wrteam.in/smartkit/happyshop/intro-1.svg",
                         imgurl:
@@ -163,12 +163,18 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HappyShopLogin()),
+                                builder: (context) => const HappyShopLogin()),
                           );
                         }
                       },
                       child: Container(
                         height: 50.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            gradient: const LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [happyshopcolor3, happyshopcolor2])),
                         child: Center(
                           child: Text(
                             currentIndex == 0
@@ -176,18 +182,12 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                                 : currentIndex == 1
                                     ? "Next"
                                     : "Start Now",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [happyshopcolor3, happyshopcolor2])),
                       ),
                     ),
                   )
@@ -199,11 +199,11 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
   getBottomBar() {
     return BottomAppBar(
       child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
           ),
           child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
@@ -230,7 +230,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         return Icon(
                           Icons.home_outlined,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -246,7 +246,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.home_sharp,
                           size: 24,
                           color: happyshopcolor2,
@@ -271,7 +271,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         return Icon(
                           Icons.favorite_border,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -287,7 +287,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.favorite,
                           size: 24,
                           color: happyshopcolor2,
@@ -312,7 +312,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         return Icon(
                           Icons.notifications_none,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -328,7 +328,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.notifications,
                           size: 24,
                           color: happyshopcolor2,
@@ -353,7 +353,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         return Icon(
                           Icons.directions_bike_outlined,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -368,7 +368,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.directions_bike,
                           size: 24,
                           color: happyshopcolor2,

@@ -62,7 +62,7 @@ class SmartKitHomeTile extends StatelessWidget {
                       );
                     }
                   : () {},
-              child: new Container(
+              child: Container(
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                   child: Padding(
@@ -72,66 +72,66 @@ class SmartKitHomeTile extends StatelessWidget {
                         Container(
                           height: 60.0,
                           width: 60.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SvgPicture.asset(
-                              iconpath,
-                            ),
-                          ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(11.0),
                             color: iconbg,
                             boxShadow: [
                               BoxShadow(
                                 color: iconbgshadow,
-                                offset: Offset(1, 1),
+                                offset: const Offset(1, 1),
                                 blurRadius: 20,
                               ),
                             ],
                           ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset(
+                              iconpath,
+                            ),
+                          ),
                         ),
                         Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'Open Sans',
                             fontSize: 20,
-                            color: const Color(0xff000000),
+                            color: Color(0xff000000),
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         Container(
                           alignment: Alignment.center,
-                          margin: EdgeInsets.only(top: 5.0),
+                          margin: const EdgeInsets.only(top: 5.0),
                           height: 20.0,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
                             gradient: LinearGradient(
-                              begin: Alignment(1.0, 1.0),
-                              end: Alignment(-1.0, -1.0),
+                              begin: const Alignment(1.0, 1.0),
+                              end: const Alignment(-1.0, -1.0),
                               colors: [
                                 subtitlebggradiant1,
                                 subtitlebggradiant2
                               ],
-                              stops: [0.0, 1.0],
+                              stops: const [0.0, 1.0],
                             ),
                           ),
                           child: Text(
                             subtitle,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Open Sans',
                               fontSize: 12,
-                              color: const Color(0xffffffff),
+                              color: Color(0xffffffff),
                             ),
                             textAlign: TextAlign.center,
                           ),
                         ),
                         Text(
                           screnstext,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'Open Sans',
                             fontSize: 12,
-                            color: const Color(0xffaaaaaa),
+                            color: Color(0xffaaaaaa),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -182,7 +182,7 @@ class SmartKitHomeTile extends StatelessWidget {
                         );
                       }
                     : () {},
-                child: new Container(
+                child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Padding(
@@ -194,23 +194,23 @@ class SmartKitHomeTile extends StatelessWidget {
                             height: width / 10,
                             //  60.0,
                             width: width / 10,
-                            // 60.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                iconpath,
-                              ),
-                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(11.0),
                               color: iconbg,
                               boxShadow: [
                                 BoxShadow(
                                   color: iconbgshadow,
-                                  offset: Offset(1, 1),
+                                  offset: const Offset(1, 1),
                                   blurRadius: 20,
                                 ),
                               ],
+                            ),
+                            // 60.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SvgPicture.asset(
+                                iconpath,
+                              ),
                             ),
                           ),
                           Text(
@@ -225,18 +225,18 @@ class SmartKitHomeTile extends StatelessWidget {
                           ),
                           Container(
                             alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 5.0),
+                            margin: const EdgeInsets.only(top: 5.0),
                             height: width / 30,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
                               gradient: LinearGradient(
-                                begin: Alignment(1.0, 1.0),
-                                end: Alignment(-1.0, -1.0),
+                                begin: const Alignment(1.0, 1.0),
+                                end: const Alignment(-1.0, -1.0),
                                 colors: [
                                   subtitlebggradiant1,
                                   subtitlebggradiant2
                                 ],
-                                stops: [0.0, 1.0],
+                                stops: const [0.0, 1.0],
                               ),
                             ),
                             child: Text(
@@ -299,7 +299,7 @@ class SmartKitHomeTile extends StatelessWidget {
                         );
                       }
                     : () {},
-                child: new Container(
+                child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Padding(
@@ -311,23 +311,23 @@ class SmartKitHomeTile extends StatelessWidget {
                             height: width / 14,
                             //  60.0,
                             width: width / 14,
-                            // 60.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                iconpath,
-                              ),
-                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(11.0),
                               color: iconbg,
                               boxShadow: [
                                 BoxShadow(
                                   color: iconbgshadow,
-                                  offset: Offset(1, 1),
+                                  offset: const Offset(1, 1),
                                   blurRadius: 20,
                                 ),
                               ],
+                            ),
+                            // 60.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SvgPicture.asset(
+                                iconpath,
+                              ),
                             ),
                           ),
                           Text(
@@ -342,18 +342,18 @@ class SmartKitHomeTile extends StatelessWidget {
                           ),
                           Container(
                             alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 5.0),
+                            margin: const EdgeInsets.only(top: 5.0),
                             height: width / 35,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
                               gradient: LinearGradient(
-                                begin: Alignment(1.0, 1.0),
-                                end: Alignment(-1.0, -1.0),
+                                begin: const Alignment(1.0, 1.0),
+                                end: const Alignment(-1.0, -1.0),
                                 colors: [
                                   subtitlebggradiant1,
                                   subtitlebggradiant2
                                 ],
-                                stops: [0.0, 1.0],
+                                stops: const [0.0, 1.0],
                               ),
                             ),
                             child: Text(

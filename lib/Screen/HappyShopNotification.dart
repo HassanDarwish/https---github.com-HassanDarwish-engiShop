@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 import 'package:engishop/Helper/HappyShopString.dart';
@@ -8,7 +7,7 @@ import 'package:engishop/Screen/HappyShopHome.dart';
 
 class HappyShopNotification extends StatefulWidget {
   final bool? appbar;
-  HappyShopNotification({Key? key, this.appbar}) : super(key: key);
+  const HappyShopNotification({Key? key, this.appbar}) : super(key: key);
 
   @override
   _HappyShopNotificationState createState() => _HappyShopNotificationState();
@@ -21,15 +20,15 @@ class _HappyShopNotificationState extends State<HappyShopNotification>
 
   @override
   void initState() {
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -107,40 +106,40 @@ class _HappyShopNotificationState extends State<HappyShopNotification>
         bool result = await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => HappyShopHome(),
+            builder: (context) => const HappyShopHome(),
           ),
         );
-        if (result == null) result = false;
+        result ??= false;
 
         return result;
       },
       child: Scaffold(
           appBar: widget.appbar == true
               ? AppBar(
-                  title: Text("Notifications",
+                  title: const Text("Notifications",
                       style: TextStyle(color: Colors.white)),
                 )
               : PreferredSize(
-                  preferredSize: Size.fromHeight(0), child: AppBar()),
-          body: notiList.length == 0
-              ? Padding(
-                  padding: const EdgeInsets.only(top: kToolbarHeight),
+                  preferredSize: const Size.fromHeight(0), child: AppBar()),
+          body: notiList.isEmpty
+              ? const Padding(
+                  padding: EdgeInsets.only(top: kToolbarHeight),
                   child: Center(child: Text(noNoti)))
               : ScreenTypeLayout(
                   mobile: ListView.builder(
                     shrinkWrap: true,
                     itemCount: notiList.length,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return listItem(index);
                     },
                   ),
                   desktop: GridView.count(
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     crossAxisCount: 4,
                     shrinkWrap: true,
                     childAspectRatio: 4,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: List.generate(
                       9,
                       (index) {
@@ -166,20 +165,20 @@ class _HappyShopNotificationState extends State<HappyShopNotification>
                 children: <Widget>[
                   Text(
                     notiList[index]['date'],
-                    style: TextStyle(color: primary),
+                    style: const TextStyle(color: primary),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       notiList[index]['title'],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(notiList[index]['desc'])
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               width: 50,
               height: 50,
               child: ClipRRect(

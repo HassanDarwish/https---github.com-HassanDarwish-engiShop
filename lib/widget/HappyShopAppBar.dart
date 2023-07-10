@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class HappyShopAppBar extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  HappyShopAppBar({
+  const HappyShopAppBar({
     Key? key,
     required this.scaffoldKey,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: const Icon(Icons.menu),
           onPressed: () {
             print("Leading clicked");
             widget.scaffoldKey.currentState!.openDrawer();
@@ -53,8 +53,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                 size: 26,
               ),
             ),
-            (CUR_CART_COUNT != null &&
-                    CUR_CART_COUNT.isNotEmpty &&
+            (CUR_CART_COUNT.isNotEmpty &&
                     CUR_CART_COUNT != "0")
                 ? Positioned(
                     top: 0.0,
@@ -79,7 +78,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HappyShopCart(),
+                  builder: (context) => const HappyShopCart(),
                 ));
           },
         ),
@@ -96,7 +95,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HappyShopPeofile(),
+                  builder: (context) => const HappyShopPeofile(),
                 ));
           },
         ),

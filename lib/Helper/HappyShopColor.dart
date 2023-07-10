@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-MaterialColor primary_app = MaterialColor(
+MaterialColor primary_app = const MaterialColor(
   0xffFF7479,
-  const <int, Color>{
+  <int, Color>{
     50: primary,
     200: primary,
     100: primary,
@@ -16,16 +16,16 @@ MaterialColor primary_app = MaterialColor(
   },
 );
 
-final Color happyshopcolor1 = Color(0xfffff1f4);
-final Color happyshopcolor2 = Color(0xffFF7479);
-final Color happyshopcolor3 = Color(0xffF566A2);
-final Color happyshopcolor4 = Color(0xfffff1f4);
-final Color happyshopcolor5 = Color(0x33ff819c);
-final Color happyshopcolor6 = Color(0xFFFDE5EA);
+const Color happyshopcolor1 = Color(0xfffff1f4);
+const Color happyshopcolor2 = Color(0xffFF7479);
+const Color happyshopcolor3 = Color(0xffF566A2);
+const Color happyshopcolor4 = Color(0xfffff1f4);
+const Color happyshopcolor5 = Color(0x33ff819c);
+const Color happyshopcolor6 = Color(0xFFFDE5EA);
 
-final Color happyshopcolor8 = Colors.green;
+const Color happyshopcolor8 = Colors.green;
 
-Gradient happyshopgradient = LinearGradient(
+Gradient happyshopgradient = const LinearGradient(
   begin: Alignment(1.0, 1.0),
   end: Alignment(-1.0, -1.0),
   colors: [happyshopcolor3, happyshopcolor2],

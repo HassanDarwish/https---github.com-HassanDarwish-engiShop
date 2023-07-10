@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 
 class HappyShopProductPreview extends StatefulWidget {
-  HappyShopProductPreview({
+  const HappyShopProductPreview({
     Key? key,
   }) : super(key: key);
 
@@ -44,7 +43,7 @@ class _HappyShopProductPreviewState extends State<HappyShopProductPreview> {
               },
               itemBuilder: (BuildContext context, int index) {
                 return PhotoView(
-                    backgroundDecoration: BoxDecoration(color: Colors.white),
+                    backgroundDecoration: const BoxDecoration(color: Colors.white),
                     initialScale: PhotoViewComputedScale.contained * 0.9,
                     minScale: PhotoViewComputedScale.contained * 0.9,
                     imageProvider:
@@ -54,8 +53,8 @@ class _HappyShopProductPreviewState extends State<HappyShopProductPreview> {
             padding: const EdgeInsets.only(top: 34.0),
             child: Material(
               color: Colors.transparent,
-              child: new IconButton(
-                icon: new Icon(
+              child: IconButton(
+                icon: const Icon(
                   Icons.arrow_back_ios,
                   color: primary,
                 ),
@@ -81,12 +80,12 @@ class SelectedPhoto extends StatelessWidget {
   final int? numberOfDots;
   final int? photoIndex;
 
-  SelectedPhoto({this.numberOfDots, this.photoIndex});
+  const SelectedPhoto({super.key, this.numberOfDots, this.photoIndex});
 
   Widget _inactivePhoto() {
     return Container(
       child: Padding(
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        padding: const EdgeInsets.only(left: 3.0, right: 3.0),
         child: Container(
           height: 8.0,
           width: 8.0,
@@ -101,14 +100,14 @@ class SelectedPhoto extends StatelessWidget {
   Widget _activePhoto() {
     return Container(
       child: Padding(
-        padding: EdgeInsets.only(left: 5.0, right: 5.0),
+        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
         child: Container(
           height: 10.0,
           width: 10.0,
           decoration: BoxDecoration(
               color: primary,
               borderRadius: BorderRadius.circular(5.0),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.grey, spreadRadius: 0.0, blurRadius: 2.0)
               ]),

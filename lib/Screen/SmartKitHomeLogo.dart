@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:engishop/Helper/SmartKitColor.dart';
 //import 'package:engi_shop/SmartkitScreen/Widget/theme.dart';
 
@@ -19,11 +17,11 @@ class HomeLogo extends StatelessWidget {
     return ScreenTypeLayout(
       mobile: Container(
         alignment: Alignment.centerLeft,
-        margin: EdgeInsets.only(top: 24),
+        margin: const EdgeInsets.only(top: 24),
         decoration: BoxDecoration(color: smarKitcolor2, boxShadow: [
           BoxShadow(
             color: Colors.grey[350]!,
-            offset: Offset(0.0, 1.5),
+            offset: const Offset(0.0, 1.5),
             blurRadius: 1.0,
           ),
         ]),
@@ -65,16 +63,16 @@ class HomeLogo extends StatelessWidget {
       tablet: Container(
           alignment: Alignment.centerLeft,
           // margin: EdgeInsets.only(top: 24),
-          decoration: BoxDecoration(color: Color(0xFFFFFFFF), boxShadow: [
+          decoration: BoxDecoration(color: const Color(0xFFFFFFFF), boxShadow: [
             BoxShadow(
               color: Colors.grey[350]!,
-              offset: Offset(0.0, 1.5),
+              offset: const Offset(0.0, 1.5),
               blurRadius: 1.0,
             ),
           ]),
           // height: 100.0,
           child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: SvgPicture.asset(
               // 'https://smartkit.wrteam.in/smartkit/images/homelogo.svg',
               'assets/homelogo.svg',
@@ -84,16 +82,16 @@ class HomeLogo extends StatelessWidget {
       desktop: Container(
           alignment: Alignment.centerLeft,
           // margin: EdgeInsets.only(top: 24),
-          decoration: BoxDecoration(color: Color(0xFFFFFFFF), boxShadow: [
+          decoration: BoxDecoration(color: const Color(0xFFFFFFFF), boxShadow: [
             BoxShadow(
               color: Colors.grey[350]!,
-              offset: Offset(0.0, 1.5),
+              offset: const Offset(0.0, 1.5),
               blurRadius: 1.0,
             ),
           ]),
           // height: 100.0,
           child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: SvgPicture.asset(
               // 'https://smartkit.wrteam.in/smartkit/images/homelogo.svg',
               'assets/homelogo.svg',

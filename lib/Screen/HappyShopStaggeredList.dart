@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 import 'package:engishop/Helper/HappyShopString.dart';
 
 class HappyShopStaggeredList extends StatefulWidget {
-  HappyShopStaggeredList({Key? key}) : super(key: key);
+  const HappyShopStaggeredList({Key? key}) : super(key: key);
 
   @override
   _HappyShopStaggeredListState createState() => _HappyShopStaggeredListState();
@@ -208,10 +207,10 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: primary),
+            icon: const Icon(Icons.arrow_back_ios, color: primary),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text("All Products"),
+          title: const Text("All Products"),
           backgroundColor: Colors.white,
         ),
         body: GridView.count(
@@ -245,7 +244,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
 }
 
 class StaggerdCard extends StatefulWidget {
-  StaggerdCard(
+  const StaggerdCard(
       {Key? key,
       this.imgurl,
       this.rating,
@@ -262,7 +261,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(5), topRight: Radius.circular(5)),
       ),
@@ -275,7 +274,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
               children: [
                 ClipRRect(
                   borderRadius: widget.itemname != null
-                      ? BorderRadius.only(
+                      ? const BorderRadius.only(
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5))
                       : BorderRadius.circular(5.0),
@@ -292,7 +291,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.yellow,
                               size: 10,
@@ -301,7 +300,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                               widget.rating!,
                               style: Theme.of(context)
                                   .textTheme
-                                  .overline
+                                  .labelSmall
                                   ?.copyWith(letterSpacing: 0.2),
                             ),
                           ],
@@ -321,7 +320,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                             widget.itemname!,
                             style: Theme.of(context)
                                 .textTheme
-                                .overline
+                                .labelSmall
                                 ?.copyWith(
                                     color: Colors.black,
                                     fontSize: 16.0,
@@ -339,17 +338,17 @@ class _StaggerdCardState extends State<StaggerdCard> {
                     padding: const EdgeInsets.only(left: 5.0, bottom: 5),
                     child: Row(
                       children: <Widget>[
-                        Text(" " + CUR_CURRENCY + " " + widget.price!,
-                            style: TextStyle(color: primary)),
-                        SizedBox(
+                        Text(" $CUR_CURRENCY ${widget.price!}",
+                            style: const TextStyle(color: primary)),
+                        const SizedBox(
                           width: 5.0,
                         ),
                         widget.price != null
                             ? Text(
-                                CUR_CURRENCY + "" + widget.descprice!,
+                                "$CUR_CURRENCY${widget.descprice!}",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .overline
+                                    .labelSmall
                                     ?.copyWith(
                                         decoration: TextDecoration.lineThrough,
                                         letterSpacing: 1),

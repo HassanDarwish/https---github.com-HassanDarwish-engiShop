@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:engishop/Helper/HappyShopColor.dart';
 import 'package:engishop/Helper/HappyShopString.dart';
@@ -9,7 +8,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import 'HappyShopHome.dart';
 
 class HappyShopMobailVerification extends StatefulWidget {
-  HappyShopMobailVerification({Key? key}) : super(key: key);
+  const HappyShopMobailVerification({Key? key}) : super(key: key);
 
   @override
   _HappyShopMobailVerificationState createState() =>
@@ -18,7 +17,7 @@ class HappyShopMobailVerification extends StatefulWidget {
 
 class _HappyShopMobailVerificationState
     extends State<HappyShopMobailVerification> with TickerProviderStateMixin {
-  final dataKey = new GlobalKey();
+  final dataKey = GlobalKey();
   String? password,
       mobile,
       username,
@@ -38,7 +37,7 @@ class _HappyShopMobailVerificationState
   bool isCodeSent = false;
   String signature = "";
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
@@ -47,15 +46,15 @@ class _HappyShopMobailVerificationState
   void initState() {
     super.initState();
     getSingature();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -64,7 +63,7 @@ class _HappyShopMobailVerificationState
 
   Future<void> getSingature() async {
     signature = await SmsAutoFill().getAppSignature;
-    await SmsAutoFill().listenForCode;
+    SmsAutoFill().listenForCode;
   }
 
   verifyBtn() {
@@ -78,11 +77,11 @@ class _HappyShopMobailVerificationState
   }
 
   setSnackbar(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-      content: new Text(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
         msg,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
       ),
       backgroundColor: Colors.white,
       elevation: 1.0,
@@ -91,14 +90,14 @@ class _HappyShopMobailVerificationState
 
   Future<void> checkNetwork() async {
     _playAnimation();
-    Future.delayed(Duration(milliseconds: 500)).then((_) async {
+    Future.delayed(const Duration(milliseconds: 500)).then((_) async {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HappyShopHome()));
+          context, MaterialPageRoute(builder: (context) => const HappyShopHome()));
       await buttonController.reverse();
     });
   }
 
-  Future<Null> _playAnimation() async {
+  Future<void> _playAnimation() async {
     try {
       await buttonController.forward();
     } on TickerCanceled {}
@@ -106,9 +105,9 @@ class _HappyShopMobailVerificationState
 
   getImage() {
     return Container(
-      padding: EdgeInsets.only(top: 100.0),
+      padding: const EdgeInsets.only(top: 100.0),
       child: Center(
-        child: new SvgPicture.network(
+        child: SvgPicture.network(
           'https://smartkit.wrteam.in/smartkit/images/happyshopwhitelogo.svg',
           width: 80.0,
           fit: BoxFit.fill,
@@ -125,36 +124,36 @@ class _HappyShopMobailVerificationState
 
   monoVarifyText() {
     return Padding(
-        padding: EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0),
+        padding: const EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0),
         child: Center(
-          child: new Text(MOBILE_NUMBER_VARIFICATION,
+          child: Text(MOBILE_NUMBER_VARIFICATION,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .titleLarge
                   ?.copyWith(color: lightblack)),
         ));
   }
 
   otpText() {
     return Padding(
-        padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+        padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
         child: Center(
-          child: new Text(ENTER_YOUR_OTP_SENT_TO,
+          child: Text(ENTER_YOUR_OTP_SENT_TO,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .titleLarge
                   ?.copyWith(color: lightblack, fontStyle: FontStyle.normal)),
         ));
   }
 
   mobText() {
     return Padding(
-      padding: EdgeInsets.only(bottom: 0.0, left: 20.0, right: 20.0, top: 10.0),
+      padding: const EdgeInsets.only(bottom: 0.0, left: 20.0, right: 20.0, top: 10.0),
       child: Center(
         child: Text("0123456789",
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .titleLarge
                 ?.copyWith(color: lightblack)),
       ),
     );
@@ -162,12 +161,12 @@ class _HappyShopMobailVerificationState
 
   otpLayout() {
     return Padding(
-        padding: EdgeInsets.only(left: 80.0, right: 80.0, top: 10.0),
+        padding: const EdgeInsets.only(left: 80.0, right: 80.0, top: 10.0),
         child: Center(
             child: PinFieldAutoFill(
                 decoration: UnderlineDecoration(
-                  textStyle: TextStyle(fontSize: 20, color: Colors.black),
-                  colorBuilder: FixedColorBuilder(primaryLight2),
+                  textStyle: const TextStyle(fontSize: 20, color: Colors.black),
+                  colorBuilder: const FixedColorBuilder(primaryLight2),
                 ),
                 currentCode: otp,
                 codeLength: 6,
@@ -182,7 +181,7 @@ class _HappyShopMobailVerificationState
   resendText() {
     return Padding(
       padding:
-          EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0, top: 25.0),
+          const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0, top: 25.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -190,14 +189,14 @@ class _HappyShopMobailVerificationState
             DIDNT_GET_THE_CODE,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1
+                .bodyLarge
                 ?.copyWith(color: lightblack2, fontWeight: FontWeight.normal),
           ),
           InkWell(
               onTap: () {},
               child: Text(
                 RESEND_OTP,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: primary, decoration: TextDecoration.underline),
               ))
         ],
@@ -208,18 +207,18 @@ class _HappyShopMobailVerificationState
   expandedBottomView() {
     double width = MediaQuery.of(context).size.width;
     return Expanded(
-        child: Container(
+        child: SizedBox(
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Container(
                     width: width,
-                    padding: EdgeInsets.only(top: 50.0),
+                    padding: const EdgeInsets.only(top: 50.0),
                     child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      margin: EdgeInsets.all(20.0),
+                      margin: const EdgeInsets.all(20.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -239,7 +238,7 @@ class _HappyShopMobailVerificationState
   }
 
   back() {
-    return BoxDecoration(
+    return const BoxDecoration(
       gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

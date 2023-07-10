@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -9,7 +8,7 @@ import 'package:engishop/Helper/HappyShopString.dart';
 import 'HappyShopHome.dart';
 
 class HappyShopCheckout extends StatefulWidget {
-  HappyShopCheckout({Key? key}) : super(key: key);
+  const HappyShopCheckout({Key? key}) : super(key: key);
 
   @override
   _HappyShopCheckoutState createState() => _HappyShopCheckoutState();
@@ -18,7 +17,7 @@ class HappyShopCheckout extends StatefulWidget {
 class _HappyShopCheckoutState extends State<HappyShopCheckout>
     with TickerProviderStateMixin {
   int _curIndex = 0;
-  static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late List<Widget> fragments;
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
@@ -26,16 +25,16 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
   void initState() {
     super.initState();
 
-    fragments = [Delivery(), Address(), Payment()];
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    fragments = [const Delivery(), const Address(), const Payment()];
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -51,12 +50,12 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
   getAppBar(String title, BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: primary),
+        icon: const Icon(Icons.arrow_back_ios, color: primary),
         onPressed: () => Navigator.of(context).pop(),
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: primary,
         ),
       ),
@@ -81,14 +80,14 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                   ),
                   width: 20,
                   height: 20,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "1",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                Text("  " + DELIVERY + "  ",
+                Text("  $DELIVERY  ",
                     style: TextStyle(color: _curIndex == 0 ? primary : null)),
               ],
             ),
@@ -98,7 +97,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
               });
             },
           ),
-          Expanded(child: Divider()),
+          const Expanded(child: Divider()),
           InkWell(
             child: Row(
               children: [
@@ -109,14 +108,14 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                   ),
                   width: 20,
                   height: 20,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "2",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                Text("  " + ADDRESS_LBL + "  ",
+                Text("  $ADDRESS_LBL  ",
                     style: TextStyle(color: _curIndex == 1 ? primary : null)),
               ],
             ),
@@ -126,7 +125,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
               });
             },
           ),
-          Expanded(child: Divider()),
+          const Expanded(child: Divider()),
           InkWell(
             child: Row(
               children: [
@@ -137,14 +136,14 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                   ),
                   width: 20,
                   height: 20,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "3",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                Text("  " + PAYMENT + "  ",
+                Text("  $PAYMENT  ",
                     style: TextStyle(color: _curIndex == 2 ? primary : null)),
               ],
             ),
@@ -153,10 +152,11 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                 setState(() {
                   _curIndex = 1;
                 });
-              } else
+              } else {
                 setState(() {
                   _curIndex = 2;
                 });
+              }
             },
           ),
         ],
@@ -172,7 +172,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
       body: Column(
         children: [
           stepper(),
-          Divider(),
+          const Divider(),
           Expanded(child: fragments[_curIndex]),
         ],
       ),
@@ -182,10 +182,10 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
           children: [
             Flexible(
               fit: FlexFit.loose,
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
                 child: Text(
-                  TOTAL + " : " + CUR_CURRENCY + " " + "6100",
+                  "$TOTAL : $CUR_CURRENCY 6100",
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -202,26 +202,25 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                   });
                 } else if (_curIndex == 2) {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HappyShopHome()));
+                      MaterialPageRoute(builder: (context) => const HappyShopHome()));
                 }
               },
               style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(0.0)),
-                  ),
-                  primary: Colors.transparent,
-                  padding: EdgeInsets.all(0.0)),
+                  ), backgroundColor: Colors.transparent,
+                  padding: const EdgeInsets.all(0.0)),
               child: Ink(
                 decoration: BoxDecoration(
                   gradient: happyshopgradient,
                 ),
                 child: Container(
                   height: 40.0,
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                   alignment: Alignment.center,
                   child: Text(
                     _curIndex == 2 ? PROCEED : CONTINUE,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -235,7 +234,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 }
 
 class Delivery extends StatefulWidget {
-  Delivery();
+  const Delivery({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -260,15 +259,15 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -293,22 +292,22 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
               children: [
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
                         PROMOCODE_LBL,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     InkWell(
-                      child: Icon(Icons.refresh),
+                      child: const Icon(Icons.refresh),
                       onTap: () {},
                     )
                   ],
                 ),
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: TextField(
                         decoration: InputDecoration(
                           enabled: false,
@@ -331,9 +330,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(0.0),
-                          primary: Colors.transparent,
-                          shape: RoundedRectangleBorder(
+                          padding: const EdgeInsets.all(0.0), backgroundColor: Colors.transparent,
+                          shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(0.0)),
                           ),
@@ -343,7 +341,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                             gradient: happyshopgradient,
                           ),
                           child: Container(
-                            constraints: BoxConstraints(
+                            constraints: const BoxConstraints(
                                 minWidth: 98.0,
                                 minHeight:
                                     36.0), // min sizes for Material buttons
@@ -372,7 +370,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(bottom: 15.0, top: 10),
                   child: Text(
                     ORDER_SUMMARY,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 ScreenTypeLayout(
@@ -380,7 +378,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                     children: [
                       Column(
                         children: [
-                          Row(
+                          const Row(
                             children: [
                               Expanded(flex: 5, child: Text(PRODUCTNAME)),
                               Expanded(
@@ -403,17 +401,17 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   )),
                             ],
                           ),
-                          Divider(),
+                          const Divider(),
                           ListView.builder(
                               shrinkWrap: true,
                               itemCount: 1,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return orderItem(index);
                               }),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.black,
                         thickness: 1,
                         indent: 0,
@@ -426,11 +424,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                 top: 28, bottom: 8.0, left: 0, right: 0),
                             child: Row(
                               children: <Widget>[
-                                Text(
+                                const Text(
                                   SUB,
                                 ),
-                                Spacer(),
-                                Text(CUR_CURRENCY + "5000")
+                                const Spacer(),
+                                Text("${CUR_CURRENCY}5000")
                               ],
                             ),
                           ),
@@ -439,11 +437,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                 left: 0, right: 0, top: 8, bottom: 8),
                             child: Row(
                               children: <Widget>[
-                                Text(
+                                const Text(
                                   DELIVERY_CHARGE,
                                 ),
-                                Spacer(),
-                                Text(CUR_CURRENCY + " 250")
+                                const Spacer(),
+                                Text("$CUR_CURRENCY 250")
                               ],
                             ),
                           ),
@@ -452,11 +450,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                 left: 0, right: 0, top: 8, bottom: 8),
                             child: Row(
                               children: <Widget>[
-                                Text(
-                                  TAXPER + "(18 %)",
+                                const Text(
+                                  "$TAXPER(18 %)",
                                 ),
-                                Spacer(),
-                                Text(CUR_CURRENCY + " 900")
+                                const Spacer(),
+                                Text("$CUR_CURRENCY 900")
                               ],
                             ),
                           ),
@@ -465,15 +463,15 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                 left: 0, right: 0, top: 8, bottom: 8),
                             child: Row(
                               children: <Widget>[
-                                Text(
-                                  PROMO_LBL + " (promocode)",
+                                const Text(
+                                  "$PROMO_LBL (promocode)",
                                 ),
-                                Spacer(),
-                                Text(CUR_CURRENCY + " 50")
+                                const Spacer(),
+                                Text("$CUR_CURRENCY 50")
                               ],
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.black,
                             thickness: 1,
                             indent: 0,
@@ -488,15 +486,15 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   TOTAL_PRICE,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
-                                  CUR_CURRENCY + '6100',
+                                  '${CUR_CURRENCY}6100',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 )
                               ],
@@ -508,11 +506,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                   ),
                   desktop: Row(
                     children: [
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width / 2.2,
                         child: Column(
                           children: [
-                            Row(
+                            const Row(
                               children: [
                                 Expanded(flex: 5, child: Text(PRODUCTNAME)),
                                 Expanded(
@@ -535,18 +533,18 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                     )),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                             ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: 1,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   return orderItem(index);
                                 }),
                           ],
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width / 2,
                         child: Column(
                           children: [
@@ -555,11 +553,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   top: 28, bottom: 8.0, left: 35, right: 35),
                               child: Row(
                                 children: <Widget>[
-                                  Text(
+                                  const Text(
                                     SUB,
                                   ),
-                                  Spacer(),
-                                  Text(CUR_CURRENCY + "5000")
+                                  const Spacer(),
+                                  Text("${CUR_CURRENCY}5000")
                                 ],
                               ),
                             ),
@@ -568,11 +566,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   left: 35, right: 35, top: 8, bottom: 8),
                               child: Row(
                                 children: <Widget>[
-                                  Text(
+                                  const Text(
                                     DELIVERY_CHARGE,
                                   ),
-                                  Spacer(),
-                                  Text(CUR_CURRENCY + " 250")
+                                  const Spacer(),
+                                  Text("$CUR_CURRENCY 250")
                                 ],
                               ),
                             ),
@@ -581,11 +579,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   left: 35, right: 35, top: 8, bottom: 8),
                               child: Row(
                                 children: <Widget>[
-                                  Text(
-                                    TAXPER + "(18 %)",
+                                  const Text(
+                                    "$TAXPER(18 %)",
                                   ),
-                                  Spacer(),
-                                  Text(CUR_CURRENCY + " 900")
+                                  const Spacer(),
+                                  Text("$CUR_CURRENCY 900")
                                 ],
                               ),
                             ),
@@ -594,15 +592,15 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   left: 35, right: 35, top: 8, bottom: 8),
                               child: Row(
                                 children: <Widget>[
-                                  Text(
-                                    PROMO_LBL + " (promocode)",
+                                  const Text(
+                                    "$PROMO_LBL (promocode)",
                                   ),
-                                  Spacer(),
-                                  Text(CUR_CURRENCY + " 50")
+                                  const Spacer(),
+                                  Text("$CUR_CURRENCY 50")
                                 ],
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.black,
                               thickness: 1,
                               indent: 20,
@@ -617,15 +615,15 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                     TOTAL_PRICE,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .titleMedium
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Text(
-                                    CUR_CURRENCY + '6100',
+                                    '${CUR_CURRENCY}6100',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .titleMedium
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   )
                                 ],
@@ -646,8 +644,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   }
 
   orderItem(int index) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3.0),
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
         children: [
           Expanded(
@@ -680,6 +678,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 }
 
 class Address extends StatefulWidget {
+  const Address({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return StateAddress();
@@ -696,15 +696,15 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     addressList.clear();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -733,11 +733,11 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     return Column(
       children: [
         Expanded(
-          child: addressList.length == 0
-              ? Text(NOADDRESS)
+          child: addressList.isEmpty
+              ? const Text(NOADDRESS)
               : ListView.builder(
                   shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: addressList.length,
                   itemBuilder: (context, index) {
                     print(
@@ -761,11 +761,11 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
               child: Container(
                 height: 40.0,
                 width: MediaQuery.of(context).size.width / 2,
-                padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
 
                 // min sizes for Material buttons
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   ADDADDRESS,
                   style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
@@ -790,12 +790,12 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
             children: [
               Text(
                 addressList[index].name + "  ",
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
               Container(
                 decoration: BoxDecoration(
                     color: lightgrey, borderRadius: BorderRadius.circular(5)),
-                padding: EdgeInsets.all(3),
+                padding: const EdgeInsets.all(3),
                 child: Text(
                   addressList[index].type,
                 ),
@@ -803,8 +803,8 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
             ],
           )),
           InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
+            child: const Padding(
+              padding: EdgeInsets.all(5.0),
               child: Icon(
                 Icons.edit,
                 color: Colors.black54,
@@ -815,8 +815,8 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
           ),
           InkWell(
             onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
+            child: const Padding(
+              padding: EdgeInsets.all(5.0),
               child: Icon(
                 Icons.delete,
                 color: Colors.black54,
@@ -843,7 +843,7 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
 }
 
 class Payment extends StatefulWidget {
-  Payment();
+  const Payment({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -855,7 +855,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
   late String allowDay, startingDate;
   late bool cod, paypal, razorpay, paumoney, paystack, flutterwave;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<String> paymentMethodList = [
     COD_LBL,
@@ -871,15 +871,15 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -907,19 +907,19 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: CheckboxListTile(
                     dense: true,
-                    contentPadding: EdgeInsets.all(0),
+                    contentPadding: const EdgeInsets.all(0),
                     value: _isUseWallet,
                     onChanged: (bool? value) {
                       setState(() {
                         _isUseWallet = value!;
                       });
                     },
-                    title: Text(
+                    title: const Text(
                       USE_WALLET,
                       style: TextStyle(fontSize: 15, color: primary),
                     ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    subtitle: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
                         "250.0",
                         style: TextStyle(fontSize: 15, color: Colors.black),
@@ -936,12 +936,12 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           PREFERED_TIME,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
                       Container(
                         height: 80,
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -950,7 +950,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                               return dateCell(index);
                             }),
                       ),
-                      Divider(),
+                      const Divider(),
                     ],
                   ),
                 ),
@@ -963,12 +963,12 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           PAYMENT_METHOD_LBL,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
                       ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: 6,
                           itemBuilder: (context, index) {
                             return paymentItem(index);
@@ -986,19 +986,19 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: CheckboxListTile(
                     dense: true,
-                    contentPadding: EdgeInsets.all(0),
+                    contentPadding: const EdgeInsets.all(0),
                     value: _isUseWallet,
                     onChanged: (bool? value) {
                       setState(() {
                         _isUseWallet = value!;
                       });
                     },
-                    title: Text(
+                    title: const Text(
                       USE_WALLET,
                       style: TextStyle(fontSize: 15, color: primary),
                     ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    subtitle: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
                         "250.0",
                         style: TextStyle(fontSize: 15, color: Colors.black),
@@ -1008,7 +1008,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                 )),
                 Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width / 2,
                       height: MediaQuery.of(context).size.width / 4,
                       child: Card(
@@ -1020,12 +1020,12 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 PREFERED_TIME,
-                                style: Theme.of(context).textTheme.headline6,
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
                             ),
                             Container(
                               height: 80,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: ListView.builder(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
@@ -1034,12 +1034,12 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                                     return dateCell(index);
                                   }),
                             ),
-                            Divider(),
+                            const Divider(),
                           ],
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width / 2,
                       height: MediaQuery.of(context).size.width / 4,
                       child: Card(
@@ -1051,12 +1051,12 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 PAYMENT_METHOD_LBL,
-                                style: Theme.of(context).textTheme.headline6,
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
                             ),
                             ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: 6,
                                 itemBuilder: (context, index) {
                                   return paymentItem(index);
@@ -1089,15 +1089,15 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                 border: Border.all(color: primary),
                 borderRadius: BorderRadius.circular(10),
                 color: selsectindex != index ? Colors.white : primary),
-        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-        margin: EdgeInsets.symmetric(vertical: 0, horizontal: 6),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               DateFormat('EEE').format(today.add(Duration(days: index))),
-              style: TextStyle(color: Colors.black54),
+              style: const TextStyle(color: Colors.black54),
             ),
             Padding(
               padding: const EdgeInsets.all(5.0),
@@ -1110,7 +1110,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
             ),
             Text(
               DateFormat('MMM').format(today.add(Duration(days: index))),
-              style: TextStyle(color: Colors.black54),
+              style: const TextStyle(color: Colors.black54),
             ),
           ],
         ),
@@ -1126,11 +1126,11 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
   }
 
   setSnackbar(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-      content: new Text(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
         msg,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
       ),
       backgroundColor: Colors.white,
       elevation: 1.0,
@@ -1144,7 +1144,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
       value: (index),
       groupValue: selectedTime,
       onChanged: (val) {},
-      title: Text(
+      title: const Text(
         "",
         style: TextStyle(color: Colors.black, fontSize: 15),
       ),

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
 class HappyShopHome extends StatefulWidget {
-  HappyShopHome({Key? key}) : super(key: key);
+  const HappyShopHome({Key? key}) : super(key: key);
 
   @override
   _HappyShopHomeState createState() => _HappyShopHomeState();
@@ -24,14 +24,14 @@ class _HappyShopHomeState extends State<HappyShopHome> {
     super.initState();
     _curSelected = 0;
     happyShopBottomeTab = [
-      HappyShopHpmeTab(),
-      HappyShopFavrite(
+      const HappyShopHpmeTab(),
+      const HappyShopFavrite(
         appbar: false,
       ),
-      HappyShopNotification(
+      const HappyShopNotification(
         appbar: false,
       ),
-      HappyShopTreackOrder(
+      const HappyShopTreackOrder(
         appbar: false,
       )
     ];
@@ -39,8 +39,8 @@ class _HappyShopHomeState extends State<HappyShopHome> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey =
+        GlobalKey<ScaffoldState>();
     return WillPopScope(
         onWillPop: () async {
           /* bool result = await Navigator.pushReplacement(
@@ -55,10 +55,10 @@ class _HappyShopHomeState extends State<HappyShopHome> {
           return false;
         },
         child: Scaffold(
-          key: _scaffoldKey,
+          key: scaffoldKey,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(56),
-            child: HappyShopAppBar(scaffoldKey: _scaffoldKey),
+            preferredSize: const Size.fromHeight(56),
+            child: HappyShopAppBar(scaffoldKey: scaffoldKey),
           ),
           drawer: const HappyShopDrawer(),
           backgroundColor: Colors.white10,
@@ -71,11 +71,11 @@ class _HappyShopHomeState extends State<HappyShopHome> {
   getBottomBar() {
     return BottomAppBar(
       child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
           ),
           child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
@@ -102,7 +102,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         return Icon(
                           Icons.home_outlined,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -118,7 +118,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.home_sharp,
                           size: 24,
                           color: happyshopcolor2,
@@ -143,7 +143,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         return Icon(
                           Icons.favorite_border,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -159,7 +159,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.favorite,
                           size: 24,
                           color: happyshopcolor2,
@@ -184,7 +184,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         return Icon(
                           Icons.notifications_none,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -200,7 +200,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.notifications,
                           size: 24,
                           color: happyshopcolor2,
@@ -225,7 +225,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         return Icon(
                           Icons.directions_bike_outlined,
                           size: 24,
-                          color: Color(0x31333333).withOpacity(0.5),
+                          color: const Color(0x31333333).withOpacity(0.5),
                         );
                       },
                     ),
@@ -240,7 +240,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                         dotSecondaryColor: primary.withOpacity(0.1),
                       ),
                       likeBuilder: (bool isLiked) {
-                        return Icon(
+                        return const Icon(
                           Icons.directions_bike,
                           size: 24,
                           color: happyshopcolor2,

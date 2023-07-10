@@ -149,13 +149,13 @@ const String SUCCESS = 'Success';
 const String ACTIVE_STATUS = 'active_status';
 const String WAITING = 'awaiting';
 
-final String internetMsg = 'Check Internet Connection';
-final String somethingMSg =
+const String internetMsg = 'Check Internet Connection';
+const String somethingMSg =
     'Something went wrong. Please try again after some time';
-final String profileCom = 'Please complete your profile to place the order';
+const String profileCom = 'Please complete your profile to place the order';
 
-final String category = 'Categories';
-final String seeAll = 'See All';
+const String category = 'Categories';
+const String seeAll = 'See All';
 
 const String RATE_APP = 'Rate App';
 const String SHARE_APP = 'Share App';

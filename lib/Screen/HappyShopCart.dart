@@ -10,7 +10,7 @@ import 'HappyShopHome.dart';
 import 'HappyShopProductDetail.dart';
 
 class HappyShopCart extends StatefulWidget {
-  HappyShopCart({Key? key}) : super(key: key);
+  const HappyShopCart({Key? key}) : super(key: key);
 
   @override
   _HappyShopCartState createState() => _HappyShopCartState();
@@ -18,7 +18,7 @@ class HappyShopCart extends StatefulWidget {
 
 class _HappyShopCartState extends State<HappyShopCart>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
@@ -79,15 +79,15 @@ class _HappyShopCartState extends State<HappyShopCart>
   @override
   void initState() {
     super.initState();
-    buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+    buttonController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
 
-    buttonSqueezeanimation = new Tween(
+    buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
-    ).animate(new CurvedAnimation(
+    ).animate(CurvedAnimation(
       parent: buttonController,
-      curve: new Interval(
+      curve: const Interval(
         0.0,
         0.150,
       ),
@@ -100,7 +100,7 @@ class _HappyShopCartState extends State<HappyShopCart>
     super.dispose();
   }
 
-  Future<Null> _playAnimation() async {
+  Future<void> _playAnimation() async {
     try {
       await buttonController.forward();
     } on TickerCanceled {}
@@ -109,12 +109,12 @@ class _HappyShopCartState extends State<HappyShopCart>
   getAppBar(String title, BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: primary),
+        icon: const Icon(Icons.arrow_back_ios, color: primary),
         onPressed: () => Navigator.of(context).pop(),
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: primary,
         ),
       ),
@@ -125,7 +125,7 @@ class _HappyShopCartState extends State<HappyShopCart>
   }
 
   _showContent() {
-    return cartList.length == 0
+    return cartList.isEmpty
         ? cartEmpty()
         : ScreenTypeLayout(
             mobile: Column(
@@ -134,7 +134,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: cartList.length,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return listItem(index);
                     },
@@ -145,11 +145,11 @@ class _HappyShopCartState extends State<HappyShopCart>
                       top: 28, bottom: 8.0, left: 35, right: 35),
                   child: Row(
                     children: <Widget>[
-                      Text(
+                      const Text(
                         ORIGINAL_PRICE,
                       ),
-                      Spacer(),
-                      Text(CUR_CURRENCY + "8500")
+                      const Spacer(),
+                      Text("${CUR_CURRENCY}8500")
                     ],
                   ),
                 ),
@@ -158,11 +158,11 @@ class _HappyShopCartState extends State<HappyShopCart>
                       left: 35, right: 35, top: 8, bottom: 8),
                   child: Row(
                     children: <Widget>[
-                      Text(
+                      const Text(
                         DELIVERY_CHARGE,
                       ),
-                      Spacer(),
-                      Text(CUR_CURRENCY + "150")
+                      const Spacer(),
+                      Text("${CUR_CURRENCY}150")
                     ],
                   ),
                 ),
@@ -171,15 +171,15 @@ class _HappyShopCartState extends State<HappyShopCart>
                       left: 35, right: 35, top: 8, bottom: 8),
                   child: Row(
                     children: <Widget>[
-                      Text(
-                        TAXPER + "(18%)",
+                      const Text(
+                        "$TAXPER(18%)",
                       ),
-                      Spacer(),
-                      Text(CUR_CURRENCY + "1530")
+                      const Spacer(),
+                      Text("${CUR_CURRENCY}1530")
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.black,
                   thickness: 1,
                   indent: 20,
@@ -194,15 +194,15 @@ class _HappyShopCartState extends State<HappyShopCart>
                         TOTAL_PRICE,
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1
+                            .titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        CUR_CURRENCY + "10180",
+                        "${CUR_CURRENCY}10180",
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1
+                            .titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                       )
                     ],
@@ -214,7 +214,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HappyShopCheckout(),
+                        builder: (context) => const HappyShopCheckout(),
                       ),
                     );
                   },
@@ -227,7 +227,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                       PROCEED_CHECKOUT,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .titleMedium
                           ?.copyWith(color: Colors.white),
                     )),
                   ),
@@ -237,18 +237,18 @@ class _HappyShopCartState extends State<HappyShopCart>
             desktop: Container(
               child: Row(
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: ListView.builder(
                       // shrinkWrap: true,
                       itemCount: cartList.length,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
                         return listItem(index);
                       },
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -258,11 +258,11 @@ class _HappyShopCartState extends State<HappyShopCart>
                               top: 28, bottom: 8.0, left: 35, right: 35),
                           child: Row(
                             children: <Widget>[
-                              Text(
+                              const Text(
                                 ORIGINAL_PRICE,
                               ),
-                              Spacer(),
-                              Text(CUR_CURRENCY + "8500")
+                              const Spacer(),
+                              Text("${CUR_CURRENCY}8500")
                             ],
                           ),
                         ),
@@ -271,11 +271,11 @@ class _HappyShopCartState extends State<HappyShopCart>
                               left: 35, right: 35, top: 8, bottom: 8),
                           child: Row(
                             children: <Widget>[
-                              Text(
+                              const Text(
                                 DELIVERY_CHARGE,
                               ),
-                              Spacer(),
-                              Text(CUR_CURRENCY + "150")
+                              const Spacer(),
+                              Text("${CUR_CURRENCY}150")
                             ],
                           ),
                         ),
@@ -284,15 +284,15 @@ class _HappyShopCartState extends State<HappyShopCart>
                               left: 35, right: 35, top: 8, bottom: 8),
                           child: Row(
                             children: <Widget>[
-                              Text(
-                                TAXPER + "(18%)",
+                              const Text(
+                                "$TAXPER(18%)",
                               ),
-                              Spacer(),
-                              Text(CUR_CURRENCY + "1530")
+                              const Spacer(),
+                              Text("${CUR_CURRENCY}1530")
                             ],
                           ),
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.black,
                           thickness: 1,
                           indent: 20,
@@ -307,15 +307,15 @@ class _HappyShopCartState extends State<HappyShopCart>
                                 TOTAL_PRICE,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
+                                    .titleMedium
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
-                                CUR_CURRENCY + "10180",
+                                "${CUR_CURRENCY}10180",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
+                                    .titleMedium
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               )
                             ],
@@ -327,7 +327,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HappyShopCheckout(),
+                                builder: (context) => const HappyShopCheckout(),
                               ),
                             );
                           },
@@ -340,7 +340,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                               PROCEED_CHECKOUT,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .titleMedium
                                   ?.copyWith(color: Colors.white),
                             )),
                           ),
@@ -358,6 +358,19 @@ class _HappyShopCartState extends State<HappyShopCart>
     return Card(
       elevation: 0.1,
       child: InkWell(
+        splashColor: primary.withOpacity(0.2),
+        onTap: () async {
+          await Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(seconds: 1),
+              pageBuilder: (_, __, ___) => HappyShopProductDetail(
+                imgurl: cartList[index]['img'],
+                tag: "${cartList[index]}1",
+              ),
+            ),
+          );
+        },
         child: Row(
           children: <Widget>[
             Hero(
@@ -382,7 +395,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                               cartList[index]['name'],
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .titleMedium
                                   ?.copyWith(color: Colors.black),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -390,8 +403,8 @@ class _HappyShopCartState extends State<HappyShopCart>
                           ),
                         ),
                         InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
+                          child: const Padding(
+                            padding: EdgeInsets.only(
                                 left: 8.0, right: 8, bottom: 8),
                             child: Icon(
                               Icons.close,
@@ -410,18 +423,18 @@ class _HappyShopCartState extends State<HappyShopCart>
                       padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.star,
                             color: Colors.yellow,
                             size: 12,
                           ),
                           Text(
                             " " + cartList[index]['rating'],
-                            style: Theme.of(context).textTheme.overline,
+                            style: Theme.of(context).textTheme.labelSmall,
                           ),
                           Text(
-                            " (" + cartList[index]['noOfRating'] + ")",
-                            style: Theme.of(context).textTheme.overline,
+                            "${" (" + cartList[index]['noOfRating']})",
+                            style: Theme.of(context).textTheme.labelSmall,
                           )
                         ],
                       ),
@@ -430,7 +443,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                       children: <Widget>[
                         Text(
                           cartList[index]['price'],
-                          style: Theme.of(context).textTheme.overline?.copyWith(
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               decoration: TextDecoration.lineThrough,
                               letterSpacing: 0.7),
                         ),
@@ -445,44 +458,44 @@ class _HappyShopCartState extends State<HappyShopCart>
                           children: <Widget>[
                             InkWell(
                               child: Container(
-                                margin: EdgeInsets.only(
+                                margin: const EdgeInsets.only(
                                     right: 8, top: 8, bottom: 8),
-                                child: Icon(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius:
+                                        const BorderRadius.all(Radius.circular(5))),
+                                child: const Icon(
                                   Icons.remove,
                                   size: 12,
                                   color: Colors.grey,
                                 ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
                               ),
                               onTap: () {},
                             ),
                             Text(
                               cartList[index]['qty'],
-                              style: Theme.of(context).textTheme.caption,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             InkWell(
                               child: Container(
-                                margin: EdgeInsets.all(8),
-                                child: Icon(
+                                margin: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius:
+                                        const BorderRadius.all(Radius.circular(5))),
+                                child: const Icon(
                                   Icons.add,
                                   size: 12,
                                   color: Colors.grey,
                                 ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
                               ),
                               onTap: () {},
                             )
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(cartList[index]['totle'],
-                            style: Theme.of(context).textTheme.headline6)
+                            style: Theme.of(context).textTheme.titleLarge)
                       ],
                     )
                   ],
@@ -491,19 +504,6 @@ class _HappyShopCartState extends State<HappyShopCart>
             )
           ],
         ),
-        splashColor: primary.withOpacity(0.2),
-        onTap: () async {
-          await Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: Duration(seconds: 1),
-              pageBuilder: (_, __, ___) => HappyShopProductDetail(
-                imgurl: cartList[index]['img'],
-                tag: "${cartList[index]}1",
-              ),
-            ),
-          );
-        },
       ),
     );
   }
@@ -533,16 +533,16 @@ class _HappyShopCartState extends State<HappyShopCart>
         child: Text(NO_CART,
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.copyWith(color: primary, fontWeight: FontWeight.normal)));
   }
 
   noCartDec(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+      padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
       child: Text(CART_DESC,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: lightblack,
                 fontWeight: FontWeight.normal,
               )),
@@ -557,25 +557,25 @@ class _HappyShopCartState extends State<HappyShopCart>
             width: deviceWidth * 0.7,
             height: 45,
             alignment: FractionalOffset.center,
-            decoration: new BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [primaryLight2, primaryLight3],
                   stops: [0, 1]),
-              borderRadius: new BorderRadius.all(const Radius.circular(50.0)),
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
             ),
             child: Text(SHOP_NOW,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .titleLarge
                     ?.copyWith(color: white, fontWeight: FontWeight.normal))),
         onPressed: () {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => HappyShopHome()),
+                  builder: (BuildContext context) => const HappyShopHome()),
               ModalRoute.withName('/'));
         },
       ),
@@ -583,7 +583,7 @@ class _HappyShopCartState extends State<HappyShopCart>
   }
 
   back() {
-    return BoxDecoration(
+    return const BoxDecoration(
       gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

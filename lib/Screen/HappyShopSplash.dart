@@ -95,15 +95,15 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
   }
 
   startTime() async {
-    var _duration = Duration(milliseconds: 3000);
-    return Timer(_duration, navigationPage);
+    var duration = const Duration(milliseconds: 3000);
+    return Timer(duration, navigationPage);
   }
 
   Future<void> navigationPage() async {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HappyShopLogin(),
+          builder: (context) => const HappyShopLogin(),
         ));
   }
 }

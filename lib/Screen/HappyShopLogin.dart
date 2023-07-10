@@ -13,7 +13,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'HappyShopSingUp.dart';
 
 class HappyShopLogin extends StatefulWidget {
-  HappyShopLogin({Key? key}) : super(key: key);
+  const HappyShopLogin({Key? key}) : super(key: key);
 
   @override
   _HappyShopLoginState createState() => _HappyShopLoginState();
@@ -68,7 +68,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
     super.dispose();
   }
 
-  Future<Null> _playAnimation() async {
+  Future<void> _playAnimation() async {
     try {
       await buttonController.forward();
     } on TickerCanceled {}
@@ -100,7 +100,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 40.0, right: 20),
+                    padding: const EdgeInsets.only(top: 40.0, right: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
@@ -111,7 +111,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HappyShopHome()));
+                                      builder: (context) => const HappyShopHome()));
                             });
                           },
                           child: Padding(
@@ -141,20 +141,20 @@ class _HappyShopLoginState extends State<HappyShopLogin>
                   ),
                   Expanded(
                     child: ScreenTypeLayout(
-                      mobile: Container(
+                      mobile: SizedBox(
                         width: double.infinity,
                         child: SingleChildScrollView(
                           child: Column(
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.only(top: 10.0, bottom: 20),
+                                padding: const EdgeInsets.only(top: 10.0, bottom: 20),
                                 child: Form(
                                   key: _formkey,
                                   child: Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(20)),
-                                    margin: EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                         left: 20.0, right: 20.0, top: 10.0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -202,7 +202,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
     await buttonController.reverse();
     Future.delayed(const Duration(milliseconds: 500)).then((_) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HappyShopHome()));
+          context, MaterialPageRoute(builder: (context) => const HappyShopHome()));
     });
   }
 
@@ -295,13 +295,13 @@ class _HappyShopLoginState extends State<HappyShopLogin>
               builder: _buildCountryPicker,
               onChanged: (CountryCode countryCode) {
                 countrycode = countryCode.toString().replaceFirst("+", "");
-                print("New Country selected: " + countryCode.toString());
+                print("New Country selected: $countryCode");
                 countryName = countryCode.name;
               },
               onInit: (code) {
                 print("on init ${code?.name} ${code?.dialCode} ${code?.name}");
                 countrycode = code.toString().replaceFirst("+", "");
-                print("New Country selected: " + code.toString());
+                print("New Country selected: $code");
               }),
         ));
   }
@@ -407,7 +407,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HappyShopForgotPassword()));
+                        builder: (context) => const HappyShopForgotPassword()));
               },
               child: Text(FORGOT_PASSWORD_LBL,
                   style: Theme.of(context)
@@ -432,7 +432,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
           InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HappyShopSingUp()));
+                    MaterialPageRoute(builder: (context) => const HappyShopSingUp()));
               },
               child: Text(
                 SIGN_UP_LBL,

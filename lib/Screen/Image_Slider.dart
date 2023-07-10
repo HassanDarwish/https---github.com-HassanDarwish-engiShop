@@ -12,15 +12,15 @@ final List<String> imgList = [
   'https://smartkit.wrteam.in/smartkit/images/Fitness-gym-wallpaper.jpg'
 ];
 
-final Widget placeholder = new Container(color: Colors.grey);
+final Widget placeholder = Container(color: Colors.grey);
 
 final List child = map<Widget>(
   imgList,
   (index, i) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         child: Stack(children: <Widget>[
           CachedNetworkImage(
             imageUrl: i,
@@ -33,7 +33,7 @@ final List child = map<Widget>(
             left: 0.0,
             right: 0.0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     Color.fromARGB(200, 0, 0, 0),
@@ -43,10 +43,10 @@ final List child = map<Widget>(
                   end: Alignment.topCenter,
                 ),
               ),
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Text(
                 'No. $index image',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -70,6 +70,8 @@ List<T> map<T>(List list, Function handler) {
 }
 
 class CarouselWithIndicator extends StatefulWidget {
+  const CarouselWithIndicator({super.key});
+
   @override
   _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
 }
@@ -101,12 +103,12 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             return Container(
               width: 8.0,
               height: 8.0,
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == index
-                      ? Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4)),
+                      ? const Color.fromRGBO(0, 0, 0, 0.9)
+                      : const Color.fromRGBO(0, 0, 0, 0.4)),
             );
           },
         ),
@@ -117,6 +119,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
 class Image_Slider extends StatelessWidget {
   CarouselController buttonCarouselController = CarouselController();
+
+  Image_Slider({super.key});
   //late CustomLayoutOption customLayoutOption;
   @override
   Widget build(BuildContext context) {
@@ -136,9 +140,9 @@ class Image_Slider extends StatelessWidget {
       items: imgList.map(
         (url) {
           return Container(
-            margin: EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               child: CachedNetworkImage(
                 imageUrl: url,
                 fit: BoxFit.cover,
@@ -173,25 +177,25 @@ class Image_Slider extends StatelessWidget {
         Row(children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.grey.shade300),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.grey.shade300),
                 onPressed: () => buttonCarouselController.previousPage(
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.linear),
-                child: Text('PREV', style: TextStyle(color: Colors.black)),
+                child: const Text('PREV', style: TextStyle(color: Colors.black)),
               ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.grey.shade300),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.grey.shade300),
                 onPressed: () => buttonCarouselController.nextPage(
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.linear),
-                child: Text('NEXT', style: TextStyle(color: Colors.black)),
+                child: const Text('NEXT', style: TextStyle(color: Colors.black)),
               ),
             ),
           ),
@@ -225,9 +229,9 @@ class Image_Slider extends StatelessWidget {
       items: imgList.map(
         (url) {
           return Container(
-            margin: EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               child: CachedNetworkImage(
                 imageUrl: url,
                 fit: BoxFit.cover,
@@ -263,9 +267,9 @@ class Image_Slider extends StatelessWidget {
       items: imgList.map(
         (url) {
           return Container(
-            margin: EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               child: CachedNetworkImage(
                 imageUrl: url,
                 fit: BoxFit.cover,
@@ -286,61 +290,61 @@ class Image_Slider extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(56),
           child: SmartKitAppbar(
             title: "Image Slider",
           )),
       body: ListView(children: <Widget>[
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
-              Text(
+              const Text(
                 'Manual Carousel',
                 style: TextStyle(fontSize: 16),
               ),
               manualCarouselDemo,
             ])),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
-              Text('Auto Playing', style: TextStyle(fontSize: 16)),
+              const Text('Auto Playing', style: TextStyle(fontSize: 16)),
               autoPlayDemo,
             ])),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
-              Text('Button Controlled', style: TextStyle(fontSize: 16)),
+              const Text('Button Controlled', style: TextStyle(fontSize: 16)),
               buttonDemo(),
             ])),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
-              Text('Full Screen', style: TextStyle(fontSize: 16)),
+              const Text('Full Screen', style: TextStyle(fontSize: 16)),
               coverScreenExample,
             ])),
-        Padding(
+        const Padding(
             padding: EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
               Text('Slider With Indicator', style: TextStyle(fontSize: 16)),
               CarouselWithIndicator(),
             ])),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
-              Text('Pause When Touched', style: TextStyle(fontSize: 16)),
+              const Text('Pause When Touched', style: TextStyle(fontSize: 16)),
               touchDetectionDemo,
             ])),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
-              Text('No infinity scroll', style: TextStyle(fontSize: 16)),
+              const Text('No infinity scroll', style: TextStyle(fontSize: 16)),
               nonLoopingCarousel,
             ])),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(children: [
-              Text('Vertical scroll', style: TextStyle(fontSize: 16)),
+              const Text('Vertical scroll', style: TextStyle(fontSize: 16)),
               verticalScrollCarousel,
             ])),
       ]),
