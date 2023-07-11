@@ -1,9 +1,10 @@
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
-import 'package:engishop/Screen/HappyShopSplash.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Screen/HappyShopSplash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/scheduler/binding.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 class HappyShopDrawer extends StatefulWidget {
   const HappyShopDrawer({
@@ -15,6 +16,51 @@ class HappyShopDrawer extends StatefulWidget {
 }
 
 class _HappyShopDrawerState extends State<HappyShopDrawer> {
+
+  AppUpdateInfo? _updateInfo;
+
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
+  bool _flexibleUpdateAvailable = false;
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> checkForUpdate() async {
+    print("clicked");
+    InAppUpdate.checkForUpdate().then((info) {
+
+      setState(() {
+        _updateInfo = info;
+      });
+    }).catchError((e) {
+      _showMyDialog();
+      showSnack(e.toString());
+    });
+  }
+  void showSnack(String text) {
+    if (_scaffoldKey.currentContext != null) {
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+          .showSnackBar(SnackBar(content: Text(text)));
+    }
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Update Process'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('You Are Updated already '),
+              ],
+            ),
+          ),);
+
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -168,6 +214,22 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
             title: "SingUp",
             icon: Icons.account_box_rounded,
             route: () {
+              /*s
+              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HappyShopSplash(), //HappyShopSingUp(),
+                ),
+              );*/
+            },
+          ),
+          _getDivider(),
+          HappyShopDrawerListTile(
+            title: "Update",
+            icon: Icons.account_box_rounded,
+            route: () {
+              checkForUpdate();
               /*s
               Navigator.of(context).pop();
               Navigator.pushReplacement(

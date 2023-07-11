@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 //import 'package:engi_shop/HappyShop/desktop/detailproductdesktop.dart';
 
 import 'HappyShopCart.dart';

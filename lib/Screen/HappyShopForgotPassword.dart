@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 
 import 'HappyShopHome.dart';
 

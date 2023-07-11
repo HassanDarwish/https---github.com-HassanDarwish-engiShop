@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
-import 'package:engishop/Screen/HappyShopCatgories.dart';
-import 'package:engishop/Screen/HappyShopProductDetail.dart';
-import 'package:engishop/Screen/Image_Slider.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
+import 'package:GiorgiaShop/Screen/HappyShopProductDetail.dart';
+import 'package:GiorgiaShop/Screen/Image_Slider.dart';
 //import 'package:engi_shop/HappyShop/desktop/hometabdesktop.dart';
-import 'package:engishop/Screen/SmartKitHome.dart';
+import 'package:GiorgiaShop/Screen/SmartKitHome.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

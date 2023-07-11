@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:engishop/Helper/SmartKitColor.dart';
+import 'package:GiorgiaShop/Helper/SmartKitColor.dart';
 //import 'package:engi_shop/SmartkitScreen/Widget/theme.dart';
 
 class HomeLogo extends StatelessWidget {

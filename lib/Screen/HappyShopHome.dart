@@ -1,10 +1,10 @@
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Screen/HappyShopFavrite.dart';
-import 'package:engishop/Screen/HappyShopHomeTab.dart';
-import 'package:engishop/Screen/HappyShopNotification.dart';
-import 'package:engishop/Screen/HappyShopTrackOrder.dart';
-import 'package:engishop/widget/HappyShopAppBar.dart';
-import 'package:engishop/widget/HappyShopDrawer.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Screen/HappyShopFavrite.dart';
+import 'package:GiorgiaShop/Screen/HappyShopHomeTab.dart';
+import 'package:GiorgiaShop/Screen/HappyShopNotification.dart';
+import 'package:GiorgiaShop/Screen/HappyShopTrackOrder.dart';
+import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
+import 'package:GiorgiaShop/widget/HappyShopDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 

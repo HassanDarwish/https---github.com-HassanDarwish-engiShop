@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:engishop/Helper/SmartKitColor.dart';
+import 'package:GiorgiaShop/Helper/SmartKitColor.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({

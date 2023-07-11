@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 
 class HappyShopCatogeryAll extends StatefulWidget {
   const HappyShopCatogeryAll({Key? key}) : super(key: key);

@@ -6,6 +6,7 @@ import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopSplash.dart';
 
 void main() {
+
   runApp(const MyApp());
 }
 
@@ -17,11 +18,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+
+
     return MaterialApp(
       home: HappyShopSplash()
-         /* MyHomePage(
+      /* MyHomePage(
         title: "testing woocommerce",
-      )*/,
+      )*/
+      ,
       title: App_title,
       theme: ThemeData(
         primarySwatch: primary_app,
@@ -33,13 +38,15 @@ class MyApp extends StatelessWidget {
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: primary,
         ),
-        fontFamily: 'DancingScript',
+        fontFamily: 'Open sans',
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+
+
   const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -58,9 +65,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future _getProducts() async {
-    // Initialize the API
 
+
+  Future _getProducts() async {
     WooCommerce woocommerce = WooCommerce(
         baseUrl: "http://engy.jerma.net",
         consumerKey: "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56",
@@ -91,9 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   leading: CircleAvatar(
                     child: Image.network(category.image!.src!),
                   ),
-                  title: Text( category.name!),
-                  subtitle:
-                      Text("Buy now for \$ " + category.name!),
+                  title: Text(category.name!),
+                  subtitle: Text("Buy now for \$ " + category.name!),
                 );
               },
             );

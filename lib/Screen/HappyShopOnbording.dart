@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/SmartKitColor.dart';
-import 'package:engishop/Screen/HappyShopLogin.dart';
-import 'package:engishop/widget/HappyShopAppBar.dart';
-import 'package:engishop/widget/HappyShopDrawer.dart';
-import 'package:engishop/widget/IntroPage.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/SmartKitColor.dart';
+import 'package:GiorgiaShop/Screen/HappyShopLogin.dart';
+import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
+import 'package:GiorgiaShop/widget/HappyShopDrawer.dart';
+import 'package:GiorgiaShop/widget/IntroPage.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';

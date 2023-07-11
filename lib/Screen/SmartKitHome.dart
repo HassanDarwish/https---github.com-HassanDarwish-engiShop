@@ -1,7 +1,7 @@
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/SmartKitColor.dart';
-import 'package:engishop/Widget/SmartKtHomeTile.dart';
-import 'package:engishop/widget/HappyShopMain.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/SmartKitColor.dart';
+import 'package:GiorgiaShop/Widget/SmartKtHomeTile.dart';
+import 'package:GiorgiaShop/widget/HappyShopMain.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

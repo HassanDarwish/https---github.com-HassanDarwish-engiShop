@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:engishop/Screen/SmartKitAppbar.dart';
+import 'package:GiorgiaShop/Screen/SmartKitAppbar.dart';
 
 final List<String> imgList = [
   'https://smartkit.wrteam.in/smartkit/images/1573810839.3215.jpeg',

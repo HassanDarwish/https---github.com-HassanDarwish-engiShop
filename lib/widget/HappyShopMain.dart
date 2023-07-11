@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 //import 'package:smartkit/FullApp/HappyShop/Helper/HappyShopColor.dart';
 
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Screen/HappyShopSplash.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Screen/HappyShopSplash.dart';
 
 class HappyShopMain extends StatelessWidget {
   const HappyShopMain({super.key});

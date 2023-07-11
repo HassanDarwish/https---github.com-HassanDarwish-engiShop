@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../Helper/HappyShopColor.dart';
 import '../Helper/HappyShopString.dart';
-import 'package:engishop/Screen/HappyShopSplash.dart';
+import 'package:GiorgiaShop/Screen/HappyShopSplash.dart';
 
 class SPlashScreen extends StatefulWidget {
   final String titlee;

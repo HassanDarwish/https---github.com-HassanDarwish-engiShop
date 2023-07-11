@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
-import 'package:engishop/Screen/HappyShopHome.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
 
 class HappyShopNotification extends StatefulWidget {
   final bool? appbar;

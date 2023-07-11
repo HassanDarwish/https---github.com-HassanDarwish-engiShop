@@ -1,10 +1,10 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
-import 'package:engishop/Screen/HappyShopForgotPassword.dart';
-import 'package:engishop/Screen/HappyShopHome.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Screen/HappyShopForgotPassword.dart';
+import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
 //import 'package:engi_shop/HappyShop/desktop/logindesktop.dart';
-import 'package:engishop/widget/HappyShopbtn.dart';
+import 'package:GiorgiaShop/widget/HappyShopbtn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';

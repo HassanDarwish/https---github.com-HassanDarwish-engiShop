@@ -1,7 +1,7 @@
-import 'package:engishop/Helper/HappyShopColor.dart';
-import 'package:engishop/Helper/HappyShopString.dart';
-import 'package:engishop/Screen/HappyShopCart.dart';
-import 'package:engishop/Screen/HappyShopProfile.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
+import 'package:GiorgiaShop/Screen/HappyShopProfile.dart';
 import 'package:flutter/material.dart';
 
 class HappyShopAppBar extends StatefulWidget {
