@@ -33,15 +33,15 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
       });
     }).catchError((e) {
       _showMyDialog();
-      showSnack(e.toString());
+      //showSnack(e.toString());
     });
   }
-  void showSnack(String text) {
+ /* void showSnack(String text) {
     if (_scaffoldKey.currentContext != null) {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!)
           .showSnackBar(SnackBar(content: Text(text)));
     }
-  }
+  }*/
 
   Future<void> _showMyDialog() async {
     return showDialog<void>(
@@ -56,7 +56,19 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
                 Text('You Are Updated already '),
               ],
             ),
-          ),);
+
+
+          ),
+          actions: <Widget>[
+
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); //close Dialog
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
 
       },
     );

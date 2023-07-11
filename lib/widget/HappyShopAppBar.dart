@@ -22,7 +22,6 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
       leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
-            print("Leading clicked");
             widget.scaffoldKey.currentState!.openDrawer();
           }),
       //bottom: ,
