@@ -25,7 +25,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> checkForUpdate() async {
-    print("clicked");
+
     InAppUpdate.checkForUpdate().then((info) {
 
       setState(() {
