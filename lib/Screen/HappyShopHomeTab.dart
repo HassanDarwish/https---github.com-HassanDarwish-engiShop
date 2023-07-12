@@ -9,7 +9,9 @@ import 'package:GiorgiaShop/Screen/Image_Slider.dart';
 import 'package:GiorgiaShop/Screen/SmartKitHome.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
+import 'package:get_it/get_it.dart';
+import 'package:flutter_wp_woocommerce/woocommerce.dart';
+import '../getIt/woocommecre/API_Woocommerce.dart';
 import 'HappyShopStaggeredList.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 List sectList = [
@@ -325,7 +327,7 @@ List sectList = [
 //     ]
 //   },
 // ];
-
+GetIt getIt = GetIt.instance;
 class HappyShopHpmeTab extends StatefulWidget {
   const HappyShopHpmeTab({Key? key}) : super(key: key);
 
@@ -339,9 +341,11 @@ class HappyShopHpmeTab extends StatefulWidget {
 
 class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     with TickerProviderStateMixin {
+  Future<List<WooProductCategory>> catList=getIt<API_Woocommerce>().listProduct;
 
+  /*
   Future _getProducts() async {
-    List<dynamic> catList=List.empty(growable: true);
+
     WooCommerce woocommerce = WooCommerce(
         baseUrl: "http://engy.jerma.net",
         consumerKey: "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56",
@@ -352,7 +356,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     return x;
   }
 
-  /*
+
   List catList = [
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/cat_1.png",
@@ -461,7 +465,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     SizedBox(
                       height: 100,
                       child: FutureBuilder(
-                    future: _getProducts(),
+                    future: catList,
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                     // Create a list of products

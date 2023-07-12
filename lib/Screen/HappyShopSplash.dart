@@ -6,7 +6,9 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 
+import 'package:GiorgiaShop/getIt/woocommecre/API_Woocommerce.dart';
 
 
 class HappyShopSplash extends StatefulWidget {
@@ -21,11 +23,17 @@ class HappyShopSplash extends StatefulWidget {
 class _HappyShopSplashState extends State<HappyShopSplash> {
 
 
-
+ // GetIt getIt = GetIt.instance;
   @override
   void initState() {
     super.initState();
+    //getIt<API_Woocommerce>().getProducts();
     startTime();
+    /*
+    getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
+        signalsReady: true);
+    getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());*/
+
   }
 
   @override

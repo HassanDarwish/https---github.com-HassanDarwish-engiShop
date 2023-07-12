@@ -4,8 +4,16 @@ import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopSplash.dart';
+import 'package:get_it/get_it.dart';
 
+import 'getIt/woocommecre/API_Woocommerce.dart';
+
+GetIt getIt = GetIt.instance;
 void main() {
+  getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
+      signalsReady: true);
+  getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
+  //getIt.allReady();
 
   runApp(const MyApp());
 }
@@ -19,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
+    getIt<API_Woocommerce>().getProducts();
 
     return MaterialApp(
       home: HappyShopSplash()
