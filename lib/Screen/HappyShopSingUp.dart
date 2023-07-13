@@ -102,7 +102,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
       padding: const EdgeInsets.only(top: 50.0),
       child: Center(
         child: SvgPicture.network(
-          'https://smartkit.wrteam.in/smartkit/images/happyshopwhitelogo.svg',
+          'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
           width: 80.0,
           fit: BoxFit.fill,
         ),

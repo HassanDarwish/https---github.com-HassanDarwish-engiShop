@@ -336,7 +336,7 @@ class HappyShopDrawerHeader extends StatelessWidget {
             child: Row(
               children: [
                 SvgPicture.network(
-                  'https://smartkit.wrteam.in/smartkit/images/happyshopwhitelogo.svg',
+                  'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
                   width: 60.0,
                 ),
                 SizedBox(

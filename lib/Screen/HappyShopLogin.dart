@@ -133,7 +133,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
                   Container(
                     child: Center(
                       child: SvgPicture.network(
-                        'https://smartkit.wrteam.in/smartkit/images/happyshopwhitelogo.svg',
+                        'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
                         width: 80.0,
                         fit: BoxFit.fill,
                       ),

@@ -66,7 +66,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.network(
-                      'https://smartkit.wrteam.in/smartkit/images/happyshopwhitelogo.svg',
+                      'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
                       width: 150.0,
                       fit: BoxFit.fill,
                     ),
