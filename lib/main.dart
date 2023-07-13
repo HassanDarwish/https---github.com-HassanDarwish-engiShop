@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
+import 'package:get_it/get_it.dart';
 
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopSplash.dart';
-import 'package:get_it/get_it.dart';
-
 import 'getIt/woocommecre/API_Woocommerce.dart';
 
 GetIt getIt = GetIt.instance;
@@ -26,8 +25,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    getIt<API_Woocommerce>().getProducts();
+    getIt<API_Woocommerce>().getCategories();
 
     return MaterialApp(
       home: HappyShopSplash()
@@ -53,8 +51,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
-
   const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -73,8 +69,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   Future _getProducts() async {
     WooCommerce woocommerce = WooCommerce(
         baseUrl: "http://engy.jerma.net",

@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
@@ -7,13 +5,16 @@ import 'package:GiorgiaShop/Screen/HappyShopProductDetail.dart';
 import 'package:GiorgiaShop/Screen/Image_Slider.dart';
 //import 'package:engi_shop/HappyShop/desktop/hometabdesktop.dart';
 import 'package:GiorgiaShop/Screen/SmartKitHome.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:get_it/get_it.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
+import 'package:get_it/get_it.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import 'HappyShopStaggeredList.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
+
 List sectList = [
   {
     'section': "Offers on men's Fashion",
@@ -328,12 +329,9 @@ List sectList = [
 //   },
 // ];
 GetIt getIt = GetIt.instance;
+
 class HappyShopHpmeTab extends StatefulWidget {
   const HappyShopHpmeTab({Key? key}) : super(key: key);
-
-
-
-
 
   @override
   _HappyShopHpmeTabState createState() => _HappyShopHpmeTabState();
@@ -341,7 +339,8 @@ class HappyShopHpmeTab extends StatefulWidget {
 
 class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     with TickerProviderStateMixin {
-  Future<List<WooProductCategory>> catList=getIt<API_Woocommerce>().listProduct;
+  Future<List<WooProductCategory>> listCategories =
+      getIt<API_Woocommerce>().listCategories;
 
   /*
   Future _getProducts() async {
@@ -465,72 +464,77 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     SizedBox(
                       height: 100,
                       child: FutureBuilder(
-                    future: catList,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                    // Create a list of products
-                      List<WooProductCategory> WooProductCategorydata = snapshot.data;
-                    return
-                          ListView.builder(
-                          itemCount: snapshot.data.length,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            WooProductCategory category = WooProductCategorydata[index];
+                          future: listCategories,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              // Create a list of products
+                              List<WooProductCategory> WooProductCategorydata =
+                                  snapshot.data;
+                              return ListView.builder(
+                                itemCount: snapshot.data.length,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  WooProductCategory category =
+                                      WooProductCategorydata[index];
 
-                            return InkWell(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(25.0),
-                                        child: CachedNetworkImage(
-                                          imageUrl: (category.image!.src!),
-                                          height: 50.0,
-                                          width: 50.0,
-                                          fit: BoxFit.cover,
-                                        ),
+                                  return InkWell(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    (category.image!.src!),
+                                                height: 50.0,
+                                                width: 50.0,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 55,
+                                            child: Text(
+                                              category.name!,
+                                              textAlign: TextAlign.center,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 50,
-                                      child: Text(
-                                        category.name!,
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                      transitionDuration: const Duration(seconds: 1),
-                                      pageBuilder: (_, __, ___) =>
-                                          const HappyShopStaggeredList()),
-                                );
-                              },
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                            transitionDuration:
+                                                const Duration(seconds: 1),
+                                            pageBuilder: (_, __, ___) =>
+                                                const HappyShopStaggeredList()),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            }
+
+                            // Show a circular progress indicator while loading products
+                            return Center(
+                              child: CircularProgressIndicator(),
                             );
-                          },
-                        ) ;
-                      }
-
-                      // Show a circular progress indicator while loading products
-                      return Center(
-                      child: CircularProgressIndicator(),
-                      );
-                    }
-                      ),
-                    ),//Hassan Ali
+                          }),
+                    ), //Hassan Ali
                     // Most popular //
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -650,7 +654,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                      transitionDuration: const Duration(seconds: 1),
+                                      transitionDuration:
+                                          const Duration(seconds: 1),
                                       pageBuilder: (_, __, ___) =>
                                           const HappyShopStaggeredList()),
                                 );
@@ -841,7 +846,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     context,
                     PageRouteBuilder(
                         transitionDuration: const Duration(seconds: 1),
-                        pageBuilder: (_, __, ___) => const HappyShopStaggeredList()),
+                        pageBuilder: (_, __, ___) =>
+                            const HappyShopStaggeredList()),
                   );
                 },
                 child: Text(
@@ -1201,7 +1207,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             return Container(
               width: 8.0,
               height: 8.0,
-              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == index
