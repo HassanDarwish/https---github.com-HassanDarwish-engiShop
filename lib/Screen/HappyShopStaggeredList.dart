@@ -22,11 +22,11 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/collections_a.png",
-      'name': null,
-      'descprice': null,
-      'price': null,
-      'rating': null,
-      'noOfRating': null
+      'name': "Solid Men Round Neck Grey T-Shirt",
+      'descprice': "1300",
+      'price': "1400",
+      'rating': "3.5",
+      'noOfRating': "45"
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/brands_4.png",
@@ -62,11 +62,11 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/collections_b.png",
-      'name': null,
-      'descprice': null,
-      'price': null,
-      'rating': null,
-      'noOfRating': null
+      'name': "Solid Men Round Neck Grey T-Shirt",
+      'descprice': "1300",
+      'price': "1400",
+      'rating': "3.5",
+      'noOfRating': "45"
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/brands_7.png",
@@ -102,11 +102,11 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/collections_c.png",
-      'name': null,
-      'descprice': null,
-      'price': null,
-      'rating': null,
-      'noOfRating': null
+      'name': "Solid Men Round Neck Grey T-Shirt",
+      'descprice': "1300",
+      'price': "1400",
+      'rating': "3.5",
+      'noOfRating': "45"
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/man1.jpg",
@@ -158,11 +158,11 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/collections_d.png",
-      'name': null,
-      'descprice': null,
-      'price': null,
-      'rating': null,
-      'noOfRating': null
+      'name': "Solid Men Round Neck Grey T-Shirt",
+      'descprice': "1300",
+      'price': "1400",
+      'rating': "3.5",
+      'noOfRating': "45"
     },
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/man_a.png",
@@ -199,6 +199,22 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
   ];
   @override
   Widget build(BuildContext context) {
+    final widgets = _listUrl.map((item) {
+        return GestureDetector(
+        onTap: () {},
+        child: Container(
+          decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+          child: StaggerdCard(
+            imgurl: item['img'],
+            itemname: item['name'],
+            descprice: item['descprice'],
+            price: item['price'],
+            rating: item['rating'],
+          ),
+        ),
+      );
+    }).toList().cast<Widget>();
     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pop();
@@ -220,22 +236,8 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
               return new StaggeredTile.fit(1);
             },*/
             //itemBuilder: (context, index) {
-            children: [
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
-                  child: StaggerdCard(
-                    imgurl: _listUrl[0]['img'],
-                    itemname: _listUrl[0]['name'],
-                    descprice: _listUrl[0]['descprice'],
-                    price: _listUrl[0]['price'],
-                    rating: _listUrl[0]['rating'],
-                  ),
-                ),
-              )
-            ]
+
+            children: widgets
             //}
             ),
       ),
@@ -269,45 +271,47 @@ class _StaggerdCardState extends State<StaggerdCard> {
         elevation: 1.0,
         child: Column(
           children: [
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                ClipRRect(
-                  borderRadius: widget.itemname != null
-                      ? const BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5))
-                      : BorderRadius.circular(5.0),
-                  child: CachedNetworkImage(
-                    imageUrl: widget.imgurl!,
-                    fit: BoxFit.fill,
-                    width: double.infinity,
+            Expanded(
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  ClipRRect(
+                    borderRadius: widget.itemname != null
+                        ? const BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5))
+                        : BorderRadius.circular(5.0),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.imgurl!,
+                      fit: BoxFit.fill,
+                      width: double.infinity,
+                    ),
                   ),
-                ),
-                widget.rating != null
-                    ? Card(
-                        child: Padding(
-                        padding: const EdgeInsets.all(1.5),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                              size: 10,
-                            ),
-                            Text(
-                              widget.rating!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(letterSpacing: 0.2),
-                            ),
-                          ],
-                        ),
-                      ))
-                    : Container(),
-              ],
+                  widget.rating != null
+                      ? Card(
+                          child: Padding(
+                          padding: const EdgeInsets.all(1.5),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                                size: 10,
+                              ),
+                              Text(
+                                widget.rating!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(letterSpacing: 0.2),
+                              ),
+                            ],
+                          ),
+                        ))
+                      : Container(),
+                ],
+              ),
             ),
             widget.itemname != null
                 ? Padding(
