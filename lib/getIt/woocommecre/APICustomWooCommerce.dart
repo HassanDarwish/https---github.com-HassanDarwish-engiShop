@@ -1,36 +1,18 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:http/http.dart' as http;
+
 import 'dart:convert';
-import 'package:get_it/get_it.dart';
 
-import 'getIt/woocommecre/APICustomWooCommerce.dart';
+abstract class APICustomWooCommerce {
+  String getOAuthURL(String requestMethod, String queryUrl);
+}
 
-class QueryString {
-  /// Parses the given query string into a Map.
-  static Map parse(String query) {
-    var search = new RegExp('([^&=]+)=?([^&]*)');
-    var result = new Map();
+class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
+  String consumerKey = "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
+  String consumerSecret = "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
 
-// Get rid off the beginning ? in query strings.
-    if (query.startsWith('?')) query = query.substring(1);
-
-// A custom decoder.
-    decode(String s) => Uri.decodeComponent(s.replaceAll('+', ' '));
-
-// Go through all the matches and build the result map.
-    for (Match match in search.allMatches(query)) {
-      result[decode(match.group(1)!)] = decode(match.group(2)!);
-    }
-
-    return result;
-  } }
-
-  String _getOAuthURL(String requestMethod, String queryUrl) {
-    String consumerKey = "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
-    String consumerSecret = "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
-
+  String  getOAuthURL(String requestMethod, String queryUrl) {
     String token = "";
     String url = queryUrl;
     bool containsQueryParams = url.contains("?");
@@ -117,26 +99,25 @@ class QueryString {
 
     return requestUrl;
   }
-GetIt getIt = GetIt.instance;
-Future<void> main() async {
-  getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
-      signalsReady: true);
-  getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
 
-     var response = await http.get(Uri.parse(getIt<APICustomWooCommerce>().getOAuthURL(
-        "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category=27')),
-        headers: {"Content-Type": "Application/json"});
+}
 
+class QueryString {
+  /// Parses the given query string into a Map.
+  static Map parse(String query) {
+    var search = new RegExp('([^&=]+)=?([^&]*)');
+    var result = new Map();
 
-    // Check the status code of the response.
-    if (response.statusCode == 200) {
-      // The request was successful.
-      print('Response body: ${response.body}');
-    } else {
-      // The request failed.
-      print('Error: ${response.statusCode}');
-      print('Response body: ${response.body}');
+// Get rid off the beginning ? in query strings.
+    if (query.startsWith('?')) query = query.substring(1);
+
+// A custom decoder.
+    decode(String s) => Uri.decodeComponent(s.replaceAll('+', ' '));
+
+// Go through all the matches and build the result map.
+    for (Match match in search.allMatches(query)) {
+      result[decode(match.group(1)!)] = decode(match.group(2)!);
     }
-  }
 
-
+    return result;
+  } }
