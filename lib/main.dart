@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopSplash.dart';
+import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 
 GetIt getIt = GetIt.instance;
@@ -12,6 +13,12 @@ void main() {
   getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
       signalsReady: true);
   getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
+
+  getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
+      signalsReady: true);
+  getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
+
+
   //getIt.allReady();
 
   runApp(const MyApp());

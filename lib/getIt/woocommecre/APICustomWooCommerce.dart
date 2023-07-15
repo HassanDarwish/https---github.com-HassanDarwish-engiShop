@@ -1,16 +1,29 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:crypto/crypto.dart' as crypto;
-
+import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:GiorgiaShop/pojo/products.dart';
 
 abstract class APICustomWooCommerce {
   String getOAuthURL(String requestMethod, String queryUrl);
+ Future<products> getProductByCategory(String catId);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   String consumerKey = "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   String consumerSecret = "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
+
+  @override
+  Future<products> getProductByCategory(String catId) async {
+    // TODO: implement getProductByCategory
+    var response = await http.get(Uri.parse(getOAuthURL(
+        "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category='+catId)),
+        headers: {"Content-Type": "Application/json"});
+//List<dynamic> list = jsonDecode(jsonString);
+    products product_List = products.fromJson(response.body);
+    return product_List;
+  }
 
   String  getOAuthURL(String requestMethod, String queryUrl) {
     String token = "";
@@ -99,6 +112,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
     return requestUrl;
   }
+
 
 }
 

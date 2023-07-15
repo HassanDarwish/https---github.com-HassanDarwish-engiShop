@@ -3,8 +3,14 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../getIt/woocommecre/APICustomWooCommerce.dart';
+import 'package:get_it/get_it.dart';
+
+import '../pojo/products.dart';
+GetIt getIt = GetIt.instance;
 class HappyShopStaggeredList extends StatefulWidget {
-  const HappyShopStaggeredList({Key? key}) : super(key: key);
+  int id=0;
+   HappyShopStaggeredList({Key? key,required this.id}) : super(key: key);
 
   @override
   _HappyShopStaggeredListState createState() => _HappyShopStaggeredListState();
@@ -197,25 +203,38 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
       'noOfRating': "150"
     },
   ];
+  late products listProductByCategory;
+  @override
+  void initState()   {
+       super.initState();
+
+  }
+   Future<List<product>> loadProducts() async {
+    listProductByCategory =await getIt<APICustomWooCommerce>().getProductByCategory(widget.id.toString());
+  return listProductByCategory.productList;
+  }
   @override
   Widget build(BuildContext context) {
-    final widgets = _listUrl.map((item) {
+/*
+     final widgets = listProductByCategory.productList.map((item) {
+
         return GestureDetector(
         onTap: () {},
         child: Container(
           decoration:
           BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
           child: StaggerdCard(
-            imgurl: item['img'],
-            itemname: item['name'],
-            descprice: item['descprice'],
-            price: item['price'],
-            rating: item['rating'],
+            imgurl: item.img,
+            itemname: item.name,
+            descprice: item.short_description,
+            price: item.price,
+            id: item.id.toString(),
           ),
         ),
       );
     }).toList().cast<Widget>();
-    return WillPopScope(
+    */
+     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pop();
         return true;
@@ -229,17 +248,40 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
           title: const Text("All Products"),
           backgroundColor: Colors.white,
         ),
-        body: GridView.count(
-            crossAxisCount: 2,
-            //itemCount: _listUrl.length,
-            /*staggeredTileBuilder: (index) {
-              return new StaggeredTile.fit(1);
-            },*/
-            //itemBuilder: (context, index) {
+        body:  FutureBuilder<List<product>>(
+          future: loadProducts(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return GridView.builder(
+                itemCount: snapshot.data?.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+                      child: StaggerdCard(
+                        imgurl: snapshot.data?[index].img,
+                        itemname: snapshot.data?[index].name,
+                        descprice: snapshot.data?[index].short_description,
+                        price: snapshot.data?[index].price,
+                        id: snapshot.data?[index].id.toString(),
+                      ),
+                    ),
+                  );
 
-            children: widgets
-            //}
-            ),
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            } else {
+              return Text("Loading...");
+            }
+          },
+        ),
       ),
     );
   }
@@ -249,12 +291,12 @@ class StaggerdCard extends StatefulWidget {
   const StaggerdCard(
       {Key? key,
       this.imgurl,
-      this.rating,
+      this.id,
       this.itemname,
       this.price,
       this.descprice})
       : super(key: key);
-  final String? imgurl, rating, itemname, price, descprice;
+  final String? imgurl, id, itemname, price, descprice;
   @override
   _StaggerdCardState createState() => _StaggerdCardState();
 }
@@ -287,6 +329,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                       width: double.infinity,
                     ),
                   ),
+                  /* we did removre rating and ad id
                   widget.rating != null
                       ? Card(
                           child: Padding(
@@ -309,7 +352,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                             ],
                           ),
                         ))
-                      : Container(),
+                      : Container(),*/
                 ],
               ),
             ),

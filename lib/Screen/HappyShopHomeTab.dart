@@ -1,3 +1,4 @@
+
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
@@ -521,7 +522,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                             transitionDuration:
                                                 const Duration(seconds: 1),
                                             pageBuilder: (_, __, ___) =>
-                                                const HappyShopStaggeredList()),
+                                                  HappyShopStaggeredList(id:category.id!)),
                                       );
                                     },
                                   );
@@ -657,7 +658,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       transitionDuration:
                                           const Duration(seconds: 1),
                                       pageBuilder: (_, __, ___) =>
-                                          const HappyShopStaggeredList()),
+                                            HappyShopStaggeredList(id: 0,)),
                                 );
                               },
                             ),
@@ -767,7 +768,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const HappyShopStaggeredList(),
+                                            HappyShopStaggeredList(id:0),
                                     ),
                                   );
                                   // Navigator.push(
@@ -847,7 +848,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     PageRouteBuilder(
                         transitionDuration: const Duration(seconds: 1),
                         pageBuilder: (_, __, ___) =>
-                            const HappyShopStaggeredList()),
+                              HappyShopStaggeredList(id:0)),
                   );
                 },
                 child: Text(
