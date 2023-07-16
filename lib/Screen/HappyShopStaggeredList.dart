@@ -325,7 +325,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                         : BorderRadius.circular(5.0),
                     child: CachedNetworkImage(
                       imageUrl: widget.imgurl!,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                       width: double.infinity,
                     ),
                   ),
@@ -385,21 +385,25 @@ class _StaggerdCardState extends State<StaggerdCard> {
                     padding: const EdgeInsets.only(left: 5.0, bottom: 5),
                     child: Row(
                       children: <Widget>[
-                        Text(" $CUR_CURRENCY ${widget.price!}",
-                            style: const TextStyle(color: primary)),
+                        Flexible(
+                          child: Text(" $CUR_CURRENCY ${widget.price!}",
+                              style: const TextStyle(color: primary)),
+                        ),
                         const SizedBox(
                           width: 5.0,
                         ),
                         widget.price != null
-                            ? Text(
-                                "$CUR_CURRENCY${widget.descprice!}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelSmall
-                                    ?.copyWith(
-                                        decoration: TextDecoration.lineThrough,
-                                        letterSpacing: 1),
-                              )
+                            ? Flexible(
+                              child: Text(
+                                  "$CUR_CURRENCY${widget.descprice!}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(
+                                          decoration: TextDecoration.lineThrough,
+                                          letterSpacing: 1),
+                                ),
+                            )
                             : Container(),
                       ],
                     ),

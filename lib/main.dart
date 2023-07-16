@@ -9,6 +9,8 @@ import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 
 GetIt getIt = GetIt.instance;
+
+
 void main() {
   getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
       signalsReady: true);
@@ -33,6 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getIt<API_Woocommerce>().getCategories();
+
 
     return MaterialApp(
       home: HappyShopSplash()
