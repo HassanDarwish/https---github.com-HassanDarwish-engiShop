@@ -215,25 +215,6 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
   }
   @override
   Widget build(BuildContext context) {
-/*
-     final widgets = listProductByCategory.productList.map((item) {
-
-        return GestureDetector(
-        onTap: () {},
-        child: Container(
-          decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
-          child: StaggerdCard(
-            imgurl: item.img,
-            itemname: item.name,
-            descprice: item.short_description,
-            price: item.price,
-            id: item.id.toString(),
-          ),
-        ),
-      );
-    }).toList().cast<Widget>();
-    */
      return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pop();
@@ -254,12 +235,16 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
             if (snapshot.hasData) {
               return GridView.builder(
                 itemCount: snapshot.data?.length,
+                shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      //here on  click open to show details
+                      var itemId=snapshot.data?[index].id.toString();
+                    },
                     child: Container(
                       decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
@@ -372,7 +357,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                                     color: Colors.black,
                                     fontSize: 16.0,
                                     letterSpacing: 0.5),
-                            maxLines: 1,
+                            maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

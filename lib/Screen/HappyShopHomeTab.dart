@@ -572,30 +572,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 },
                               )),
                         ),
-                        /*  desktop: MostpopularGridDesktop(
-                          widget: GridView.count(
-                              padding: EdgeInsets.only(top: 5),
-                              crossAxisCount: 4,
-                              shrinkWrap: true,
-                              childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.width,
-                              // mainAxisSpacing: 10.0,
-                              // crossAxisSpacing: 10.0,
-                              physics: NeverScrollableScrollPhysics(),
-                              children: List.generate(
-                                8,
-                                (index) {
-                                  return ItemCard(
-                                    tag: "${index}2",
-                                    imagurl: sectList[0]['productList'][index]['img'],
-                                    itemname: sectList[0]['productList'][index]['name'],
-                                    descprice: sectList[0]['productList'][index]['descprice'],
-                                    price: sectList[0]['productList'][index]['price'],
-                                    rating: sectList[0]['productList'][index]['rating'],
-                                    shadow: false,
-                                  );
-                                },
-                              )),
-                        ),*/
+
                       ),
                     ),
 
@@ -1079,7 +1056,7 @@ class _ItemCardState extends State<ItemCard> {
                               //   //   // width: double.infinity,)
                               CachedNetworkImage(
                             imageUrl: widget.imagurl!,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.contain,
                             width: double.infinity,
                           )
                           // ),
