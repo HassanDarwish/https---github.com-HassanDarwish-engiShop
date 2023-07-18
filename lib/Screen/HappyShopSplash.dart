@@ -10,6 +10,8 @@ import 'package:get_it/get_it.dart';
 
 import 'package:GiorgiaShop/getIt/woocommecre/API_Woocommerce.dart';
 
+import 'HappyShopHomeTab.dart';
+
 
 class HappyShopSplash extends StatefulWidget {
   const HappyShopSplash({
@@ -116,7 +118,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HappyShopLogin(),
+          builder: (context) => const HappyShopHpmeTab(),//HappyShopLogin(),
         ));
   }
 }

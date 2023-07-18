@@ -7,6 +7,7 @@ import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import 'package:get_it/get_it.dart';
 
 import '../pojo/products.dart';
+import 'package:intl/intl.dart';
 GetIt getIt = GetIt.instance;
 class HappyShopStaggeredList extends StatefulWidget {
   int id=0;
@@ -251,7 +252,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
                       child: StaggerdCard(
                         imgurl: snapshot.data?[index].img,
                         itemname: snapshot.data?[index].name,
-                        descprice: snapshot.data?[index].short_description,
+                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                         price: snapshot.data?[index].price,
                         id: snapshot.data?[index].id.toString(),
                       ),
@@ -371,7 +372,8 @@ class _StaggerdCardState extends State<StaggerdCard> {
                     child: Row(
                       children: <Widget>[
                         Flexible(
-                          child: Text(" $CUR_CURRENCY ${widget.price!}",
+                          child: Text(//" $CUR_CURRENCY ${widget.price!}",
+                        "EGP "+widget.price!,
                               style: const TextStyle(color: primary)),
                         ),
                         const SizedBox(
@@ -380,12 +382,14 @@ class _StaggerdCardState extends State<StaggerdCard> {
                         widget.price != null
                             ? Flexible(
                               child: Text(
-                                  "$CUR_CURRENCY${widget.descprice!}",
+                                  //"$CUR_CURRENCY${widget.descprice!}",
+                                  widget.descprice!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelSmall
                                       ?.copyWith(
-                                          decoration: TextDecoration.lineThrough,
+                                          decoration: TextDecoration.none,
+                                          fontSize: 12,
                                           letterSpacing: 1),
                                 ),
                             )
