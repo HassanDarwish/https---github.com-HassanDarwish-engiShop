@@ -1,11 +1,8 @@
-
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
 import 'package:GiorgiaShop/Screen/HappyShopProductDetail.dart';
 import 'package:GiorgiaShop/Screen/Image_Slider.dart';
-//import 'package:engi_shop/HappyShop/desktop/hometabdesktop.dart';
-import 'package:GiorgiaShop/Screen/SmartKitHome.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -408,11 +405,13 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        bool? result = await Navigator.of(context).pushAndRemoveUntil(
+        /*bool? result = await Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const MyHomePage()),
             (Route<dynamic> route) => false);
         result ??= false;
-        return result;
+        return result;*/
+
+        return false;
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -522,7 +521,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                             transitionDuration:
                                                 const Duration(seconds: 1),
                                             pageBuilder: (_, __, ___) =>
-                                                  HappyShopStaggeredList(id:category.id!)),
+                                                HappyShopStaggeredList(
+                                                    id: category.id!)),
                                       );
                                     },
                                   );
@@ -572,7 +572,6 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 },
                               )),
                         ),
-
                       ),
                     ),
 
@@ -635,7 +634,9 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       transitionDuration:
                                           const Duration(seconds: 1),
                                       pageBuilder: (_, __, ___) =>
-                                            HappyShopStaggeredList(id: 0,)),
+                                          HappyShopStaggeredList(
+                                            id: 0,
+                                          )),
                                 );
                               },
                             ),
@@ -745,7 +746,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                            HappyShopStaggeredList(id:0),
+                                          HappyShopStaggeredList(id: 0),
                                     ),
                                   );
                                   // Navigator.push(
@@ -825,7 +826,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     PageRouteBuilder(
                         transitionDuration: const Duration(seconds: 1),
                         pageBuilder: (_, __, ___) =>
-                              HappyShopStaggeredList(id:0)),
+                            HappyShopStaggeredList(id: 0)),
                   );
                 },
                 child: Text(
