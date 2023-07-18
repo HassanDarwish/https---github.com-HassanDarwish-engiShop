@@ -10,6 +10,7 @@ import 'package:get_it/get_it.dart';
 
 import 'package:GiorgiaShop/getIt/woocommecre/API_Woocommerce.dart';
 
+import 'HappyShopHome.dart';
 import 'HappyShopHomeTab.dart';
 
 
@@ -118,7 +119,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HappyShopHpmeTab(),//HappyShopLogin(),
+          builder: (context) => const HappyShopHome(),//HappyShopLogin(),
         ));
   }
 }

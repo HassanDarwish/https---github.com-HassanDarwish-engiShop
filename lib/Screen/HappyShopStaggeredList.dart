@@ -264,7 +264,9 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList> {
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             } else {
-              return Text("Loading...");
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         ),
