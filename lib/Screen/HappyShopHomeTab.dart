@@ -522,7 +522,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                             transitionDuration:
                                                 const Duration(seconds: 1),
                                             pageBuilder: (_, __, ___) =>
-                                                  HappyShopStaggeredList(id:category.id!)),
+                                                  HappyShopStaggeredList(id:category.id!,title: category.name!,)),
                                       );
                                     },
                                   );
@@ -635,7 +635,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       transitionDuration:
                                           const Duration(seconds: 1),
                                       pageBuilder: (_, __, ___) =>
-                                            HappyShopStaggeredList(id: 0,)),
+                                            HappyShopStaggeredList(id: 0,title: "")),
                                 );
                               },
                             ),
@@ -745,7 +745,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                            HappyShopStaggeredList(id:0),
+                                            HappyShopStaggeredList(id:0,title: ""),
                                     ),
                                   );
                                   // Navigator.push(
@@ -825,7 +825,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     PageRouteBuilder(
                         transitionDuration: const Duration(seconds: 1),
                         pageBuilder: (_, __, ___) =>
-                              HappyShopStaggeredList(id:0)),
+                              HappyShopStaggeredList(id:0,title: "")),
                   );
                 },
                 child: Text(
