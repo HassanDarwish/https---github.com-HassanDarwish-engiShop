@@ -231,7 +231,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
   }
   @override
   Widget build(BuildContext context) {
-    String title = widget.title;
+
      return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pop();
@@ -243,7 +243,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
             icon: const Icon(Icons.arrow_back_ios, color: primary),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title:  Text(title),
+          title:  Text(widget.title),
           backgroundColor: Colors.white,
         ),
         body:  FutureBuilder<List<product>>(
