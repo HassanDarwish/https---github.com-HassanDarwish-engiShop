@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,9 +17,10 @@ class HappyShopProductDetail extends StatefulWidget {
   const HappyShopProductDetail({
     Key? key,
     this.imgurl,
-    this.tag,
+    this.tag, this.description,this.shortdescription, this.rating, this.price, this.title, this.user_rating, this.review,
+
   }) : super(key: key);
-  final String? imgurl, tag;
+  final String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription;
   @override
   _HappyShopProductDetailState createState() => _HappyShopProductDetailState();
 }
@@ -212,21 +215,21 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                     ),
                   ),
                   // _slider(),
-                  const SizedBox(
+                    SizedBox(
                     height: 5.0,
                   ),
-                  _rate(),
-                  _price(),
-                  _offPrice(),
-                  _title(),
-                  _desc(),
-                  _selectVarientTitle(),
-                  _getVarient(_selVarient),
-                  _otherDetailsTitle(),
-                  _madeIn(),
-                  _cancleable(),
-                  _ratingReview(),
-                  _review(),
+                  _rate(widget.rating!),
+                  _price(widget.price!),
+                  //_offPrice(),
+                  _title(widget.title!),
+                  _desc(widget.description!),
+                  //_selectVarientTitle(),
+                  //_getVarient(_selVarient),
+                  //_otherDetailsTitle(),
+                  //_madeIn(),
+                  //_cancleable(),
+                  //_ratingReview(),
+                  //_review(),
                   _rating(),
                   _writeReview()
                 ],
@@ -290,11 +293,18 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
           )
         : Container();
   }
+  Random random = new Random();
+  _rate(String rating) {
+    double star_fraction = random.nextDouble();
 
-  _rate() {
+    // Round the fraction to one decimal place.
+    double star_rate = double.parse(star_fraction.toStringAsFixed(1));
+    if(star_rate<5)
+      star_rate=star_rate+4;
+
     return Row(
       children: [
-        const Card(
+          Card(
           margin: EdgeInsets.only(left: 20.0, bottom: 5),
           child: Padding(
             padding: EdgeInsets.all(2.0),
@@ -306,23 +316,23 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                   color: Colors.yellow,
                   size: 15,
                 ),
-                Text(" " "4.5")
+                Text(star_rate.toString()),
               ],
             ),
           ),
         ),
         Text(
-          " 150 Ratings",
+          "   "+rating+"  Ratings",
           style: Theme.of(context).textTheme.bodySmall,
         )
       ],
     );
   }
 
-  _price() {
+  _price(String price) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-      child: Text("$CUR_CURRENCY 1200",
+      padding:   EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+      child: Text("EGP "+price,
           style: Theme.of(context).textTheme.titleLarge),
     );
   }
@@ -355,11 +365,11 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     );
   }
 
-  _title() {
+  _title(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding:   EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
       child: Text(
-        "Nike Shoes",
+        title,
         style: Theme.of(context)
             .textTheme
             .titleLarge
@@ -368,17 +378,21 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     );
   }
 
-  _desc() {
-    return const Padding(
+  _desc(String descriptoin) {
+    return  Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy"),
+          ""+descriptoin!,
+        textAlign:TextAlign.start,
+        style: TextStyle(
+        letterSpacing: 1.00,
+      ),),
     );
   }
 
   _selectVarientTitle() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding:   EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
         selectVarient,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(color: primary),
@@ -394,9 +408,9 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         onTap: _chooseVarient,
         child: ListView.builder(
             shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding:   EdgeInsets.symmetric(horizontal: 20),
             itemCount: attrName.length,
-            physics: const NeverScrollableScrollPhysics(),
+            physics:   NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return ListTile(
                 dense: true,
@@ -404,7 +418,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                   "${attrName[index]} : ${attrValue[index]}",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                trailing: const Icon(Icons.keyboard_arrow_right),
+                trailing:   Icon(Icons.keyboard_arrow_right),
               );
             }));
   }
@@ -426,30 +440,30 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding:   EdgeInsets.all(15.0),
                   child: Text(
                     selectVarient,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
-                const Divider(),
-                _title(),
-                _price(),
+                  Divider(),
+                _title(widget.title!),
+                _price(widget.price!),
                 _offPrice(),
                 Column(
                   children: [
-                    const Text(
+                      Text(
                       "Variant",
                       textAlign: TextAlign.left,
                     ),
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding:    EdgeInsets.all(15.0),
                         child: Row(
                           children: [
                             Center(
                               child: ChoiceChip(
-                                key: const ValueKey<String>(
+                                key:   ValueKey<String>(
                                   "1",
                                 ),
                                 selected: false,

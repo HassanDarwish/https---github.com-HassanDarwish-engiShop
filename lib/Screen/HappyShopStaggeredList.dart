@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -259,17 +261,15 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
                 ),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {
-                      //here on  click open to show details
-                      var itemId=snapshot.data?[index].id.toString();
-                    },
+
                     child: Container(
                       decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                       child: StaggerdCard(
                         imgurl: snapshot.data?[index].img,
                         itemname: snapshot.data?[index].name,
-                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
+                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
+                        shortDescprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                         price: snapshot.data?[index].price,
                         id: snapshot.data?[index].id.toString(),
                       ),
@@ -299,14 +299,16 @@ class StaggerdCard extends StatefulWidget {
       this.id,
       this.itemname,
       this.price,
-      this.descprice})
+      this.descprice,
+      this.shortDescprice})
       : super(key: key);
-  final String? imgurl, id, itemname, price, descprice;
+  final String? imgurl, id, itemname, price, descprice,shortDescprice;
   @override
   _StaggerdCardState createState() => _StaggerdCardState();
 }
 
 class _StaggerdCardState extends State<StaggerdCard> {
+  final random = new Random();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -326,6 +328,13 @@ class _StaggerdCardState extends State<StaggerdCard> {
                   return HappyShopProductDetail(
                     imgurl: widget.imgurl!,
                     tag: widget.itemname!,
+                    title: widget.itemname!,
+                    description: widget.descprice!,
+                    shortdescription: widget.shortDescprice!,
+                    price: widget.price!,
+                    rating: random.nextInt(100).toString(),//"5",
+                    review: "",
+                    user_rating: "",
                   );
                 },
                 reverseTransitionDuration: const Duration(milliseconds: 800),
@@ -421,7 +430,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                               ? Flexible(
                                 child: Text(
                                     //"$CUR_CURRENCY${widget.descprice!}",
-                                    widget.descprice!,
+                                    widget.shortDescprice!,
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelSmall
