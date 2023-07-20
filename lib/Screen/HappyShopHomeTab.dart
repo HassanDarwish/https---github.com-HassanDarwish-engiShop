@@ -407,12 +407,12 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
+      onWillPop: () async {/*
         bool? result = await Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const MyHomePage()),
             (Route<dynamic> route) => false);
-        result ??= false;
-        return result;
+        result ??= false;*/
+        return false;
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -539,7 +539,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     // Most popular //
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: _getHeading("Most popular"),
+                      child: _getHeading("Deals"),
                     ),
 
                     Padding(
