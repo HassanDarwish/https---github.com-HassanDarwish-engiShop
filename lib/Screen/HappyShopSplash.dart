@@ -1,18 +1,12 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
-import 'package:GiorgiaShop/Screen/HappyShopLogin.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get_it/get_it.dart';
-
-import 'package:GiorgiaShop/getIt/woocommecre/API_Woocommerce.dart';
 
 import 'HappyShopHome.dart';
-import 'HappyShopHomeTab.dart';
-
 
 class HappyShopSplash extends StatefulWidget {
   const HappyShopSplash({
@@ -24,9 +18,7 @@ class HappyShopSplash extends StatefulWidget {
 }
 
 class _HappyShopSplashState extends State<HappyShopSplash> {
-
-
- // GetIt getIt = GetIt.instance;
+  // GetIt getIt = GetIt.instance;
   @override
   void initState() {
     super.initState();
@@ -36,7 +28,6 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
         signalsReady: true);
     getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());*/
-
   }
 
   @override
@@ -89,7 +80,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
               ),
             ),
             CachedNetworkImage(
-              imageUrl: 'https://smartkit.wrteam.in/smartkit/images/doodle.png',
+              imageUrl: 'http://jerma.net/Engi/images/doodle.png',
               fit: BoxFit.fill,
               width: double.infinity,
               height: double.infinity,
@@ -119,7 +110,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HappyShopHome(),//HappyShopLogin(),
+          builder: (context) => const HappyShopHome(), //HappyShopLogin(),
         ));
   }
 }

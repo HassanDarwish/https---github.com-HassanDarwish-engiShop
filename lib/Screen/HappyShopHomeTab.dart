@@ -1,11 +1,8 @@
-
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
 import 'package:GiorgiaShop/Screen/HappyShopProductDetail.dart';
 import 'package:GiorgiaShop/Screen/Image_Slider.dart';
-//import 'package:engi_shop/HappyShop/desktop/hometabdesktop.dart';
-import 'package:GiorgiaShop/Screen/SmartKitHome.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -407,7 +404,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {/*
+      onWillPop: () async {
+        /*
         bool? result = await Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const MyHomePage()),
             (Route<dynamic> route) => false);
@@ -522,7 +520,10 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                             transitionDuration:
                                                 const Duration(seconds: 1),
                                             pageBuilder: (_, __, ___) =>
-                                                  HappyShopStaggeredList(id:category.id!,title: category.name!,)),
+                                                HappyShopStaggeredList(
+                                                  id: category.id!,
+                                                  title: category.name!,
+                                                )),
                                       );
                                     },
                                   );
@@ -572,7 +573,6 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 },
                               )),
                         ),
-
                       ),
                     ),
 
@@ -635,7 +635,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       transitionDuration:
                                           const Duration(seconds: 1),
                                       pageBuilder: (_, __, ___) =>
-                                            HappyShopStaggeredList(id: 0,title: "")),
+                                          HappyShopStaggeredList(
+                                              id: 0, title: "")),
                                 );
                               },
                             ),
@@ -745,7 +746,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                            HappyShopStaggeredList(id:0,title: ""),
+                                          HappyShopStaggeredList(
+                                              id: 0, title: ""),
                                     ),
                                   );
                                   // Navigator.push(
@@ -825,7 +827,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     PageRouteBuilder(
                         transitionDuration: const Duration(seconds: 1),
                         pageBuilder: (_, __, ___) =>
-                              HappyShopStaggeredList(id:0,title: "")),
+                            HappyShopStaggeredList(id: 0, title: "")),
                   );
                 },
                 child: Text(
@@ -1221,11 +1223,11 @@ final List<Widget> child = map<Widget>(
 ).toList();
 
 List homeSliderList = [
-  "https://smartkit.wrteam.in/smartkit/happyshop/slider_a.png",
-  "https://smartkit.wrteam.in/smartkit/happyshop/slider_b.png",
-  "https://smartkit.wrteam.in/smartkit/happyshop/slider_c.png",
-  "https://smartkit.wrteam.in/smartkit/happyshop/slider_d.png",
-  "https://smartkit.wrteam.in/smartkit/happyshop/slider_e.png",
-  "https://smartkit.wrteam.in/smartkit/happyshop/slider_f.png",
-  "https://smartkit.wrteam.in/smartkit/happyshop/slider_g.png",
+  "http://jerma.net/Engi/images/mockupBanner.png",
+  "http://jerma.net/Engi/images/GiorgiaBanner1.png",
+  "http://jerma.net/Engi/images/SaleBanner.png",
+  "http://jerma.net/Engi/images/spicalPrice.png",
+  "http://jerma.net/Engi/images/rouge-kiss3-banner.png",
+  //"https://smartkit.wrteam.in/smartkit/happyshop/slider_f.png",
+  //"https://smartkit.wrteam.in/smartkit/happyshop/slider_g.png",
 ];
