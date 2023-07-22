@@ -577,7 +577,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                         id: snapshot.data![index].id.toString(),
                                         imagurl: snapshot.data?[index].img,
                                         itemname:snapshot.data?[index].name,
-                                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
+                                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
                                         price: snapshot.data?[index].price,
                                         shortdescription: snapshot.data?[index].short_description,
                                         rating: "4.5",

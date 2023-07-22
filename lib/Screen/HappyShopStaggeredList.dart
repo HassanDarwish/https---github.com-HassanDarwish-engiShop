@@ -327,7 +327,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
                     imgurl: widget.imgurl!,
-                    tag: widget.itemname!,
+                    tag: Random().nextInt(1000).toString(),
                     title: widget.itemname!,
                     description: widget.descprice!,
                     shortdescription: widget.shortDescprice!,
@@ -354,7 +354,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                               topRight: Radius.circular(5))
                           : BorderRadius.circular(5.0),
                       child: Hero(
-                        tag: widget.itemname!,
+                        tag: Random().nextInt(1000).toString(),
                         child: CachedNetworkImage(
                           imageUrl: widget.imgurl!,
                           fit: BoxFit.contain,
