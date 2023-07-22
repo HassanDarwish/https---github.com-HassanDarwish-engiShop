@@ -579,7 +579,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                         itemname:snapshot.data?[index].name,
                                         descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
                                         price: snapshot.data?[index].price,
-                                        shortdescription: snapshot.data?[index].short_description,
+                                        shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                                         rating: "4.5",
                                         shadow: false,
                                       );
@@ -1151,7 +1151,7 @@ class _ItemCardState extends State<ItemCard> {
                       ),
                       Flexible(
                         child: Text(
-                          widget.descprice!,
+                          widget.shortdescription!,
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
 
