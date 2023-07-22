@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
@@ -577,6 +579,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                         itemname:snapshot.data?[index].name,
                                         descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                                         price: snapshot.data?[index].price,
+                                        shortdescription: snapshot.data?[index].short_description,
                                         rating: "4.5",
                                         shadow: false,
                                       );
@@ -1030,11 +1033,12 @@ class ItemCard extends StatefulWidget {
     this.descprice,
     this.price,
     this.shadow,
+    this.shortdescription,
 
     this.id
   }) : super(key: key);
 
-  final String? imagurl, rating, itemname, descprice, price,  id;
+  final String? imagurl,shortdescription, rating, itemname, descprice, price,  id;
   final bool? shadow;
 
   @override
@@ -1067,7 +1071,7 @@ class _ItemCardState extends State<ItemCard> {
                           topRight: Radius.circular(5)),
                       child: Hero(
                         
-                          tag: "",
+                          tag:  Random().nextInt(1000).toString(),
                           child:
                               //  Image.network(
                               //   widget.imagurl,
@@ -1172,7 +1176,15 @@ class _ItemCardState extends State<ItemCard> {
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
                     imgurl: widget.imagurl!,
-                    tag: widget.id!,
+                    tag: Random().nextInt(1000).toString(),
+                    description:widget.descprice,
+                      rating:"0",
+                      price:widget.price,
+                      title:widget.itemname,
+                      user_rating:"0",
+                      review:"",
+                      shortdescription:widget.shortdescription,
+
                   );
                 },
                 reverseTransitionDuration: const Duration(milliseconds: 800),
