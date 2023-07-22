@@ -6,13 +6,16 @@ import 'package:GiorgiaShop/Screen/Image_Slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
+import '../pojo/products.dart';
 import 'HappyShopStaggeredList.dart';
-
+import 'package:intl/intl.dart';
 List sectList = [
   {
     'section': "Offers on men's Fashion",
@@ -337,9 +340,15 @@ class HappyShopHpmeTab extends StatefulWidget {
 
 class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     with TickerProviderStateMixin {
+  late products listProductByCategory;
+
   Future<List<WooProductCategory>> listCategories =
       getIt<API_Woocommerce>().listCategories;
 
+  Future<List<product>> loadProducts() async {
+    listProductByCategory =await getIt<APICustomWooCommerce>().getProductByCategory("15");
+    return listProductByCategory.productList;
+  }
   /*
   Future _getProducts() async {
 
@@ -547,35 +556,44 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: ScreenTypeLayout(
                         mobile: Container(
-                          child: GridView.count(
-                              padding: const EdgeInsets.only(top: 5),
-                              crossAxisCount: 2,
-                              shrinkWrap: true,
-                              childAspectRatio: 0.7,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: List.generate(
-                                4,
-                                (index) {
-                                  return ItemCard(
-                                    tag: "${index}2",
-                                    imagurl: sectList[0]['productList'][index]
-                                        ['img'],
-                                    itemname: sectList[0]['productList'][index]
-                                        ['name'],
-                                    descprice: sectList[0]['productList'][index]
-                                        ['descprice'],
-                                    price: sectList[0]['productList'][index]
-                                        ['price'],
-                                    rating: sectList[0]['productList'][index]
-                                        ['rating'],
-                                    shadow: false,
-                                  );
-                                },
-                              )),
-                        ),
+                          child: FutureBuilder<List<product>>(
+                            future: loadProducts(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return GridView.builder(
+                                    itemCount: snapshot.data?.length,
+                                    padding: const EdgeInsets.only(top: 5),
+                                    shrinkWrap: true,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 0.7,
+                                    ),
+                                    physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return
+                                        ItemCard(
+                                        id: snapshot.data![index].id.toString(),
+                                        imagurl: snapshot.data?[index].img,
+                                        itemname:snapshot.data?[index].name,
+                                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
+                                        price: snapshot.data?[index].price,
+                                        rating: "4.5",
+                                        shadow: false,
+                                      );
+                                    
+                                  }
+                                    );
+                              } else if (snapshot.hasError) {
+                                return Text(snapshot.error.toString());
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            }),
                       ),
                     ),
-
+                    ),
                     // New arrival for men's //
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -665,9 +683,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 4,
                                 (index) {
                                   return ItemCard(
-                                    tag: "${index}1",
                                     imagurl: sectList[2]['productList'][index]
-                                        ['img'],
+                                    ['img'],
                                     itemname: sectList[2]['productList'][index]
                                         ['name'],
                                     descprice: sectList[2]['productList'][index]
@@ -1013,10 +1030,11 @@ class ItemCard extends StatefulWidget {
     this.descprice,
     this.price,
     this.shadow,
-    this.tag,
+
+    this.id
   }) : super(key: key);
 
-  final String? imagurl, rating, itemname, descprice, price, tag;
+  final String? imagurl, rating, itemname, descprice, price,  id;
   final bool? shadow;
 
   @override
@@ -1048,7 +1066,8 @@ class _ItemCardState extends State<ItemCard> {
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5)),
                       child: Hero(
-                          tag: widget.tag!,
+                        
+                          tag: "",
                           child:
                               //  Image.network(
                               //   widget.imagurl,
@@ -1056,11 +1075,14 @@ class _ItemCardState extends State<ItemCard> {
                               //   fit: BoxFit.fill,
                               //   width: double.infinity,
                               //   //   // width: double.infinity,)
-                              CachedNetworkImage(
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                                child: CachedNetworkImage(
                             imageUrl: widget.imagurl!,
                             fit: BoxFit.contain,
                             width: double.infinity,
-                          )
+                          ),
+                              )
                           // ),
                           ),
                     ),
@@ -1112,22 +1134,33 @@ class _ItemCardState extends State<ItemCard> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 5.0, bottom: 5),
-                child: Row(
-                  children: <Widget>[
-                    Text(" $CUR_CURRENCY ${widget.price!}",
-                        style: const TextStyle(color: primary)),
-                    const SizedBox(
-                      width: 5.0,
-                    ),
-                    Text(
-                      "$CUR_CURRENCY${widget.descprice!}",
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          decoration: TextDecoration.lineThrough,
-                          letterSpacing: 1),
-                    ),
-                  ],
-                ),
+                padding: const EdgeInsets.only(left: 2.0, bottom: 5),
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Text("EGP "+widget.price!,
+                            maxLines: 1,
+                            style: const TextStyle(color: primary)),
+                      ),
+                      const SizedBox(
+                        width: 2.0,
+                      ),
+                      Flexible(
+                        child: Text(
+                          widget.descprice!,
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+
+                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              decoration: TextDecoration.none,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1),
+                        ),
+                      ),
+                    ],
+                  ),
+
               )
             ],
           ),
@@ -1139,7 +1172,7 @@ class _ItemCardState extends State<ItemCard> {
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
                     imgurl: widget.imagurl!,
-                    tag: widget.tag!,
+                    tag: widget.id!,
                   );
                 },
                 reverseTransitionDuration: const Duration(milliseconds: 800),

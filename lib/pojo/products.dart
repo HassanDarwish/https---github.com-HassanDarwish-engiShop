@@ -13,6 +13,7 @@ class products {
     {
       product temp_product=new product();
       temp_product.name=item["name"];
+
       temp_product.id=item["id"];
       temp_product.price=item["price"];
       temp_product.permalink=item["permalink"];
@@ -32,6 +33,7 @@ class products {
 class product {
   late final int id;
   late final String name;
+
   late final String slug;
   late final String permalink;
   late final String price;
@@ -40,7 +42,7 @@ class product {
   late final String description;
   late final String short_description;
 
-  product({id,name,slug,permalink,price,sale_price,img,description,short_description});
+  product({id,name,slug,permalink,price,sale_price,img,description,short_description,tag});
 
   factory product.fromJson(Map<dynamic, dynamic> json) {
     return product(
