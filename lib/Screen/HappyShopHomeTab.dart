@@ -595,7 +595,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     ),
                     ),
                     // New arrival for men's //
-                    Padding(
+                    /*Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: _getHeading("Top Brands"),
                     ),
@@ -813,7 +813,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                           },
                         ),
                       ),*/
-                    ),
+                    ),*/
                   ],
                 )
               ],
