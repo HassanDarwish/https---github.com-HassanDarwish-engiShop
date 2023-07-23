@@ -332,7 +332,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   _price(String price) {
     return Padding(
       padding:   EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-      child: Text("EGP "+price,
+      child: Text(" $ECUR_CURRENCY"+price,
           style: Theme.of(context).textTheme.titleLarge),
     );
   }

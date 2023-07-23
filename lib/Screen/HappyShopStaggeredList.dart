@@ -420,7 +420,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                         children: <Widget>[
                           Flexible(
                             child: Text(//" $CUR_CURRENCY ${widget.price!}",
-                          "EGP "+widget.price!,
+                                " $ECUR_CURRENCY ${widget.price!}",
                                 style: const TextStyle(color: primary)),
                           ),
                           const SizedBox(

@@ -1142,7 +1142,7 @@ class _ItemCardState extends State<ItemCard> {
                   child: Row(
                     children: <Widget>[
                       Flexible(
-                        child: Text("EGP "+widget.price!,
+                        child: Text(" $ECUR_CURRENCY ${widget.price!}",
                             maxLines: 1,
                             style: const TextStyle(color: primary)),
                       ),

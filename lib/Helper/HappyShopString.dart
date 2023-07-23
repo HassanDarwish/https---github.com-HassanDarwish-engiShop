@@ -329,6 +329,8 @@ const String OUT_OF_STOCK_LBL = "Out Of Stock";
 // const String PAYPAL_RESPONSE_URL = "http://HappyShop.wrteam.in/app/v1/api/app_payment_status";//?amt=10.00&cc=USD&item_name=Welcome%20&item_number=7&st=Completed&tx=50X78734DF4190710";'
 
 String CUR_CURRENCY = '\$';
+String ECUR_CURRENCY = 'EGP';
+
 String CUR_USERID = '';
 String CUR_USERNAME = '';
 String CUR_CART_COUNT = "";
