@@ -481,14 +481,17 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                               // Create a list of products
                               List<WooProductCategory> WooProductCategorydata =
                                   snapshot.data;
+
                               return ListView.builder(
-                                itemCount: snapshot.data.length,
+
+                                itemCount: snapshot.data.length-1,
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   WooProductCategory category =
                                       WooProductCategorydata[index];
+                                        print("Hassan"+index.toString());
 
                                   return InkWell(
                                     child: Padding(
@@ -587,6 +590,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                   }
                                     );
                               } else if (snapshot.hasError) {
+                                print(snapshot.error.toString());
                                 return Text(snapshot.error.toString());
                               } else {
                                 return Center(

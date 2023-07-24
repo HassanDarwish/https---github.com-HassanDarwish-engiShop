@@ -25,7 +25,8 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
         baseUrl: baseUrl,
         consumerKey: consumerKey,
         consumerSecret: consumerSecret);
-    listCategories = woocommerce.getProductCategories();
+    listCategories = woocommerce.getProductCategories(perPage: 100,);
+    print(listCategories.toString());
   }
 
   Future getProductByCategory(String categoryId) async {

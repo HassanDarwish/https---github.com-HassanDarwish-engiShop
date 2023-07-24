@@ -18,7 +18,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   Future<products> getProductByCategory(String catId) async {
     // TODO: implement getProductByCategory
     var response = await http.get(Uri.parse(getOAuthURL(
-        "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category='+catId)),
+        "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category='+catId+"&status=publish")),
         headers: {"Content-Type": "Application/json"});
 //List<dynamic> list = jsonDecode(jsonString);
     products product_List = products.fromJson(response.body);
