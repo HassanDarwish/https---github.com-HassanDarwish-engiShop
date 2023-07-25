@@ -91,6 +91,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   }
 
   _showContent() {
+    CUR_CART_COUNT="1";
     return Column(
       children: <Widget>[
         Expanded(
@@ -144,19 +145,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.favorite,
-                                            color: const Color(0xFF333333)
-                                                .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        onTap: () {}),
-                                  ),
+
                                   Material(
                                     color: Colors.transparent,
                                     child: InkWell(
@@ -204,6 +193,19 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             ));
                                       },
                                     ),
+                                  ),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.favorite,
+                                            color: const Color(0xFF333333)
+                                                .withOpacity(0.5),
+                                          ),
+                                        ),
+                                        onTap: () {}),
                                   ),
                                   const SizedBox(
                                     width: 10.0,
@@ -710,6 +712,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
 
   @override
   Widget build(BuildContext context) {
+    CUR_CART_COUNT="1";
     return Scaffold(
         key: _scaffoldKey,
         // appBar: PreferredSize(
