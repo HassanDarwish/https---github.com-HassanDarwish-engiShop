@@ -50,8 +50,8 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    return ScreenTypeLayout(
-      mobile: Center(
+    return ScreenTypeLayout.builder(
+      mobile: (context) => Center(
         child: Container(
           padding: const EdgeInsets.only(left: 50, right: 50, bottom: 60),
           child: Column(

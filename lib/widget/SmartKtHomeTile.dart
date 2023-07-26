@@ -32,8 +32,8 @@ class SmartKitHomeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    return ScreenTypeLayout(
-      mobile: Material(
+    return ScreenTypeLayout.builder(
+        mobile: (context) => Container(child:Material(
         color: bg,
         borderRadius: BorderRadius.circular(10.0),
         child: Stack(
@@ -141,8 +141,8 @@ class SmartKitHomeTile extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      tablet: Material(
+      )),
+      tablet: (context) => Container(child:Material(
         color: bg,
         borderRadius: BorderRadius.circular(10.0),
         child: Center(
@@ -265,8 +265,8 @@ class SmartKitHomeTile extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      desktop: Material(
+      )),
+      desktop: (context) => Container(child:Material(
         color: bg,
         borderRadius: BorderRadius.circular(10.0),
         child: Center(
@@ -382,7 +382,7 @@ class SmartKitHomeTile extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 }

@@ -491,7 +491,6 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 itemBuilder: (context, index) {
                                   WooProductCategory category =
                                       WooProductCategorydata[index];
-                                        print("Hassan"+index.toString());
 
                                   return InkWell(
                                     child: Padding(
@@ -543,12 +542,13 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                   );
                                 },
                               );
-                            }
-
+                                } else if (snapshot.hasError) {
+                                return Text("Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
+                                } else {
                             // Show a circular progress indicator while loading products
                             return Center(
                               child: CircularProgressIndicator(),
-                            );
+                            );}
                           }),
                     ), //Hassan Ali
                     // Most popular //
@@ -559,8 +559,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
 
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: ScreenTypeLayout(
-                        mobile: Container(
+                      child: ScreenTypeLayout.builder(
+                        mobile: (context) =>Container(
                           child: FutureBuilder<List<product>>(
                             future: loadProducts(),
                             builder: (context, snapshot) {
@@ -590,8 +590,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                   }
                                     );
                               } else if (snapshot.hasError) {
-                                print(snapshot.error.toString());
-                                return Text(snapshot.error.toString());
+
+                                return Text("Server Can not be reached please check connection"); //Text(snapshot.error.toString());
                               } else {
                                 return Center(
                                   child: CircularProgressIndicator(),
