@@ -9,6 +9,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'package:intl/intl.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -17,7 +19,7 @@ import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import '../pojo/products.dart';
 import 'HappyShopStaggeredList.dart';
-import 'package:intl/intl.dart';
+
 List sectList = [
   {
     'section': "Offers on men's Fashion",
@@ -584,7 +586,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                           descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
                                           price: snapshot.data?[index].price,
                                           shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
-                                          rating: "4.5",
+                                          rating: Random().nextInt(100).toString(),
                                           shadow: false,
 
                                         );
@@ -1188,7 +1190,7 @@ class _ItemCardState extends State<ItemCard> {
                     imgurl: widget.imagurl!,
                     tag: Random().nextInt(1000).toString(),
                     description:widget.descprice,
-                      rating:"0",
+                      rating:Random().nextInt(100).toString(),
                       price:widget.price,
                       title:widget.itemname,
                       user_rating:"0",
