@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 //import 'package:engi_shop/HappyShop/desktop/detailproductdesktop.dart';
@@ -118,9 +118,11 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                         Center(
                           child: Hero(
                             tag: widget.tag!,
-                            child: CachedNetworkImage(
-                              imageUrl: widget.imgurl!,
-                              // fit: BoxFit.fill,
+                            child: Shimmer(
+                              child: CachedNetworkImage(
+                                imageUrl: widget.imgurl!,
+                                // fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),

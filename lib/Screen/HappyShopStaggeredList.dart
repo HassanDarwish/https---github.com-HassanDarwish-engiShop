@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -364,10 +364,12 @@ class _StaggerdCardState extends State<StaggerdCard> {
                           : BorderRadius.circular(5.0),
                       child: Hero(
                         tag: Random().nextInt(1000).toString(),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.imgurl!,
-                          fit: BoxFit.contain,
-                          width: double.infinity,
+                        child: Shimmer(
+                          child: CachedNetworkImage(
+                            imageUrl: widget.imgurl!,
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                          ),
                         ),
                       ),
                     ),

@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
@@ -577,16 +577,17 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                     physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     return
-                                        ItemCard(
-                                        id: snapshot.data![index].id.toString(),
-                                        imagurl: snapshot.data?[index].img,
-                                        itemname:snapshot.data?[index].name,
-                                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
-                                        price: snapshot.data?[index].price,
-                                        shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
-                                        rating: "4.5",
-                                        shadow: false,
-                                      );
+                                       ItemCard(
+                                          id: snapshot.data![index].id.toString(),
+                                          imagurl: snapshot.data?[index].img,
+                                          itemname:snapshot.data?[index].name,
+                                          descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
+                                          price: snapshot.data?[index].price,
+                                          shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
+                                          rating: "4.5",
+                                          shadow: false,
+
+                                        );
                                     
                                   }
                                     );
@@ -1088,11 +1089,13 @@ class _ItemCardState extends State<ItemCard> {
                               //   //   // width: double.infinity,)
                           Container(
                             width: MediaQuery.of(context).size.width * 0.45,
-                                child: CachedNetworkImage(
+                                child: Shimmer(
+                                  child: CachedNetworkImage(
                             imageUrl: widget.imagurl!,
                             fit: BoxFit.contain,
                             width: double.infinity,
                           ),
+                                ),
                               )
                           // ),
                           ),
