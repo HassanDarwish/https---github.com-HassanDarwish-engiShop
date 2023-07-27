@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    getIt<API_Woocommerce>().getCategoriesByCount(8);
     getIt<API_Woocommerce>().getCategories();
-
 
     return MaterialApp(
       home: HappyShopSplash()

@@ -2,18 +2,23 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
-
+import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
+import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import '../main.dart';
 import '../pojo/products.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
+
+
+import 'HappyShopStaggeredList.dart';
+import 'package:get_it/get_it.dart';
+
 class HappyShopCatogeryAll extends StatefulWidget {
   const HappyShopCatogeryAll({Key? key}) : super(key: key);
 
   @override
   _HappyShopCatogeryAllState createState() => _HappyShopCatogeryAllState();
 }
-
+GetIt getIt = GetIt.instance;
 class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   int offset = perPage;
   int total = 0;
@@ -56,8 +61,7 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   ];
   late products listProductByCategory;
 
-  Future<List<WooProductCategory>> listCategories =
-      getIt<API_Woocommerce>().listCategories;
+  Future<List<WooProductCategory>> listAllCategories =getIt<API_Woocommerce>().listAllCategories;
 
   getAppBar(String title, BuildContext context) {
     return AppBar(
@@ -83,7 +87,7 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
         appBar: getAppBar(ALL_CAT, context),
         body: Container(
     child: FutureBuilder<List<WooProductCategory>>(
-    future: listCategories,
+    future: listAllCategories,
     builder: (context, snapshot) {
     if (snapshot.hasData) {
       List<WooProductCategory>? WooProductCategorydata =
@@ -165,7 +169,19 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
           )
         ],
       ),
-      onTap: () {},
+      onTap: ()    {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+              transitionDuration:
+              const Duration(seconds: 1),
+              pageBuilder: (_, __, ___) =>
+                  HappyShopStaggeredList(
+                    id: category.id!,
+                    title: category.name!,
+                  )),
+        );
+      },
     );
   }
 }

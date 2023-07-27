@@ -347,8 +347,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   Future<List<WooProductCategory>> listCategories =
       getIt<API_Woocommerce>().listCategories;
 
-  Future<List<product>> loadProducts() async {
-    listProductByCategory =await getIt<APICustomWooCommerce>().getProductByCategory("15");
+  Future<List<product>> loadProducts(String catId,String order,String per_page) async {
+    listProductByCategory =await getIt<APICustomWooCommerce>().getProductBy_Category(catId,order,per_page);
     return listProductByCategory.productList;
   }
   /*
@@ -560,9 +560,10 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: ScreenTypeLayout.builder(
+
                         mobile: (context) =>Container(
                           child: FutureBuilder<List<product>>(
-                            future: loadProducts(),
+                            future: loadProducts("15","asc","4"),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return GridView.builder(
@@ -852,7 +853,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     PageRouteBuilder(
                         transitionDuration: const Duration(seconds: 1),
                         pageBuilder: (_, __, ___) =>
-                            HappyShopStaggeredList(id: 15, title: "Deals")),
+                            HappyShopStaggeredList(id: 15, title: "All Deals")),
                   );
                 },
                 child: Text(

@@ -11,7 +11,7 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 //import 'package:engi_shop/HappyShop/desktop/detailproductdesktop.dart';
 
 import 'HappyShopCart.dart';
-import 'HappyShopProductPriview.dart';
+
 
 class HappyShopProductDetail extends StatefulWidget {
   const HappyShopProductDetail({
@@ -97,20 +97,21 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         Expanded(
           child: SingleChildScrollView(
             controller: controller,
-            child: ScreenTypeLayout(
-              mobile: Column(
+            child: ScreenTypeLayout.builder(
+                mobile: (context) =>Container(
+                  child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   InkWell(
                     splashColor: primary.withOpacity(0.2),
-                    onTap: () {
+                    onTap: () {/*
                       Navigator.push(
                           context,
                           PageRouteBuilder(
                             transitionDuration: const Duration(seconds: 1),
                             pageBuilder: (_, __, ___) =>
                                 const HappyShopProductPreview(),
-                          ));
+                          ));*/
                     },
                     child: Stack(
                       children: <Widget>[
@@ -246,7 +247,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
               //     _desc(),
               //   ],
               // ),
-            ),
+            )),
           ),
         ),
         GestureDetector(
