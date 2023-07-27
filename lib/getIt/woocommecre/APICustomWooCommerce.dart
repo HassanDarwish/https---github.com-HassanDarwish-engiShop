@@ -8,6 +8,7 @@ import 'package:GiorgiaShop/pojo/products.dart';
 abstract class APICustomWooCommerce {
   String getOAuthURL(String requestMethod, String queryUrl);
  Future<products> getProductByCategory(String catId);
+ Future<products> getProductBy_Category(String catId,String order,String per_page);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
@@ -24,7 +25,16 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     products product_List = products.fromJson(response.body);
     return product_List;
   }
-
+  @override
+  Future<products> getProductBy_Category(String catId,String order,String per_page) async {
+    // TODO: implement getProductByCategory
+    var response = await http.get(Uri.parse(getOAuthURL(
+        "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category='+catId+"&order="+order+"&per_page="+per_page+"&status=publish")),
+        headers: {"Content-Type": "Application/json"});
+//List<dynamic> list = jsonDecode(jsonString);
+    products product_List = products.fromJson(response.body);
+    return product_List;
+  }
   String  getOAuthURL(String requestMethod, String queryUrl) {
     String token = "";
     String url = queryUrl;

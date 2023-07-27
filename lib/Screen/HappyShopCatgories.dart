@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 
+import '../getIt/woocommecre/API_Woocommerce.dart';
+import '../main.dart';
+import '../pojo/products.dart';
+import 'package:flutter_wp_woocommerce/woocommerce.dart';
 class HappyShopCatogeryAll extends StatefulWidget {
   const HappyShopCatogeryAll({Key? key}) : super(key: key);
 
@@ -50,6 +54,10 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
       'title': "Bag"
     },
   ];
+  late products listProductByCategory;
+
+  Future<List<WooProductCategory>> listCategories =
+      getIt<API_Woocommerce>().listCategories;
 
   getAppBar(String title, BuildContext context) {
     return AppBar(
@@ -73,7 +81,44 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: getAppBar(ALL_CAT, context),
-        body: GridView.count(
+        body: Container(
+    child: FutureBuilder<List<WooProductCategory>>(
+    future: listCategories,
+    builder: (context, snapshot) {
+    if (snapshot.hasData) {
+      List<WooProductCategory>? WooProductCategorydata =
+          snapshot.data;
+    return GridView.builder(
+    itemCount: snapshot.data!.length-1,
+    padding: const EdgeInsets.only(top: 5),
+
+    shrinkWrap: true,
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 4,
+    childAspectRatio: 0.8,
+
+    ),
+        physics: const BouncingScrollPhysics(),
+    itemBuilder: (context, index) {
+      WooProductCategory? category =
+      WooProductCategorydata?[index];
+    return catItem(category!, context);
+    }
+    );} else if (snapshot.hasError) {
+      return Text("Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
+    } else {
+    // Show a circular progress indicator while loading products
+    return Center(
+    child: CircularProgressIndicator(),
+    );}
+
+
+
+    }))
+
+
+
+      /*GridView.count(
             controller: controller,
             padding: const EdgeInsets.all(20),
             crossAxisCount: 4,
@@ -81,38 +126,41 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
             childAspectRatio: .8,
             physics: const BouncingScrollPhysics(),
             children: List.generate(
-              (offset < total) ? catList.length + 1 : catList.length,
+              (offset < total) ? listCategories.length + 1 : catList.length,
               (index) {
                 return (index == catList.length)
                     ? const Center(child: CircularProgressIndicator())
                     : catItem(index, context);
               },
-            )));
+            ))*/
+    );
   }
 
-  Widget catItem(int index, BuildContext context) {
+  Widget catItem(WooProductCategory category, BuildContext context) {
     return InkWell(
       child: Column(
         children: <Widget>[
           ClipRRect(
               borderRadius: BorderRadius.circular(25.0),
               child: CachedNetworkImage(
-                imageUrl: catList[index]['img'],
+                imageUrl: (category.image!.src!),
                 height: 50,
                 width: 50,
                 fit: BoxFit.fill,
               )),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-              catList[index]['title'],
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Colors.black),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Text(
+                category.name!,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.black),
+              ),
             ),
           )
         ],

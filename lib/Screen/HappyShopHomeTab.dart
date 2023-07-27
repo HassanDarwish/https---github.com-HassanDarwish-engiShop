@@ -845,19 +845,21 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
               Text(title, style: Theme.of(context).textTheme.titleLarge),
               InkWell(
                 splashColor: primary.withOpacity(0.2),
+
                 onTap: () {
                   Navigator.push(
                     context,
                     PageRouteBuilder(
                         transitionDuration: const Duration(seconds: 1),
                         pageBuilder: (_, __, ___) =>
-                            HappyShopStaggeredList(id: 0, title: "")),
+                            HappyShopStaggeredList(id: 15, title: "Deals")),
                   );
                 },
                 child: Text(
                   seeAll,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
+
               ),
             ],
           ),

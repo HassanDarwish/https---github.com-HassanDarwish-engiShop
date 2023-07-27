@@ -17,7 +17,9 @@ GetIt getIt = GetIt.instance;
 class HappyShopStaggeredList extends StatefulWidget {
   int id=0;
   String title="";
-   HappyShopStaggeredList({Key? key,required this.id, required this.title}) : super(key: key);
+  String? order;
+  String? per_page;
+   HappyShopStaggeredList({Key? key,required this.id, required this.title,}) : super(key: key);
 
 
 
@@ -215,6 +217,8 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
   ];
   late products listProductByCategory;
 
+  String? get order => null;
+
 
   @override
   void initState() {
@@ -227,9 +231,14 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
      super.dispose();
   }
 
-   Future<List<product>> loadProducts() async {
-    listProductByCategory =await getIt<APICustomWooCommerce>().getProductByCategory(widget.id.toString());
-  return listProductByCategory.productList;
+   Future<List<product>> loadProducts(String? order,String? per_page) async {
+
+     order==null ?
+    listProductByCategory =await getIt<APICustomWooCommerce>().getProductByCategory(widget.id.toString())
+      :
+    listProductByCategory =await getIt<APICustomWooCommerce>().getProductBy_Category(widget.id.toString(),order,per_page!);
+
+    return listProductByCategory.productList;
   }
   @override
   Widget build(BuildContext context) {
@@ -249,7 +258,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
           backgroundColor: Colors.white,
         ),
         body:  FutureBuilder<List<product>>(
-          future: loadProducts(),
+          future: loadProducts(null,null),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
