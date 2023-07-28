@@ -580,7 +580,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                   itemBuilder: (context, index) {
 
                                     raned=Random().nextInt(5);
-                                       raned.remainder(2)  > 0 ?
+                                      raned.remainder(2)  > 0 ?
                                       shrim=true
                                         :
                                       shrim=false;
