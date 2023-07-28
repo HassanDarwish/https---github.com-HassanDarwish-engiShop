@@ -334,7 +334,7 @@ List sectList = [
 //   },
 // ];
 GetIt getIt = GetIt.instance;
-
+bool shrim=false;int raned=0;
 class HappyShopHpmeTab extends StatefulWidget {
   const HappyShopHpmeTab({Key? key}) : super(key: key);
 
@@ -578,6 +578,12 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                     ),
                                     physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
+
+                                    raned=Random().nextInt(5);
+                                       raned.remainder(2)  > 0 ?
+                                      shrim=true
+                                        :
+                                      shrim=false;
                                     return
                                        ItemCard(
                                           id: snapshot.data![index].id.toString(),
@@ -587,8 +593,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                           price: snapshot.data?[index].price,
                                           shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                                           rating: Random().nextInt(100).toString(),
-                                          shadow: false,
-
+                                          shadow: shrim,
+                                           shrim:shrim
                                         );
                                     
                                   }
@@ -1044,12 +1050,13 @@ class ItemCard extends StatefulWidget {
     this.price,
     this.shadow,
     this.shortdescription,
+    this.shrim,
 
     this.id
   }) : super(key: key);
 
   final String? imagurl,shortdescription, rating, itemname, descprice, price,  id;
-  final bool? shadow;
+  final bool? shadow,shrim;
 
   @override
   _ItemCardState createState() => _ItemCardState();
@@ -1089,6 +1096,7 @@ class _ItemCardState extends State<ItemCard> {
                               //   fit: BoxFit.fill,
                               //   width: double.infinity,
                               //   //   // width: double.infinity,)
+                          widget.shrim==true ?
                           Container(
                             width: MediaQuery.of(context).size.width * 0.45,
                                 child: Shimmer(
@@ -1099,6 +1107,16 @@ class _ItemCardState extends State<ItemCard> {
                           ),
                                 ),
                               )
+                              :
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child:  CachedNetworkImage(
+                                imageUrl: widget.imagurl!,
+                                fit: BoxFit.contain,
+                                width: double.infinity,
+
+                            ),
+                          )
                           // ),
                           ),
                     ),
