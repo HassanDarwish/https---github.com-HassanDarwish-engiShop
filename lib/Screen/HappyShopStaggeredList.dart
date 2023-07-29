@@ -254,7 +254,10 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
             icon: const Icon(Icons.arrow_back_ios, color: primary),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title:  Text(widget.title),
+          title:  Text(widget.title,
+            style:const TextStyle(
+            color: primary,
+          ),),
           backgroundColor: Colors.white,
         ),
         body:  FutureBuilder<List<product>>(
