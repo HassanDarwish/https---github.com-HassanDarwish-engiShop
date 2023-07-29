@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
@@ -13,12 +15,15 @@ import 'HappyShopStaggeredList.dart';
 import 'package:get_it/get_it.dart';
 
 class HappyShopCatogeryAll extends StatefulWidget {
-  const HappyShopCatogeryAll({Key? key}) : super(key: key);
+
+
+    HappyShopCatogeryAll({Key? key}) : super(key: key);
 
   @override
   _HappyShopCatogeryAllState createState() => _HappyShopCatogeryAllState();
 }
 GetIt getIt = GetIt.instance;
+
 class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   int offset = perPage;
   int total = 0;
@@ -83,6 +88,7 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: getAppBar(ALL_CAT, context),
         body: Container(
@@ -141,17 +147,35 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   }
 
   Widget catItem(WooProductCategory category, BuildContext context) {
+    int raned=Random().nextInt(5);
+    final bool? shrim;
+    raned.remainder(2)  > 0 ?
+    shrim=true
+        :
+    shrim=false;
     return InkWell(
-      child: Column(
+      child:
+
+      Column(
         children: <Widget>[
+          Container(
+            decoration: shrim!
+                ? const BoxDecoration(
+              boxShadow: [BoxShadow(color: happyshopcolor5, blurRadius: 10)],
+            )
+                :null,
+            child:
           ClipRRect(
               borderRadius: BorderRadius.circular(25.0),
-              child: CachedNetworkImage(
+              child:
+               CachedNetworkImage(
                 imageUrl: (category.image!.src!),
                 height: 50,
                 width: 50,
                 fit: BoxFit.fill,
               )),
+
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -168,7 +192,10 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
             ),
           )
         ],
+
       ),
+
+
       onTap: ()    {
         Navigator.push(
           context,

@@ -272,6 +272,11 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
                   childAspectRatio: 0.7,
                 ),
                 itemBuilder: (context, index) {
+                  raned=Random().nextInt(5);
+                  raned.remainder(2)  > 0 ?
+                  shrim=true
+                      :
+                  shrim=false;
                   return GestureDetector(
 
                     child: Container(
@@ -284,6 +289,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
                         shortDescprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                         price: snapshot.data?[index].price,
                         id: snapshot.data?[index].id.toString(),
+                          shrim:shrim
                       ),
                     ),
                   );
@@ -312,9 +318,11 @@ class StaggerdCard extends StatefulWidget {
       this.itemname,
       this.price,
       this.descprice,
-      this.shortDescprice})
+      this.shortDescprice,
+        this.shrim,})
       : super(key: key);
   final String? imgurl, id, itemname, price, descprice,shortDescprice;
+  final bool?  shrim;
   @override
   _StaggerdCardState createState() => _StaggerdCardState();
 }
@@ -324,10 +332,17 @@ class _StaggerdCardState extends State<StaggerdCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: widget.shrim!
+          ? const BoxDecoration(
+        boxShadow: [BoxShadow(color: happyshopcolor5, blurRadius: 10)],
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-      ),
+      )
+      :
+      const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+      ) ,
       child: Card(
         elevation: 1.0,
         child: InkWell(
@@ -365,8 +380,12 @@ class _StaggerdCardState extends State<StaggerdCard> {
                               topLeft: Radius.circular(5),
                               topRight: Radius.circular(5))
                           : BorderRadius.circular(5.0),
-                      child: Hero(
+
+                      child:
+                      widget.shrim==true ?
+                      Hero(
                         tag: Random().nextInt(1000).toString(),
+
                         child: Shimmer(
                           child: CachedNetworkImage(
                             imageUrl: widget.imgurl!,
@@ -374,7 +393,18 @@ class _StaggerdCardState extends State<StaggerdCard> {
                             width: double.infinity,
                           ),
                         ),
-                      ),
+                      )
+                       :
+                        Hero(
+                        tag: Random().nextInt(1000).toString(),
+
+                          child:   CachedNetworkImage(
+                            imageUrl: widget.imgurl!,
+                             fit: BoxFit.contain,
+                              width: double.infinity,
+                           ),
+
+                    )
                     ),
                     /* we did removre rating and ad id
                     widget.rating != null

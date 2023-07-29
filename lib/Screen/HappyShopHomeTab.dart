@@ -395,7 +395,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   ];
 */
   final _controller = PageController();
-
+  bool? shrim;
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
 
@@ -461,11 +461,12 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                               ),
                             ),
                             onTap: () async {
+
                               await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const HappyShopCatogeryAll()),
+                                          HappyShopCatogeryAll()),
                               );
                             },
                           ),
