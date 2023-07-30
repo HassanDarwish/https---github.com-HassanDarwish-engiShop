@@ -240,6 +240,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
             PageRouteBuilder(
                 transitionDuration: const Duration(seconds: 1),
                 pageBuilder: (_, __, ___) => HappyShopProductDetail(
+                      id:"widget.id",
                       imgurl: favList[index]['img'],
                       tag: "${favList[index]}1",
                     )),

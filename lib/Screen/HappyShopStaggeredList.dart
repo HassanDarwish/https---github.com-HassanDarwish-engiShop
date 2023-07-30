@@ -353,6 +353,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                 pageBuilder: (BuildContext context, Animation<double> animation,
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
+                    id: widget.id,
                     imgurl: widget.imgurl!,
                     tag: Random().nextInt(1000).toString(),
                     title: widget.itemname!,

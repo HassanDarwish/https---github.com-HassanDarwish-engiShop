@@ -9,18 +9,19 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 //import 'package:engi_shop/HappyShop/desktop/detailproductdesktop.dart';
-
+import 'package:get_it/get_it.dart';
+import '../getIt/woocommecre/Cart.dart';
 import 'HappyShopCart.dart';
 
-
+GetIt getIt = GetIt.instance;
 class HappyShopProductDetail extends StatefulWidget {
   const HappyShopProductDetail({
     Key? key,
-    this.imgurl,
+    this.imgurl,this.id,
     this.tag, this.description,this.shortdescription, this.rating, this.price, this.title, this.user_rating, this.review,
 
   }) : super(key: key);
-  final String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription;
+  final String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,id;
   @override
   _HappyShopProductDetailState createState() => _HappyShopProductDetailState();
 }
@@ -253,7 +254,8 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
           ),
         ),
         GestureDetector(
-          onTap: () {
+          onTap: () async {
+            String cartValue =await getIt<Cart>().addToCart(1,widget.imgurl,1);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(

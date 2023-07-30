@@ -365,6 +365,7 @@ class _HappyShopCartState extends State<HappyShopCart>
             PageRouteBuilder(
               transitionDuration: const Duration(seconds: 1),
               pageBuilder: (_, __, ___) => HappyShopProductDetail(
+                id: "widget.id",
                 imgurl: cartList[index]['img'],
                 tag: "${cartList[index]}1",
               ),

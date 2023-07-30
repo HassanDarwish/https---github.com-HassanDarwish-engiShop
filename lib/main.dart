@@ -7,6 +7,7 @@ import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopSplash.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
+import 'getIt/woocommecre/Cart.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -19,6 +20,11 @@ void main() {
   getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
       signalsReady: true);
   getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
+
+
+  getIt.registerSingleton<Cart>(CartImplementation(),
+      signalsReady: true);
+  getIt.isReady<Cart>().then((_) => getIt<Cart>());
 
 
   //getIt.allReady();

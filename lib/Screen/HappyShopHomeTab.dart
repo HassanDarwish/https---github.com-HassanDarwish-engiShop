@@ -1206,6 +1206,7 @@ class _ItemCardState extends State<ItemCard> {
                 pageBuilder: (BuildContext context, Animation<double> animation,
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
+                    id: widget.id,
                     imgurl: widget.imagurl!,
                     tag: Random().nextInt(1000).toString(),
                     description:widget.descprice,
