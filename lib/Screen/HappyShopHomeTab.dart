@@ -17,6 +17,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
+import '../getIt/woocommecre/Cart.dart';
 import '../pojo/products.dart';
 import 'HappyShopStaggeredList.dart';
 
@@ -1221,7 +1222,11 @@ class _ItemCardState extends State<ItemCard> {
                 },
                 reverseTransitionDuration: const Duration(milliseconds: 800),
               ),
-            );
+            ).then((value) {
+              setState(() {
+                getIt<Cart>().getCart();
+              });
+            });
           },
         ),
       ),

@@ -159,11 +159,12 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             Icons.shopping_cart_rounded,
                                             color: const Color(0xFF333333)
                                                 .withOpacity(0.5),
-                                            size: 26,
+                                            size: 36,
                                           ),
                                         ),
-                                        (CUR_CART_COUNT.isNotEmpty &&
-                                                CUR_CART_COUNT != "0")
+
+                                        (getIt<Cart>().getCart().isNotEmpty &&
+                                            getIt<Cart>().getCart() != "0")
                                             ? Positioned(
                                                 top: 0.0,
                                                 right: 5.0,
@@ -177,9 +178,9 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                                         padding:
                                                             const EdgeInsets.all(4),
                                                         child: Text(
-                                                          CUR_CART_COUNT,
+                                                          getIt<Cart>().getCart(),
                                                           style: const TextStyle(
-                                                              fontSize: 8,
+                                                              fontSize: 16,
                                                               color:
                                                                   Colors.white),
                                                         ),

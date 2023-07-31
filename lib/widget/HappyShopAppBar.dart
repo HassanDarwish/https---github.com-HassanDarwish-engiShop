@@ -3,7 +3,10 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
 import 'package:GiorgiaShop/Screen/HappyShopProfile.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
+import '../getIt/woocommecre/Cart.dart';
+GetIt getIt = GetIt.instance;
 class HappyShopAppBar extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   const HappyShopAppBar({
@@ -52,8 +55,8 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                 size: 26,
               ),
             ),
-            (CUR_CART_COUNT.isNotEmpty &&
-                    CUR_CART_COUNT != "0")
+            (getIt<Cart>().getCart().isNotEmpty &&
+                getIt<Cart>().getCart() != "0")
                 ? Positioned(
                     top: 0.0,
                     right: 5.0,
@@ -65,8 +68,8 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                           child: Padding(
                             padding: const EdgeInsets.all(4),
                             child: Text(
-                              CUR_CART_COUNT,
-                              style: const TextStyle(fontSize: 8),
+                              getIt<Cart>().getCart(),
+                              style: const TextStyle(fontSize: 16),
                             ),
                           ),
                         )),
