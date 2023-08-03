@@ -24,7 +24,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
   /// ********************************************************
   late AnimationController _animationController, animationController;
   bool dragFromLeft = false;
-
+  final GlobalKey<ScaffoldState> privatescaffoldKey = GlobalKey<ScaffoldState>();
   late PageController _pageController;
   int currentIndex = 0;
 
@@ -100,7 +100,7 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
               key: scaffoldKey,
               appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(56),
-                child: HappyShopAppBar(scaffoldKey: scaffoldKey),
+                child: HappyShopAppBar(scaffoldKey: scaffoldKey,privatescaffoldKey:privatescaffoldKey),
               ),
               drawer: const HappyShopDrawer(),
               bottomNavigationBar: getBottomBar(),

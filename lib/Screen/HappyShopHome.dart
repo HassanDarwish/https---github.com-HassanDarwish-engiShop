@@ -7,7 +7,9 @@ import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
 import 'package:GiorgiaShop/widget/HappyShopDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
-
+import 'package:GiorgiaShop/provider/Cart.dart';
+import '../Helper/HappyShopString.dart';
+import 'package:provider/provider.dart';
 class HappyShopHome extends StatefulWidget {
   const HappyShopHome({Key? key}) : super(key: key);
 
@@ -18,13 +20,19 @@ class HappyShopHome extends StatefulWidget {
 class _HappyShopHomeState extends State<HappyShopHome> {
   List<Widget>? happyShopBottomeTab;
   int _curSelected = 0;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> privatescaffoldKey = GlobalKey<ScaffoldState>();
+  late HappyShopAppBar AppBar;
 
   @override
   void initState() {
     super.initState();
     _curSelected = 0;
+
+    AppBar=HappyShopAppBar(scaffoldKey: scaffoldKey,privatescaffoldKey:privatescaffoldKey);
+
     happyShopBottomeTab = [
-      const HappyShopHpmeTab(),
+        HappyShopHpmeTab(AppBarr:AppBar,privatescaffoldKey:privatescaffoldKey),
       const HappyShopFavrite(
         appbar: false,
       ),
@@ -39,32 +47,32 @@ class _HappyShopHomeState extends State<HappyShopHome> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return WillPopScope(
-        onWillPop: () async {
-          /* bool result = await Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Giorgia Shop'),
-          ),
-        );
-        if (result == null) result = false;*/
+          onWillPop: () async {
+            /* bool result = await Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyHomePage(title: 'Giorgia Shop'),
+            ),
+          );
+          if (result == null) result = false;*/
 
-          //return result;
-          return false;
-        },
-        child: Scaffold(
-          key: scaffoldKey,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(56),
-            child: HappyShopAppBar(scaffoldKey: scaffoldKey),
-          ),
-          drawer: const HappyShopDrawer(),
-          backgroundColor: Colors.white10,
-          extendBodyBehindAppBar: true,
-          bottomNavigationBar: getBottomBar(),
-          body: happyShopBottomeTab![_curSelected],
-        ));
+            //return result;
+            return false;
+          },
+          child: Scaffold(
+            key: scaffoldKey,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(56),
+              child: AppBar,
+            ),
+            drawer: const HappyShopDrawer(),
+            backgroundColor: Colors.white10,
+            extendBodyBehindAppBar: true,
+            bottomNavigationBar: getBottomBar(),
+            body: happyShopBottomeTab![_curSelected],
+          ));
+
   }
 
   getBottomBar() {

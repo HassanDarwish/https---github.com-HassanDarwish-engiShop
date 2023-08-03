@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:provider/provider.dart';
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopSplash.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
-import 'getIt/woocommecre/Cart.dart';
+import 'provider/Cart.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -20,12 +20,6 @@ void main() {
   getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
       signalsReady: true);
   getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
-
-
-  getIt.registerSingleton<Cart>(CartImplementation(),
-      signalsReady: true);
-  getIt.isReady<Cart>().then((_) => getIt<Cart>());
-
 
   //getIt.allReady();
 
@@ -43,8 +37,10 @@ class MyApp extends StatelessWidget {
     getIt<API_Woocommerce>().getCategoriesByCount(8);
     getIt<API_Woocommerce>().getCategories();
 
-    return MaterialApp(
-      home: HappyShopSplash()
+   return ChangeNotifierProvider(
+        create: (BuildContext context) =>CartImplementation(),
+        child:  MaterialApp(
+        home: HappyShopSplash()
       /* MyHomePage(
         title: "testing woocommerce",
       )*/
@@ -54,15 +50,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: primary_app,
         textTheme: const TextTheme(
             titleLarge: TextStyle(
-          color: primary,
-          fontWeight: FontWeight.w600,
-        )),
+              color: primary,
+              fontWeight: FontWeight.w600,
+            )),
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: primary,
         ),
         fontFamily: 'Open sans',
       ),
-    );
+    ));
+
+
   }
 }
 

@@ -10,10 +10,11 @@ import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 //import 'package:engi_shop/HappyShop/desktop/detailproductdesktop.dart';
 import 'package:get_it/get_it.dart';
-import '../getIt/woocommecre/Cart.dart';
+import 'package:provider/provider.dart';
+import 'package:GiorgiaShop/provider/Cart.dart';
 import 'HappyShopCart.dart';
 
-GetIt getIt = GetIt.instance;
+
 class HappyShopProductDetail extends StatefulWidget {
   const HappyShopProductDetail({
     Key? key,
@@ -92,7 +93,10 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   }
 
   _showContent() {
-    CUR_CART_COUNT="1";
+    setState(() {
+
+    });
+
     return Column(
       children: <Widget>[
         Expanded(
@@ -118,7 +122,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                       children: <Widget>[
                         Center(
                           child: Hero(
-                            tag: widget.tag!,
+                            tag: Random().nextInt(1000).toString(),
                             child: Shimmer(
                               child: CachedNetworkImage(
                                 imageUrl: widget.imgurl!,
@@ -159,12 +163,12 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             Icons.shopping_cart_rounded,
                                             color: const Color(0xFF333333)
                                                 .withOpacity(0.5),
-                                            size: 36,
+                                            size: 40,
                                           ),
                                         ),
 
-                                        (getIt<Cart>().getCart().isNotEmpty &&
-                                            getIt<Cart>().getCart() != "0")
+                                        (Provider.of<CartImplementation>(context).getCart().isNotEmpty &&
+                                            Provider.of<CartImplementation>(context).getCart() != "0")
                                             ? Positioned(
                                                 top: 0.0,
                                                 right: 5.0,
@@ -177,16 +181,19 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets.all(4),
-                                                        child: Text(
-                                                          getIt<Cart>().getCart(),
-                                                          style: const TextStyle(
-                                                              fontSize: 16,
-                                                              color:
+                                                        child:  Consumer<CartImplementation>(builder: (context, cart, child) {
+                                                          return
+                                                            Text(
+                                                              cart.CUR_CART_COUNTT,
+                                                              style: const TextStyle(
+                                                                  fontSize: 16,
+                                                                  color:
                                                                   Colors.white),
-                                                        ),
+                                                            );
+                                                        }) ,)
+                                                       ,
                                                       ),
-                                                    )),
-                                              )
+                                                    ))
                                             : Container()
                                       ]),
                                       onTap: () async {
@@ -254,33 +261,41 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
             )),
           ),
         ),
-        GestureDetector(
-          onTap: () async {
-            String cartValue =await getIt<Cart>().addToCart(1,widget.imgurl,1);
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HappyShopCart(),
+        Consumer<CartImplementation>(builder:(context ,cart,child) {
+          return GestureDetector(
+            onTap: () async {
+              Provider.of<CartImplementation>(context, listen: false).addToCart(
+                  1, widget.id, 1);
+
+              /*Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HappyShopCart(),
+                ),
+              );*/
+            },
+            child: Container(
+              height: 55,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                gradient: happyshopgradient,
+                boxShadow: const [
+                  BoxShadow(color: Colors.black26, blurRadius: 10)
+                ],
               ),
-            );
-          },
-          child: Container(
-            height: 55,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              gradient: happyshopgradient,
-              boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 10)],
+              child: Center(
+                  child: Text(
+                    "Add to Cart",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelLarge
+                        ?.copyWith(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  )),
             ),
-            child: Center(
-                child: Text(
-              "Add to Cart",
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-            )),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }
@@ -718,7 +733,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
 
   @override
   Widget build(BuildContext context) {
-    CUR_CART_COUNT="1";
+
     return Scaffold(
         key: _scaffoldKey,
         // appBar: PreferredSize(

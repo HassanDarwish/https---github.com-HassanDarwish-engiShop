@@ -4,24 +4,39 @@ import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
 import 'package:GiorgiaShop/Screen/HappyShopProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+import 'package:GiorgiaShop/provider/Cart.dart';
 
-import '../getIt/woocommecre/Cart.dart';
-GetIt getIt = GetIt.instance;
+import '../provider/Cart.dart';
 class HappyShopAppBar extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldState>  privatescaffoldKey;
   const HappyShopAppBar({
     Key? key,
-    required this.scaffoldKey,
+    required this.scaffoldKey, required GlobalKey<ScaffoldState> this.privatescaffoldKey,
   }) : super(key: key);
 
   @override
   State<HappyShopAppBar> createState() => _HappyShopAppBarState();
+
+
 }
 
+GetIt getIt = GetIt.instance;
 class _HappyShopAppBarState extends State<HappyShopAppBar> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
+    void update(){
+      setState(() {
+        CUR_CART_COUNT;
+      });
+    }
     return AppBar(
+      key: widget.privatescaffoldKey,
       leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
@@ -51,13 +66,14 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
             Center(
               child: Icon(
                 Icons.shopping_cart_rounded,
-                color: IconThemeColor.withOpacity(0.5),
-                size: 26,
+                color: const Color(0xFF333333)
+                    .withOpacity(0.5),//IconThemeColor.withOpacity(0.5),
+                size: 40,
               ),
             ),
-            (getIt<Cart>().getCart().isNotEmpty &&
-                getIt<Cart>().getCart() != "0")
-                ? Positioned(
+            /*(CUR_CART_COUNT.isNotEmpty &&
+                CUR_CART_COUNT != "0")
+                ?*/ Positioned(
                     top: 0.0,
                     right: 5.0,
                     bottom: 15,
@@ -67,14 +83,21 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.all(4),
-                            child: Text(
-                              getIt<Cart>().getCart(),
-                              style: const TextStyle(fontSize: 16),
-                            ),
+                            child:
+                            Consumer<CartImplementation>(builder:(context ,cart,child) {
+                              return Text(
+                                '${cart.CUR_CART_COUNTT}',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color:
+                                    Colors.white),
+                              );
+                            },)
+                            ,
                           ),
                         )),
                   )
-                : Container()
+              //  : Container()
           ]),
           onTap: () async {
             Navigator.push(
@@ -91,7 +114,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
           child: Icon(
             Icons.account_circle,
             color: IconThemeColor.withOpacity(0.5),
-            size: 26,
+            size: 36,
           ),
           onTap: () {
             Navigator.push(
@@ -114,5 +137,8 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
       ),
       elevation: 2.0,
     );
+
+
+
   }
 }

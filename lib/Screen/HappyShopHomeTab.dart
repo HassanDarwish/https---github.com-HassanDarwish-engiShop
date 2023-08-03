@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
@@ -17,7 +18,30 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
-import '../getIt/woocommecre/Cart.dart';
+
+import '../pojo/products.dart';
+import 'HappyShopStaggeredList.dart';
+import 'dart:math';
+import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
+import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
+import 'package:GiorgiaShop/Screen/HappyShopProductDetail.dart';
+import 'package:GiorgiaShop/Screen/Image_Slider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
+import 'package:intl/intl.dart';
+import 'package:flutter_wp_woocommerce/woocommerce.dart';
+import 'package:get_it/get_it.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:provider/provider.dart';
+import '../getIt/woocommecre/APICustomWooCommerce.dart';
+import '../getIt/woocommecre/API_Woocommerce.dart';
+import '../provider/Cart.dart';
 import '../pojo/products.dart';
 import 'HappyShopStaggeredList.dart';
 
@@ -336,8 +360,11 @@ List sectList = [
 // ];
 GetIt getIt = GetIt.instance;
 bool shrim=false;int raned=0;
+
 class HappyShopHpmeTab extends StatefulWidget {
-  const HappyShopHpmeTab({Key? key}) : super(key: key);
+  final HappyShopAppBar AppBarr;
+  final GlobalKey<ScaffoldState> privatescaffoldKey;
+  HappyShopHpmeTab({Key? key, required HappyShopAppBar this.AppBarr, required GlobalKey<ScaffoldState> this.privatescaffoldKey}) : super(key: key);
 
   @override
   _HappyShopHpmeTabState createState() => _HappyShopHpmeTabState();
@@ -417,7 +444,9 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+
+
+    return   WillPopScope(
       onWillPop: () async {
         /*
         bool? result = await Navigator.of(context).pushAndRemoveUntil(
@@ -596,7 +625,9 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                           shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                                           rating: Random().nextInt(100).toString(),
                                           shadow: shrim,
-                                           shrim:shrim
+                                           shrim:shrim,
+                                           AppBarr:widget.AppBarr,
+                                           privatescaffoldKey:widget.AppBarr.privatescaffoldKey,
                                         );
                                     
                                   }
@@ -841,6 +872,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
         ),
       ),
     );
+
+
   }
 
   _getHeading(
@@ -1054,12 +1087,13 @@ class ItemCard extends StatefulWidget {
     this.shortdescription,
     this.shrim,
 
-    this.id
+    this.id, required this.AppBarr, required this.privatescaffoldKey
   }) : super(key: key);
 
   final String? imagurl,shortdescription, rating, itemname, descprice, price,  id;
   final bool? shadow,shrim;
-
+  final  HappyShopAppBar AppBarr;
+  final GlobalKey<ScaffoldState> privatescaffoldKey;
   @override
   _ItemCardState createState() => _ItemCardState();
 }
@@ -1222,11 +1256,7 @@ class _ItemCardState extends State<ItemCard> {
                 },
                 reverseTransitionDuration: const Duration(milliseconds: 800),
               ),
-            ).then((value) {
-              setState(() {
-                getIt<Cart>().getCart();
-              });
-            });
+            );
           },
         ),
       ),
