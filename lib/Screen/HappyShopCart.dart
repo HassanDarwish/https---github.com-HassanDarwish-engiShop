@@ -1,3 +1,5 @@
+import 'dart:math';
+import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,12 +7,16 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 
+import '../pojo/products.dart';
+import '../provider/Cart.dart';
 import 'HappyShopCheckout.dart';
 import 'HappyShopHome.dart';
 import 'HappyShopProductDetail.dart';
 
 class HappyShopCart extends StatefulWidget {
-  const HappyShopCart({Key? key}) : super(key: key);
+
+  late final provider;
+    HappyShopCart({Key? key}) : super(key: key);
 
   @override
   _HappyShopCartState createState() => _HappyShopCartState();
@@ -81,6 +87,8 @@ class _HappyShopCartState extends State<HappyShopCart>
     super.initState();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
+  // Initialize the provider
+      widget.provider = Provider.of<CartImplementation>(context, listen: false);
 
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
@@ -124,8 +132,8 @@ class _HappyShopCartState extends State<HappyShopCart>
     );
   }
 
-  _showContent() {
-    return cartList.isEmpty
+  _showContent(List<product> products) {
+    return products.isEmpty
         ? cartEmpty()
         : ScreenTypeLayout(
             mobile: Column(
@@ -133,7 +141,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: cartList.length,
+                    itemCount: products.length,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return listItem(index);
@@ -234,123 +242,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                 ),
               ],
             ),
-            desktop: Container(
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: ListView.builder(
-                      // shrinkWrap: true,
-                      itemCount: cartList.length,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return listItem(index);
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 28, bottom: 8.0, left: 35, right: 35),
-                          child: Row(
-                            children: <Widget>[
-                              const Text(
-                                ORIGINAL_PRICE,
-                              ),
-                              const Spacer(),
-                              Text("${CUR_CURRENCY}8500")
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 35, right: 35, top: 8, bottom: 8),
-                          child: Row(
-                            children: <Widget>[
-                              const Text(
-                                DELIVERY_CHARGE,
-                              ),
-                              const Spacer(),
-                              Text("${CUR_CURRENCY}150")
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 35, right: 35, top: 8, bottom: 8),
-                          child: Row(
-                            children: <Widget>[
-                              const Text(
-                                "$TAXPER(18%)",
-                              ),
-                              const Spacer(),
-                              Text("${CUR_CURRENCY}1530")
-                            ],
-                          ),
-                        ),
-                        const Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                          indent: 20,
-                          endIndent: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, bottom: 8, left: 35, right: 35),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                TOTAL_PRICE,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              const Spacer(),
-                              Text(
-                                "${CUR_CURRENCY}10180",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          splashColor: Colors.white,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HappyShopCheckout(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            height: 55,
-                            decoration: back(),
-                            width: double.infinity,
-                            child: Center(
-                                child: Text(
-                              PROCEED_CHECKOUT,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(color: Colors.white),
-                            )),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
+
           );
   }
 
@@ -365,9 +257,9 @@ class _HappyShopCartState extends State<HappyShopCart>
             PageRouteBuilder(
               transitionDuration: const Duration(seconds: 1),
               pageBuilder: (_, __, ___) => HappyShopProductDetail(
-                id: "widget.id",
-                imgurl: cartList[index]['img'],
-                tag: "${cartList[index]}1",
+                id: widget.provider.products.elementAt(index).id.toString(),
+                imgurl:widget.provider.products.elementAt(index).img,
+                tag: widget.provider.products.elementAt(index).id.toString(),
               ),
             ),
           );
@@ -375,9 +267,9 @@ class _HappyShopCartState extends State<HappyShopCart>
         child: Row(
           children: <Widget>[
             Hero(
-                tag: "$index${cartList[index]}",
+                tag:widget.provider.products.elementAt(index).id.toString(),
                 child: CachedNetworkImage(
-                  imageUrl: cartList[index]['img'],
+                  imageUrl: widget.provider.products.elementAt(index).img,
                   height: 90.0,
                   width: 90.0,
                 )),
@@ -393,7 +285,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                           child: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text(
-                              cartList[index]['name'],
+                              widget.provider.products.elementAt(index).name,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
@@ -430,11 +322,11 @@ class _HappyShopCartState extends State<HappyShopCart>
                             size: 12,
                           ),
                           Text(
-                            " " + cartList[index]['rating'],
+                              Random().nextInt(100).toString(),
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                           Text(
-                            "${" (" + cartList[index]['noOfRating']})",
+                              Random().nextInt(100).toString(),
                             style: Theme.of(context).textTheme.labelSmall,
                           )
                         ],
@@ -443,13 +335,13 @@ class _HappyShopCartState extends State<HappyShopCart>
                     Row(
                       children: <Widget>[
                         Text(
-                          cartList[index]['price'],
+                          widget.provider.products.elementAt(index).price,
                           style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               decoration: TextDecoration.lineThrough,
                               letterSpacing: 0.7),
                         ),
                         Text(
-                          cartList[index]['descprice'],
+                            widget.provider.products.elementAt(index).short_description
                         ),
                       ],
                     ),
@@ -474,7 +366,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                               onTap: () {},
                             ),
                             Text(
-                              cartList[index]['qty'],
+                              '1 qty',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             InkWell(
@@ -495,7 +387,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                           ],
                         ),
                         const Spacer(),
-                        Text(cartList[index]['totle'],
+                        Text( 'totle' ,
                             style: Theme.of(context).textTheme.titleLarge)
                       ],
                     )
@@ -595,12 +487,14 @@ class _HappyShopCartState extends State<HappyShopCart>
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: getAppBar(CART, context),
       body: Stack(
         children: <Widget>[
-          _showContent(),
+          _showContent(widget.provider.products),
         ],
       ),
     );

@@ -123,11 +123,14 @@ Future<void> main() async {
       signalsReady: true);
   getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
 
-     var response = await http.get(Uri.parse(getIt<APICustomWooCommerce>().getOAuthURL(
+     /* var response = await http.get(Uri.parse(getIt<APICustomWooCommerce>().getOAuthURL(
         "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category=27')),
         headers: {"Content-Type": "Application/json"});
-
-
+      */
+  var response = await http.get(Uri.parse(getIt<APICustomWooCommerce>().getOAuthURL(
+      "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?per_page=100&page=1')),
+      headers: {"Content-Type": "Application/json"});
+    var i=0;
     // Check the status code of the response.
     if (response.statusCode == 200) {
       // The request was successful.
@@ -137,6 +140,39 @@ Future<void> main() async {
       print('Error: ${response.statusCode}');
       print('Response body: ${response.body}');
     }
+  if (i == 0) {
+    _getByBrand(response);
+
   }
 
 
+
+
+  }
+
+_getByBrand(http.Response response){
+  final attributesToFilter = "Brand:Amanda";
+
+  if (response.statusCode == 200) {
+    final List<dynamic> products = json.decode(response.body);
+    final List<dynamic> filteredProducts = [];
+
+    for (final product in products) {
+      final List<dynamic> attributes = product["attributes"];
+
+      for (final attribute in attributes) {
+        final String attributeName = attribute["name"];
+        final List<dynamic> attributeOptions = attribute["options"];
+
+        if ("$attributeName:${attributeOptions[0]}" == attributesToFilter) {
+          filteredProducts.add(product);
+          break; // No need to check other attributes for this product
+        }
+      }
+    }
+    print("*********************************************************");
+    print(filteredProducts);
+  } else {
+    print("Error: ${response.statusCode}");
+  }
+}

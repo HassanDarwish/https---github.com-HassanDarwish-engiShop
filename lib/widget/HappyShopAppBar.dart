@@ -71,9 +71,9 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                 size: 40,
               ),
             ),
-            /*(CUR_CART_COUNT.isNotEmpty &&
-                CUR_CART_COUNT != "0")
-                ?*/ Positioned(
+            (Provider.of<CartImplementation>(context).getCart().isNotEmpty &&
+                Provider.of<CartImplementation>(context).getCart() != "0")
+             ?Positioned(
                     top: 0.0,
                     right: 5.0,
                     bottom: 15,
@@ -97,13 +97,13 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                           ),
                         )),
                   )
-              //  : Container()
+                 : Container()
           ]),
           onTap: () async {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HappyShopCart(),
+                  builder: (context) =>   HappyShopCart(),
                 ));
           },
         ),

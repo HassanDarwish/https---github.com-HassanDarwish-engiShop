@@ -201,7 +201,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  const HappyShopCart(),
+                                                    HappyShopCart( ),
                                             ));
                                       },
                                     ),
@@ -264,10 +264,14 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         Consumer<CartImplementation>(builder:(context ,cart,child) {
           return GestureDetector(
             onTap: () async {
-              Provider.of<CartImplementation>(context, listen: false).addToCart(
-                  1, widget.id, 1);
+              //Provider.of<CartImplementation>(context, listen: false).addToCart(
+              //                   1, widget.id, 1);
+              loadCartList(cart);
+              /*cart.addToCart(
+                  1, widget.shortdescription, widget.description, widget.price, widget.title, widget.id
+                  , widget.imgurl, widget.review,1);
 
-              /*Navigator.pushReplacement(
+               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const HappyShopCart(),
@@ -299,7 +303,17 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       ],
     );
   }
+  void loadCartList(CartImplementation cart) async {
+    cart.addToCart(
+        1, widget.shortdescription, widget.description, widget.price, widget.title, widget.id
+        , widget.imgurl, widget.review,1);
 
+    // Pass the data to the SecondPage widget
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HappyShopCart()),
+    );
+  }
   _madeIn() {
     String madeIn = "India";
     return madeIn != null
