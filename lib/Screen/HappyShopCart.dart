@@ -247,7 +247,6 @@ class _HappyShopCartState extends State<HappyShopCart>
 
           );
   }
-
   Widget listItem(int index) {
     return Card(
       elevation: 0.1,
@@ -261,6 +260,13 @@ class _HappyShopCartState extends State<HappyShopCart>
               pageBuilder: (_, __, ___) => HappyShopProductDetail(
                 id: widget.provider.products.elementAt(index).id.toString(),
                 imgurl:widget.provider.products.elementAt(index).img,
+                description: widget.provider.products.elementAt(index).description,
+                price: widget.provider.products.elementAt(index).price,
+                rating: widget.provider.products.elementAt(index).rating,
+                shortdescription: widget.provider.products.elementAt(index).short_description,
+                title: widget.provider.products.elementAt(index).name,
+                review: widget.provider.products.elementAt(index).review,
+                user_rating:widget.provider.products.elementAt(index).user_rating ,
                 tag: widget.provider.products.elementAt(index).id.toString(),
               ),
             ),

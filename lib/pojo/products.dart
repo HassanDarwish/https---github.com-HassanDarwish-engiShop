@@ -14,9 +14,10 @@ class products {
       product temp_product=new product(id:item["id"],name: item["name"],img: item["images"][0]['src']
         ,description: item["description"],price:item["price"],sale_price: item["sale_price"],
       permalink:item["permalink"],short_description:item["short_description"],
-      slug: "",tag: "");
+      slug: "",tag: "",rating: "");
 
       temp_product.name=item["name"];
+      temp_product.rating="";
       /*temp_product.id=item["id"];
       temp_product.price=item["price"];
       temp_product.permalink=item["permalink"];
@@ -46,8 +47,29 @@ class product {
   late final String _description;
   late final String _short_description;
   late final String _tag;
+  late   String _rating="";
+  late   String _review="";
+  late   String _user_rating="";
 
-  product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag}) {
+  String get user_rating => _user_rating;
+
+  set user_rating(String value) {
+    _user_rating = value;
+  }
+
+  String get review => _review;
+
+  set review(String value) {
+    _review = value;
+  }
+
+  String get rating => _rating;
+
+  set rating(String value) {
+    _rating = value;
+  }
+
+  product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating}) {
     //this.name = name;
 
     this.id = id.toString();
