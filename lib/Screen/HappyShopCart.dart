@@ -144,7 +144,9 @@ class _HappyShopCartState extends State<HappyShopCart>
                     itemCount: products.length,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return listItem(index);
+
+                       return listItem(index);
+
                     },
                   ),
                 ),
@@ -306,7 +308,8 @@ class _HappyShopCartState extends State<HappyShopCart>
                           ),
                           onTap: () {
                             setState(() {
-                              cartList.removeAt(index);
+                              widget.provider.remove_from_itemMap(1,widget.provider.products.elementAt(index).id,index);
+
                             });
                           },
                         )
@@ -363,12 +366,26 @@ class _HappyShopCartState extends State<HappyShopCart>
                                   color: Colors.grey,
                                 ),
                               ),
-                              onTap: () {},
+                              onTap: () {
+
+                              widget.provider.remove_from_itemMap(0,widget.provider.products.elementAt(index).id,index);
+
+                              },
                             ),
-                            Text(
-                              '1 qty',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
+                              Text(
+                                  widget.provider.itemMap[widget.provider
+                                      .products
+                                      .elementAt(index)
+                                      .id].toString(),
+                                  style: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .bodySmall,
+                                )
+
+
+                             ,
+
                             InkWell(
                               child: Container(
                                 margin: const EdgeInsets.all(8),
@@ -382,12 +399,16 @@ class _HappyShopCartState extends State<HappyShopCart>
                                   color: Colors.grey,
                                 ),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                widget.provider.addToCart(
+                                    1, widget.provider.products.elementAt(index).short_description, widget.provider.products.elementAt(index).description, widget.provider.products.elementAt(index).price, widget.provider.products.elementAt(index).name, widget.provider.products.elementAt(index).id
+                                    , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1);
+                              },
                             )
                           ],
                         ),
                         const Spacer(),
-                        Text( 'totle' ,
+                        Text( 'Total' ,
                             style: Theme.of(context).textTheme.titleLarge)
                       ],
                     )
@@ -485,16 +506,19 @@ class _HappyShopCartState extends State<HappyShopCart>
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: getAppBar(CART, context),
       body: Stack(
         children: <Widget>[
-          _showContent(widget.provider.products),
+      Consumer<CartImplementation>(builder:(context ,cart,child) {
+           return _showContent(widget.provider.products);
+          })
         ],
       ),
     );

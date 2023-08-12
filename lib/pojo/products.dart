@@ -35,17 +35,17 @@ class products {
 }
 
 class product {
-  late final String id;
-  late final String name;
+  late final String _id;
+  late final String _name;
 
-  late final String slug;
-  late final String permalink;
-  late final String price;
-  late final String sale_price;
-  late final String img;
-  late final String description;
-  late final String short_description;
-  late final String tag;
+  late final String _slug;
+  late final String _permalink;
+  late final String _price;
+  late final String _sale_price;
+  late final String _img;
+  late final String _description;
+  late final String _short_description;
+  late final String _tag;
 
   product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag}) {
     //this.name = name;
@@ -74,5 +74,65 @@ class product {
       slug: json['slug'],
       permalink: json['permalink'],
     );
+  }
+
+  String get id => _id;
+
+  set id(String value) {
+    _id = value;
+  }
+
+  String get tag => _tag;
+
+  set tag(String value) {
+    _tag = value;
+  }
+
+  String get short_description => _short_description;
+
+  set short_description(String value) {
+    _short_description = value;
+  }
+
+  String get description => _description;
+
+  set description(String value) {
+    _description = value;
+  }
+
+  String get img => _img;
+
+  set img(String value) {
+    _img = value;
+  }
+
+  String get sale_price => _sale_price;
+
+  set sale_price(String value) {
+    _sale_price = value;
+  }
+
+  String get price => _price;
+
+  set price(String value) {
+    _price = value;
+  }
+
+  String get permalink => _permalink;
+
+  set permalink(String value) {
+    _permalink = value;
+  }
+
+  String get slug => _slug;
+
+  set slug(String value) {
+    _slug = value;
+  }
+
+  String get name => _name;
+
+  set name(String value) {
+    _name = value;
   }
 }
