@@ -37,9 +37,13 @@ class MyApp extends StatelessWidget {
     getIt<API_Woocommerce>().getCategoriesByCount(8);
     getIt<API_Woocommerce>().getCategories();
 
-   return ChangeNotifierProvider(
-        create: (BuildContext context) =>CartImplementation(),
-        child:  MaterialApp(
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CartImplementation>(
+            create: (context) => CartImplementation(),
+          ),
+        ],
+        child: MaterialApp(
         home: HappyShopSplash()
       /* MyHomePage(
         title: "testing woocommerce",
