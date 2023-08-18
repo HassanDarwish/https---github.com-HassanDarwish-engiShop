@@ -159,7 +159,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                         ORIGINAL_PRICE,
                       ),
                       const Spacer(),
-                      Text("${CUR_CURRENCY}8500")
+                      Text("${ECUR_CURRENCY}"+widget.provider.cartTotalPrice)
                     ],
                   ),
                 ),
@@ -172,7 +172,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                         DELIVERY_CHARGE,
                       ),
                       const Spacer(),
-                      Text("${CUR_CURRENCY}150")
+                      Text("${ECUR_CURRENCY}150")
                     ],
                   ),
                 ),
@@ -182,10 +182,10 @@ class _HappyShopCartState extends State<HappyShopCart>
                   child: Row(
                     children: <Widget>[
                       const Text(
-                        "$TAXPER(18%)",
+                        "$TAXPER(14%)",
                       ),
                       const Spacer(),
-                      Text("${CUR_CURRENCY}1530")
+                      Text("${ECUR_CURRENCY}"+widget.provider.totalTax)
                     ],
                   ),
                 ),
@@ -209,7 +209,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                       ),
                       const Spacer(),
                       Text(
-                        "${CUR_CURRENCY}10180",
+                        "${ECUR_CURRENCY}"+widget.provider.cartFinalPrice,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
@@ -314,7 +314,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                           ),
                           onTap: () {
                             setState(() {
-                              widget.provider.remove_from_itemMap(1,widget.provider.products.elementAt(index).id,index);
+                              widget.provider.remove_from_itemMap(1,widget.provider.products.elementAt(index).id,index,widget.provider.products.elementAt(index).price);
 
                             });
                           },
@@ -368,14 +368,12 @@ class _HappyShopCartState extends State<HappyShopCart>
                                         const BorderRadius.all(Radius.circular(5))),
                                 child: const Icon(
                                   Icons.remove,
-                                  size: 12,
+                                  size: 16,
                                   color: Colors.grey,
                                 ),
                               ),
                               onTap: () {
-
-                              widget.provider.remove_from_itemMap(0,widget.provider.products.elementAt(index).id,index);
-
+                              widget.provider.remove_from_itemMap(0,widget.provider.products.elementAt(index).id,index,widget.provider.products.elementAt(index).price);
                               },
                             ),
                               Text(
@@ -386,7 +384,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                                   style: Theme
                                       .of(context)
                                       .textTheme
-                                      .bodySmall,
+                                      .bodyMedium,
                                 )
 
 
@@ -401,7 +399,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                                         const BorderRadius.all(Radius.circular(5))),
                                 child: const Icon(
                                   Icons.add,
-                                  size: 12,
+                                  size: 16,
                                   color: Colors.grey,
                                 ),
                               ),
@@ -414,8 +412,11 @@ class _HappyShopCartState extends State<HappyShopCart>
                           ],
                         ),
                         const Spacer(),
-                        Text( 'Total' ,
-                            style: Theme.of(context).textTheme.titleLarge)
+                        Text( 'Total Price is '+ widget.provider.itemTotalPriceMap[widget.provider
+                            .products
+                            .elementAt(index)
+                            .id].toString() ,
+                            style: TextStyle(color: primaryLight,fontSize: 16))
                       ],
                     )
                   ],
