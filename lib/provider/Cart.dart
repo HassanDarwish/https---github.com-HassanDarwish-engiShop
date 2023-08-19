@@ -3,8 +3,11 @@
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import '../getIt/config/APIConfig.dart';
 import '../pojo/products.dart';
 
+import 'package:get_it/get_it.dart';
+GetIt getIt = GetIt.instance;
 
 class CartImplementation extends ChangeNotifier{
   late String _CUR_CART_COUNTT="0";
@@ -151,9 +154,21 @@ class CartImplementation extends ChangeNotifier{
 
   }
   applyTax(){
-      double totalTax=((double.parse(_cartTotalPrice)+150)*14)/100;
+    List<String> tax =  getIt<API_Config>().config.tax;
+    String deliveryFees =  getIt<API_Config>().config.deliveryFees;
+    double totalTax=0,  deliveryFes=0; double temPelement=0;
+     deliveryFes=double.tryParse(deliveryFees)!;
+    if (deliveryFes==null)
+      deliveryFes=0;
+
+
+    tax.forEach((element) {
+      temPelement=temPelement+double.tryParse(element)!;
+    });
+    totalTax=((double.parse(_cartTotalPrice)+deliveryFes)*temPelement)/100;
+
       _totalTax=totalTax.toString();
-      _cartFinalPrice=(double.parse(_cartTotalPrice)+150+totalTax).toString();
+      _cartFinalPrice=(double.parse(_cartTotalPrice)+deliveryFes+totalTax).toString();
   }
 
 }

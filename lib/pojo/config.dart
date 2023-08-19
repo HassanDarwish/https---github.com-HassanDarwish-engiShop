@@ -6,7 +6,7 @@ class Config {
   int per_page=100;
   int page=1;
  late List<DeliveryArea?> deliveryAreas;
-  late List<String?> tax;
+  late List<String> tax;
   late String deliveryFees;
   late String consumerKey;
   late String consumerSecret;
@@ -15,7 +15,7 @@ class Config {
 
   factory Config.fromJson(Map<String, dynamic> json) {
       List<DeliveryArea?> deliveryAreass= <DeliveryArea>[];
-      List<String?> tax=[];
+      List<String> tax=[];
       String deliveryFees;
       String consumerKey;
       String consumerSecret;

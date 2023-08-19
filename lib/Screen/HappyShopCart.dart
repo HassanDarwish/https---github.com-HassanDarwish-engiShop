@@ -12,7 +12,9 @@ import '../provider/Cart.dart';
 import 'HappyShopCheckout.dart';
 import 'HappyShopHome.dart';
 import 'HappyShopProductDetail.dart';
-
+import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+import 'package:get_it/get_it.dart';
+GetIt getIt = GetIt.instance;
 class HappyShopCart extends StatefulWidget {
 
   late final provider;
@@ -172,7 +174,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                         DELIVERY_CHARGE,
                       ),
                       const Spacer(),
-                      Text("${ECUR_CURRENCY}150")
+                      Text("${ECUR_CURRENCY}"+getIt<API_Config>().config.deliveryFees)
                     ],
                   ),
                 ),
@@ -181,8 +183,9 @@ class _HappyShopCartState extends State<HappyShopCart>
                       left: 35, right: 35, top: 8, bottom: 8),
                   child: Row(
                     children: <Widget>[
-                      const Text(
-                        "$TAXPER(14%)",
+                      for (var tax in  getIt<API_Config>().config.tax)
+                        Text(
+                        "$TAXPER(${tax.toString()} %) ",
                       ),
                       const Spacer(),
                       Text("${ECUR_CURRENCY}"+widget.provider.totalTax)
