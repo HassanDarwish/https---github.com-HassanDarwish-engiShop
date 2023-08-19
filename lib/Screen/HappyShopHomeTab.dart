@@ -511,6 +511,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
+
                               // Create a list of products
                               List<WooProductCategory> WooProductCategorydata =
                                   snapshot.data;

@@ -1,10 +1,14 @@
+import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
+import 'Screen/HappyShopCart.dart';
+import 'Screen/HappyShopProductDetail.dart';
 import 'Screen/HappyShopSplash.dart';
+import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 import 'provider/Cart.dart';
@@ -12,7 +16,13 @@ import 'provider/Cart.dart';
 GetIt getIt = GetIt.instance;
 
 
-void main() {
+void main() async {
+
+  getIt.registerSingleton<API_Config>(API_Config_Implementation(),
+      signalsReady: true);
+  getIt.isReady<API_Config>().then((_) => getIt<API_Config>());
+  await getIt<API_Config>().getConfig();
+
   getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
       signalsReady: true);
   getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
@@ -20,6 +30,9 @@ void main() {
   getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
       signalsReady: true);
   getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
+
+
+
 
   //getIt.allReady();
 
@@ -41,6 +54,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<CartImplementation>(
             create: (context) => CartImplementation(),
+          ),
+          ChangeNotifierProvider<SessionImplementation>(
+            create: (context) => SessionImplementation(),
           ),
         ],
         child: MaterialApp(
