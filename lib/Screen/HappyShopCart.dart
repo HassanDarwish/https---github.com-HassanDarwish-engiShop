@@ -7,8 +7,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 
-import '../pojo/products.dart';
-import '../provider/Cart.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
+import 'package:GiorgiaShop/provider/Cart.dart';
 import 'HappyShopCheckout.dart';
 import 'HappyShopHome.dart';
 import 'HappyShopProductDetail.dart';
@@ -174,7 +174,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                         DELIVERY_CHARGE,
                       ),
                       const Spacer(),
-                      Text("${ECUR_CURRENCY}"+getIt<API_Config>().config.deliveryFees)
+                      Text("${ECUR_CURRENCY} "+getIt<API_Config>().config.deliveryFees)
                     ],
                   ),
                 ),
@@ -227,7 +227,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HappyShopCheckout(),
+                        builder: (context) =>   HappyShopCheckout(),
                       ),
                     );
                   },

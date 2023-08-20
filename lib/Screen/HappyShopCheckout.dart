@@ -4,11 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
-
+import 'package:provider/provider.dart';
+import '../pojo/products.dart';
 import 'HappyShopHome.dart';
+import 'package:GiorgiaShop/provider/Cart.dart';
+import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+import 'package:get_it/get_it.dart';
+GetIt getIt = GetIt.instance;
 
 class HappyShopCheckout extends StatefulWidget {
-  const HappyShopCheckout({Key? key}) : super(key: key);
+  HappyShopCheckout({Key? key}) : super(key: key);
+  late final cartProvider;
 
   @override
   _HappyShopCheckoutState createState() => _HappyShopCheckoutState();
@@ -21,11 +27,13 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
   late List<Widget> fragments;
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
+
   @override
   void initState() {
     super.initState();
+    widget.cartProvider = Provider.of<CartImplementation>(context, listen: false);
 
-    fragments = [const Delivery(), const Address(), const Payment()];
+    fragments = [  Delivery(), const Address(), const Payment()];
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 
@@ -234,7 +242,8 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 }
 
 class Delivery extends StatefulWidget {
-  const Delivery({super.key});
+  late final cartProvider;
+    Delivery({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -248,10 +257,13 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Stack(
       children: <Widget>[
-        _deliveryContent(),
+        Consumer<CartImplementation>(builder:(context ,cart,child) {
+          return _deliveryContent(cart);
+        })
       ],
     ));
   }
@@ -259,6 +271,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    widget.cartProvider=Provider.of<CartImplementation>(context, listen: false);
+
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 
@@ -279,9 +293,18 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
     buttonController.dispose();
     super.dispose();
   }
-
-  _deliveryContent() {
-    return SingleChildScrollView(
+  cartEmpty() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Text("Empty Cart "),
+        ]),
+      ),
+    );
+  }
+  _deliveryContent(CartImplementation cart) {
+    return cart.products.isEmpty ? cartEmpty()
+      : SingleChildScrollView(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -310,7 +333,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                     const Expanded(
                       child: TextField(
                         decoration: InputDecoration(
-                          enabled: false,
+                          enabled: true,
                           isDense: true,
                           contentPadding: EdgeInsets.all(
                             10,
@@ -404,8 +427,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                           const Divider(),
                           ListView.builder(
                               shrinkWrap: true,
-                              itemCount: 1,
-                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: widget.cartProvider.products.length,
+                              physics:   NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return orderItem(index);
                               }),
@@ -428,7 +451,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   SUB,
                                 ),
                                 const Spacer(),
-                                Text("${CUR_CURRENCY}5000")
+                                Text("${ECUR_CURRENCY} " +widget.cartProvider.cartTotalPrice )
                               ],
                             ),
                           ),
@@ -441,7 +464,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   DELIVERY_CHARGE,
                                 ),
                                 const Spacer(),
-                                Text("$CUR_CURRENCY 250")
+                                Text("${ECUR_CURRENCY} "+getIt<API_Config>().config.deliveryFees)
                               ],
                             ),
                           ),
@@ -450,11 +473,12 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                 left: 0, right: 0, top: 8, bottom: 8),
                             child: Row(
                               children: <Widget>[
-                                const Text(
-                                  "$TAXPER(18 %)",
-                                ),
+                                for (var tax in  getIt<API_Config>().config.tax)
+                                  Text(
+                                    "$TAXPER(${tax.toString()} %) ",
+                                  ),
                                 const Spacer(),
-                                Text("$CUR_CURRENCY 900")
+                                Text("$ECUR_CURRENCY "+ widget.cartProvider.totalTax)
                               ],
                             ),
                           ),
@@ -467,7 +491,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   "$PROMO_LBL (promocode)",
                                 ),
                                 const Spacer(),
-                                Text("$CUR_CURRENCY 50")
+                                Text("$ECUR_CURRENCY "+ widget.cartProvider.promocodeValue.toString()),
                               ],
                             ),
                           ),
@@ -491,7 +515,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '${CUR_CURRENCY}6100',
+                                  '${ECUR_CURRENCY} '+ widget.cartProvider.cartFinalPrice,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium
@@ -504,136 +528,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                       )
                     ],
                   ),
-                  desktop: Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2.2,
-                        child: Column(
-                          children: [
-                            const Row(
-                              children: [
-                                Expanded(flex: 5, child: Text(PRODUCTNAME)),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      QUANTITY_LBL,
-                                      textAlign: TextAlign.end,
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      PRICE_LBL,
-                                      textAlign: TextAlign.end,
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      SUBTOTAL,
-                                      textAlign: TextAlign.end,
-                                    )),
-                              ],
-                            ),
-                            const Divider(),
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: 1,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return orderItem(index);
-                                }),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 28, bottom: 8.0, left: 35, right: 35),
-                              child: Row(
-                                children: <Widget>[
-                                  const Text(
-                                    SUB,
-                                  ),
-                                  const Spacer(),
-                                  Text("${CUR_CURRENCY}5000")
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 35, right: 35, top: 8, bottom: 8),
-                              child: Row(
-                                children: <Widget>[
-                                  const Text(
-                                    DELIVERY_CHARGE,
-                                  ),
-                                  const Spacer(),
-                                  Text("$CUR_CURRENCY 250")
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 35, right: 35, top: 8, bottom: 8),
-                              child: Row(
-                                children: <Widget>[
-                                  const Text(
-                                    "$TAXPER(18 %)",
-                                  ),
-                                  const Spacer(),
-                                  Text("$CUR_CURRENCY 900")
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 35, right: 35, top: 8, bottom: 8),
-                              child: Row(
-                                children: <Widget>[
-                                  const Text(
-                                    "$PROMO_LBL (promocode)",
-                                  ),
-                                  const Spacer(),
-                                  Text("$CUR_CURRENCY 50")
-                                ],
-                              ),
-                            ),
-                            const Divider(
-                              color: Colors.black,
-                              thickness: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8.0, bottom: 8, left: 35, right: 35),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    TOTAL_PRICE,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    '${CUR_CURRENCY}6100',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+
                 ),
               ],
             ),
@@ -644,31 +539,32 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   }
 
   orderItem(int index) {
-    return const Padding(
+
+    return   Padding(
       padding: EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
         children: [
           Expanded(
               flex: 5,
               child: Text(
-                "Nike",
+                widget.cartProvider.products.elementAt(index).name,
               )),
           Expanded(
               flex: 1,
               child: Text(
-                "2",
+                widget.cartProvider.itemMap[widget.cartProvider.products.elementAt(index).id.toString()].toString(),
                 textAlign: TextAlign.end,
               )),
           Expanded(
               flex: 2,
               child: Text(
-                "2500",
+                widget.cartProvider.products.elementAt(index).price.toString(),
                 textAlign: TextAlign.end,
               )),
           Expanded(
               flex: 2,
               child: Text(
-                "5000",
+                widget.cartProvider.itemTotalPriceMap[widget.cartProvider.products.elementAt(index).id.toString()].toString(),
                 textAlign: TextAlign.end,
               )),
         ],

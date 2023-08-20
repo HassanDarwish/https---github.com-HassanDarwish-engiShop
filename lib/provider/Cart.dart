@@ -15,6 +15,16 @@ class CartImplementation extends ChangeNotifier{
   late List<product> _products =[];
   List<product> get products => _products;
   var _itemMap = Map<String, int>();
+  double _promocodeValue=0;
+  String _promocode="";
+
+
+  double get promocodeValue => _promocodeValue;
+
+  set promocodeValue(double value) {
+    _promocodeValue = value;
+  }
+
   Map get itemMap => _itemMap;
 
   var _itemTotalPriceMap = Map<String, int>();
@@ -171,4 +181,9 @@ class CartImplementation extends ChangeNotifier{
       _cartFinalPrice=(double.parse(_cartTotalPrice)+deliveryFes+totalTax).toString();
   }
 
+  String get promocode => _promocode;
+
+  set promocode(String value) {
+    _promocode = value;
+  }
 }
