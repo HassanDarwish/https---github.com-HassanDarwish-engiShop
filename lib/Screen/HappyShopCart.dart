@@ -271,6 +271,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                 review: widget.provider.products.elementAt(index).review,
                 user_rating:widget.provider.products.elementAt(index).user_rating ,
                 tag: widget.provider.products.elementAt(index).id.toString(),
+                attributess: widget.provider.products.elementAt(index).attributes,
               ),
             ),
           );

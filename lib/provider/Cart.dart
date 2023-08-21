@@ -12,9 +12,11 @@ GetIt getIt = GetIt.instance;
 class CartImplementation extends ChangeNotifier{
   late String _CUR_CART_COUNTT="0";
   String get CUR_CART_COUNTT => _CUR_CART_COUNTT;
+
   late List<product> _products =[];
   List<product> get products => _products;
   var _itemMap = Map<String, int>();
+
   double _promocodeValue=0;
   String _promocode="";
 

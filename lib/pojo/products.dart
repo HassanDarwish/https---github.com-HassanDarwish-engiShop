@@ -14,10 +14,11 @@ class products {
       product temp_product=new product(id:item["id"],name: item["name"],img: item["images"][0]['src']
         ,description: item["description"],price:item["price"],sale_price: item["sale_price"],
       permalink:item["permalink"],short_description:item["short_description"],
-      slug: "",tag: "",rating: "");
+      slug: "",tag: "",rating: "",attributes:item["attributes"]);
 
       temp_product.name=item["name"];
       temp_product.rating="";
+
       /*temp_product.id=item["id"];
       temp_product.price=item["price"];
       temp_product.permalink=item["permalink"];
@@ -50,6 +51,7 @@ class product {
   late   String _rating="";
   late   String _review="";
   late   String _user_rating="";
+  late List <attribute> attributes;
 
   String get user_rating => _user_rating;
 
@@ -69,11 +71,25 @@ class product {
     _rating = value;
   }
 
-  product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating}) {
+  product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating,attributes}) {
     //this.name = name;
 
     this.id = id.toString();
+    this.attributes=attributes.map<attribute>((document) {
+      List<dynamic> optionsList = document['options'];
 
+      List<String> stringOptions = optionsList.map((option) => option.toString()).toList();
+
+      attribute c= new attribute(
+        options:stringOptions,
+        id:document['id'],
+          name:document['name'],
+          position:document['position'],
+          visible:document['visible'],
+          variation:document['variation']     );
+        c.options=stringOptions;
+       return c;
+    }).toList();
     this.slug = slug;
 
     this.permalink = permalink;
@@ -157,4 +173,17 @@ class product {
   set name(String value) {
     _name = value;
   }
+}
+
+class attribute {
+
+  attribute( {id,name,position,visible,variation,options}) ;
+
+    int id= 0;
+  String name= "Foundation Degree";
+  int position= 0;
+  bool visible= true;
+  bool variation= true;
+  List <String> options= [];
+
 }

@@ -12,17 +12,21 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
+import '../pojo/products.dart';
 import 'HappyShopCart.dart';
 
 
 class HappyShopProductDetail extends StatefulWidget {
-  const HappyShopProductDetail({
+
+
+    HappyShopProductDetail({
     Key? key,
     this.imgurl,this.id,
     this.tag, this.description,this.shortdescription, this.rating, this.price, this.title, this.user_rating, this.review,
-
+      this.attributess,
   }) : super(key: key);
   final String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,id;
+   final  List <attribute>? attributess;
   @override
   _HappyShopProductDetailState createState() => _HappyShopProductDetailState();
 }
@@ -236,6 +240,8 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                   _price(widget.price!),
                   //_offPrice(),
                   _title(widget.title!),
+
+                  _attribute(widget.attributess!),
                   _desc(widget.description!),
                   //_selectVarientTitle(),
                   //_getVarient(_selVarient),
@@ -401,16 +407,48 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       ),
     );
   }
-
+_attribute(List<attribute> list) {
+  attribute oop;
+  if (!list.isEmpty){
+    oop=list[0];
+    return Row(
+    children: [
+      Text(
+        oop.name,
+        style: TextStyle(fontSize: 15),
+      ),
+      DropdownButton(items: oop.options.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(fontSize: 30),
+          ),
+        );
+      }).toList(), onChanged: (value) {  },),
+    ],
+  );
+}else{
+    return Row();
+  }
+  }
   _title(String title) {
+
+
+
     return Padding(
       padding:   EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-      child: Text(
-        title,
-        style: Theme.of(context)
-            .textTheme
-            .titleLarge
-            ?.copyWith(color: Colors.black),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Colors.black),
+          ),
+
+        ],
       ),
     );
   }

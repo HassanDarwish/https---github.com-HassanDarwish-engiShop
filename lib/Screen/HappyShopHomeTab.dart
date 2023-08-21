@@ -625,6 +625,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                           price: snapshot.data?[index].price,
                                           shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
                                           rating: Random().nextInt(100).toString(),
+                                          attributess:snapshot.data?[index].attributes,
                                           shadow: shrim,
                                            shrim:shrim,
                                            AppBarr:widget.AppBarr,
@@ -1089,11 +1090,12 @@ class ItemCard extends StatefulWidget {
     this.shortdescription,
     this.shrim,
 
-    this.id, required this.AppBarr, required this.privatescaffoldKey
+    this.id, required this.AppBarr, required this.privatescaffoldKey, this.attributess
   }) : super(key: key);
 
   final String? imagurl,shortdescription, rating, itemname, descprice, price,  id;
   final bool? shadow,shrim;
+  final List<attribute>? attributess;
   final  HappyShopAppBar AppBarr;
   final GlobalKey<ScaffoldState> privatescaffoldKey;
   @override
@@ -1253,6 +1255,7 @@ class _ItemCardState extends State<ItemCard> {
                       user_rating:"0",
                       review:"",
                       shortdescription:widget.shortdescription,
+                    attributess: widget.attributess,
 
                   );
                 },
