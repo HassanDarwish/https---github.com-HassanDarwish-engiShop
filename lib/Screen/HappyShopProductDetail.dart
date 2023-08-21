@@ -27,6 +27,8 @@ class HappyShopProductDetail extends StatefulWidget {
   }) : super(key: key);
   final String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,id;
    final  List <attribute>? attributess;
+    String dropdownvalue="";
+
   @override
   _HappyShopProductDetailState createState() => _HappyShopProductDetailState();
 }
@@ -411,23 +413,41 @@ _attribute(List<attribute> list) {
   attribute oop;
   if (!list.isEmpty){
     oop=list[0];
-    return Row(
-    children: [
-      Text(
-        oop.name,
-        style: TextStyle(fontSize: 15),
-      ),
-      DropdownButton(items: oop.options.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 30),
-          ),
-        );
-      }).toList(), onChanged: (value) {  },),
-    ],
-  );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+      child: Row(
+      children: [
+        Text(
+          oop.name,
+          style: TextStyle(fontSize: 15),
+        ),SizedBox(
+          width: 15, // <-- SEE HERE
+        ),
+        DropdownButton(items: oop.options.map<DropdownMenuItem<String>>((String value) {
+           return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 30),
+            ),
+          );
+        }).toList(), onChanged: (value) {
+          setState((){
+          widget.dropdownvalue= value.toString();
+          print(widget.dropdownvalue+"************"+value.toString());
+          });
+        }
+        ),
+        SizedBox(
+      width: 15, // <-- SEE HERE
+    ),
+            Text(
+              widget.dropdownvalue,
+        style: TextStyle(fontSize: 25),
+        ),
+        ],
+  ),
+    );
 }else{
     return Row();
   }
@@ -460,6 +480,7 @@ _attribute(List<attribute> list) {
           ""+descriptoin!,
         textAlign:TextAlign.start,
         style: TextStyle(
+          height: 1.5,
         letterSpacing: 1.00,
       ),),
     );
