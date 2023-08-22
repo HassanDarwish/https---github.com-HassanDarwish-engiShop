@@ -314,7 +314,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   void loadCartList(CartImplementation cart) async {
     cart.addToCart(
         1, widget.shortdescription, widget.description, widget.price, widget.title, widget.id
-        , widget.imgurl, widget.review,1);
+        , widget.imgurl, widget.review,1,widget.attributess);
 
     // Pass the data to the SecondPage widget
     Navigator.pushReplacement(

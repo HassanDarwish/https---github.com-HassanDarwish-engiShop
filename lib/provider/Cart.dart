@@ -61,7 +61,7 @@ class CartImplementation extends ChangeNotifier{
 
 
   String addToCart(int count, shortdescription,  description,  price,  title,  id
-  ,  img,  review,index){
+  ,  img,  review,index,attributess){
 
     if (CUR_CART_COUNT=="")
       _CUR_CART_COUNTT="0";
@@ -71,7 +71,7 @@ class CartImplementation extends ChangeNotifier{
     CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
     bool itemExist=_itemMap.containsKey(id);
     if(itemExist==false){
-    product _product= product( id:id,name:title,slug:"",permalink:"",price:price,sale_price:price,img:img,description:description,short_description:shortdescription,tag:"");
+    product _product= product( id:id,name:title,slug:"",permalink:"",price:price,sale_price:price,img:img,description:description,short_description:shortdescription,tag:"",attributes: attributess);
     _product.name=title;
     _products.add(_product);
 

@@ -11,7 +11,7 @@ class products {
     List<dynamic> productList=jsonDecode(json);
     productList.forEach((item)
     {
-      product temp_product=new product(id:item["id"],name: item["name"],img: item["images"][0]['src']
+      product temp_product=new product.forJSon(id:item["id"],name: item["name"],img: item["images"][0]['src']
         ,description: item["description"],price:item["price"],sale_price: item["sale_price"],
       permalink:item["permalink"],short_description:item["short_description"],
       slug: "",tag: "",rating: "",attributes:item["attributes"]);
@@ -74,19 +74,42 @@ class product {
   product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating,attributes}) {
     //this.name = name;
 
+    List<String> stringOptions=[];
+    this.id = id.toString();
+    this.attributes=attributes;
+    this.slug = slug;
+
+    this.permalink = permalink;
+
+    this.price = price;
+
+    this.sale_price = sale_price;
+    this.img = img;
+    this.description = description;
+    this.short_description = short_description;
+    this.tag = tag;
+
+
+  }
+
+  product.forJSon( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating,attributes}) {
+    //this.name = name;
+
+    List<String> stringOptions=[];
     this.id = id.toString();
     this.attributes=attributes.map<attribute>((document) {
-      List<dynamic> optionsList = document['options'];
 
-      List<String> stringOptions = optionsList.map((option) => option.toString()).toList();
+         List<dynamic> optionsList = document['options'];
+         stringOptions = optionsList.map((option) =>
+            option.toString()).toList();
 
       attribute c= new attribute(
         options:stringOptions,
-        id:document['id'],
-          name:document['name'],
+        id: document['id'],
+          name:document['name'] as String,
           position:document['position'],
-          visible:document['visible'],
-          variation:document['variation']     );
+          visible:document['visible'] ,
+          variation:document['variation'] );
         c.options=stringOptions;
        return c;
     }).toList();
@@ -180,10 +203,10 @@ class attribute {
   attribute( {id,name,position,visible,variation,options}) ;
 
     int id= 0;
-  String name= "Foundation Degree";
+  String name= "";
   int position= 0;
   bool visible= true;
   bool variation= true;
-  List <String> options= [];
+  List<String> options= [];
 
 }
