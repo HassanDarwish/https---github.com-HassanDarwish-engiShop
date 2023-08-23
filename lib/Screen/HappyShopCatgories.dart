@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
@@ -11,6 +11,7 @@ import '../main.dart';
 import '../pojo/products.dart';
 
 
+import '../provider/woocommerceProvider.dart';
 import 'HappyShopStaggeredList.dart';
 import 'package:get_it/get_it.dart';
 
@@ -64,9 +65,20 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
       'title': "Bag"
     },
   ];
-  late products listProductByCategory;
+  // late products listProductByCategory;
+  late WoocommerceProvider woocommerceprovider;
+  @override
+  void initState() {
+    super.initState();
 
-  Future<List<WooProductCategory>> listAllCategories =getIt<API_Woocommerce>().listAllCategories;
+    woocommerceprovider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        woocommerceprovider.getCategories());
+  }
+
+  //Future<List<WooProductCategory>> listAllCategories =getIt<API_Woocommerce>().listAllCategories;
 
   getAppBar(String title, BuildContext context) {
     return AppBar(
@@ -92,9 +104,9 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
     return Scaffold(
         appBar: getAppBar(ALL_CAT, context),
         body: Container(
-    child: FutureBuilder<List<WooProductCategory>>(
-    future: listAllCategories,
-    builder: (context, snapshot) {
+    child: FutureBuilder(
+    future: context.read<WoocommerceProvider>().getCategories(),
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
     if (snapshot.hasData) {
       List<WooProductCategory>? WooProductCategorydata =
           snapshot.data;

@@ -4,13 +4,14 @@ import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import 'package:get_it/get_it.dart';
 
 import '../pojo/products.dart';
 import 'package:intl/intl.dart';
 
+import '../provider/woocommerceProvider.dart';
 import 'HappyShopHomeTab.dart';
 import 'HappyShopProductDetail.dart';
 GetIt getIt = GetIt.instance;
@@ -219,11 +220,13 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
 
   String? get order => null;
 
-
+  late WoocommerceProvider woocommerceprovider;
   @override
   void initState() {
     super.initState();
-
+    woocommerceprovider = Provider.of<WoocommerceProvider>(context, listen: false);
+   // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductByCategory("15"));
+   // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
   }
 
   @override
@@ -234,9 +237,9 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
    Future<List<product>> loadProducts(String? order,String? per_page) async {
 
      order==null ?
-    listProductByCategory =await getIt<APICustomWooCommerce>().getProductByCategory(widget.id.toString())
+    listProductByCategory =await  context.read<WoocommerceProvider>().getProductByCategory(widget.id.toString())
       :
-    listProductByCategory =await getIt<APICustomWooCommerce>().getProductBy_Category(widget.id.toString(),order,per_page!);
+    listProductByCategory =await  context.read<WoocommerceProvider>().getProductBy_Category(widget.id.toString(),order,per_page!);
 
     return listProductByCategory.productList;
   }

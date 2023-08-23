@@ -1,4 +1,5 @@
 import 'package:GiorgiaShop/provider/Session.dart';
+import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
@@ -15,28 +16,38 @@ import 'provider/Cart.dart';
 
 GetIt getIt = GetIt.instance;
 
-
-void main() async {
-
+void loadRepository()async{
   getIt.registerSingleton<API_Config>(API_Config_Implementation(),
       signalsReady: true);
   getIt.isReady<API_Config>().then((_) => getIt<API_Config>());
   await getIt<API_Config>().getConfig();
-
   getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
-      signalsReady: true);
+  signalsReady: true);
   getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
 
   getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
-      signalsReady: true);
+  signalsReady: true);
   getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
+  await  getIt<API_Woocommerce>().getCategoriesByCount(8);
+  await  getIt<API_Woocommerce>().getCategories();
 
+}
+void main() async {
+loadRepository();
 
-
-
-  //getIt.allReady();
-
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<CartImplementation>(
+        create: (context) => CartImplementation(config: getIt<API_Config>()),
+      ),
+      ChangeNotifierProvider<SessionImplementation>(
+        create: (context) => SessionImplementation(),
+      ),
+      ChangeNotifierProvider<WoocommerceProvider>(
+        create: (context) => WoocommerceProvider(api_Woocommerce:  getIt<API_Woocommerce>(),api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
+      ),
+    ],
+    child:MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -47,19 +58,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    getIt<API_Woocommerce>().getCategoriesByCount(8);
-    getIt<API_Woocommerce>().getCategories();
 
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<CartImplementation>(
-            create: (context) => CartImplementation(),
-          ),
-          ChangeNotifierProvider<SessionImplementation>(
-            create: (context) => SessionImplementation(),
-          ),
-        ],
-        child: MaterialApp(
+    return  MaterialApp(
         home: HappyShopSplash()
       /* MyHomePage(
         title: "testing woocommerce",
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Open sans',
       ),
-    ));
+    );
 
 
   }

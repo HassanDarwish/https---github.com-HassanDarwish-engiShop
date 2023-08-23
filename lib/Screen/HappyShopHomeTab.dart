@@ -20,6 +20,7 @@ import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 
 import '../pojo/products.dart';
+import '../provider/woocommerceProvider.dart';
 import 'HappyShopStaggeredList.dart';
 import 'dart:math';
 import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
@@ -374,11 +375,11 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     with TickerProviderStateMixin {
   late products listProductByCategory;
 
-  Future<List<WooProductCategory>> listCategories =
-      getIt<API_Woocommerce>().listCategories;
+ // Future<List<WooProductCategory>> listCategories = getIt<API_Woocommerce>().listCategories;
 
   Future<List<product>> loadProducts(String catId,String order,String per_page) async {
-    listProductByCategory =await getIt<APICustomWooCommerce>().getProductBy_Category(catId,order,per_page);
+
+    listProductByCategory =await  context.read<WoocommerceProvider>().getProductBy_Category(catId,order,per_page);
     return listProductByCategory.productList;
   }
   /*
@@ -426,12 +427,19 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   bool? shrim;
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
-
+  late WoocommerceProvider woocommerceprovider;
   @override
   void initState() {
     super.initState();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
+    woocommerceprovider = Provider.of<WoocommerceProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getCategories());
+    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getCategoriesByCount(8));
+    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductByCategory("15"));
+    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
+    
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
   }
@@ -507,7 +515,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     SizedBox(
                       height: 100,
                       child: FutureBuilder(
-                          future: listCategories,
+                          future: context.read<WoocommerceProvider>().getCategoriesByCount(8),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {

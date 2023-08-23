@@ -92,6 +92,9 @@ class _HappyShopCartState extends State<HappyShopCart>
   // Initialize the provider
       widget.provider = Provider.of<CartImplementation>(context, listen: false);
 
+
+
+
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
@@ -410,7 +413,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                               onTap: () {
                                 widget.provider.addToCart(
                                     1, widget.provider.products.elementAt(index).short_description, widget.provider.products.elementAt(index).description, widget.provider.products.elementAt(index).price, widget.provider.products.elementAt(index).name, widget.provider.products.elementAt(index).id
-                                    , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1);
+                                    , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1,widget.provider.products.elementAt(index).attributes);
                               },
                             )
                           ],

@@ -10,6 +10,8 @@ import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt.instance;
 
 class CartImplementation extends ChangeNotifier{
+
+
   late String _CUR_CART_COUNTT="0";
   String get CUR_CART_COUNTT => _CUR_CART_COUNTT;
 
@@ -20,22 +22,21 @@ class CartImplementation extends ChangeNotifier{
   double _promocodeValue=0;
   String _promocode="";
 
-
   double get promocodeValue => _promocodeValue;
-
-  set promocodeValue(double value) {
-    _promocodeValue = value;
-  }
-
-  Map get itemMap => _itemMap;
-
   var _itemTotalPriceMap = Map<String, int>();
   String _cartTotalPrice ="0";
 
   String _cartFinalPrice ="0";
   String _totalTax="0";
 
+  final API_Config config;
+  CartImplementation({required this.config});
 
+  set promocodeValue(double value) {
+    _promocodeValue = value;
+  }
+
+  Map get itemMap => _itemMap;
   String get totalTax => _totalTax;
 
   set totalTax(String value) {
@@ -66,15 +67,13 @@ class CartImplementation extends ChangeNotifier{
     if (CUR_CART_COUNT=="")
       _CUR_CART_COUNTT="0";
 
-
-    int temp =int.parse(CUR_CART_COUNTT)+1;
+     int temp =int.parse(CUR_CART_COUNTT)+1;
     CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
     bool itemExist=_itemMap.containsKey(id);
     if(itemExist==false){
     product _product= product( id:id,name:title,slug:"",permalink:"",price:price,sale_price:price,img:img,description:description,short_description:shortdescription,tag:"",attributes: attributess);
     _product.name=title;
     _products.add(_product);
-
     }
     add_to_itemMap(id.toString(),int.parse(price));
 
@@ -82,6 +81,8 @@ class CartImplementation extends ChangeNotifier{
     notifyListeners();
     return CUR_CART_COUNTT;
   }
+
+
   String removeFromCart(int count, shortdescription,  description,  price,  title,  id
       ,  img,  review,index)
   {
@@ -166,8 +167,8 @@ class CartImplementation extends ChangeNotifier{
 
   }
   applyTax(){
-    List<String> tax =  getIt<API_Config>().config.tax;
-    String deliveryFees =  getIt<API_Config>().config.deliveryFees;
+    List<String> tax =  config.config.tax;
+    String deliveryFees =  config.config.deliveryFees;
     double totalTax=0,  deliveryFes=0; double temPelement=0;
      deliveryFes=double.tryParse(deliveryFees)!;
     if (deliveryFes==null)
@@ -188,4 +189,5 @@ class CartImplementation extends ChangeNotifier{
   set promocode(String value) {
     _promocode = value;
   }
+
 }
