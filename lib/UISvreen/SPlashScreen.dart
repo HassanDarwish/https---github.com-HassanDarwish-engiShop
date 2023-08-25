@@ -17,7 +17,7 @@ class _SPlashScreenState extends State<SPlashScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const HappyShopSplash(),
+      home:   HappyShopSplash(),
       title: App_title,
       theme: ThemeData(
         primarySwatch: primary_app,

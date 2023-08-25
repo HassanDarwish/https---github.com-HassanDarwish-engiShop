@@ -167,6 +167,7 @@ class CartImplementation extends ChangeNotifier{
 
   }
   applyTax(){
+
     List<String> tax =  config.config.tax;
     String deliveryFees =  config.config.deliveryFees;
     double totalTax=0,  deliveryFes=0; double temPelement=0;

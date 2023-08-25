@@ -20,8 +20,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
-  String consumerKey =  getIt<API_Config>().config.consumerKey;
-  String  consumerSecret =  getIt<API_Config>().config.consumerSecret;
+
   @override
   Future<products> getProductByCategory(String catId) async {
 
@@ -48,6 +47,8 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     return product_List;
   }
   String  getOAuthURL(String requestMethod, String queryUrl) {
+    String consumerKey =  getIt<API_Config>().config.consumerKey;
+    String  consumerSecret =  getIt<API_Config>().config.consumerSecret;
     String token = "";
     String url = queryUrl;
     bool containsQueryParams = url.contains("?");

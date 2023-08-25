@@ -5,11 +5,16 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
+import '../getIt/config/APIConfig.dart';
 
+import '../getIt/woocommecre/API_Woocommerce.dart';
 import 'HappyShopHome.dart';
+GetIt getIt = GetIt.instance;
 
 class HappyShopSplash extends StatefulWidget {
-  const HappyShopSplash({
+
+    HappyShopSplash({
     Key? key,
   }) : super(key: key);
 
@@ -20,14 +25,10 @@ class HappyShopSplash extends StatefulWidget {
 class _HappyShopSplashState extends State<HappyShopSplash> {
   // GetIt getIt = GetIt.instance;
   @override
-  void initState() {
+  void initState()   {
     super.initState();
-    //getIt<API_Woocommerce>().getProducts();
-    startTime();
-    /*
-    getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
-        signalsReady: true);
-    getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());*/
+     startTime();
+
   }
 
   @override
@@ -103,10 +104,23 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
 
   startTime() async {
     var duration = const Duration(milliseconds: 3000);
+    if(true==await getIt<API_Config>().isInternet()) {
+      await getIt<API_Config>().getConfig();
+      await getIt<API_Woocommerce>().getCategoriesByCount(8);
+      await getIt<API_Woocommerce>().getCategories();
+
     return Timer(duration, navigationPage);
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No internet connection'),
+        ),
+      );
+    }
   }
 
   Future<void> navigationPage() async {
+
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(

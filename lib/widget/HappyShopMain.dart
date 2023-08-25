@@ -22,7 +22,7 @@ class HappyShopMain extends StatelessWidget {
           ))),
       debugShowCheckedModeBanner: false,
       //home: HappyShopHome(),
-      home: const HappyShopSplash(),
+      home:   HappyShopSplash(),
     );
   }
 }

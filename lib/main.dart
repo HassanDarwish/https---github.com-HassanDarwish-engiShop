@@ -13,47 +13,57 @@ import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 import 'provider/Cart.dart';
-
+import 'package:connectivity_plus/connectivity_plus.dart';
 GetIt getIt = GetIt.instance;
 
-void loadRepository()async{
+
+loadRepository()async{
   getIt.registerSingleton<API_Config>(API_Config_Implementation(),
       signalsReady: true);
   getIt.isReady<API_Config>().then((_) => getIt<API_Config>());
-  await getIt<API_Config>().getConfig();
-  getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
-  signalsReady: true);
-  getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
 
-  getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
-  signalsReady: true);
-  getIt.isReady<APICustomWooCommerce>().then((_) => getIt<APICustomWooCommerce>());
-  await  getIt<API_Woocommerce>().getCategoriesByCount(8);
-  await  getIt<API_Woocommerce>().getCategories();
+
+
+    getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
+        signalsReady: true);
+    getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
+
+    getIt.registerSingleton<APICustomWooCommerce>(
+        APICustomWooCommerce_Implementation(),
+        signalsReady: true);
+    getIt.isReady<APICustomWooCommerce>().then((_) =>
+        getIt<APICustomWooCommerce>());
 
 }
+
 void main() async {
-loadRepository();
+
+  loadRepository();
 
   runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<CartImplementation>(
-        create: (context) => CartImplementation(config: getIt<API_Config>()),
-      ),
-      ChangeNotifierProvider<SessionImplementation>(
-        create: (context) => SessionImplementation(),
-      ),
-      ChangeNotifierProvider<WoocommerceProvider>(
-        create: (context) => WoocommerceProvider(api_Woocommerce:  getIt<API_Woocommerce>(),api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
-      ),
-    ],
-    child:MyApp()));
+      providers: [
+        ChangeNotifierProvider<CartImplementation>(
+          create: (context) => CartImplementation(config: getIt<API_Config>()),
+        ),
+        ChangeNotifierProvider<SessionImplementation>(
+          create: (context) => SessionImplementation(),
+        ),
+        ChangeNotifierProvider<WoocommerceProvider>(
+          create: (context) =>
+              WoocommerceProvider(api_Woocommerce: getIt<API_Woocommerce>(),
+                  api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
+        ),
+      ],
+      child: MyApp()));
+
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
+
+    MyApp({
     Key? key,
   }) : super(key: key);
+
 
   // This widget is the root of your application.
   @override

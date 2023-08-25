@@ -90,7 +90,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HappyShopSplash(), //HappyShopCart(),
+                    builder: (context) =>   HappyShopSplash(), //HappyShopCart(),
                   ),
                 );
               }),
@@ -268,7 +268,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const HappyShopSplash(),
+        builder: (context) =>   HappyShopSplash(),
       ),
     );
   }
