@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:GiorgiaShop/pojo/config.dart';
 import 'package:http/http.dart' as http;
 abstract class API_Config {
@@ -12,7 +11,6 @@ abstract class API_Config {
 
 class API_Config_Implementation extends API_Config {
 
-  ConnectivityResult _connectionStatus = ConnectivityResult.none;
 
 
   Future<bool> isInternet () async {

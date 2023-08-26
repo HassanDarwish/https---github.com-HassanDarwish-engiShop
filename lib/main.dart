@@ -13,7 +13,7 @@ import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 import 'provider/Cart.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+
 GetIt getIt = GetIt.instance;
 
 

@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 class products {
@@ -19,14 +17,7 @@ class products {
       temp_product.name=item["name"];
       temp_product.rating="";
 
-      /*temp_product.id=item["id"];
-      temp_product.price=item["price"];
-      temp_product.permalink=item["permalink"];
-      temp_product.sale_price=item["sale_price"];
-      temp_product.img=item["images"][0]['src'];
-      temp_product.description=item["description"];
-      temp_product.short_description=item["short_description"];
-      temp_product.tag=item["tag"];*/
+
       product_List.add(temp_product);
     });
     products temp_products= products(productList: product_List);
@@ -52,6 +43,9 @@ class product {
   late   String _review="";
   late   String _user_rating="";
   late List <attribute> attributes;
+
+
+
 
   String get user_rating => _user_rating;
 

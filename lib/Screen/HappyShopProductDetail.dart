@@ -27,8 +27,8 @@ class HappyShopProductDetail extends StatefulWidget {
   }) : super(key: key);
   final String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,id;
    final  List <attribute>? attributess;
-    String dropdownvalue="";
-
+    List <String> selectedAttribute=[];
+    Map<String,String> toViewSelectedAttribute=Map<String,String>();
   @override
   _HappyShopProductDetailState createState() => _HappyShopProductDetailState();
 }
@@ -272,20 +272,8 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         Consumer<CartImplementation>(builder:(context ,cart,child) {
           return GestureDetector(
             onTap: () async {
-              //Provider.of<CartImplementation>(context, listen: false).addToCart(
-              //                   1, widget.id, 1);
               loadCartList(cart);
-              /*cart.addToCart(
-                  1, widget.shortdescription, widget.description, widget.price, widget.title, widget.id
-                  , widget.imgurl, widget.review,1);
-
-               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HappyShopCart(),
-                ),
-              );*/
-            },
+           },
             child: Container(
               height: 55,
               decoration: BoxDecoration(
@@ -410,47 +398,60 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     );
   }
 _attribute(List<attribute> list) {
-  attribute oop;
-  if (!list.isEmpty){
-    oop=list[0];
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-      child: Row(
-      children: [
-        Text(
-          oop.name,
-          style: TextStyle(fontSize: 15),
-        ),SizedBox(
-          width: 15, // <-- SEE HERE
-        ),
-        DropdownButton(items: oop.options.map<DropdownMenuItem<String>>((String value) {
-           return DropdownMenuItem<String>(
-            value: value,
-            child: Text(
-              value,
-              style: TextStyle(fontSize: 30),
-            ),
-          );
-        }).toList(), onChanged: (value) {
-          setState((){
-          widget.dropdownvalue= value.toString();
-          print(widget.dropdownvalue+"************"+value.toString());
-          });
-        }
-        ),
-        SizedBox(
-      width: 15, // <-- SEE HERE
-    ),
+
+  return Container(
+    padding: const EdgeInsets.only(left: 15),
+      child:  GridView.builder(
+      itemCount:list.length,
+      padding: const EdgeInsets.only(top: 5),
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 1,
+        childAspectRatio:11.5,
+      ),
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index) {
+        return Row(
+          children: [
             Text(
-              widget.dropdownvalue,
-        style: TextStyle(fontSize: 25),
-        ),
-        ],
-  ),
-    );
-}else{
-    return Row();
-  }
+              list[index].name,
+              style: TextStyle(fontSize: 15),
+            ),SizedBox(
+              width: 15, // <-- SEE HERE
+            ),
+            DropdownButton(items: list[index].options.map<DropdownMenuItem<String>>((String value) {
+
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
+            }).toList(), onChanged: (value) {
+              setState((){
+                //widget.selectedAttribute[index]=value.toString();
+                widget.toViewSelectedAttribute[list[index].name]=value.toString();
+
+              });
+            }
+            ),
+            SizedBox(
+              width: 15, // <-- SEE HERE
+            ),
+            Text(
+              widget.toViewSelectedAttribute.length==0  ? "" : widget.toViewSelectedAttribute[list[index].name].toString(),
+              style: TextStyle(fontSize: 25),
+            ),
+          ],
+        );
+
+      }
+
+        )
+        );
+
+
   }
   _title(String title) {
 
