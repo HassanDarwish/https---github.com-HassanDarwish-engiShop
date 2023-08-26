@@ -22,8 +22,6 @@ loadRepository()async{
       signalsReady: true);
   getIt.isReady<API_Config>().then((_) => getIt<API_Config>());
 
-
-
     getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
         signalsReady: true);
     getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());

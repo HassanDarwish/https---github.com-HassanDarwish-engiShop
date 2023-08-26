@@ -102,13 +102,14 @@ class product {
          List<dynamic> optionsList = document['options'];
          stringOptions = optionsList.map((option) =>
             option.toString()).toList();
-
+         dynamic attribute_name = document['name'];
+print(attribute_name+"*********************Ali******"+document['id'].toString());
       attribute c= new attribute(
         options:stringOptions,
-        id: document['id'],
-          name:document['name'] as String,
+          id: document['id'],
+          name:attribute_name.toString() ,
           position:document['position'],
-          visible:document['visible'] ,
+          visible:document['visible'],
           variation:document['variation'] );
         c.options=stringOptions;
        return c;
@@ -200,7 +201,7 @@ class product {
 
 class attribute {
 
-  attribute( {id,name,position,visible,variation,options}) ;
+  attribute( {required this.id,required this.name,required this.position,required this.visible,required this.variation,required this.options}) ;
 
     int id= 0;
   String name= "";

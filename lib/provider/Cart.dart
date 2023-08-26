@@ -102,8 +102,7 @@ class CartImplementation extends ChangeNotifier{
   String getCart() {
 
 
-    print(CUR_CART_COUNTT);
-    // TODO: implement getCart
+     // TODO: implement getCart
     return CUR_CART_COUNTT;
   }
 
@@ -133,7 +132,7 @@ class CartImplementation extends ChangeNotifier{
       _cartTotalPrice=(double.parse(_cartTotalPrice)-totalItemPriceFromMap).toString();
       _itemMap.remove(key);
       _itemTotalPriceMap.remove(key);
-      _products.removeAt(index);
+      _products.removeAt(index);///
       int temp =int.parse(CUR_CART_COUNTT)-value;
       CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
     } else{
