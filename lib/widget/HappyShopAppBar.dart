@@ -7,7 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 
-import '../provider/Cart.dart';
 class HappyShopAppBar extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final GlobalKey<ScaffoldState>  privatescaffoldKey;

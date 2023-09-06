@@ -103,7 +103,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
   }
 
   startTime() async {
-    var duration = const Duration(milliseconds: 3000);
+    var duration = const Duration(milliseconds: 400);
     if(true==await getIt<API_Config>().isInternet()) {
       await getIt<API_Config>().getConfig();
       await getIt<API_Woocommerce>().getCategoriesByCount(8);

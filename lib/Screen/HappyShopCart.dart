@@ -92,9 +92,6 @@ class _HappyShopCartState extends State<HappyShopCart>
   // Initialize the provider
       widget.provider = Provider.of<CartImplementation>(context, listen: false);
 
-
-
-
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
@@ -262,7 +259,7 @@ class _HappyShopCartState extends State<HappyShopCart>
           await Navigator.push(
             context,
             PageRouteBuilder(
-              transitionDuration: const Duration(seconds: 1),
+              transitionDuration: const Duration(milliseconds: 200),
               pageBuilder: (_, __, ___) => HappyShopProductDetail(
                 id: widget.provider.products.elementAt(index).id.toString(),
                 imgurl:widget.provider.products.elementAt(index).img,

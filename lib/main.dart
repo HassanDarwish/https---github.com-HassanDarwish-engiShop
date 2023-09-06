@@ -42,13 +42,13 @@ void main() async {
 
   runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider<Cart>(
+        ChangeNotifierProvider<CartImplementation>(
           create: (context) => CartImplementation(config: getIt<API_Config>()),
         ),
         ChangeNotifierProvider<SessionImplementation>(
           create: (context) => SessionImplementation(),
         ),
-        ChangeNotifierProvider<Woocommerce>(
+        ChangeNotifierProvider<WoocommerceProvider>(
           create: (context) =>
               WoocommerceProvider(api_Woocommerce: getIt<API_Woocommerce>(),
                   api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
