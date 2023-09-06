@@ -7,9 +7,11 @@ import '../getIt/config/APIConfig.dart';
 import '../pojo/products.dart';
 
 import 'package:get_it/get_it.dart';
+
+import 'abstracted/Cart.dart';
 GetIt getIt = GetIt.instance;
 
-class CartImplementation extends ChangeNotifier{
+class CartImplementation extends ChangeNotifier implements Cart{
 
 
   late String _CUR_CART_COUNTT="0";
@@ -62,18 +64,50 @@ class CartImplementation extends ChangeNotifier{
 
 
   String addToCart(int count, shortdescription,  description,  price,  title,  id
-  ,  img,  review,index,attributess){
-
+  ,  img,  review,index,attributess,toViewSelectedAttribute){
+    int returnFlag=1;
     if (CUR_CART_COUNT=="")
       _CUR_CART_COUNTT="0";
 
      int temp =int.parse(CUR_CART_COUNTT)+1;
     CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
     bool itemExist=_itemMap.containsKey(id);
-    if(itemExist==false){
-    product _product= product( id:id,name:title,slug:"",permalink:"",price:price,sale_price:price,img:img,description:description,short_description:shortdescription,tag:"",attributes: attributess);
-    _product.name=title;
-    _products.add(_product);
+    if(attributess.length>0) {
+      if (!toViewSelectedAttribute.isEmpty) {
+         product _product = product(id: id,
+            name: title,
+            slug: "",
+            permalink: "",
+            price: price,
+            sale_price: price,
+            img: img,
+            description: description,
+            short_description: shortdescription,
+            tag: "",
+            attributes: attributess,
+            toViewSelectedAttribute: toViewSelectedAttribute);
+
+        _product.name = title;
+        _products.add(_product);
+
+      }else{
+        returnFlag=0;
+      }
+    }else{
+      if (itemExist == false) {
+        product _product = product.notDeal(id: id,
+            name: title,
+            slug: "",
+            permalink: "",
+            price: price,
+            sale_price: price,
+            img: img,
+            description: description,
+            short_description: shortdescription,
+            tag: "", );
+        _product.name = title;
+        _products.add(_product);
+      }
     }
     add_to_itemMap(id.toString(),int.parse(price));
 

@@ -272,7 +272,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         Consumer<CartImplementation>(builder:(context ,cart,child) {
           return GestureDetector(
             onTap: () async {
-              loadCartList(cart);
+              loadCartList(cart); // Hassan Ali
            },
             child: Container(
               height: 55,
@@ -302,7 +302,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   void loadCartList(CartImplementation cart) async {
     cart.addToCart(
         1, widget.shortdescription, widget.description, widget.price, widget.title, widget.id
-        , widget.imgurl, widget.review,1,widget.attributess);
+        , widget.imgurl, widget.review,1,widget.attributess,widget.toViewSelectedAttribute);
 
     // Pass the data to the SecondPage widget
     Navigator.pushReplacement(

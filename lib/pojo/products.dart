@@ -43,7 +43,7 @@ class product {
   late   String _review="";
   late   String _user_rating="";
   late List <attribute> attributes;
-
+  late Map<String,String> SelectedAttribute;
 
 
 
@@ -64,14 +64,34 @@ class product {
   set rating(String value) {
     _rating = value;
   }
+  product.notDeal( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating}) {
+    //this.name = name;
 
-  product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating,attributes}) {
+    List<String> stringOptions=[];
+    this.id = id.toString();
+    this.slug = slug;
+
+    this.permalink = permalink;
+
+    this.price = price;
+
+    this.sale_price = sale_price;
+    this.img = img;
+    this.description = description;
+    this.short_description = short_description;
+    this.tag = tag;
+
+
+  }
+
+  product( {id,name,slug,permalink,price,sale_price,img,description,short_description,tag,rating,attributes, toViewSelectedAttribute}) {
     //this.name = name;
 
     List<String> stringOptions=[];
     this.id = id.toString();
     this.attributes=attributes;
     this.slug = slug;
+    this.SelectedAttribute=toViewSelectedAttribute;
 
     this.permalink = permalink;
 
@@ -97,7 +117,7 @@ class product {
          stringOptions = optionsList.map((option) =>
             option.toString()).toList();
          dynamic attribute_name = document['name'];
-print(attribute_name+"*********************Ali******"+document['id'].toString());
+
       attribute c= new attribute(
         options:stringOptions,
           id: document['id'],

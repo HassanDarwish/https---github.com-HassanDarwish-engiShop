@@ -1,4 +1,6 @@
 import 'package:GiorgiaShop/provider/Session.dart';
+import 'package:GiorgiaShop/provider/abstracted/Cart.dart';
+import 'package:GiorgiaShop/provider/abstracted/Woocommerce.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
@@ -40,13 +42,13 @@ void main() async {
 
   runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider<CartImplementation>(
+        ChangeNotifierProvider<Cart>(
           create: (context) => CartImplementation(config: getIt<API_Config>()),
         ),
         ChangeNotifierProvider<SessionImplementation>(
           create: (context) => SessionImplementation(),
         ),
-        ChangeNotifierProvider<WoocommerceProvider>(
+        ChangeNotifierProvider<Woocommerce>(
           create: (context) =>
               WoocommerceProvider(api_Woocommerce: getIt<API_Woocommerce>(),
                   api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
@@ -68,11 +70,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return  MaterialApp(
-        home: HappyShopSplash()
-      /* MyHomePage(
-        title: "testing woocommerce",
-      )*/
-      ,
+        home: HappyShopSplash()      ,
       title: App_title,
       theme: ThemeData(
         primarySwatch: primary_app,

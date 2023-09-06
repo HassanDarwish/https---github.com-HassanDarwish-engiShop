@@ -413,7 +413,8 @@ class _HappyShopCartState extends State<HappyShopCart>
                               onTap: () {
                                 widget.provider.addToCart(
                                     1, widget.provider.products.elementAt(index).short_description, widget.provider.products.elementAt(index).description, widget.provider.products.elementAt(index).price, widget.provider.products.elementAt(index).name, widget.provider.products.elementAt(index).id
-                                    , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1,widget.provider.products.elementAt(index).attributes);
+                                    , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1,widget.provider.products.elementAt(index).attributes,
+                                      widget.provider.products.elementAt(index).SelectedAttribute);
                               },
                             )
                           ],

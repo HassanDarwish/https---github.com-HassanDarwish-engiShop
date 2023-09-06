@@ -6,8 +6,9 @@ import 'package:flutter/cupertino.dart';
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import '../pojo/products.dart';
+import 'abstracted/Woocommerce.dart';
 
-class WoocommerceProvider  extends ChangeNotifier{
+class WoocommerceProvider  extends ChangeNotifier implements Woocommerce{
 
   final API_Woocommerce api_Woocommerce;
   final APICustomWooCommerce api_CustomWoocommerce;
