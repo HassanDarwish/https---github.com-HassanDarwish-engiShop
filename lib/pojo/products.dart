@@ -42,8 +42,8 @@ class product {
   late   String _rating="";
   late   String _review="";
   late   String _user_rating="";
-  late List <attribute> attributes;
-  late Map<String,String> SelectedAttribute;
+  late List <attribute> attributes= List.empty();
+  late Map<String,String> SelectedAttribute= {};
 
 
 

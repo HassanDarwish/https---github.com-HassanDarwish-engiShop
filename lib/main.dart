@@ -9,8 +9,11 @@ import 'package:provider/provider.dart';
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopCart.dart';
+import 'Screen/HappyShopCatgories.dart';
+import 'Screen/HappyShopHome.dart';
 import 'Screen/HappyShopProductDetail.dart';
 import 'Screen/HappyShopSplash.dart';
+import 'Screen/HappyShopStaggeredList.dart';
 import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
@@ -84,6 +87,12 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Open sans',
       ),
+      routes: {
+        HappyShopHome.routeName: (context) => const HappyShopHome(),
+        HappyShopCatogeryAll.routeName:(context) => const HappyShopCatogeryAll(),
+        HappyShopCart.routeName:(context) =>  HappyShopCart(),
+
+      },
     );
 
 

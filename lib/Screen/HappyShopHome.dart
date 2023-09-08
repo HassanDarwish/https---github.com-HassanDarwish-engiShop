@@ -7,12 +7,9 @@ import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
 import 'package:GiorgiaShop/widget/HappyShopDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
-import 'package:GiorgiaShop/provider/Cart.dart';
-import '../Helper/HappyShopString.dart';
-import 'package:provider/provider.dart';
-class HappyShopHome extends StatefulWidget {
+ class HappyShopHome extends StatefulWidget {
   const HappyShopHome({Key? key}) : super(key: key);
-
+  static const routeName = '/HappyShopHome';
   @override
   _HappyShopHomeState createState() => _HappyShopHomeState();
 }

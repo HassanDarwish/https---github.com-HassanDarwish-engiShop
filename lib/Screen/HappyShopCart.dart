@@ -16,7 +16,7 @@ import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt.instance;
 class HappyShopCart extends StatefulWidget {
-
+  static const routeName = '/HappyShopCart';
   late final provider;
     HappyShopCart({Key? key}) : super(key: key);
 
@@ -353,8 +353,10 @@ class _HappyShopCartState extends State<HappyShopCart>
                               decoration: TextDecoration.lineThrough,
                               letterSpacing: 0.7),
                         ),
-                        Text(
-                            widget.provider.products.elementAt(index).short_description
+                        Expanded(
+                          child: Text(
+                              widget.provider.products.elementAt(index).short_description
+                          ),
                         ),
                       ],
                     ),
@@ -408,10 +410,13 @@ class _HappyShopCartState extends State<HappyShopCart>
                                 ),
                               ),
                               onTap: () {
+
                                 widget.provider.addToCart(
                                     1, widget.provider.products.elementAt(index).short_description, widget.provider.products.elementAt(index).description, widget.provider.products.elementAt(index).price, widget.provider.products.elementAt(index).name, widget.provider.products.elementAt(index).id
                                     , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1,widget.provider.products.elementAt(index).attributes,
                                       widget.provider.products.elementAt(index).SelectedAttribute);
+
+
                               },
                             )
                           ],

@@ -375,7 +375,6 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     with TickerProviderStateMixin {
   late products listProductByCategory;
 
- // Future<List<WooProductCategory>> listCategories = getIt<API_Woocommerce>().listCategories;
 
   Future<List<product>> loadProducts(String catId,String order,String per_page) async {
 
@@ -383,17 +382,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     return listProductByCategory.productList;
   }
   /*
-  Future _getProducts() async {
 
-    WooCommerce woocommerce = WooCommerce(
-        baseUrl: "http://engy.jerma.net",
-        consumerKey: "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56",
-        consumerSecret: "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf");
-    Future<List<WooProductCategory>> x = woocommerce.getProductCategories();
-
-
-    return x;
-  }
 
 
   List catList = [
@@ -499,13 +488,14 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                               ),
                             ),
                             onTap: () async {
-
-                              await Navigator.push(
+                              await Navigator.of(context)
+                                  .pushNamed(HappyShopCatogeryAll.routeName);
+                              /* await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                           HappyShopCatogeryAll()),
-                              );
+                              );*/
                             },
                           ),
                         ],
@@ -573,7 +563,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                         context,
                                         PageRouteBuilder(
                                             transitionDuration:
-                                                const Duration(seconds: 1),
+                                                const Duration(milliseconds: 400),
                                             pageBuilder: (_, __, ___) =>
                                                 HappyShopStaggeredList(
                                                   id: category.id!,

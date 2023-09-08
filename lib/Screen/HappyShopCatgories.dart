@@ -17,8 +17,8 @@ import 'package:get_it/get_it.dart';
 
 class HappyShopCatogeryAll extends StatefulWidget {
 
-
-    HappyShopCatogeryAll({Key? key}) : super(key: key);
+  static const routeName = '/HappyShopCatogeryAll';
+  const  HappyShopCatogeryAll({Key? key}) : super(key: key);
 
   @override
   _HappyShopCatogeryAllState createState() => _HappyShopCatogeryAllState();

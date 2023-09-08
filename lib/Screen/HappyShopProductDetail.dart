@@ -300,15 +300,59 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     );
   }
   void loadCartList(CartImplementation cart) async {
-    cart.addToCart(
-        1, widget.shortdescription, widget.description, widget.price, widget.title, widget.id
-        , widget.imgurl, widget.review,1,widget.attributess,widget.toViewSelectedAttribute);
 
+    if(widget.attributess!.length>0){
+      if(!widget.toViewSelectedAttribute.isEmpty ){
+        cart.addToCart(
+            1,
+            widget.shortdescription,
+            widget.description,
+            widget.price,
+            widget.title,
+            widget.id
+            ,
+            widget.imgurl,
+            widget.review,
+            1,
+            widget.attributess,
+            widget.toViewSelectedAttribute);
+        Navigator.of(context)
+            .pushNamed(HappyShopCart.routeName);
+      }else{
+        String title_attributes="";
+
+        if (widget.attributess != null) {
+          title_attributes = widget.attributess![0].name;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Please Choose " + title_attributes),
+          ),
+        );
+      }
+    }else {
+      cart.addToCart(
+          1,
+          widget.shortdescription,
+          widget.description,
+          widget.price,
+          widget.title,
+          widget.id
+          ,
+          widget.imgurl,
+          widget.review,
+          1,
+          widget.attributess,
+          widget.toViewSelectedAttribute);
+      Navigator.of(context)
+          .pushNamed(HappyShopCart.routeName);
+    }
     // Pass the data to the SecondPage widget
-    Navigator.pushReplacement(
+    /*Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => HappyShopCart()),
-    );
+    );*/
+
   }
   _madeIn() {
     String madeIn = "India";

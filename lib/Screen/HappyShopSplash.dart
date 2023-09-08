@@ -121,10 +121,13 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
 
   Future<void> navigationPage() async {
 
-    Navigator.pushReplacement(
+    Navigator.of(context)
+        .pushNamed(HappyShopHome.routeName);
+
+    /* Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const HappyShopHome(), //HappyShopLogin(),
-        ));
+        )); */
   }
 }
