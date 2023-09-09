@@ -13,6 +13,7 @@ import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt.instance;
 
 class HappyShopCheckout extends StatefulWidget {
+  static const routeName = '/HappyShopCheckout';
   HappyShopCheckout({Key? key}) : super(key: key);
   late final cartProvider;
 
@@ -209,8 +210,10 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                     _curIndex = _curIndex + 1;
                   });
                 } else if (_curIndex == 2) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const HappyShopHome()));
+                  Navigator.of(context)
+                      .pushNamed(HappyShopHome.routeName);
+                /*  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const HappyShopHome()));*/
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -540,6 +543,10 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
   orderItem(int index) {
 
+    List<int> itemMapValues =[];
+    widget.cartProvider.itemMap.forEach((k, v) => itemMapValues.add(v));
+    List<int> itemTotalPriceMapValues = [];
+    widget.cartProvider.itemTotalPriceMap.forEach((k, v) => itemTotalPriceMapValues.add(v));
     return   Padding(
       padding: EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
@@ -552,7 +559,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
           Expanded(
               flex: 1,
               child: Text(
-                widget.cartProvider.itemMap[widget.cartProvider.products.elementAt(index).id.toString()].toString(),
+                itemMapValues.elementAt(index).toString(),
                 textAlign: TextAlign.end,
               )),
           Expanded(
@@ -564,7 +571,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
           Expanded(
               flex: 2,
               child: Text(
-                widget.cartProvider.itemTotalPriceMap[widget.cartProvider.products.elementAt(index).id.toString()].toString(),
+                  itemTotalPriceMapValues.elementAt(index).toString(),
                 textAlign: TextAlign.end,
               )),
         ],

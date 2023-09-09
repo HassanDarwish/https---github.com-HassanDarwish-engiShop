@@ -224,12 +224,8 @@ class _HappyShopCartState extends State<HappyShopCart>
                 InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>   HappyShopCheckout(),
-                      ),
-                    );
+                    Navigator.of(context)
+                        .pushNamed(HappyShopCheckout.routeName);
                   },
                   child: Container(
                     height: 55,

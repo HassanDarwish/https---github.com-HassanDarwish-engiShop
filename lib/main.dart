@@ -10,6 +10,7 @@ import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
 import 'Screen/HappyShopCart.dart';
 import 'Screen/HappyShopCatgories.dart';
+import 'Screen/HappyShopCheckout.dart';
 import 'Screen/HappyShopHome.dart';
 import 'Screen/HappyShopProductDetail.dart';
 import 'Screen/HappyShopSplash.dart';
@@ -91,6 +92,7 @@ class MyApp extends StatelessWidget {
         HappyShopHome.routeName: (context) => const HappyShopHome(),
         HappyShopCatogeryAll.routeName:(context) => const HappyShopCatogeryAll(),
         HappyShopCart.routeName:(context) =>  HappyShopCart(),
+        HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
 
       },
     );
