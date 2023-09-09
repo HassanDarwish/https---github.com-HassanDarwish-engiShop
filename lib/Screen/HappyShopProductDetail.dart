@@ -299,8 +299,10 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       ],
     );
   }
+  int temp_value=0;
   void loadCartList(CartImplementation cart) async {
-
+    temp_value++;
+    int identify_value=temp_value+int.parse(widget.id!);
     if(widget.attributess!.length>0){
       if(!widget.toViewSelectedAttribute.isEmpty ){
         cart.addToCart(
@@ -309,13 +311,13 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
             widget.description,
             widget.price,
             widget.title,
-            widget.id
-            ,
+            widget.id,
             widget.imgurl,
             widget.review,
             1,
             widget.attributess,
-            widget.toViewSelectedAttribute);
+            widget.toViewSelectedAttribute,
+            identify_value);
         Navigator.of(context)
             .pushNamed(HappyShopCart.routeName);
       }else{
@@ -331,19 +333,20 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         );
       }
     }else {
+      identify_value=0;
       cart.addToCart(
           1,
           widget.shortdescription,
           widget.description,
           widget.price,
           widget.title,
-          widget.id
-          ,
+          widget.id,
           widget.imgurl,
           widget.review,
           1,
           widget.attributess,
-          widget.toViewSelectedAttribute);
+          widget.toViewSelectedAttribute,
+          identify_value);
       Navigator.of(context)
           .pushNamed(HappyShopCart.routeName);
     }

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import '../getIt/config/APIConfig.dart';
 import '../pojo/products.dart';
-
+import 'package:GiorgiaShop/Helper/product_Enums.dart';
 import 'package:get_it/get_it.dart';
 
 import 'abstracted/Cart.dart';
@@ -64,7 +64,7 @@ class CartImplementation extends ChangeNotifier implements Cart{
 
 
   String addToCart(int count, shortdescription,  description,  price,  title,  id
-  ,  img,  review,index,attributess,toViewSelectedAttribute){
+  ,  img,  review,index,attributess,toViewSelectedAttribute,identify_value){
     int returnFlag=1;
     if (CUR_CART_COUNT=="")
       _CUR_CART_COUNTT="0";
@@ -88,6 +88,7 @@ class CartImplementation extends ChangeNotifier implements Cart{
             toViewSelectedAttribute: toViewSelectedAttribute);
 
         _product.name = title;
+         _product.identify_value=identify_value;
         _products.add(_product);
 
       }else{
@@ -106,10 +107,11 @@ class CartImplementation extends ChangeNotifier implements Cart{
             short_description: shortdescription,
             tag: "", );
         _product.name = title;
+        _product.identify_value=identify_value;
         _products.add(_product);
       }
     }
-    add_to_itemMap(id.toString(),int.parse(price));
+    add_to_itemMap(id.toString(),int.parse(price),identify_value);
 
     applyTax();
     notifyListeners();
@@ -140,7 +142,9 @@ class CartImplementation extends ChangeNotifier implements Cart{
     return CUR_CART_COUNTT;
   }
 
-  add_to_itemMap(String key,int price){
+  add_to_itemMap(String key,int price, int identify_value){
+
+    identify_value==0 ? key=key : key=identify_value.toString();
 
     bool flag=_itemMap.containsKey(key);
     if(flag==true){
@@ -158,9 +162,9 @@ class CartImplementation extends ChangeNotifier implements Cart{
     }
 
   }
-  remove_from_itemMap(int removeFromAll,String key,int index,String pricee) {
+  remove_from_itemMap(Product_Enums removeFromAll,String key,int index,String pricee) {
     int price=int.parse(pricee);int totalItemPriceFromMap=0;
-    if (removeFromAll == 1) {
+    if (removeFromAll == Product_Enums.removeFromAll) {
       int value = _itemMap[key]!;
       totalItemPriceFromMap=_itemTotalPriceMap[key]! ;
       _cartTotalPrice=(double.parse(_cartTotalPrice)-totalItemPriceFromMap).toString();
@@ -170,8 +174,8 @@ class CartImplementation extends ChangeNotifier implements Cart{
       int temp =int.parse(CUR_CART_COUNTT)-value;
       CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
     } else{
-      bool flag = _itemMap.containsKey(key);
-    if (flag == true) {
+      bool does_contain_flag = _itemMap.containsKey(key);
+    if (does_contain_flag == true) {
       int value = _itemMap[key]!;
       int priceTotal=_itemTotalPriceMap[key]!;
       value = value - 1;
@@ -199,6 +203,25 @@ class CartImplementation extends ChangeNotifier implements Cart{
 
 
   }
+
+  remove_product_hasAttribute(Product_Enums removehasAttribute,String key,int index,String pricee){
+
+    int price=int.parse(pricee);int totalItemPriceFromMap=0;
+    if (removehasAttribute == Product_Enums.hasAttribute) {
+      int value = _itemMap[key]!;
+      totalItemPriceFromMap=_itemTotalPriceMap[key]! ;
+      _cartTotalPrice=(double.parse(_cartTotalPrice)-totalItemPriceFromMap).toString();
+      _itemMap.remove(key);
+      _itemTotalPriceMap.remove(key);
+      _products.removeAt(index);///
+      int temp =int.parse(CUR_CART_COUNTT)-value;
+      CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
+
+    }
+    applyTax();
+    notifyListeners();
+  }
+
   applyTax(){
 
     List<String> tax =  config.config.tax;

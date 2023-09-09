@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
-
+import 'package:GiorgiaShop/Helper/product_Enums.dart';
 import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'HappyShopCheckout.dart';
@@ -279,7 +279,7 @@ class _HappyShopCartState extends State<HappyShopCart>
         child: Row(
           children: <Widget>[
             Hero(
-                tag:widget.provider.products.elementAt(index).id.toString(),
+                tag:Random().nextInt(1000).toString(),
                 child: CachedNetworkImage(
                   imageUrl: widget.provider.products.elementAt(index).img,
                   height: 90.0,
@@ -318,7 +318,24 @@ class _HappyShopCartState extends State<HappyShopCart>
                           ),
                           onTap: () {
                             setState(() {
-                              widget.provider.remove_from_itemMap(1,widget.provider.products.elementAt(index).id,index,widget.provider.products.elementAt(index).price);
+                              if(widget.provider.products.elementAt(index).SelectedAttribute.isEmpty) {
+                                widget.provider.remove_from_itemMap(
+                                    Product_Enums.removeFromAll,
+                                    widget.provider.products
+                                        .elementAt(index)
+                                        .id, index, widget.provider.products
+                                    .elementAt(index)
+                                    .price);
+                              }if(!widget.provider.products.elementAt(index).SelectedAttribute.isEmpty) {
+                                widget.provider.remove_product_hasAttribute(
+                                    Product_Enums.hasAttribute,
+                                    widget.provider.products
+                                        .elementAt(index)
+                                        .identify_value.toString(), index, widget.provider.products
+                                    .elementAt(index)
+                                    .price);
+                              }
+
 
                             });
                           },
@@ -362,71 +379,87 @@ class _HappyShopCartState extends State<HappyShopCart>
                     ),
                     Row(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            InkWell(
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                    right: 8, top: 8, bottom: 8),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius:
-                                        const BorderRadius.all(Radius.circular(5))),
-                                child: const Icon(
-                                  Icons.remove,
-                                  size: 16,
-                                  color: Colors.grey,
+                        Visibility(
+                          visible: widget.provider.products.elementAt(index).SelectedAttribute.isEmpty,
+                          child: Row(
+                            children: <Widget>[
+                              InkWell(
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      right: 8, top: 8, bottom: 8),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius:
+                                          const BorderRadius.all(Radius.circular(5))),
+                                  child: const Icon(
+                                    Icons.remove,
+                                    size: 16,
+                                    color: Colors.grey,
+                                  ),
                                 ),
+                                onTap: () {
+                                widget.provider.remove_from_itemMap(Product_Enums.remove,widget.provider.products.elementAt(index).id,index,widget.provider.products.elementAt(index).price);
+                                },
                               ),
-                              onTap: () {
-                              widget.provider.remove_from_itemMap(0,widget.provider.products.elementAt(index).id,index,widget.provider.products.elementAt(index).price);
-                              },
-                            ),
-                              Text(
-                                  widget.provider.itemMap[widget.provider
-                                      .products
-                                      .elementAt(index)
-                                      .id].toString(),
-                                  style: Theme
-                                      .of(context)
-                                      .textTheme
-                                      .bodyMedium,
-                                )
+                                Text(
+                                    widget.provider.itemMap[widget.provider
+                                        .products
+                                        .elementAt(index)
+                                        .id].toString(),
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyMedium,
+                                  )
 
 
-                             ,
-
-                            InkWell(
-                              child: Container(
-                                margin: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius:
-                                        const BorderRadius.all(Radius.circular(5))),
-                                child: const Icon(
-                                  Icons.add,
-                                  size: 16,
-                                  color: Colors.grey,
+                               ,
+         // if(widget.provider.products.elementAt(index).SelectedAttribute.isEmpty){
+                              InkWell(
+                                child: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius:
+                                          const BorderRadius.all(Radius.circular(5))),
+                                  child: const Icon(
+                                    Icons.add,
+                                    size: 16,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              onTap: () {
+                                onTap: () {
 
-                                widget.provider.addToCart(
-                                    1, widget.provider.products.elementAt(index).short_description, widget.provider.products.elementAt(index).description, widget.provider.products.elementAt(index).price, widget.provider.products.elementAt(index).name, widget.provider.products.elementAt(index).id
-                                    , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1,widget.provider.products.elementAt(index).attributes,
-                                      widget.provider.products.elementAt(index).SelectedAttribute);
+                                  widget.provider.addToCart(
+                                      1, widget.provider.products.elementAt(index).short_description, widget.provider.products.elementAt(index).description, widget.provider.products.elementAt(index).price, widget.provider.products.elementAt(index).name, widget.provider.products.elementAt(index).id
+                                      , widget.provider.products.elementAt(index).img, widget.provider.products.elementAt(index).tag,1,widget.provider.products.elementAt(index).attributes,
+                                        widget.provider.products.elementAt(index).SelectedAttribute,0);
 
 
-                              },
-                            )
-                          ],
+                                },
+                              ) 
+                            ],
+                          ),
                         ),
+
+                        widget.provider.products.elementAt(index).SelectedAttribute.length>0 ?
+                        Text(widget.provider.products.elementAt(index).attributes[0].name+" : "+ widget.provider.products.elementAt(index).SelectedAttribute[widget.provider.products.elementAt(index).attributes[0].name] ,
+                            style: TextStyle(color: primaryLight,fontSize: 16))
+                        :
+                        Container(),
+
                         const Spacer(),
+
+                        widget.provider.products.elementAt(index).SelectedAttribute.length>0 ?
+                        Text('Total Price is '+ widget.provider.products.elementAt(index).price.toString() ,
+                            style: TextStyle(color: primaryLight,fontSize: 16))
+                            :
                         Text( 'Total Price is '+ widget.provider.itemTotalPriceMap[widget.provider
                             .products
                             .elementAt(index)
                             .id].toString() ,
                             style: TextStyle(color: primaryLight,fontSize: 16))
+
                       ],
                     )
                   ],

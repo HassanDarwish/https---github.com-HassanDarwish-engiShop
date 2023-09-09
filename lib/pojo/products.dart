@@ -42,10 +42,17 @@ class product {
   late   String _rating="";
   late   String _review="";
   late   String _user_rating="";
+
   late List <attribute> attributes= List.empty();
   late Map<String,String> SelectedAttribute= {};
+  late final int _identify_value;
 
 
+  int get identify_value => _identify_value;
+
+  set identify_value(int value) {
+    _identify_value = value;
+  }
 
   String get user_rating => _user_rating;
 
