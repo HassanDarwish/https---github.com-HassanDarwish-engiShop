@@ -22,13 +22,13 @@ class Config {
     if (json['deliveryAreas'] != null) {
       deliveryAreass = <DeliveryArea>[];
       json['deliveryAreas'].forEach((v) {
-        deliveryAreass!.add(DeliveryArea.fromJson(v));
+        //deliveryAreass!.add(DeliveryArea.fromJson(v));
       });
     }
     if (json['tax'] != null) {
       tax = [];
       json['tax'].forEach((v) {
-        tax!.add(v);
+       // tax!.add(v);
       });
     }
     deliveryFees = json['deliveryFees'];

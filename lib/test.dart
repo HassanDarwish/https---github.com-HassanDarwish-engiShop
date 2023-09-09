@@ -1,10 +1,12 @@
 import 'dart:collection';
 import 'dart:math';
+import 'dart:ui';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
+import 'getIt/woocommecre/API_Woocommerce.dart';
 
 class QueryString {
   /// Parses the given query string into a Map.
@@ -117,6 +119,7 @@ class QueryString {
     return requestUrl;
   }
 GetIt getIt = GetIt.instance;
+
 Future<void> main() async {
   getIt.registerSingleton<APICustomWooCommerce>(APICustomWooCommerce_Implementation(),
       signalsReady: true);

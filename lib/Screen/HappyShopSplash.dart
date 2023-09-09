@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import '../getIt/config/APIConfig.dart';
 
+import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import 'HappyShopHome.dart';
 GetIt getIt = GetIt.instance;
@@ -108,6 +109,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
       await getIt<API_Config>().getConfig();
       await getIt<API_Woocommerce>().getCategoriesByCount(8);
       await getIt<API_Woocommerce>().getCategories();
+      getIt<APICustomWooCommerce>().get_coupon("10off");
 
     return Timer(duration, navigationPage);
     }else{

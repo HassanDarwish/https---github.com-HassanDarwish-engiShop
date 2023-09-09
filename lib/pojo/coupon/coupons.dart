@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:GiorgiaShop/pojo/order/metaData.dart' ;
 
 class coupons{
@@ -34,5 +36,12 @@ class coupons{
     usage_limit_per_user,limit_usage_to_x_items,free_shipping,product_categories,excluded_product_categories,
     exclude_sale_items,minimum_amount,maximum_amount,email_restrictions,used_by,meta_data
   });
+
+  factory coupons.fromJson(List<dynamic> json) {
+    coupons c= coupons(id:json[0]);
+
+    print (c.id+"***************************************************************************");
+    return c;
+  }
 
 }

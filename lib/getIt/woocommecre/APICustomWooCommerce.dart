@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:GiorgiaShop/pojo/coupon/coupons.dart';
 import '../config/APIConfig.dart';
 GetIt getIt = GetIt.instance;
 abstract class APICustomWooCommerce {
@@ -13,6 +13,7 @@ abstract class APICustomWooCommerce {
   String getOAuthURL(String requestMethod, String queryUrl);
  Future<products> getProductByCategory(String catId);
  Future<products> getProductBy_Category(String catId,String order,String per_page);
+  Future get_coupon(String code);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
@@ -21,11 +22,19 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
 
+  Future get_coupon(String code) async {
+
+    // TODO: implement getProductByCategory
+    var response = await http.get(Uri.parse(getOAuthURL(
+        "GET", 'http://engy.jerma.net/wp-json/wc/v3/coupons?code='+code)),
+        headers: {"Content-Type": "Application/json"});
+
+    coupons.fromJson(jsonDecode(response.body));
+
+
+  }
   @override
   Future<products> getProductByCategory(String catId) async {
-
-
-
     // TODO: implement getProductByCategory
     var response = await http.get(Uri.parse(getOAuthURL(
         "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category='+catId+"&status=publish")),
@@ -47,6 +56,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     return product_List;
   }
   String  getOAuthURL(String requestMethod, String queryUrl) {
+
     String consumerKey =  getIt<API_Config>().config.consumerKey;
     String  consumerSecret =  getIt<API_Config>().config.consumerSecret;
     String token = "";
