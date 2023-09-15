@@ -5,7 +5,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:provider/provider.dart';
-import '../pojo/products.dart';
+import 'package:GiorgiaShop/getIt/woocommecre/APICustomWooCommerce.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
 import 'HappyShopHome.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
@@ -34,7 +35,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
     super.initState();
     widget.cartProvider = Provider.of<CartImplementation>(context, listen: false);
 
-    fragments = [  Delivery(), const Address(), const Payment()];
+    fragments = [  Delivery(),   Address(), const Payment()];
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 
@@ -246,7 +247,10 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 
 class Delivery extends StatefulWidget {
   late final cartProvider;
+
     Delivery({super.key});
+
+  get provider => null;
 
   @override
   State<StatefulWidget> createState() {
@@ -257,6 +261,26 @@ class Delivery extends StatefulWidget {
 class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
+  final TextEditingController _textFieldController = TextEditingController();
+  TextEditingController get textFieldController => _textFieldController;
+
+  bool _isLoading = false;
+
+  Future<void> asyncApply(CartImplementation cart) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Read from the textField
+    String text = _textFieldController.text;
+
+    print("_textFieldController="+text);
+    text="10off";
+    await cart.applyCoupon(text);
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +299,15 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     widget.cartProvider=Provider.of<CartImplementation>(context, listen: false);
-
+  /*  _textFieldController.addListener(() {
+      final String text = _textFieldController.text.toLowerCase();
+      _textFieldController.value = _textFieldController.value.copyWith(
+        text: text,
+        selection:
+        TextSelection(baseOffset: text.length, extentOffset: text.length),
+        composing: TextRange.empty,
+      );
+    });*/
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 
@@ -333,8 +365,9 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                 ),
                 Row(
                   children: [
-                    const Expanded(
+                      Expanded(
                       child: TextField(
+                        controller: _textFieldController,
                         decoration: InputDecoration(
                           enabled: true,
                           isDense: true,
@@ -353,13 +386,19 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
-                      child: ElevatedButton(
-                        onPressed: () {},
+                      child:
+                    Consumer<CartImplementation>(builder:(context ,cart,child) {
+                      return ElevatedButton(
+                        onPressed: () async {
+
+                          asyncApply(cart);
+                        },
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(0.0), backgroundColor: Colors.transparent,
+                          padding: const EdgeInsets.all(0.0),
+                          backgroundColor: Colors.transparent,
                           shape: const RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(0.0)),
+                            BorderRadius.all(Radius.circular(0.0)),
                           ),
                         ),
                         child: Ink(
@@ -370,7 +409,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                             constraints: const BoxConstraints(
                                 minWidth: 98.0,
                                 minHeight:
-                                    36.0), // min sizes for Material buttons
+                                36.0), // min sizes for Material buttons
                             alignment: Alignment.center,
                             child: const Text(
                               'Apply',
@@ -379,8 +418,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                      }),
+
+                    ),if (_isLoading)
+                       CircularProgressIndicator(),
                   ],
                 ),
               ],
@@ -578,10 +620,13 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
       ),
     );
   }
+
+  bool get isLoading => _isLoading;
 }
 
 class Address extends StatefulWidget {
-  const Address({super.key});
+  late final provider;
+    Address({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -601,6 +646,8 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     addressList.clear();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
+    // Initialize the provider
+    widget.provider = Provider.of<CartImplementation>(context, listen: false);
 
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,

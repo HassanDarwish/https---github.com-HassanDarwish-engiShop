@@ -109,7 +109,8 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
       await getIt<API_Config>().getConfig();
       await getIt<API_Woocommerce>().getCategoriesByCount(8);
       await getIt<API_Woocommerce>().getCategories();
-      getIt<APICustomWooCommerce>().get_coupon("10off");
+
+
 
     return Timer(duration, navigationPage);
     }else{

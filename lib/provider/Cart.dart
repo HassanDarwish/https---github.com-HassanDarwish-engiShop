@@ -3,17 +3,21 @@
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import '../getIt/config/APIConfig.dart';
-import '../pojo/products.dart';
+import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+import 'package:GiorgiaShop/getIt/woocommecre/APICustomWooCommerce.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:GiorgiaShop/Helper/product_Enums.dart';
 import 'package:get_it/get_it.dart';
 
+import 'package:GiorgiaShop/pojo/coupon/coupons.dart';
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'abstracted/Cart.dart';
 GetIt getIt = GetIt.instance;
 
 class CartImplementation extends ChangeNotifier implements Cart{
 
 
+  cartEnums status=cartEnums.empty;
   late String _CUR_CART_COUNTT="0";
   String get CUR_CART_COUNTT => _CUR_CART_COUNTT;
 
@@ -114,6 +118,7 @@ class CartImplementation extends ChangeNotifier implements Cart{
     add_to_itemMap(id.toString(),int.parse(price),identify_value);
 
     applyTax();
+    status=cartEnums.hasItems;
     notifyListeners();
     return CUR_CART_COUNTT;
   }
@@ -199,6 +204,9 @@ class CartImplementation extends ChangeNotifier implements Cart{
       CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
   }
     applyTax();
+    if(_products.length==0)
+      status=cartEnums.empty;
+
       notifyListeners();
 
 
@@ -219,6 +227,8 @@ class CartImplementation extends ChangeNotifier implements Cart{
 
     }
     applyTax();
+    if(_products.length==0)
+      status=cartEnums.empty;
     notifyListeners();
   }
 
@@ -245,6 +255,26 @@ class CartImplementation extends ChangeNotifier implements Cart{
 
   set promocode(String value) {
     _promocode = value;
+  }
+
+  applyCoupon(String text) async{
+    coupons coupon=await getIt<APICustomWooCommerce>().get_coupon(text);
+    double cartTotalPrice=double.parse(_cartTotalPrice);
+    double amount=double.parse(coupon.amount);
+    if(coupon.discount_type=="percent")
+      {
+        cartTotalPrice=cartTotalPrice-(cartTotalPrice/amount);
+      }
+    if(coupon.discount_type=="fixed_cart")
+    {
+      cartTotalPrice=cartTotalPrice-amount ;
+    }
+
+    _cartTotalPrice=cartTotalPrice.toString();
+
+    applyTax();
+    status=cartEnums.couponAdded;
+    notifyListeners();
   }
 
 }

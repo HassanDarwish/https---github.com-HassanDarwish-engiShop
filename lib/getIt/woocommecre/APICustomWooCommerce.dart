@@ -25,13 +25,12 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   Future get_coupon(String code) async {
 
     // TODO: implement getProductByCategory
-    var response = await http.get(Uri.parse(getOAuthURL(
+    var  response = await http.get(Uri.parse(getOAuthURL(
         "GET", 'http://engy.jerma.net/wp-json/wc/v3/coupons?code='+code)),
         headers: {"Content-Type": "Application/json"});
 
-    coupons.fromJson(jsonDecode(response.body));
-
-
+    coupons coupon=coupons.fromJson(jsonDecode(response.body));
+      return coupon;
   }
   @override
   Future<products> getProductByCategory(String catId) async {

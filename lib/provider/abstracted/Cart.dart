@@ -12,5 +12,5 @@ abstract class Cart extends ChangeNotifier {
   add_to_itemMap(String key,int price,int identify_value);
   remove_from_itemMap(Product_Enums removeFromAll,String key,int index,String pricee);
   applyTax();
-
+  applyCoupon(String text);
 }
