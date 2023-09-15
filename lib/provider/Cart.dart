@@ -18,6 +18,14 @@ class CartImplementation extends ChangeNotifier implements Cart{
 
 
   cartEnums status=cartEnums.empty;
+  String _discountValue="0";
+
+  String get discountValue => _discountValue;
+
+  set discountValue(String value) {
+    _discountValue = value;
+  }
+
   late String _CUR_CART_COUNTT="0";
   String get CUR_CART_COUNTT => _CUR_CART_COUNTT;
 
@@ -263,11 +271,17 @@ class CartImplementation extends ChangeNotifier implements Cart{
     double amount=double.parse(coupon.amount);
     if(coupon.discount_type=="percent")
       {
+        _discountValue=(cartTotalPrice/amount).toString();
         cartTotalPrice=cartTotalPrice-(cartTotalPrice/amount);
+
+
       }
     if(coupon.discount_type=="fixed_cart")
     {
+      _discountValue=amount.toString();
       cartTotalPrice=cartTotalPrice-amount ;
+
+
     }
 
     _cartTotalPrice=cartTotalPrice.toString();

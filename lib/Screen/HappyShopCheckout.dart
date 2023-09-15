@@ -11,6 +11,8 @@ import 'HappyShopHome.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 import 'package:get_it/get_it.dart';
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
 GetIt getIt = GetIt.instance;
 
 class HappyShopCheckout extends StatefulWidget {
@@ -274,9 +276,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
     // Read from the textField
     String text = _textFieldController.text;
 
-    print("_textFieldController="+text);
-    text="10off";
-    await cart.applyCoupon(text);
+
+    cart.applyCoupon(text);
     setState(() {
       _isLoading = false;
     });
@@ -363,69 +364,71 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                      Expanded(
-                      child: TextField(
-                        controller: _textFieldController,
-                        decoration: InputDecoration(
-                          enabled: true,
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(
-                            10,
-                          ),
-                          hintText: 'Promo Code..',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: primary),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: primary),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child:
-                    Consumer<CartImplementation>(builder:(context ,cart,child) {
-                      return ElevatedButton(
-                        onPressed: () async {
-
-                          asyncApply(cart);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(0.0),
-                          backgroundColor: Colors.transparent,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(0.0)),
-                          ),
-                        ),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            gradient: happyshopgradient,
-                          ),
-                          child: Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 98.0,
-                                minHeight:
-                                36.0), // min sizes for Material buttons
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Apply',
-                              style: TextStyle(color: Colors.white),
-                              textAlign: TextAlign.center,
+                Consumer<CartImplementation>(builder:(context ,cart,child) {
+               return Visibility(
+                  visible: cartEnums.couponAdded != cart.status,
+                  child: Row(
+                    children: [
+                        Expanded(
+                        child: TextField(
+                          controller: _textFieldController,
+                          decoration: InputDecoration(
+                            enabled: true,
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(
+                              10,
+                            ),
+                            hintText: 'Promo Code..',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: primary),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: primary),
                             ),
                           ),
                         ),
-                      );
-                      }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            print("Apply Clicked");
+                            asyncApply(cart);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(0.0),
+                            backgroundColor: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(0.0)),
+                            ),
+                          ),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              gradient: happyshopgradient,
+                            ),
+                            child: Container(
+                              constraints: const BoxConstraints(
+                                  minWidth: 98.0,
+                                  minHeight:
+                                  36.0), // min sizes for Material buttons
+                              alignment: Alignment.center,
+                              child: const Text(
+                                'Apply',
+                                style: TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ) ,
 
-                    ),if (_isLoading)
-                       CircularProgressIndicator(),
-                  ],
-                ),
-              ],
+
+                      ),if (_isLoading)
+               CircularProgressIndicator(),
+                    ],
+                  ),
+                );
+  })],
             ),
           ),
         ),
@@ -536,7 +539,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                                   "$PROMO_LBL (promocode)",
                                 ),
                                 const Spacer(),
-                                Text("$ECUR_CURRENCY "+ widget.cartProvider.promocodeValue.toString()),
+                                Text("$ECUR_CURRENCY "+ cart.discountValue),
                               ],
                             ),
                           ),
