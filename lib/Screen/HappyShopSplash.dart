@@ -11,6 +11,8 @@ import '../getIt/config/APIConfig.dart';
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import 'HappyShopHome.dart';
+import 'HappyShopMobailVerification.dart';
+import 'HappyShopNotification.dart';
 GetIt getIt = GetIt.instance;
 
 class HappyShopSplash extends StatefulWidget {
@@ -126,11 +128,13 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
 
     Navigator.of(context)
         .pushNamed(HappyShopHome.routeName);
-
-    /* Navigator.pushReplacement(
+/*
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HappyShopHome(), //HappyShopLogin(),
-        )); */
+          builder: (context) => const HappyShopMobailVerification(), //HappyShopLogin(),
+        ));
+*/
+
   }
 }

@@ -137,113 +137,116 @@ class _HappyShopCartState extends State<HappyShopCart>
   _showContent(List<product> products) {
     return products.isEmpty
         ? cartEmpty()
-        : ScreenTypeLayout(
-            mobile: Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: products.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-
-                       return listItem(index);
-
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 28, bottom: 8.0, left: 35, right: 35),
-                  child: Row(
-                    children: <Widget>[
-                      const Text(
-                        ORIGINAL_PRICE,
+        :  ScreenTypeLayout.builder(
+              mobile:(context) =>
+                  Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: products.length,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return listItem(index);
+                        },
                       ),
-                      const Spacer(),
-                      Text("${ECUR_CURRENCY}"+widget.provider.cartTotalPrice)
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 35, right: 35, top: 8, bottom: 8),
-                  child: Row(
-                    children: <Widget>[
-                      const Text(
-                        DELIVERY_CHARGE,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 28, bottom: 8.0, left: 35, right: 35),
+                      child: Row(
+                        children: <Widget>[
+                          const Text(
+                            ORIGINAL_PRICE,
+                          ),
+                          const Spacer(),
+                          Text("${ECUR_CURRENCY}" +
+                              widget.provider.cartTotalPrice)
+                        ],
                       ),
-                      const Spacer(),
-                      Text("${ECUR_CURRENCY} "+getIt<API_Config>().config.deliveryFees)
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 35, right: 35, top: 8, bottom: 8),
-                  child: Row(
-                    children: <Widget>[
-                      for (var tax in  getIt<API_Config>().config.tax)
-                        Text(
-                        "$TAXPER(${tax.toString()} %) ",
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 35, right: 35, top: 8, bottom: 8),
+                      child: Row(
+                        children: <Widget>[
+                          const Text(
+                            DELIVERY_CHARGE,
+                          ),
+                          const Spacer(),
+                          Text("${ECUR_CURRENCY} " +
+                              getIt<API_Config>().config.deliveryFees)
+                        ],
                       ),
-                      const Spacer(),
-                      Text("${ECUR_CURRENCY}"+widget.provider.totalTax)
-                    ],
-                  ),
-                ),
-                const Divider(
-                  color: Colors.black,
-                  thickness: 1,
-                  indent: 20,
-                  endIndent: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8.0, bottom: 8, left: 35, right: 35),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        TOTAL_PRICE,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 35, right: 35, top: 8, bottom: 8),
+                      child: Row(
+                        children: <Widget>[
+                          for (var tax in getIt<API_Config>().config.tax)
+                            Text(
+                              "$TAXPER(${tax.toString()} %) ",
+                            ),
+                          const Spacer(),
+                          Text("${ECUR_CURRENCY}" + widget.provider.totalTax)
+                        ],
                       ),
-                      const Spacer(),
-                      Text(
-                        "${ECUR_CURRENCY}"+widget.provider.cartFinalPrice,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
-                InkWell(
-                  splashColor: Colors.white,
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(HappyShopCheckout.routeName);
-                  },
-                  child: Container(
-                    height: 55,
-                    decoration: back(),
-                    width: double.infinity,
-                    child: Center(
-                        child: Text(
-                      PROCEED_CHECKOUT,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: Colors.white),
-                    )),
-                  ),
-                ),
-              ],
-            ),
-
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                      thickness: 1,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8, left: 35, right: 35),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            TOTAL_PRICE,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const Spacer(),
+                          Text(
+                            "${ECUR_CURRENCY}" + widget.provider.cartFinalPrice,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      splashColor: Colors.white,
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(HappyShopCheckout.routeName);
+                      },
+                      child: Container(
+                        height: 55,
+                        decoration: back(),
+                        width: double.infinity,
+                        child: Center(
+                            child: Text(
+                              PROCEED_CHECKOUT,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(color: Colors.white),
+                            )),
+                      ),
+                    ),
+                  ],
+                )
           );
   }
   Widget listItem(int index) {

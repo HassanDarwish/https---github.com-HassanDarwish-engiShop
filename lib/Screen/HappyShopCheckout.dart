@@ -248,7 +248,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 }
 
 class Delivery extends StatefulWidget {
-  late final cartProvider;
+  late var   cartProvider;
 
     Delivery({super.key});
 
@@ -267,7 +267,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   TextEditingController get textFieldController => _textFieldController;
 
   bool _isLoading = false;
-
+  bool _couponApplyed = false;
   Future<void> asyncApply(CartImplementation cart) async {
     setState(() {
       _isLoading = true;
@@ -275,12 +275,17 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
     // Read from the textField
     String text = _textFieldController.text;
-
-
-    cart.applyCoupon(text);
-    setState(() {
-      _isLoading = false;
-    });
+   bool result=await cart.applyCoupon(text);
+    if(!result){
+      setState(() {
+        _isLoading = false;_couponApplyed = false;
+      });
+    }else {
+      setState(() {
+        _isLoading = false;
+        _couponApplyed = true;
+      });
+    }
   }
 
   @override
@@ -299,8 +304,10 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    widget.cartProvider=Provider.of<CartImplementation>(context, listen: false);
-  /*  _textFieldController.addListener(() {
+
+  widget.cartProvider = Provider.of<CartImplementation>(context, listen: false);
+
+    /*  _textFieldController.addListener(() {
       final String text = _textFieldController.text.toLowerCase();
       _textFieldController.value = _textFieldController.value.copyWith(
         text: text,
@@ -351,11 +358,12 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
               children: [
                 Row(
                   children: [
-                    const Padding(
+                      Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        PROMOCODE_LBL,
-                      ),
+                      child:  _couponApplyed ?
+                      Text(PROMOCODE_LBL_promoApplyed) :
+                      Text(PROMOCODE_LBL),
+
                     ),
                     const Spacer(),
                     InkWell(
@@ -365,69 +373,67 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                   ],
                 ),
                 Consumer<CartImplementation>(builder:(context ,cart,child) {
-               return Visibility(
-                  visible: cartEnums.couponAdded != cart.status,
-                  child: Row(
-                    children: [
-                        Expanded(
-                        child: TextField(
-                          controller: _textFieldController,
-                          decoration: InputDecoration(
-                            enabled: true,
-                            isDense: true,
-                            contentPadding: EdgeInsets.all(
-                              10,
-                            ),
-                            hintText: 'Promo Code..',
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: primary),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: primary),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            print("Apply Clicked");
-                            asyncApply(cart);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.all(0.0),
-                            backgroundColor: Colors.transparent,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(0.0)),
-                            ),
-                          ),
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              gradient: happyshopgradient,
-                            ),
-                            child: Container(
-                              constraints: const BoxConstraints(
-                                  minWidth: 98.0,
-                                  minHeight:
-                                  36.0), // min sizes for Material buttons
-                              alignment: Alignment.center,
-                              child: const Text(
-                                'Apply',
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ) ,
+                  return Row(
+                 children: [
+                     Expanded(
+                     child: TextField(
+                       controller: _textFieldController,
+                       decoration: InputDecoration(
+                         enabled: true,
+                         isDense: true,
+                         contentPadding: EdgeInsets.all(
+                           10,
+                         ),
+                         hintText: 'Promo Code..',
+                         enabledBorder: OutlineInputBorder(
+                           borderSide: BorderSide(color: primary),
+                         ),
+                         focusedBorder: OutlineInputBorder(
+                           borderSide: BorderSide(color: primary),
+                         ),
+                       ),
+                     ),
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.only(left: 8.0),
+                     child: ElevatedButton(
+                       onPressed: () async {
+
+                         asyncApply(cart);
+                       },
+                       style: ElevatedButton.styleFrom(
+                         padding: const EdgeInsets.all(0.0),
+                         backgroundColor: Colors.transparent,
+                         shape: const RoundedRectangleBorder(
+                           borderRadius:
+                           BorderRadius.all(Radius.circular(0.0)),
+                         ),
+                       ),
+                       child: Ink(
+                         decoration: BoxDecoration(
+                           gradient: happyshopgradient,
+                         ),
+                         child: Container(
+                           constraints: const BoxConstraints(
+                               minWidth: 98.0,
+                               minHeight:
+                               36.0), // min sizes for Material buttons
+                           alignment: Alignment.center,
+                           child: const Text(
+                             'Apply',
+                             style: TextStyle(color: Colors.white),
+                             textAlign: TextAlign.center,
+                           ),
+                         ),
+                       ),
+                     ) ,
 
 
-                      ),if (_isLoading)
-               CircularProgressIndicator(),
-                    ],
-                  ),
-                );
+                   ),
+                   if (_isLoading)
+                   CircularProgressIndicator(),
+                 ],
+               );
   })],
             ),
           ),
@@ -628,7 +634,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 }
 
 class Address extends StatefulWidget {
-  late final provider;
+  late var provider;
     Address({super.key});
 
   @override

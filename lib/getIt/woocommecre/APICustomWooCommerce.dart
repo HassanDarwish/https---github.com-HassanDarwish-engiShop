@@ -28,8 +28,11 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     var  response = await http.get(Uri.parse(getOAuthURL(
         "GET", 'http://engy.jerma.net/wp-json/wc/v3/coupons?code='+code)),
         headers: {"Content-Type": "Application/json"});
-
-    coupons coupon=coupons.fromJson(jsonDecode(response.body));
+    coupons? coupon;
+    List<dynamic> Json=jsonDecode(response.body);
+    !Json.isEmpty ?
+    coupon = coupons.fromJson(jsonDecode(response.body))
+    : coupon = null;
       return coupon;
   }
   @override

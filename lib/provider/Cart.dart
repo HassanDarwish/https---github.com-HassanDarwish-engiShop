@@ -265,30 +265,34 @@ class CartImplementation extends ChangeNotifier implements Cart{
     _promocode = value;
   }
 
-  applyCoupon(String text) async{
-    coupons coupon=await getIt<APICustomWooCommerce>().get_coupon(text);
-    double cartTotalPrice=double.parse(_cartTotalPrice);
-    double amount=double.parse(coupon.amount);
-    if(coupon.discount_type=="percent")
-      {
-        _discountValue=(cartTotalPrice/amount).toString();
-        cartTotalPrice=cartTotalPrice-(cartTotalPrice/amount);
+  applyCoupon(String text) async {
 
+   if(status!=cartEnums.couponAdded) {
+     coupons? coupon = await getIt<APICustomWooCommerce>().get_coupon(text);
+     if (coupon != null){
+       double cartTotalPrice = double.parse(_cartTotalPrice);
+     double amount = double.parse(coupon.amount);
+     if (coupon.discount_type == "percent") {
+       _discountValue = (cartTotalPrice / amount).toString();
+       cartTotalPrice = cartTotalPrice - (cartTotalPrice / amount);
+     }
+     if (coupon.discount_type == "fixed_cart") {
+       _discountValue = amount.toString();
+       cartTotalPrice = cartTotalPrice - amount;
+     }
 
-      }
-    if(coupon.discount_type=="fixed_cart")
-    {
-      _discountValue=amount.toString();
-      cartTotalPrice=cartTotalPrice-amount ;
+     _cartTotalPrice = cartTotalPrice.toString();
 
+     applyTax();
+     status = cartEnums.couponAdded;
+     notifyListeners();
+     return true;
+   }else{
+       return false;
+     }
 
-    }
-
-    _cartTotalPrice=cartTotalPrice.toString();
-
-    applyTax();
-    status=cartEnums.couponAdded;
-    notifyListeners();
+  }
+   return false;
   }
 
 }

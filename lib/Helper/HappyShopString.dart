@@ -257,6 +257,7 @@ const String ADDRESS_LBL = 'Address';
 const String PAYMENT = 'Payment';
 const String APPLY = 'Apply';
 const String PROMOCODE_LBL = 'Have a Promo Code?';
+const String PROMOCODE_LBL_promoApplyed = 'You Have Applyed Promo Code';
 const String ORDER_SUMMARY = 'Order Summary';
 const String PRODUCTNAME = 'Product Name';
 const String PRICE_LBL = 'Price';
