@@ -18,7 +18,7 @@ GetIt getIt = GetIt.instance;
 class HappyShopCheckout extends StatefulWidget {
   static const routeName = '/HappyShopCheckout';
   HappyShopCheckout({Key? key}) : super(key: key);
-  late final cartProvider;
+  late var cartProvider;
 
   @override
   _HappyShopCheckoutState createState() => _HappyShopCheckoutState();

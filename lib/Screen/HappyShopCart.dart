@@ -17,7 +17,7 @@ import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt.instance;
 class HappyShopCart extends StatefulWidget {
   static const routeName = '/HappyShopCart';
-  late final provider;
+  late var provider;
     HappyShopCart({Key? key}) : super(key: key);
 
   @override
@@ -325,16 +325,28 @@ class _HappyShopCartState extends State<HappyShopCart>
                                         .id, index, widget.provider.products
                                     .elementAt(index)
                                     .price);
-                              }if(!widget.provider.products.elementAt(index).SelectedAttribute.isEmpty) {
-                                widget.provider.remove_product_hasAttribute(
-                                    Product_Enums.hasAttribute,
-                                    widget.provider.products
-                                        .elementAt(index)
-                                        .identify_value.toString(), index, widget.provider.products
-                                    .elementAt(index)
-                                    .price);
                               }
+                              try {
+                                if (widget.provider.products.length>0 ){
+                                if (!widget.provider.products
+                                    .elementAt(index)
+                                    .SelectedAttribute
+                                    .isEmpty) {
+                                  widget.provider.remove_product_hasAttribute(
+                                      Product_Enums.hasAttribute,
+                                      widget.provider.products
+                                          .elementAt(index)
+                                          .identify_value
+                                          .toString(), index,
+                                      widget.provider.products
+                                          .elementAt(index)
+                                          .price);
+                                }
+                                }
+                              }catch (e){
+                                print(e);
 
+                              }
 
                             });
                           },
@@ -566,7 +578,7 @@ class _HappyShopCartState extends State<HappyShopCart>
       body: Stack(
         children: <Widget>[
       Consumer<CartImplementation>(builder:(context ,cart,child) {
-           return _showContent(widget.provider.products);
+           return _showContent(cart.products);
           })
         ],
       ),
