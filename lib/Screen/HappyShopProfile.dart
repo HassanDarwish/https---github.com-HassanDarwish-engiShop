@@ -117,8 +117,8 @@ class _HappyShopPeofileState extends State<HappyShopPeofile>
   }
 
   _showContent() {
-    return ScreenTypeLayout(
-      mobile: Form(
+    return ScreenTypeLayout.builder(
+      mobile: (context) =>Form(
         key: _formkey,
         child: SingleChildScrollView(
           child: Padding(

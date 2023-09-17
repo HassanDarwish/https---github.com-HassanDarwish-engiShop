@@ -6,6 +6,9 @@ import 'package:flutter/src/scheduler/binding.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:in_app_update/in_app_update.dart';
 
+import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
+import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
+
 class HappyShopDrawer extends StatefulWidget {
   const HappyShopDrawer({
     Key? key,
@@ -81,32 +84,24 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         children: <Widget>[
-          const HappyShopDrawerHeader(),
+            HappyShopDrawerHeader(),
           HappyShopDrawerListTile(
               title: HOME_LBL,
               icon: Icons.home,
               route: () {
                 Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>   HappyShopSplash(), //HappyShopCart(),
-                  ),
-                );
+                Navigator.of(context)
+                    .pushNamed(HappyShopHome.routeName);
               }),
           _getDivider(),
           HappyShopDrawerListTile(
             title: CART,
             icon: Icons.add_shopping_cart,
             route: () {
-              /*
+
               Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HappyShopSplash(), //HappyShopCart(),
-                ),
-              );*/
+              Navigator.of(context)
+                  .pushNamed(HappyShopCart.routeName);
             },
           ),
           _getDivider(),

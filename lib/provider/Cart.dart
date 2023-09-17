@@ -294,5 +294,18 @@ class CartImplementation extends ChangeNotifier implements Cart{
   }
    return false;
   }
+  @override
+  void dispose(){
+    status = cartEnums.hasItems;
+    double cartTotalPrice2 =  double.parse(cartTotalPrice) + double.parse(_discountValue);
+
+    _cartTotalPrice = cartTotalPrice2.toString();
+    cartTotalPrice=cartTotalPrice2.toString();
+
+    _discountValue="0";
+    applyTax();
+    notifyListeners();
+
+  }
 
 }

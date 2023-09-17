@@ -26,6 +26,7 @@ class HappyShopCheckout extends StatefulWidget {
 
 class _HappyShopCheckoutState extends State<HappyShopCheckout>
     with TickerProviderStateMixin {
+
   int _curIndex = 0;
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late List<Widget> fragments;
@@ -175,74 +176,82 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
       ),
     );
   }
+  Future<bool> onBackArrowPressed() async {
+    // TODO: Implement your back arrow logic here.
 
+    widget.cartProvider.dispose();
+    return await true;
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: getAppBar(CHECKOUT, context),
-      body: Column(
-        children: [
-          stepper(),
-          const Divider(),
-          Expanded(child: fragments[_curIndex]),
-        ],
-      ),
-      persistentFooterButtons: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
+    return WillPopScope(
+      onWillPop: onBackArrowPressed,
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: getAppBar(CHECKOUT, context),
+        body: Column(
           children: [
-            Flexible(
-              fit: FlexFit.loose,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: Text(
-                  "$TOTAL : $CUR_CURRENCY 6100",
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_curIndex == 0) {
-                  setState(() {
-                    _curIndex = _curIndex + 1;
-                  });
-                } else if (_curIndex == 1) {
-                  setState(() {
-                    _curIndex = _curIndex + 1;
-                  });
-                } else if (_curIndex == 2) {
-                  Navigator.of(context)
-                      .pushNamed(HappyShopHome.routeName);
-                /*  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const HappyShopHome()));*/
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(0.0)),
-                  ), backgroundColor: Colors.transparent,
-                  padding: const EdgeInsets.all(0.0)),
-              child: Ink(
-                decoration: BoxDecoration(
-                  gradient: happyshopgradient,
-                ),
-                child: Container(
-                  height: 40.0,
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  alignment: Alignment.center,
+            stepper(),
+            const Divider(),
+            Expanded(child: fragments[_curIndex]),
+          ],
+        ),
+        persistentFooterButtons: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                fit: FlexFit.loose,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: Text(
-                    _curIndex == 2 ? PROCEED : CONTINUE,
-                    style: const TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
+                    "$TOTAL : $CUR_CURRENCY 6100",
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ),
-            ),
-          ],
-        )
-      ],
+              ElevatedButton(
+                onPressed: () {
+                  if (_curIndex == 0) {
+                    setState(() {
+                      _curIndex = _curIndex + 1;
+                    });
+                  } else if (_curIndex == 1) {
+                    setState(() {
+                      _curIndex = _curIndex + 1;
+                    });
+                  } else if (_curIndex == 2) {
+                    Navigator.of(context)
+                        .pushNamed(HappyShopHome.routeName);
+                  /*  Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => const HappyShopHome()));*/
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(0.0)),
+                    ), backgroundColor: Colors.transparent,
+                    padding: const EdgeInsets.all(0.0)),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: happyshopgradient,
+                  ),
+                  child: Container(
+                    height: 40.0,
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      _curIndex == 2 ? PROCEED : CONTINUE,
+                      style: const TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

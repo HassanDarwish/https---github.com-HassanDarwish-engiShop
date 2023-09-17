@@ -63,7 +63,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
               preferredSize: const Size.fromHeight(56),
               child: AppBar,
             ),
-            drawer: const HappyShopDrawer(),
+            drawer:   HappyShopDrawer(),
             backgroundColor: Colors.white10,
             extendBodyBehindAppBar: true,
             bottomNavigationBar: getBottomBar(),

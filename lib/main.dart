@@ -1,6 +1,4 @@
 import 'package:GiorgiaShop/provider/Session.dart';
-import 'package:GiorgiaShop/provider/abstracted/Cart.dart';
-import 'package:GiorgiaShop/provider/abstracted/Woocommerce.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
@@ -12,9 +10,7 @@ import 'Screen/HappyShopCart.dart';
 import 'Screen/HappyShopCatgories.dart';
 import 'Screen/HappyShopCheckout.dart';
 import 'Screen/HappyShopHome.dart';
-import 'Screen/HappyShopProductDetail.dart';
 import 'Screen/HappyShopSplash.dart';
-import 'Screen/HappyShopStaggeredList.dart';
 import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
