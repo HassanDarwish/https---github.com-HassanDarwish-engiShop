@@ -11,8 +11,8 @@ import 'HappyShopHome.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 import 'package:get_it/get_it.dart';
-import 'package:GiorgiaShop/Helper/cartEnums.dart';
-import 'package:GiorgiaShop/Helper/cartEnums.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 GetIt getIt = GetIt.instance;
 
 class HappyShopCheckout extends StatefulWidget {
@@ -700,6 +700,8 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
+
         Expanded(
           child: addressList.isEmpty
               ? const Text(NOADDRESS)
@@ -716,7 +718,7 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
         ),
         Center(
           child: ElevatedButton(
-            onPressed: () async {},
+            onPressed: () async { signIn();},
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(0.0),
               shape: RoundedRectangleBorder(
@@ -807,6 +809,10 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
           "\n" +
           addressList[index]['mobile']),
     );
+  }
+
+  Future signIn() async{
+    await GoogleSignin.login();
   }
 }
 
@@ -1161,5 +1167,14 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
     //     style: TextStyle(color: Colors.black, fontSize: 15),
     //   ),
     // );
+  }
+
+}
+
+class GoogleSignin {
+  static final _googleSingin=GoogleSignIn();
+  static Future<GoogleSignInAccount?> login() {
+   return _googleSingin.signIn();
+
   }
 }

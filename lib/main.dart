@@ -39,21 +39,49 @@ loadRepository()async{
 void main() async {
   loadRepository();
 
-  runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider<CartImplementation>(
-          create: (context) => CartImplementation(config: getIt<API_Config>()),
+
+
+  runApp(
+
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CartImplementation>(
+            create: (context) => CartImplementation(config: getIt<API_Config>()),
+          ),
+          ChangeNotifierProvider<SessionImplementation>(
+            create: (context) => SessionImplementation(),
+          ),
+          ChangeNotifierProvider<WoocommerceProvider>(
+            create: (context) =>
+                WoocommerceProvider(api_Woocommerce: getIt<API_Woocommerce>(),
+                    api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
+          ),
+        ],
+      child: MaterialApp(
+          home: HappyShopSplash(),
+          title: App_title,
+          theme: ThemeData(
+            primarySwatch: primary_app,
+            textTheme: const TextTheme(
+                titleLarge: TextStyle(
+                  color: primary,
+                  fontWeight: FontWeight.w600,
+                )),
+            textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: primary,
+            ),
+            fontFamily: 'Open sans',
+          ),
+          routes: {
+            HappyShopHome.routeName: (context) => const HappyShopHome(),
+            HappyShopCatogeryAll.routeName:(context) => const HappyShopCatogeryAll(),
+            HappyShopCart.routeName:(context) =>  HappyShopCart(),
+            HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
+
+          },
+
         ),
-        ChangeNotifierProvider<SessionImplementation>(
-          create: (context) => SessionImplementation(),
-        ),
-        ChangeNotifierProvider<WoocommerceProvider>(
-          create: (context) =>
-              WoocommerceProvider(api_Woocommerce: getIt<API_Woocommerce>(),
-                  api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
-        ),
-      ],
-      child: MyApp()));
+      ));
 
 }
 

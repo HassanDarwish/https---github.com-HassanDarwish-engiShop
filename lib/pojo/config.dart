@@ -28,7 +28,7 @@ class Config {
     if (json['tax'] != null) {
       tax = [];
       json['tax'].forEach((v) {
-       // tax!.add(v);
+        tax!.add(v);
       });
     }
     deliveryFees = json['deliveryFees'];
