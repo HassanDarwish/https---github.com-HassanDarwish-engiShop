@@ -6,21 +6,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
-import '../getIt/config/APIConfig.dart';
 
-import '../getIt/woocommecre/APICustomWooCommerce.dart';
+import '../getIt/config/APIConfig.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
-import 'HappyShopCart.dart';
-import 'HappyShopCatgories.dart';
-import 'HappyShopCheckout.dart';
 import 'HappyShopHome.dart';
-import 'HappyShopMobailVerification.dart';
-import 'HappyShopNotification.dart';
+
 GetIt getIt = GetIt.instance;
 
 class HappyShopSplash extends StatefulWidget {
-
-    HappyShopSplash({
+  HappyShopSplash({
     Key? key,
   }) : super(key: key);
 
@@ -31,10 +25,8 @@ class HappyShopSplash extends StatefulWidget {
 class _HappyShopSplashState extends State<HappyShopSplash> {
   // GetIt getIt = GetIt.instance;
   @override
-  void initState()   {
+  void initState() {
     super.initState();
-
-
   }
 
   @override
@@ -59,47 +51,46 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
         //return result;
         return false;
       },
-      child:  Scaffold(
-          body: Stack(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: back(),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.network(
-                        'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
-                        width: 150.0,
-                        fit: BoxFit.fill,
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      const Text(
-                        App_title,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'DancingScript',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 28),
-                      )
-                    ],
-                  ),
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: back(),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.network(
+                      'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
+                      width: 150.0,
+                      fit: BoxFit.fill,
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    const Text(
+                      App_title,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'DancingScript',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28),
+                    )
+                  ],
                 ),
               ),
-              CachedNetworkImage(
-                imageUrl: 'http://jerma.net/Engi/images/doodle.png',
-                fit: BoxFit.fill,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ],
-          ),
+            ),
+            CachedNetworkImage(
+              imageUrl: 'http://jerma.net/Engi/images/doodle.png',
+              fit: BoxFit.fill,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ],
         ),
-
+      ),
     );
   }
 
@@ -114,16 +105,15 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
   }
 
   startTime() async {
-     var duration = const Duration(milliseconds: 5);
-    if(true==await getIt<API_Config>().isInternet()) {
+    var duration = const Duration(milliseconds: 3300);
+    if (true == await getIt<API_Config>().isInternet()) {
       await getIt<API_Config>().getConfig();
       await getIt<API_Woocommerce>().getCategoriesByCount(8);
       await getIt<API_Woocommerce>().getCategories();
 
-
       //navigationPage();
-    return Timer(duration, await navigationPage);
-    }else{
+      return Timer(duration, await navigationPage);
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('No internet connection'),
@@ -133,7 +123,6 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
   }
 
   Future<void> navigationPage() async {
-
     /*Navigator.of(context)
         .pushNamed(HappyShopHome.routeName);*/
 
@@ -144,6 +133,5 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
           builder: (context) =>   HappyShopHome(), //HappyShopLogin(),
         ));
 */
-
   }
 }

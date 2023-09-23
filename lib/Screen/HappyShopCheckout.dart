@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
-
-import 'package:intl/intl.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
-import 'package:provider/provider.dart';
-import 'package:GiorgiaShop/getIt/woocommecre/APICustomWooCommerce.dart';
-import 'package:GiorgiaShop/pojo/products.dart';
-import 'HappyShopHome.dart';
-import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+import 'package:GiorgiaShop/provider/Cart.dart';
+import 'package:GiorgiaShop/provider/Session.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+
+import 'HappyShopHome.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -26,9 +25,9 @@ class HappyShopCheckout extends StatefulWidget {
 
 class _HappyShopCheckoutState extends State<HappyShopCheckout>
     with TickerProviderStateMixin {
-
   int _curIndex = 0;
-  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  static final GlobalKey<ScaffoldState> _scaffoldKey =
+      GlobalKey<ScaffoldState>();
   late List<Widget> fragments;
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
@@ -36,9 +35,10 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
   @override
   void initState() {
     super.initState();
-    widget.cartProvider = Provider.of<CartImplementation>(context, listen: false);
+    widget.cartProvider =
+        Provider.of<CartImplementation>(context, listen: false);
 
-    fragments = [  Delivery(),   Address(), const Payment()];
+    fragments = [Delivery(), Address(), const Payment()];
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 
@@ -176,12 +176,14 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
       ),
     );
   }
+
   Future<bool> onBackArrowPressed() async {
     // TODO: Implement your back arrow logic here.
 
     widget.cartProvider.dispose();
     return await true;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -221,16 +223,16 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                       _curIndex = _curIndex + 1;
                     });
                   } else if (_curIndex == 2) {
-                    Navigator.of(context)
-                        .pushNamed(HappyShopHome.routeName);
-                  /*  Navigator.pushReplacement(context,
+                    Navigator.of(context).pushNamed(HappyShopHome.routeName);
+                    /*  Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => const HappyShopHome()));*/
                   }
                 },
                 style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(0.0)),
-                    ), backgroundColor: Colors.transparent,
+                    ),
+                    backgroundColor: Colors.transparent,
                     padding: const EdgeInsets.all(0.0)),
                 child: Ink(
                   decoration: BoxDecoration(
@@ -257,9 +259,9 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 }
 
 class Delivery extends StatefulWidget {
-  late var   cartProvider;
+  late var cartProvider;
 
-    Delivery({super.key});
+  Delivery({super.key});
 
   get provider => null;
 
@@ -284,12 +286,13 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
     // Read from the textField
     String text = _textFieldController.text;
-   bool result=await cart.applyCoupon(text);
-    if(!result){
+    bool result = await cart.applyCoupon(text);
+    if (!result) {
       setState(() {
-        _isLoading = false;_couponApplyed = false;
+        _isLoading = false;
+        _couponApplyed = false;
       });
-    }else {
+    } else {
       setState(() {
         _isLoading = false;
         _couponApplyed = true;
@@ -299,11 +302,10 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: Stack(
       children: <Widget>[
-        Consumer<CartImplementation>(builder:(context ,cart,child) {
+        Consumer<CartImplementation>(builder: (context, cart, child) {
           return _deliveryContent(cart);
         })
       ],
@@ -314,7 +316,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-  widget.cartProvider = Provider.of<CartImplementation>(context, listen: false);
+    widget.cartProvider =
+        Provider.of<CartImplementation>(context, listen: false);
 
     /*  _textFieldController.addListener(() {
       final String text = _textFieldController.text.toLowerCase();
@@ -345,6 +348,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
     buttonController.dispose();
     super.dispose();
   }
+
   cartEmpty() {
     return Center(
       child: SingleChildScrollView(
@@ -354,260 +358,269 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
       ),
     );
   }
+
   _deliveryContent(CartImplementation cart) {
-    return cart.products.isEmpty ? cartEmpty()
-      : SingleChildScrollView(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+    return cart.products.isEmpty
+        ? cartEmpty()
+        : SingleChildScrollView(
             child: Column(
-              children: [
-                Row(
-                  children: [
-                      Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child:  _couponApplyed ?
-                      Text(PROMOCODE_LBL_promoApplyed) :
-                      Text(PROMOCODE_LBL),
-
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      child: const Icon(Icons.refresh),
-                      onTap: () {},
-                    )
-                  ],
-                ),
-                Consumer<CartImplementation>(builder:(context ,cart,child) {
-                  return Row(
-                 children: [
-                     Expanded(
-                     child: TextField(
-                       controller: _textFieldController,
-                       decoration: InputDecoration(
-                         enabled: true,
-                         isDense: true,
-                         contentPadding: EdgeInsets.all(
-                           10,
-                         ),
-                         hintText: 'Promo Code..',
-                         enabledBorder: OutlineInputBorder(
-                           borderSide: BorderSide(color: primary),
-                         ),
-                         focusedBorder: OutlineInputBorder(
-                           borderSide: BorderSide(color: primary),
-                         ),
-                       ),
-                     ),
-                   ),
-                   Padding(
-                     padding: const EdgeInsets.only(left: 8.0),
-                     child: ElevatedButton(
-                       onPressed: () async {
-
-                         asyncApply(cart);
-                       },
-                       style: ElevatedButton.styleFrom(
-                         padding: const EdgeInsets.all(0.0),
-                         backgroundColor: Colors.transparent,
-                         shape: const RoundedRectangleBorder(
-                           borderRadius:
-                           BorderRadius.all(Radius.circular(0.0)),
-                         ),
-                       ),
-                       child: Ink(
-                         decoration: BoxDecoration(
-                           gradient: happyshopgradient,
-                         ),
-                         child: Container(
-                           constraints: const BoxConstraints(
-                               minWidth: 98.0,
-                               minHeight:
-                               36.0), // min sizes for Material buttons
-                           alignment: Alignment.center,
-                           child: const Text(
-                             'Apply',
-                             style: TextStyle(color: Colors.white),
-                             textAlign: TextAlign.center,
-                           ),
-                         ),
-                       ),
-                     ) ,
-
-
-                   ),
-                   if (_isLoading)
-                   CircularProgressIndicator(),
-                 ],
-               );
-  })],
-            ),
-          ),
-        ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0, top: 10),
-                  child: Text(
-                    ORDER_SUMMARY,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-                ScreenTypeLayout(
-                  mobile: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     children: [
-                      Column(
+                      Row(
                         children: [
-                          const Row(
-                            children: [
-                              Expanded(flex: 5, child: Text(PRODUCTNAME)),
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    QUANTITY_LBL,
-                                    textAlign: TextAlign.end,
-                                  )),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    PRICE_LBL,
-                                    textAlign: TextAlign.end,
-                                  )),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    SUBTOTAL,
-                                    textAlign: TextAlign.end,
-                                  )),
-                            ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            child: _couponApplyed
+                                ? Text(PROMOCODE_LBL_promoApplyed)
+                                : Text(PROMOCODE_LBL),
                           ),
-                          const Divider(),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: widget.cartProvider.products.length,
-                              physics:   NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return orderItem(index);
-                              }),
+                          const Spacer(),
+                          InkWell(
+                            child: const Icon(Icons.refresh),
+                            onTap: () {},
+                          )
                         ],
                       ),
-                      const Divider(
-                        color: Colors.black,
-                        thickness: 1,
-                        indent: 0,
-                        endIndent: 0,
-                      ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 28, bottom: 8.0, left: 0, right: 0),
-                            child: Row(
-                              children: <Widget>[
-                                const Text(
-                                  SUB,
-                                ),
-                                const Spacer(),
-                                Text("${ECUR_CURRENCY} " +widget.cartProvider.cartTotalPrice )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 0, right: 0, top: 8, bottom: 8),
-                            child: Row(
-                              children: <Widget>[
-                                const Text(
-                                  DELIVERY_CHARGE,
-                                ),
-                                const Spacer(),
-                                Text("${ECUR_CURRENCY} "+getIt<API_Config>().config.deliveryFees)
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 0, right: 0, top: 8, bottom: 8),
-                            child: Row(
-                              children: <Widget>[
-                                for (var tax in  getIt<API_Config>().config.tax)
-                                  Text(
-                                    "$TAXPER(${tax.toString()} %) ",
+                      Consumer<CartImplementation>(
+                          builder: (context, cart, child) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _textFieldController,
+                                decoration: InputDecoration(
+                                  enabled: true,
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(
+                                    10,
                                   ),
-                                const Spacer(),
-                                Text("$ECUR_CURRENCY "+ widget.cartProvider.totalTax)
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 0, right: 0, top: 8, bottom: 8),
-                            child: Row(
-                              children: <Widget>[
-                                const Text(
-                                  "$PROMO_LBL (promocode)",
+                                  hintText: 'Promo Code..',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: primary),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: primary),
+                                  ),
                                 ),
-                                const Spacer(),
-                                Text("$ECUR_CURRENCY "+ cart.discountValue),
-                              ],
+                              ),
                             ),
-                          ),
-                          const Divider(
-                            color: Colors.black,
-                            thickness: 1,
-                            indent: 0,
-                            endIndent: 0,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 8.0, bottom: 8, left: 0, right: 0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  TOTAL_PRICE,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  asyncApply(cart);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(0.0),
+                                  backgroundColor: Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(0.0)),
+                                  ),
                                 ),
-                                const Spacer(),
-                                Text(
-                                  '${ECUR_CURRENCY} '+ widget.cartProvider.cartFinalPrice,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                )
-                              ],
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    gradient: happyshopgradient,
+                                  ),
+                                  child: Container(
+                                    constraints: const BoxConstraints(
+                                        minWidth: 98.0,
+                                        minHeight:
+                                            36.0), // min sizes for Material buttons
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                      'Apply',
+                                      style: TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      )
+                            if (_isLoading) CircularProgressIndicator(),
+                          ],
+                        );
+                      })
                     ],
                   ),
-
                 ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ));
+              ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15.0, top: 10),
+                        child: Text(
+                          ORDER_SUMMARY,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      ScreenTypeLayout(
+                        mobile: Column(
+                          children: [
+                            Column(
+                              children: [
+                                const Row(
+                                  children: [
+                                    Expanded(flex: 5, child: Text(PRODUCTNAME)),
+                                    Expanded(
+                                        flex: 1,
+                                        child: Text(
+                                          QUANTITY_LBL,
+                                          textAlign: TextAlign.end,
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          PRICE_LBL,
+                                          textAlign: TextAlign.end,
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          SUBTOTAL,
+                                          textAlign: TextAlign.end,
+                                        )),
+                                  ],
+                                ),
+                                const Divider(),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        widget.cartProvider.products.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return orderItem(index);
+                                    }),
+                              ],
+                            ),
+                            const Divider(
+                              color: Colors.black,
+                              thickness: 1,
+                              indent: 0,
+                              endIndent: 0,
+                            ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 28, bottom: 8.0, left: 0, right: 0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      const Text(
+                                        SUB,
+                                      ),
+                                      const Spacer(),
+                                      Text("${ECUR_CURRENCY} " +
+                                          widget.cartProvider.cartTotalPrice)
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 0, right: 0, top: 8, bottom: 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      const Text(
+                                        DELIVERY_CHARGE,
+                                      ),
+                                      const Spacer(),
+                                      Text("${ECUR_CURRENCY} " +
+                                          getIt<API_Config>()
+                                              .config
+                                              .deliveryFees)
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 0, right: 0, top: 8, bottom: 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      for (var tax
+                                          in getIt<API_Config>().config.tax)
+                                        Text(
+                                          "$TAXPER(${tax.toString()} %) ",
+                                        ),
+                                      const Spacer(),
+                                      Text("$ECUR_CURRENCY " +
+                                          widget.cartProvider.totalTax)
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 0, right: 0, top: 8, bottom: 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      const Text(
+                                        "$PROMO_LBL (promocode)",
+                                      ),
+                                      const Spacer(),
+                                      Text("$ECUR_CURRENCY " +
+                                          cart.discountValue),
+                                    ],
+                                  ),
+                                ),
+                                const Divider(
+                                  color: Colors.black,
+                                  thickness: 1,
+                                  indent: 0,
+                                  endIndent: 0,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, bottom: 8, left: 0, right: 0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        TOTAL_PRICE,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        '${ECUR_CURRENCY} ' +
+                                            widget.cartProvider.cartFinalPrice,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ));
   }
 
   orderItem(int index) {
-
-    List<int> itemMapValues =[];
+    List<int> itemMapValues = [];
     widget.cartProvider.itemMap.forEach((k, v) => itemMapValues.add(v));
     List<int> itemTotalPriceMapValues = [];
-    widget.cartProvider.itemTotalPriceMap.forEach((k, v) => itemTotalPriceMapValues.add(v));
-    return   Padding(
+    widget.cartProvider.itemTotalPriceMap
+        .forEach((k, v) => itemTotalPriceMapValues.add(v));
+    return Padding(
       padding: EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
         children: [
@@ -631,7 +644,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
           Expanded(
               flex: 2,
               child: Text(
-                  itemTotalPriceMapValues.elementAt(index).toString(),
+                itemTotalPriceMapValues.elementAt(index).toString(),
                 textAlign: TextAlign.end,
               )),
         ],
@@ -644,7 +657,9 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
 class Address extends StatefulWidget {
   late var provider;
-    Address({super.key});
+  late var sessionImp;
+
+  Address({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -698,10 +713,12 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    widget.sessionImp = Provider.of<SessionImplementation>(context);
     return Column(
       children: [
-
-
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(widget.sessionImp.email),
+        ]),
         Expanded(
           child: addressList.isEmpty
               ? const Text(NOADDRESS)
@@ -716,9 +733,11 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
                     return addressItem(index);
                   }),
         ),
-        Center(
-          child: ElevatedButton(
-            onPressed: () async { signIn();},
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          ElevatedButton(
+            onPressed: () async {
+              await signIn(context);
+            },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(0.0),
               shape: RoundedRectangleBorder(
@@ -730,7 +749,7 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
               ),
               child: Container(
                 height: 40.0,
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 4,
                 padding: const EdgeInsets.only(left: 15.0, right: 15.0),
 
                 // min sizes for Material buttons
@@ -743,7 +762,35 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
               ),
             ),
           ),
-        )
+          ElevatedButton(
+            onPressed: () async {
+              await logOut();
+            },
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(0.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0.0)),
+            ),
+            child: Ink(
+              decoration: BoxDecoration(
+                gradient: happyshopgradient,
+              ),
+              child: Container(
+                height: 40.0,
+                width: MediaQuery.of(context).size.width / 4,
+                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+
+                // min sizes for Material buttons
+                alignment: Alignment.center,
+                child: const Text(
+                  "LogOut",
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        ])
       ],
     );
   }
@@ -811,8 +858,19 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     );
   }
 
-  Future signIn() async{
-    await GoogleSignin.login();
+  Future logOut() async {
+    widget.sessionImp.clear();
+    await GoogleSignin.logout();
+  }
+
+  Future signIn(context) async {
+    final user = await GoogleSignin.login();
+    if (user == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("SignIn Falied")));
+    } else {
+      widget.sessionImp.initSession(user);
+    }
   }
 }
 
@@ -999,7 +1057,8 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                             ),
                             Container(
                               height: 80,
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: ListView.builder(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
@@ -1168,13 +1227,10 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
     //   ),
     // );
   }
-
 }
 
 class GoogleSignin {
-  static final _googleSingin=GoogleSignIn();
-  static Future<GoogleSignInAccount?> login() {
-   return _googleSingin.signIn();
-
-  }
+  static final _googleSingin = GoogleSignIn();
+  static Future<GoogleSignInAccount?> login() => _googleSingin.signIn();
+  static Future<GoogleSignInAccount?> logout() => _googleSingin.disconnect();
 }

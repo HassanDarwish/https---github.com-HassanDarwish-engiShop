@@ -5,3 +5,10 @@ enum cartEnums {
   couponAdded,
   empty;
 }
+
+enum sessionEnums {
+  login,
+  logout,
+  register,
+  empty;
+}
