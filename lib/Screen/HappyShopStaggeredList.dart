@@ -1,35 +1,38 @@
 import 'dart:math';
-import 'package:shimmer_animation/shimmer_animation.dart';
+
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../pojo/products.dart';
-import 'package:intl/intl.dart';
-
 import '../provider/woocommerceProvider.dart';
 import 'HappyShopHomeTab.dart';
 import 'HappyShopProductDetail.dart';
+
 GetIt getIt = GetIt.instance;
+
 class HappyShopStaggeredList extends StatefulWidget {
-  int id=0;
-  String title="";
+  int id = 0;
+  String title = "";
   String? order;
   String? per_page;
-   HappyShopStaggeredList({Key? key,required this.id, required this.title,}) : super(key: key);
-
-
+  HappyShopStaggeredList({
+    Key? key,
+    required this.id,
+    required this.title,
+  }) : super(key: key);
 
   @override
   _HappyShopStaggeredListState createState() => _HappyShopStaggeredListState();
 }
 
 class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
-    with TickerProviderStateMixin{
+    with TickerProviderStateMixin {
   final List _listUrl = [
     {
       'img': "https://smartkit.wrteam.in/smartkit/happyshop/man_a.png",
@@ -224,29 +227,32 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
   @override
   void initState() {
     super.initState();
-    woocommerceprovider = Provider.of<WoocommerceProvider>(context, listen: false);
-   // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductByCategory("15"));
-   // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
+    woocommerceprovider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
+    // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductByCategory("15"));
+    // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
   }
 
   @override
   void dispose() {
-     super.dispose();
+    super.dispose();
   }
 
-   Future<List<product>> loadProducts(String? order,String? per_page) async {
-
-     order==null ?
-    listProductByCategory =await  context.read<WoocommerceProvider>().getProductByCategory(widget.id.toString())
-      :
-    listProductByCategory =await  context.read<WoocommerceProvider>().getProductBy_Category(widget.id.toString(),order,per_page!);
+  Future<List<product>> loadProducts(String? order, String? per_page) async {
+    order == null
+        ? listProductByCategory = await context
+            .read<WoocommerceProvider>()
+            .getProductByCategory(widget.id.toString())
+        : listProductByCategory = await context
+            .read<WoocommerceProvider>()
+            .getProductBy_Category(widget.id.toString(), order, per_page!);
 
     return listProductByCategory.productList;
   }
+
   @override
   Widget build(BuildContext context) {
-
-     return WillPopScope(
+    return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pop();
         return true;
@@ -257,14 +263,16 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
             icon: const Icon(Icons.arrow_back_ios, color: primary),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title:  Text(widget.title,
-            style:const TextStyle(
-            color: primary,
-          ),),
+          title: Text(
+            widget.title,
+            style: const TextStyle(
+              color: primary,
+            ),
+          ),
           backgroundColor: Colors.white,
         ),
-        body:  FutureBuilder<List<product>>(
-          future: loadProducts(null,null),
+        body: FutureBuilder<List<product>>(
+          future: loadProducts(null, null),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
@@ -275,35 +283,31 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
                   childAspectRatio: 0.7,
                 ),
                 itemBuilder: (context, index) {
-                  raned=Random().nextInt(5);
-                  raned.remainder(2)  > 0 ?
-                  shrim=true
-                      :
-                  shrim=false;
+                  raned = Random().nextInt(5);
+                  raned.remainder(2) > 0 ? shrim = true : shrim = false;
                   return GestureDetector(
-
                     child: Container(
-                      decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0)),
                       child: StaggerdCard(
-                        imgurl: snapshot.data?[index].img,
-                        itemname: snapshot.data?[index].name,
-                        descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
-                        shortDescprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
-                        price: snapshot.data?[index].price,
-                        id: snapshot.data?[index].id.toString(),
-                        attributess:snapshot.data?[index].attributes,
-                          shrim:shrim
-                      ),
+                          imgurl: snapshot.data?[index].img,
+                          itemname: snapshot.data?[index].name,
+                          descprice: Bidi.stripHtmlIfNeeded(
+                              snapshot.data![index].description),
+                          shortDescprice: Bidi.stripHtmlIfNeeded(
+                              snapshot.data![index].short_description),
+                          price: snapshot.data?[index].price,
+                          id: snapshot.data?[index].id.toString(),
+                          attributess: snapshot.data?[index].attributes,
+                          shrim: shrim),
                     ),
                   );
-
                 },
               );
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -315,19 +319,19 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
 }
 
 class StaggerdCard extends StatefulWidget {
-  const StaggerdCard(
-      {Key? key,
-      this.imgurl,
-      this.id,
-      this.itemname,
-      this.price,
-      this.descprice,
-      this.shortDescprice,
-      this.attributess,
-        this.shrim,})
-      : super(key: key);
-  final String? imgurl, id, itemname, price, descprice,shortDescprice;
-  final bool?  shrim;
+  const StaggerdCard({
+    Key? key,
+    this.imgurl,
+    this.id,
+    this.itemname,
+    this.price,
+    this.descprice,
+    this.shortDescprice,
+    this.attributess,
+    this.shrim,
+  }) : super(key: key);
+  final String? imgurl, id, itemname, price, descprice, shortDescprice;
+  final bool? shrim;
   final List<attribute>? attributess;
   @override
   _StaggerdCardState createState() => _StaggerdCardState();
@@ -340,15 +344,14 @@ class _StaggerdCardState extends State<StaggerdCard> {
     return Container(
       decoration: widget.shrim!
           ? const BoxDecoration(
-        boxShadow: [BoxShadow(color: happyshopcolor5, blurRadius: 10)],
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-      )
-      :
-      const BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-      ) ,
+              boxShadow: [BoxShadow(color: happyshopcolor5, blurRadius: 10)],
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+            )
+          : const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+            ),
       child: Card(
         elevation: 1.0,
         child: InkWell(
@@ -366,7 +369,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                     description: widget.descprice!,
                     shortdescription: widget.shortDescprice!,
                     price: widget.price!,
-                    rating: random.nextInt(100).toString(),//"5",
+                    rating: random.nextInt(100).toString(), //"5",
                     review: "",
                     user_rating: "",
                     attributess: widget.attributess,
@@ -383,37 +386,30 @@ class _StaggerdCardState extends State<StaggerdCard> {
                   alignment: Alignment.topRight,
                   children: [
                     ClipRRect(
-                      borderRadius: widget.itemname != null
-                          ? const BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5))
-                          : BorderRadius.circular(5.0),
-
-                      child:
-                      widget.shrim==true ?
-                      Hero(
-                        tag: Random().nextInt(1000).toString(),
-
-                        child: Shimmer(
-                          child: CachedNetworkImage(
-                            imageUrl: widget.imgurl!,
-                            fit: BoxFit.contain,
-                            width: double.infinity,
-                          ),
-                        ),
-                      )
-                       :
-                        Hero(
-                        tag: Random().nextInt(1000).toString(),
-
-                          child:   CachedNetworkImage(
-                            imageUrl: widget.imgurl!,
-                             fit: BoxFit.contain,
-                              width: double.infinity,
-                           ),
-
-                    )
-                    ),
+                        borderRadius: widget.itemname != null
+                            ? const BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5))
+                            : BorderRadius.circular(5.0),
+                        child: widget.shrim == true
+                            ? Hero(
+                                tag: Random().nextInt(1000).toString(),
+                                child: Shimmer(
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.imgurl!,
+                                    fit: BoxFit.contain,
+                                    width: double.infinity,
+                                  ),
+                                ),
+                              )
+                            : Hero(
+                                tag: Random().nextInt(1000).toString(),
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.imgurl!,
+                                  fit: BoxFit.contain,
+                                  width: double.infinity,
+                                ),
+                              )),
                     /* we did removre rating and ad id
                     widget.rating != null
                         ? Card(
@@ -471,7 +467,8 @@ class _StaggerdCardState extends State<StaggerdCard> {
                       child: Row(
                         children: <Widget>[
                           Flexible(
-                            child: Text(//" $CUR_CURRENCY ${widget.price!}",
+                            child: Text(
+                                //" $CUR_CURRENCY ${widget.price!}",
                                 " $ECUR_CURRENCY ${widget.price!}",
                                 style: const TextStyle(color: primary)),
                           ),
@@ -480,7 +477,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                           ),
                           widget.price != null
                               ? Flexible(
-                                child: Text(
+                                  child: Text(
                                     //"$CUR_CURRENCY${widget.descprice!}",
                                     widget.shortDescprice!,
                                     style: Theme.of(context)
@@ -491,7 +488,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                                             fontSize: 12,
                                             letterSpacing: 1),
                                   ),
-                              )
+                                )
                               : Container(),
                         ],
                       ),
@@ -500,7 +497,6 @@ class _StaggerdCardState extends State<StaggerdCard> {
             ],
           ),
         ),
-        
       ),
     );
   }

@@ -1,49 +1,23 @@
 import 'dart:math';
-import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
+
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
 import 'package:GiorgiaShop/Screen/HappyShopProductDetail.dart';
 import 'package:GiorgiaShop/Screen/Image_Slider.dart';
+import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
-import 'package:intl/intl.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
-import '../getIt/woocommecre/APICustomWooCommerce.dart';
-import '../getIt/woocommecre/API_Woocommerce.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../pojo/products.dart';
 import '../provider/woocommerceProvider.dart';
-import 'HappyShopStaggeredList.dart';
-import 'dart:math';
-import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
-import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
-import 'package:GiorgiaShop/Helper/HappyShopString.dart';
-import 'package:GiorgiaShop/Screen/HappyShopCatgories.dart';
-import 'package:GiorgiaShop/Screen/HappyShopProductDetail.dart';
-import 'package:GiorgiaShop/Screen/Image_Slider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
-import 'package:intl/intl.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
-import 'package:get_it/get_it.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:provider/provider.dart';
-import '../getIt/woocommecre/APICustomWooCommerce.dart';
-import '../getIt/woocommecre/API_Woocommerce.dart';
-import '../provider/Cart.dart';
-import '../pojo/products.dart';
 import 'HappyShopStaggeredList.dart';
 
 List sectList = [
@@ -360,12 +334,17 @@ List sectList = [
 //   },
 // ];
 GetIt getIt = GetIt.instance;
-bool shrim=false;int raned=0;
+bool shrim = false;
+int raned = 0;
 
 class HappyShopHpmeTab extends StatefulWidget {
   final HappyShopAppBar AppBarr;
   final GlobalKey<ScaffoldState> privatescaffoldKey;
-  HappyShopHpmeTab({Key? key, required HappyShopAppBar this.AppBarr, required GlobalKey<ScaffoldState> this.privatescaffoldKey}) : super(key: key);
+  HappyShopHpmeTab(
+      {Key? key,
+      required HappyShopAppBar this.AppBarr,
+      required GlobalKey<ScaffoldState> this.privatescaffoldKey})
+      : super(key: key);
 
   @override
   _HappyShopHpmeTabState createState() => _HappyShopHpmeTabState();
@@ -375,12 +354,14 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     with TickerProviderStateMixin {
   late products listProductByCategory;
 
-
-  Future<List<product>> loadProducts(String catId,String order,String per_page) async {
-
-    listProductByCategory =await  context.read<WoocommerceProvider>().getProductBy_Category(catId,order,per_page);
+  Future<List<product>> loadProducts(
+      String catId, String order, String per_page) async {
+    listProductByCategory = await context
+        .read<WoocommerceProvider>()
+        .getProductBy_Category(catId, order, per_page);
     return listProductByCategory.productList;
   }
+
   /*
 
 
@@ -422,13 +403,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     super.initState();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
-    woocommerceprovider = Provider.of<WoocommerceProvider>(context, listen: false);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getCategories());
-    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getCategoriesByCount(8));
-    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductByCategory("15"));
-    WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
-    
+    woocommerceprovider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
   }
@@ -439,11 +415,35 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     super.dispose();
   }
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
+  Future<void> _refresh() async {
+    // Replace this delay with the code to be executed during refresh.
+    // and return a Future when code finishes execution.
+    await Future<void>.delayed(const Duration(milliseconds: 1500));
+
+    // Reload the data.
+    setState(() {});
+  }
+
+  loadData() {
+       WidgetsBinding.instance
+          .addPostFrameCallback((_) => woocommerceprovider.getCategories());
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => woocommerceprovider.getCategoriesByCount(8));
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => woocommerceprovider.getProductByCategory("15"));
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
+
+  }
+
   @override
   Widget build(BuildContext context) {
+       loadData();
 
-
-    return   WillPopScope(
+    return WillPopScope(
       onWillPop: () async {
         /*
         bool? result = await Navigator.of(context).pushAndRemoveUntil(
@@ -453,7 +453,10 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
         return false;
       },
       child: Scaffold(
-        body: SingleChildScrollView(
+          body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _refresh,
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 15.0),
             child: Column(
@@ -505,18 +508,18 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     SizedBox(
                       height: 100,
                       child: FutureBuilder(
-                          future: context.read<WoocommerceProvider>().getCategoriesByCount(8),
+                          future: context
+                              .read<WoocommerceProvider>()
+                              .getCategoriesByCount(8),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
-
                               // Create a list of products
                               List<WooProductCategory> WooProductCategorydata =
                                   snapshot.data;
 
                               return ListView.builder(
-
-                                itemCount: snapshot.data.length-1,
+                                itemCount: snapshot.data.length - 1,
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 physics: const BouncingScrollPhysics(),
@@ -562,8 +565,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       Navigator.push(
                                         context,
                                         PageRouteBuilder(
-                                            transitionDuration:
-                                                const Duration(milliseconds: 400),
+                                            transitionDuration: const Duration(
+                                                milliseconds: 400),
                                             pageBuilder: (_, __, ___) =>
                                                 HappyShopStaggeredList(
                                                   id: category.id!,
@@ -574,13 +577,15 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                   );
                                 },
                               );
-                                } else if (snapshot.hasError) {
-                                return Text("Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
-                                } else {
-                            // Show a circular progress indicator while loading products
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );}
+                            } else if (snapshot.hasError) {
+                              return Text(
+                                  "Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
+                            } else {
+                              // Show a circular progress indicator while loading products
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
                           }),
                     ), //Hassan Ali
                     // Most popular //
@@ -592,58 +597,65 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: ScreenTypeLayout.builder(
-
-                        mobile: (context) =>Container(
+                        mobile: (context) => Container(
                           child: FutureBuilder<List<product>>(
-                            future: loadProducts("15","asc","4"),
+                            future: loadProducts("15", "asc", "4"),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return GridView.builder(
                                     itemCount: snapshot.data?.length,
                                     padding: const EdgeInsets.only(top: 5),
                                     shrinkWrap: true,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       childAspectRatio: 0.7,
                                     ),
-                                    physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-
-                                    raned=Random().nextInt(5);
-                                      raned.remainder(2)  > 0 ?
-                                      shrim=true
-                                        :
-                                      shrim=false;
-                                    return
-                                       ItemCard(
-                                          id: snapshot.data![index].id.toString(),
-                                          imagurl: snapshot.data?[index].img,
-                                          itemname:snapshot.data?[index].name,
-                                          descprice: Bidi.stripHtmlIfNeeded(snapshot.data![index].description),
-                                          price: snapshot.data?[index].price,
-                                          shortdescription: Bidi.stripHtmlIfNeeded(snapshot.data![index].short_description),
-                                          rating: Random().nextInt(100).toString(),
-                                          attributess:snapshot.data?[index].attributes,
-                                          shadow: shrim,
-                                           shrim:shrim,
-                                           AppBarr:widget.AppBarr,
-                                           privatescaffoldKey:widget.AppBarr.privatescaffoldKey,
-                                        );
-                                    
-                                  }
-                                    );
+                                    physics:
+                                    const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      raned = Random().nextInt(5);
+                                      raned.remainder(2) > 0
+                                          ? shrim = true
+                                          : shrim = false;
+                                      return ItemCard(
+                                        id: snapshot.data![index].id
+                                            .toString(),
+                                        imagurl: snapshot.data?[index].img,
+                                        itemname: snapshot.data?[index].name,
+                                        descprice: Bidi.stripHtmlIfNeeded(
+                                            snapshot
+                                                .data![index].description),
+                                        price: snapshot.data?[index].price,
+                                        shortdescription:
+                                        Bidi.stripHtmlIfNeeded(snapshot
+                                            .data![index]
+                                            .short_description),
+                                        rating:
+                                        Random().nextInt(100).toString(),
+                                        attributess:
+                                        snapshot.data?[index].attributes,
+                                        shadow: shrim,
+                                        shrim: shrim,
+                                        AppBarr: widget.AppBarr,
+                                        privatescaffoldKey:
+                                        widget.AppBarr.privatescaffoldKey,
+                                      );
+                                    });
                               } else if (snapshot.hasError) {
                                 print(snapshot.error);
                                 print(snapshot.data);
-                                return Text("Server Can not be reached please check connection"); //Text(snapshot.error.toString());
+                                return Text(
+                                    "Server Can not be reached please check connection"); //Text(snapshot.error.toString());
                               } else {
                                 return Center(
                                   child: CircularProgressIndicator(),
                                 );
                               }
-                            }),
+                            }
+                          ),
+                        ),
                       ),
-                    ),
                     ),
                     // New arrival for men's //
                     /*Padding(
@@ -871,10 +883,8 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
             ),
           ),
         ),
-      ),
+      )),
     );
-
-
   }
 
   _getHeading(
@@ -891,7 +901,6 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
               Text(title, style: Theme.of(context).textTheme.titleLarge),
               InkWell(
                 splashColor: primary.withOpacity(0.2),
-
                 onTap: () {
                   Navigator.push(
                     context,
@@ -905,7 +914,6 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                   seeAll,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-
               ),
             ],
           ),
@@ -1077,24 +1085,32 @@ class ItemCardSmall extends StatelessWidget {
 }
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({
-    Key? key,
-    this.imagurl,
-    this.rating,
-    this.itemname,
-    this.descprice,
-    this.price,
-    this.shadow,
-    this.shortdescription,
-    this.shrim,
+  const ItemCard(
+      {Key? key,
+      this.imagurl,
+      this.rating,
+      this.itemname,
+      this.descprice,
+      this.price,
+      this.shadow,
+      this.shortdescription,
+      this.shrim,
+      this.id,
+      required this.AppBarr,
+      required this.privatescaffoldKey,
+      this.attributess})
+      : super(key: key);
 
-    this.id, required this.AppBarr, required this.privatescaffoldKey, this.attributess
-  }) : super(key: key);
-
-  final String? imagurl,shortdescription, rating, itemname, descprice, price,  id;
-  final bool? shadow,shrim;
+  final String? imagurl,
+      shortdescription,
+      rating,
+      itemname,
+      descprice,
+      price,
+      id;
+  final bool? shadow, shrim;
   final List<attribute>? attributess;
-  final  HappyShopAppBar AppBarr;
+  final HappyShopAppBar AppBarr;
   final GlobalKey<ScaffoldState> privatescaffoldKey;
   @override
   _ItemCardState createState() => _ItemCardState();
@@ -1125,8 +1141,7 @@ class _ItemCardState extends State<ItemCard> {
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5)),
                       child: Hero(
-                        
-                          tag:  Random().nextInt(1000).toString(),
+                          tag: Random().nextInt(1000).toString(),
                           child:
                               //  Image.network(
                               //   widget.imagurl,
@@ -1134,27 +1149,27 @@ class _ItemCardState extends State<ItemCard> {
                               //   fit: BoxFit.fill,
                               //   width: double.infinity,
                               //   //   // width: double.infinity,)
-                          widget.shrim==true ?
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.45,
-                                child: Shimmer(
-                                  child: CachedNetworkImage(
-                            imageUrl: widget.imagurl!,
-                            fit: BoxFit.contain,
-                            width: double.infinity,
-                          ),
-                                ),
-                              )
-                              :
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.45,
-                            child:  CachedNetworkImage(
-                                imageUrl: widget.imagurl!,
-                                fit: BoxFit.contain,
-                                width: double.infinity,
-
-                            ),
-                          )
+                              widget.shrim == true
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.45,
+                                      child: Shimmer(
+                                        child: CachedNetworkImage(
+                                          imageUrl: widget.imagurl!,
+                                          fit: BoxFit.contain,
+                                          width: double.infinity,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.45,
+                                      child: CachedNetworkImage(
+                                        imageUrl: widget.imagurl!,
+                                        fit: BoxFit.contain,
+                                        width: double.infinity,
+                                      ),
+                                    )
                           // ),
                           ),
                     ),
@@ -1207,32 +1222,32 @@ class _ItemCardState extends State<ItemCard> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 2.0, bottom: 5),
-                  child: Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: Text(" $ECUR_CURRENCY ${widget.price!}",
-                            maxLines: 1,
-                            style: const TextStyle(color: primary)),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(" $ECUR_CURRENCY ${widget.price!}",
+                          maxLines: 1, style: const TextStyle(color: primary)),
+                    ),
+                    const SizedBox(
+                      width: 2.0,
+                    ),
+                    Flexible(
+                      child: Text(
+                        widget.shortdescription!,
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium
+                            ?.copyWith(
+                                decoration: TextDecoration.none,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1),
                       ),
-                      const SizedBox(
-                        width: 2.0,
-                      ),
-                      Flexible(
-                        child: Text(
-                          widget.shortdescription!,
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              decoration: TextDecoration.none,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1),
-                        ),
-                      ),
-                    ],
-                  ),
-
+                    ),
+                  ],
+                ),
               )
             ],
           ),
@@ -1246,15 +1261,14 @@ class _ItemCardState extends State<ItemCard> {
                     id: widget.id,
                     imgurl: widget.imagurl!,
                     tag: Random().nextInt(1000).toString(),
-                    description:widget.descprice,
-                      rating:Random().nextInt(100).toString(),
-                      price:widget.price,
-                      title:widget.itemname,
-                      user_rating:"0",
-                      review:"",
-                      shortdescription:widget.shortdescription,
+                    description: widget.descprice,
+                    rating: Random().nextInt(100).toString(),
+                    price: widget.price,
+                    title: widget.itemname,
+                    user_rating: "0",
+                    review: "",
+                    shortdescription: widget.shortdescription,
                     attributess: widget.attributess,
-
                   );
                 },
                 reverseTransitionDuration: const Duration(milliseconds: 800),

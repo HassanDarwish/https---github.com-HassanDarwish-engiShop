@@ -4,7 +4,6 @@ import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 
 import '../getIt/config/APIConfig.dart';
@@ -29,6 +28,18 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     super.initState();
   }
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
+  Future<void> _refresh() async {
+    // Replace this delay with the code to be executed during refresh.
+    // and return a Future when code finishes execution.
+    await Future<void>.delayed(const Duration(milliseconds: 1500));
+
+    // Reload the data.
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     deviceHeight = MediaQuery.of(context).size.height;
@@ -36,7 +47,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Push the replacement route after the widget tree is complete.
-      startTime();
+      startTime(3000);
     });
     return WillPopScope(
       onWillPop: () async {
@@ -52,45 +63,49 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
         return false;
       },
       child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: back(),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.network(
-                      'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
-                      width: 150.0,
+          body: RefreshIndicator(
+              key: _refreshIndicatorKey,
+              onRefresh: _refresh,
+              child: SingleChildScrollView(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      width: deviceWidth + 100,
+                      height: deviceHeight + 100,
+                      decoration: back(),
+                      child: const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                              width: 150.0,
+                              fit: BoxFit.fill,
+                              image: AssetImage('images/appstore.png'),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              App_title,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'DancingScript',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 28),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    CachedNetworkImage(
+                      imageUrl: 'http://jerma.net/Engi/images/doodle.png',
                       fit: BoxFit.fill,
+                      width: deviceWidth + 100,
+                      height: deviceHeight + 100,
                     ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    const Text(
-                      App_title,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'DancingScript',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 28),
-                    )
                   ],
                 ),
-              ),
-            ),
-            CachedNetworkImage(
-              imageUrl: 'http://jerma.net/Engi/images/doodle.png',
-              fit: BoxFit.fill,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-          ],
-        ),
-      ),
+              ))),
     );
   }
 
@@ -104,8 +119,8 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     );
   }
 
-  startTime() async {
-    var duration = const Duration(milliseconds: 3300);
+  startTime(int timeInMilli) async {
+    var duration = Duration(milliseconds: timeInMilli);
     if (true == await getIt<API_Config>().isInternet()) {
       await getIt<API_Config>().getConfig();
       await getIt<API_Woocommerce>().getCategoriesByCount(8);

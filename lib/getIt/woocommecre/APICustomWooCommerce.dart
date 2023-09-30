@@ -1,66 +1,92 @@
 import 'dart:collection';
-import 'dart:math';
-import 'package:crypto/crypto.dart' as crypto;
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:GiorgiaShop/pojo/products.dart';
-import 'package:get_it/get_it.dart';
-import 'package:GiorgiaShop/pojo/coupon/coupons.dart';
-import '../config/APIConfig.dart';
-GetIt getIt = GetIt.instance;
-abstract class APICustomWooCommerce {
+import 'dart:math';
 
+import 'package:GiorgiaShop/pojo/coupon/coupons.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
+import 'package:crypto/crypto.dart' as crypto;
+import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+
+import '../config/APIConfig.dart';
+
+GetIt getIt = GetIt.instance;
+
+abstract class APICustomWooCommerce {
   String getOAuthURL(String requestMethod, String queryUrl);
- Future<products> getProductByCategory(String catId);
- Future<products> getProductBy_Category(String catId,String order,String per_page);
+  Future<products> getProductByCategory(String catId);
+  Future<products> getProductBy_Category(
+      String catId, String order, String per_page);
   Future get_coupon(String code);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
-
-
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
 
   Future get_coupon(String code) async {
-
-    // TODO: implement getProductByCategory
-    var  response = await http.get(Uri.parse(getOAuthURL(
-        "GET", 'http://engy.jerma.net/wp-json/wc/v3/coupons?code='+code)),
-        headers: {"Content-Type": "Application/json"});
     coupons? coupon;
-    List<dynamic> Json=jsonDecode(response.body);
-    !Json.isEmpty ?
-    coupon = coupons.fromJson(jsonDecode(response.body))
-    : coupon = null;
-      return coupon;
+    try {
+      // TODO: implement getProductByCategory
+      var response = await http.get(
+          Uri.parse(getOAuthURL("GET",
+              'http://engy.jerma.net/wp-json/wc/v3/coupons?code=' + code)),
+          headers: {"Content-Type": "Application/json"});
+
+      List<dynamic> Json = jsonDecode(response.body);
+      !Json.isEmpty
+          ? coupon = coupons.fromJson(jsonDecode(response.body))
+          : coupon = null;
+    } catch (e) {
+      throw e;
+    }
+    return coupon;
   }
+
   @override
   Future<products> getProductByCategory(String catId) async {
+    late products product_List;
     // TODO: implement getProductByCategory
-    var response = await http.get(Uri.parse(getOAuthURL(
-        "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category='+catId+"&status=publish")),
-        headers: {"Content-Type": "Application/json"});
+
+      var response = await http.get(
+          Uri.parse(getOAuthURL(
+              "GET",
+              'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                  catId +
+                  "&status=publish")),
+          headers: {"Content-Type": "Application/json"});
 //List<dynamic> list = jsonDecode(jsonString);
-    products product_List = products.fromJson(response.body);
+      product_List = products.fromJson(response.body);
+
     return product_List;
   }
+
   @override
-  Future<products> getProductBy_Category(String catId,String order,String per_page) async {
+  Future<products> getProductBy_Category(
+      String catId, String order, String per_page) async {
     // TODO: implement getProductByCategory
+    late products product_List;
 
-
-    var response = await http.get(Uri.parse(getOAuthURL(
-        "GET", 'http://engy.jerma.net/wp-json/wc/v3/products?category='+catId+"&order="+order+"&per_page="+per_page+"&status=publish")),
-        headers: {"Content-Type": "Application/json"});
+      var response = await http.get(
+          Uri.parse(getOAuthURL(
+              "GET",
+              'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                  catId +
+                  "&order=" +
+                  order +
+                  "&per_page=" +
+                  per_page +
+                  "&status=publish")),
+          headers: {"Content-Type": "Application/json"});
 //List<dynamic> list = jsonDecode(jsonString);
-    products product_List = products.fromJson(response.body);
+      product_List = products.fromJson(response.body);
+
     return product_List;
   }
-  String  getOAuthURL(String requestMethod, String queryUrl) {
 
-    String consumerKey =  getIt<API_Config>().config.consumerKey;
-    String  consumerSecret =  getIt<API_Config>().config.consumerSecret;
+  String getOAuthURL(String requestMethod, String queryUrl) {
+    String consumerKey = getIt<API_Config>().config.consumerKey;
+    String consumerSecret = getIt<API_Config>().config.consumerSecret;
     String token = "";
     String url = queryUrl;
     bool containsQueryParams = url.contains("?");
@@ -74,9 +100,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     String nonce = String.fromCharCodes(codeUnits);
 
     /// The timestamp allows the Service Provider to only keep nonce values for a limited time
-    int timestamp = DateTime
-        .now()
-        .millisecondsSinceEpoch ~/ 1000;
+    int timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
     String parameters = "oauth_consumer_key=" +
         consumerKey +
@@ -120,7 +144,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
     String signingKey = consumerSecret + "&" + token;
     crypto.Hmac hmacSha1 =
-    crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
+        crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
 
     /// The Signature is used by the server to verify the
     /// authenticity of the request and prevent unauthorized access.
@@ -147,8 +171,6 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
     return requestUrl;
   }
-
-
 }
 
 class QueryString {
@@ -169,4 +191,5 @@ class QueryString {
     }
 
     return result;
-  } }
+  }
+}

@@ -22,9 +22,17 @@ class WoocommerceProvider  extends ChangeNotifier implements Woocommerce{
     return api_Woocommerce.listCategories;
   }
   Future<products> getProductByCategory(String catId) async {
-    return api_CustomWoocommerce.getProductByCategory(catId);
+    Future<products> result;
+
+      result=api_CustomWoocommerce.getProductByCategory(catId);
+
+    return result;
   }
   Future<products> getProductBy_Category(String catId,String order,String per_page) async {
-    return api_CustomWoocommerce.getProductBy_Category(  catId,  order,  per_page);
+    Future<products> result;
+
+      result=api_CustomWoocommerce.getProductBy_Category(  catId,  order,  per_page);
+
+    return result;
   }
 }
