@@ -13,6 +13,23 @@ class SessionImplementation extends ChangeNotifier {
   late CartImplementation _cart;
   late Map<String, dynamic> _attribute;
 
+  late List _addressList = [
+    {
+      "address": "lorem ipsum",
+      "area": "Bhuj",
+      "city": "Bhuj",
+      "state": "Gujrat",
+      "country": "India",
+      "mobile": "0123456789"
+    }
+  ];
+
+  List get addressList => _addressList;
+
+  set addressList(List value) {
+    _addressList = value;
+  }
+
   String _email = "";
   String _id = "";
   String _displayName = "";
@@ -21,6 +38,7 @@ class SessionImplementation extends ChangeNotifier {
   sessionEnums get status => _status;
 
   set status(sessionEnums value) {
+
     _status = value;
   }
 

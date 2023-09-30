@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'HappyShopHome.dart';
 
 GetIt getIt = GetIt.instance;
@@ -674,14 +674,14 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
   late AnimationController buttonController;
 
   @override
-  void initState() {
+  void initState()   {
     super.initState();
     addressList.clear();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     // Initialize the provider
     widget.provider = Provider.of<CartImplementation>(context, listen: false);
-
+      signIN(context);
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
@@ -693,7 +693,10 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
       ),
     ));
   }
+  void signIN(BuildContext context) async{
+    await signIn(context);
 
+  }
   @override
   void dispose() {
     buttonController.dispose();
@@ -717,26 +720,28 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     return Column(
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(widget.sessionImp.email),
-        ]),
-        Expanded(
-          child: addressList.isEmpty
-              ? const Text(NOADDRESS)
-              : ListView.builder(
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: addressList.length,
-                  itemBuilder: (context, index) {
-                    print(
-                        "default***b${addressList[index].isDefault}***${addressList[index].name}");
+          Visibility(
+            visible: widget.sessionImp.status==sessionEnums.login,
+              child: Expanded(
+                child: widget.sessionImp.addressList.isEmpty
+                    ? const Text(NOADDRESS)
+                    : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: widget.sessionImp.addressList.length,
+                    itemBuilder: (context, index) {
+                        return addressItem(index);
+                    }),
+              ),
 
-                    return addressItem(index);
-                  }),
-        ),
+          )
+        ]),
+
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           ElevatedButton(
             onPressed: () async {
               await signIn(context);
+              setState(() {});
             },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(0.0),
@@ -806,7 +811,7 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
               child: Row(
             children: [
               Text(
-                addressList[index].name + "  ",
+                widget.sessionImp.addressList[index]['address'] + "  ",
                 style: const TextStyle(color: Colors.black),
               ),
               Container(
@@ -814,7 +819,7 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
                     color: lightgrey, borderRadius: BorderRadius.circular(5)),
                 padding: const EdgeInsets.all(3),
                 child: Text(
-                  addressList[index].type,
+                  widget.sessionImp.addressList[index]['area'],
                 ),
               )
             ],
@@ -844,17 +849,17 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
         ],
       ),
       isThreeLine: true,
-      subtitle: Text(addressList[index]['address'] +
+      subtitle: Text(widget.sessionImp.addressList[index]['address'] +
           ", " +
-          addressList[index]['area'] +
+          widget.sessionImp.addressList[index]['area'] +
           ", " +
-          addressList[index]['city'] +
+          widget.sessionImp.addressList[index]['city'] +
           ", " +
-          addressList[index]['state'] +
+          widget.sessionImp.addressList[index]['state'] +
           ", " +
-          addressList[index]['country'] +
+          widget.sessionImp.addressList[index]['country'] +
           "\n" +
-          addressList[index]['mobile']),
+          widget.sessionImp.addressList[index]['mobile']),
     );
   }
 
