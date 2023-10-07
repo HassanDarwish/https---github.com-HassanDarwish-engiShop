@@ -8,6 +8,7 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
+import '../../pojo/customer/customers.dart';
 import '../config/APIConfig.dart';
 
 GetIt getIt = GetIt.instance;
@@ -18,11 +19,35 @@ abstract class APICustomWooCommerce {
   Future<products> getProductBy_Category(
       String catId, String order, String per_page);
   Future get_coupon(String code);
+  Future<customers> getCustomer(String name, String email);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
+
+  Future<customers> getCustomer(String name, String email) async {
+    //http://engy.jerma.net/wp-json/wc/v3/customers/?search=john.doe&email=john.doe@example.com&role=customer
+
+    customers customer;
+    try {
+      print('http://engy.jerma.net/wp-json/wc/v3/customers?email=' +
+          'john.doe@example.com');
+      // TODO: implement getProductByCategory
+      var response = await http.get(
+          Uri.parse(getOAuthURL("GET",
+              'http://engy.jerma.net/wp-json/wc/v3/customers?username=${name}')),
+          headers: {"Content-Type": "Application/json"});
+      print(jsonDecode(response.body));
+      List<dynamic> Json = jsonDecode(response.body);
+      !Json.isEmpty
+          ? customer = customers.fromJson(jsonDecode(response.body))
+          : customer = customers(email: "empty");
+    } catch (e) {
+      throw e;
+    }
+    return customer;
+  }
 
   Future get_coupon(String code) async {
     coupons? coupon;
@@ -48,15 +73,15 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     late products product_List;
     // TODO: implement getProductByCategory
 
-      var response = await http.get(
-          Uri.parse(getOAuthURL(
-              "GET",
-              'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
-                  catId +
-                  "&status=publish")),
-          headers: {"Content-Type": "Application/json"});
+    var response = await http.get(
+        Uri.parse(getOAuthURL(
+            "GET",
+            'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                catId +
+                "&status=publish")),
+        headers: {"Content-Type": "Application/json"});
 //List<dynamic> list = jsonDecode(jsonString);
-      product_List = products.fromJson(response.body);
+    product_List = products.fromJson(response.body);
 
     return product_List;
   }
@@ -67,19 +92,19 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     // TODO: implement getProductByCategory
     late products product_List;
 
-      var response = await http.get(
-          Uri.parse(getOAuthURL(
-              "GET",
-              'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
-                  catId +
-                  "&order=" +
-                  order +
-                  "&per_page=" +
-                  per_page +
-                  "&status=publish")),
-          headers: {"Content-Type": "Application/json"});
+    var response = await http.get(
+        Uri.parse(getOAuthURL(
+            "GET",
+            'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                catId +
+                "&order=" +
+                order +
+                "&per_page=" +
+                per_page +
+                "&status=publish")),
+        headers: {"Content-Type": "Application/json"});
 //List<dynamic> list = jsonDecode(jsonString);
-      product_List = products.fromJson(response.body);
+    product_List = products.fromJson(response.body);
 
     return product_List;
   }

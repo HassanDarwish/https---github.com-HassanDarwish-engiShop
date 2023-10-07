@@ -1,6 +1,8 @@
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+import 'package:GiorgiaShop/pojo/customer/customers.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:GiorgiaShop/Helper/cartEnums.dart';
+
+import '../provider/woocommerceProvider.dart';
 import 'HappyShopHome.dart';
 
 GetIt getIt = GetIt.instance;
@@ -658,6 +661,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 class Address extends StatefulWidget {
   late var provider;
   late var sessionImp;
+  late WoocommerceProvider CustWoocommerceProvider;
 
   Address({super.key});
 
@@ -674,14 +678,16 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
   late AnimationController buttonController;
 
   @override
-  void initState()   {
+  void initState() {
     super.initState();
     addressList.clear();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     // Initialize the provider
     widget.provider = Provider.of<CartImplementation>(context, listen: false);
-      signIN(context);
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
+    signIN(context);
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
@@ -693,10 +699,14 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
       ),
     ));
   }
-  void signIN(BuildContext context) async{
-    await signIn(context);
 
+  void signIN(BuildContext context) async {
+    await signIn(context);
+    Future<customers> customer = widget.CustWoocommerceProvider.getCustomer(
+        "john.doe", "john.doe@example.com");
+    //print(customer);
   }
+
   @override
   void dispose() {
     buttonController.dispose();
@@ -721,22 +731,20 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Visibility(
-            visible: widget.sessionImp.status==sessionEnums.login,
-              child: Expanded(
-                child: widget.sessionImp.addressList.isEmpty
-                    ? const Text(NOADDRESS)
-                    : ListView.builder(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: widget.sessionImp.addressList.length,
-                    itemBuilder: (context, index) {
+            visible: widget.sessionImp.status == sessionEnums.login,
+            child: Expanded(
+              child: widget.sessionImp.addressList.isEmpty
+                  ? const Text(NOADDRESS)
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: widget.sessionImp.addressList.length,
+                      itemBuilder: (context, index) {
                         return addressItem(index);
-                    }),
-              ),
-
+                      }),
+            ),
           )
         ]),
-
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           ElevatedButton(
             onPressed: () async {
