@@ -45,4 +45,8 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
 
     return result;
   }
+
+  Future getCustomerByEmail(String email) async {
+    api_Woocommerce.searchCustomerByEmail(email);
+  }
 }

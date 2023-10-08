@@ -2,10 +2,10 @@ import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
-import 'package:GiorgiaShop/pojo/customer/customers.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
@@ -702,9 +702,21 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
 
   void signIN(BuildContext context) async {
     await signIn(context);
-    Future<customers> customer = widget.CustWoocommerceProvider.getCustomer(
-        "john.doe", "john.doe@example.com");
-    //print(customer);
+
+    await widget.CustWoocommerceProvider.getCustomerByEmail(
+        "john.doe@example.com");
+    List<WooCustomer>? cutomer =
+        await widget.CustWoocommerceProvider.api_Woocommerce.listWooCustomer;
+
+    WooCustomer? user = cutomer?.firstWhere(
+        (user) =>
+            user.username == 'john.doe' && user.email == 'john.doe@example.com',
+        orElse: () => WooCustomer());
+
+    // If the user is found, print their name. Otherwise, print 'User not found'.
+    if (user?.username == null) {
+      print("not found");
+    }
   }
 
   @override

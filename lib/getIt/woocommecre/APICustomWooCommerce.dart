@@ -36,7 +36,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
       // TODO: implement getProductByCategory
       var response = await http.get(
           Uri.parse(getOAuthURL("GET",
-              'http://engy.jerma.net/wp-json/wc/v3/customers?username=${name}')),
+              'http://engy.jerma.net/wp-json/wc/v3/customers?search=${name}')),
           headers: {"Content-Type": "Application/json"});
       print(jsonDecode(response.body));
       List<dynamic> Json = jsonDecode(response.body);
