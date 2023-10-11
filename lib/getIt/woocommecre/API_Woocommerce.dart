@@ -9,10 +9,14 @@ abstract class API_Woocommerce {
   Future getCategories();
   Future getCategoriesByCount(int count);
   Future searchCustomerByEmail(String email);
+  Future<bool> createWooCustomer(String email,String username);
+  Future<WooCustomer> updateWooCustomer(String id,Map data);
 
   late Future<List<WooProductCategory>> listCategories;
   late Future<List<WooProductCategory>> listAllCategories;
   late Future<List<WooCustomer>> listWooCustomer;
+
+  //http://engy.jerma.net/wp-json/wc/v3/customers?username=HassanAli&email=hassanaly@msn.com&password&first_name=Hassan&last_name=Ali
 }
 
 class API_Woocommerce_Implementation extends API_Woocommerce {
@@ -29,6 +33,29 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
   https://woocommerce.github.io/woocommerce-rest-api-docs/
 
    */
+  Future<WooCustomer> updateWooCustomer(String id,Map mapData) async{
+    String consumerKey = getIt<API_Config>().config.consumerKey;
+    String consumerSecret = getIt<API_Config>().config.consumerSecret;
+    WooCommerce woocommerce = WooCommerce(
+        baseUrl: baseUrl,
+        consumerKey: consumerKey,
+        consumerSecret: consumerSecret);
+    WooCustomer result=await woocommerce.updateCustomer(id: 4,data:mapData);
+  return result;
+  }
+  Future<bool> createWooCustomer(String email,String username) async{
+ String consumerKey = getIt<API_Config>().config.consumerKey;
+    String consumerSecret = getIt<API_Config>().config.consumerSecret;
+    WooCommerce woocommerce = WooCommerce(
+        baseUrl: baseUrl,
+        consumerKey: consumerKey,
+        consumerSecret: consumerSecret);
+    WooCustomer customer=WooCustomer();
+    customer.email=email;
+    customer.username=username;
+    bool result=await woocommerce.createCustomer(customer);
+  return result;
+  }
   Future searchCustomerByEmail(String email) async {
     String consumerKey = getIt<API_Config>().config.consumerKey;
     String consumerSecret = getIt<API_Config>().config.consumerSecret;

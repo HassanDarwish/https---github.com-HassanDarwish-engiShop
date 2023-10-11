@@ -1,11 +1,12 @@
 import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:GiorgiaShop/pojo/location/Area.dart';
+import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'Cart.dart';
-
+import 'package:flutter_wp_woocommerce/woocommerce.dart';
 class SessionImplementation extends ChangeNotifier {
   late String _userID;
   late String _password;
@@ -98,7 +99,7 @@ class SessionImplementation extends ChangeNotifier {
     notifyListeners();
   }
 
-  initSession(GoogleSignInAccount? user) {
+  initSession(GoogleSignInAccount? user,WoocommerceProvider custWoocommerceProvider) async {
     email = user!.email;
     id = user.id;
     if (user.displayName != null) displayName = user.displayName!;
@@ -113,6 +114,22 @@ class SessionImplementation extends ChangeNotifier {
     print("**");
     print(user.id);
     print("**");
+
+
+     await custWoocommerceProvider.getCustomerByEmail(user.email);
+     List<WooCustomer>? cutomer =
+        await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
+
+     WooCustomer? cuserUstomer = cutomer?.firstWhere(
+             (cuserUstomer) =>
+             cuserUstomer.username == user.displayName && cuserUstomer.email == user.email,
+        orElse: () => WooCustomer());
+
+     // If the user is found, print their name. Otherwise, print 'User not found'.
+     if (cuserUstomer?.username == null) {
+       print("not found");
+     }
+
 
     // email = "";
     // id = "";

@@ -5,7 +5,7 @@ import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
@@ -687,7 +687,7 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     widget.provider = Provider.of<CartImplementation>(context, listen: false);
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
-    signIN(context);
+    signIN(context,widget.CustWoocommerceProvider );
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
@@ -700,23 +700,10 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     ));
   }
 
-  void signIN(BuildContext context) async {
-    await signIn(context);
+  void signIN(BuildContext context, WoocommerceProvider custWoocommerceProvider) async {
+    await signIn(context,custWoocommerceProvider );
 
-    await widget.CustWoocommerceProvider.getCustomerByEmail(
-        "john.doe@example.com");
-    List<WooCustomer>? cutomer =
-        await widget.CustWoocommerceProvider.api_Woocommerce.listWooCustomer;
 
-    WooCustomer? user = cutomer?.firstWhere(
-        (user) =>
-            user.username == 'john.doe' && user.email == 'john.doe@example.com',
-        orElse: () => WooCustomer());
-
-    // If the user is found, print their name. Otherwise, print 'User not found'.
-    if (user?.username == null) {
-      print("not found");
-    }
   }
 
   @override
@@ -760,7 +747,7 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           ElevatedButton(
             onPressed: () async {
-              await signIn(context);
+              await signIn(context,widget.CustWoocommerceProvider);
               setState(() {});
             },
             style: ElevatedButton.styleFrom(
@@ -888,15 +875,17 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     await GoogleSignin.logout();
   }
 
-  Future signIn(context) async {
+  Future signIn(context, WoocommerceProvider custWoocommerceProvider) async {
     final user = await GoogleSignin.login();
+
     if (user == null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("SignIn Falied")));
     } else {
-      widget.sessionImp.initSession(user);
+      widget.sessionImp.initSession(user,  custWoocommerceProvider);
     }
   }
+
 }
 
 class Payment extends StatefulWidget {
