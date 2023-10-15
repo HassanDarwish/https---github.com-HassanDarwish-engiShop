@@ -99,21 +99,13 @@ class SessionImplementation extends ChangeNotifier {
     notifyListeners();
   }
 
-  initSession(GoogleSignInAccount? user,WoocommerceProvider custWoocommerceProvider) async {
+  Future<bool> initSession(GoogleSignInAccount? user,WoocommerceProvider custWoocommerceProvider) async {
     email = user!.email;
     id = user.id;
     if (user.displayName != null) displayName = user.displayName!;
 
     status = sessionEnums.login;
 
-    print(user.email);
-    print("**");
-    print(user.photoUrl!);
-    print("**");
-    print(user.displayName!);
-    print("**");
-    print(user.id);
-    print("**");
 
 
      await custWoocommerceProvider.getCustomerByEmail(user.email);
@@ -127,7 +119,20 @@ class SessionImplementation extends ChangeNotifier {
 
      // If the user is found, print their name. Otherwise, print 'User not found'.
      if (cuserUstomer?.username == null) {
-       print("not found");
+       return false;
+     }else{
+       _userID=cuserUstomer!.id.toString();
+       addressList= [
+         {
+           "address": cuserUstomer?.billing?.address1,
+           "area": cuserUstomer?.billing?.state,
+           "city":  cuserUstomer?.billing?.city,
+           "state": cuserUstomer?.billing?.state,
+           "country": cuserUstomer?.billing?.country,
+           "mobile": cuserUstomer?.billing?.phone
+         }
+       ];
+       return true;
      }
 
 
@@ -137,4 +142,26 @@ class SessionImplementation extends ChangeNotifier {
     // status = sessionEnums.logout;
     notifyListeners();
   }
+
+  Future<bool> updateAddress(String userID,String email,WoocommerceProvider custWoocommerceProvider,address, city, state, phoneArea, country) async
+  {
+    bool result=await custWoocommerceProvider.updateAddressWooCustomer(userID,email,displayName,address, city, state, phoneArea, country);
+
+    return result;
+  }
+    Future<bool> register(GoogleSignInAccount? user,WoocommerceProvider custWoocommerceProvider,address, city, state, phoneArea, country) async
+  {
+    email = user!.email;
+    id = user.id;
+    if (user.displayName != null) displayName = user.displayName!;
+
+    bool result=await custWoocommerceProvider.createWooCustomer(user.email,displayName,address, city, state, phoneArea, country);
+
+    if(result==true)
+    status = sessionEnums.login;
+
+    return result;
+  }
+
+
 }

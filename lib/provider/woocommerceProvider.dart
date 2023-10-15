@@ -5,7 +5,7 @@ import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import '../pojo/products.dart';
 import 'abstracted/Woocommerce.dart';
-
+import 'package:flutter_wp_woocommerce/models/customer.dart';
 class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   final API_Woocommerce api_Woocommerce;
   final APICustomWooCommerce api_CustomWoocommerce;
@@ -49,10 +49,20 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   Future getCustomerByEmail(String email) async {
     await api_Woocommerce.searchCustomerByEmail(email);
   }
-  Future createWooCustomer(String email,String username) async{
-    bool result=await api_Woocommerce.createWooCustomer(email, username);
+  Future updateAddressWooCustomer(String id,String email,String username,address, city, state, phoneArea, country) async{
 
+    WooCustomer data=WooCustomer(email: email,username: username,billing: Billing( firstName: username ,email: email,address1: address, city: city,country: country,state: state,phone: phoneArea));
+
+
+      customers result= await api_CustomWoocommerce.updateWooCustomer(id,data);
+
+    if(result!=null)
+      return true;
+
+    return false;
+  }
+  Future createWooCustomer(String userID,String username,address, city, state, phoneArea, country) async{
+    bool result=await api_Woocommerce.createWooCustomer(userID, username,address, city, state, phoneArea, country);
     return result;
   }
-
 }

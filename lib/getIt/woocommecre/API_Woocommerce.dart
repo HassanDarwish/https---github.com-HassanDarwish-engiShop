@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
+import 'package:flutter_wp_woocommerce/models/customer.dart';
 import 'package:get_it/get_it.dart';
 
 import '../config/APIConfig.dart';
@@ -9,7 +12,7 @@ abstract class API_Woocommerce {
   Future getCategories();
   Future getCategoriesByCount(int count);
   Future searchCustomerByEmail(String email);
-  Future<bool> createWooCustomer(String email,String username);
+  Future<bool> createWooCustomer(String email,String username,address, city, state, phoneArea, country);
   Future<WooCustomer> updateWooCustomer(String id,Map data);
 
   late Future<List<WooProductCategory>> listCategories;
@@ -33,17 +36,19 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
   https://woocommerce.github.io/woocommerce-rest-api-docs/
 
    */
-  Future<WooCustomer> updateWooCustomer(String id,Map mapData) async{
+  Future<WooCustomer> updateWooCustomer(String userID,Map mapData) async{
     String consumerKey = getIt<API_Config>().config.consumerKey;
     String consumerSecret = getIt<API_Config>().config.consumerSecret;
     WooCommerce woocommerce = WooCommerce(
         baseUrl: baseUrl,
         consumerKey: consumerKey,
         consumerSecret: consumerSecret);
-    WooCustomer result=await woocommerce.updateCustomer(id: 4,data:mapData);
+  //  WooCustomer customer=WooCustomer();
+
+    WooCustomer result=await woocommerce.updateCustomer(id: int.parse(userID),data:mapData);
   return result;
   }
-  Future<bool> createWooCustomer(String email,String username) async{
+  Future<bool> createWooCustomer(String email,String username,address, city, state, phoneArea, country) async{
  String consumerKey = getIt<API_Config>().config.consumerKey;
     String consumerSecret = getIt<API_Config>().config.consumerSecret;
     WooCommerce woocommerce = WooCommerce(
@@ -52,9 +57,19 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
         consumerSecret: consumerSecret);
     WooCustomer customer=WooCustomer();
     customer.email=email;
+    customer.firstName=username;
     customer.username=username;
-    bool result=await woocommerce.createCustomer(customer);
-  return result;
+    customer.password=randomString();
+    customer.billing=Billing(phone: phoneArea,country: country,state: state,address1: address,firstName: username,
+    lastName: "",city: city,postcode: "",company: "",email: email,address2: "");
+
+
+    try {
+      await woocommerce.createCustomer(customer);
+    }catch(e){
+      return false;
+    }
+  return true;
   }
   Future searchCustomerByEmail(String email) async {
     String consumerKey = getIt<API_Config>().config.consumerKey;
@@ -91,6 +106,17 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
       perPage: count,
     );
   }
+  String randomString(){
+    Random rand = Random();
+    List<int> codeUnits = List.generate(10, (index) {
+      return rand.nextInt(26) + 97;
+    });
+
+    /// Random string uniquely generated to identify each signed request
+    String nonce = String.fromCharCodes(codeUnits);
+    return nonce;
+  }
+
 }
 
 /////

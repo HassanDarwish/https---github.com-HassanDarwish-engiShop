@@ -182,7 +182,6 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 
   Future<bool> onBackArrowPressed() async {
     // TODO: Implement your back arrow logic here.
-
     widget.cartProvider.dispose();
     return await true;
   }
@@ -660,7 +659,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
 class Address extends StatefulWidget {
   late var provider;
-  late var sessionImp;
+  late SessionImplementation sessionImp;
+  late   bool isExist=false,isLoggedIn=false,haveAddress=false,register=false;
   late WoocommerceProvider CustWoocommerceProvider;
 
   Address({super.key});
@@ -680,14 +680,17 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    addressList.clear();
+
+
+    //addressList.clear();
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     // Initialize the provider
     widget.provider = Provider.of<CartImplementation>(context, listen: false);
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
-    signIN(context,widget.CustWoocommerceProvider );
+
+    //signIN(context,widget.CustWoocommerceProvider );
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
@@ -699,11 +702,16 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
       ),
     ));
   }
-
+void register(BuildContext context, WoocommerceProvider custWoocommerceProvider) async {
+  logOut();
+  await registe_r(context,custWoocommerceProvider );
+}
   void signIN(BuildContext context, WoocommerceProvider custWoocommerceProvider) async {
     await signIn(context,custWoocommerceProvider );
+    widget.register=false;
+    setState(() {
 
-
+    });
   }
 
   @override
@@ -712,25 +720,28 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  List addressList = [
-    {
-      "address": "lorem ipsum",
-      "area": "Bhuj",
-      "city": "Bhuj",
-      "state": "Gujrat",
-      "country": "India",
-      "mobile": "0123456789"
-    }
-  ];
+  // List addressList = [
+  //   {
+  //     "address": "lorem ipsum",
+  //     "area": "Bhuj",
+  //     "city": "Bhuj",
+  //     "state": "Gujrat",
+  //     "country": "India",
+  //     "mobile": "0123456789"
+  //   }
+  // ];
 
   @override
   Widget build(BuildContext context) {
     widget.sessionImp = Provider.of<SessionImplementation>(context);
+    if(widget.sessionImp.status!=sessionEnums.login)
+      widget.register=true;
+
     return Column(
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Visibility(
-            visible: widget.sessionImp.status == sessionEnums.login,
+            visible: widget.haveAddress,
             child: Expanded(
               child: widget.sessionImp.addressList.isEmpty
                   ? const Text(NOADDRESS)
@@ -745,63 +756,133 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
           )
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
-            onPressed: () async {
-              await signIn(context,widget.CustWoocommerceProvider);
-              setState(() {});
-            },
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(0.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0.0)),
-            ),
-            child: Ink(
-              decoration: BoxDecoration(
-                gradient: happyshopgradient,
+          Visibility(
+            visible: widget.sessionImp.status == sessionEnums.login && widget.haveAddress == true,
+            child: ElevatedButton(
+              onPressed: () async {
+                await updateAddress(context,widget.CustWoocommerceProvider);
+                if(widget.isExist==true)
+                 setState(() {});
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(0.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0.0)),
               ),
-              child: Container(
-                height: 40.0,
-                width: MediaQuery.of(context).size.width / 4,
-                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: happyshopgradient,
+                ),
+                child: Container(
+                  height: 40.0,
+                  width: MediaQuery.of(context).size.width / 4,
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
 
-                // min sizes for Material buttons
-                alignment: Alignment.center,
-                child: const Text(
-                  ADDADDRESS,
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
+                  // min sizes for Material buttons
+                  alignment: Alignment.center,
+                  child: const Text(
+                    UPDATEADDRESS,
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              await logOut();
-            },
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(0.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0.0)),
-            ),
-            child: Ink(
-              decoration: BoxDecoration(
-                gradient: happyshopgradient,
+          Visibility(
+            visible: widget.isExist,
+            child: ElevatedButton(
+              onPressed: () async {
+                await logOut();
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(0.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0.0)),
               ),
-              child: Container(
-                height: 40.0,
-                width: MediaQuery.of(context).size.width / 4,
-                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: happyshopgradient,
+                ),
+                child: Container(
+                  height: 40.0,
+                  width: MediaQuery.of(context).size.width / 4,
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
 
-                // min sizes for Material buttons
-                alignment: Alignment.center,
-                child: const Text(
-                  "LogOut",
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
+                  // min sizes for Material buttons
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "LogOut",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
           ),
+          Visibility(
+            visible: !widget.isExist,
+            child: ElevatedButton(
+              onPressed: () async {
+                  signIN(context, widget.CustWoocommerceProvider);
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(0.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0.0)),
+              ),
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: happyshopgradient,
+                ),
+                child: Container(
+                  height: 40.0,
+                  width: MediaQuery.of(context).size.width / 4,
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+
+                  // min sizes for Material buttons
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "Log In",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: widget.register,
+            child: ElevatedButton(
+              onPressed: () async {
+                register(context, widget.CustWoocommerceProvider);
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(0.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0.0)),
+              ),
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: happyshopgradient,
+                ),
+                child: Container(
+                  height: 40.0,
+                  width: MediaQuery.of(context).size.width / 4,
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+
+                  // min sizes for Material buttons
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "Regeister",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
         ])
       ],
     );
@@ -872,18 +953,89 @@ class StateAddress extends State<Address> with TickerProviderStateMixin {
 
   Future logOut() async {
     widget.sessionImp.clear();
+    if(widget.isLoggedIn)
     await GoogleSignin.logout();
-  }
+    widget.sessionImp.addressList.clear();
+    widget.isExist=false;
+    widget.haveAddress=false;
 
-  Future signIn(context, WoocommerceProvider custWoocommerceProvider) async {
+    setState(() {
+
+    });
+  }
+  Future registe_r(context, WoocommerceProvider custWoocommerceProvider) async {
+   // if(widget.isLoggedIn)
+    await GoogleSignin.disconnect();
+
+    final user = await GoogleSignin.login();
+    if (user == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Register Falied")));
+    } else {
+
+        showDialog(
+          context: context,
+          builder: (context) => AddressDialog(
+            onSubmit: (address, city, state, phoneArea, country) async{
+
+              widget.isExist =
+                  await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
+              if(widget.isExist)
+                setState(() {
+
+                });
+            },
+          ),
+        );
+
+
+
+
+    }
+
+    }
+
+  Future updateAddress(context, WoocommerceProvider custWoocommerceProvider) async {
+    final user = await GoogleSignin.login();
+    showDialog(
+      context: context,
+      builder: (context) => AddressDialog(
+        onSubmit: (address, city, state, phoneArea, country) async{
+
+          widget.isExist =
+          await widget.sessionImp.updateAddress(widget.sessionImp.userID,user!.email, custWoocommerceProvider,address, city, state, phoneArea, country);
+          if(widget.isExist)
+            setState(() {
+
+            });
+        },
+      ),
+    );
+  }
+    Future signIn(context, WoocommerceProvider custWoocommerceProvider) async {
     final user = await GoogleSignin.login();
 
     if (user == null) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("SignIn Falied")));
+          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("SignIn Falied")));
     } else {
-      widget.sessionImp.initSession(user,  custWoocommerceProvider);
-    }
+      widget.isExist=await widget.sessionImp.initSession(user,  custWoocommerceProvider);
+      if(widget.isExist==false) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
+      logOut();
+      widget.register=true;
+      }else{
+        if(widget.sessionImp.addressList.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
+          widget.haveAddress=false;
+          }else{
+          widget.haveAddress=true;
+          setState(() {});
+          }
+        }
+      }
+
   }
 
 }
@@ -1243,8 +1395,107 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
   }
 }
 
+class AddressDialog extends StatefulWidget {
+  final Function(String address, String city, String state, String phoneArea, String country) onSubmit;
+
+  const AddressDialog({Key? key, required this.onSubmit}) : super(key: key);
+
+  @override
+  _AddressDialogState createState() => _AddressDialogState();
+}
+
+class _AddressDialogState extends State<AddressDialog> {
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _phoneAreaController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String? validateRequired(String? value) {
+    if (value!.isEmpty) {
+      return 'This field is required.';
+    }
+    return null;
+  }
+  String? _validateMobileNumber(String? value) {
+
+    if (value!.isEmpty) {
+      return 'This field is required.';
+    } else if (!RegExp(r'^[+]*[0-9]*$').hasMatch(value!)) {
+      return 'invalid mobile number.';
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+        key: _formKey,
+        child: AlertDialog(
+      title: Text('Add Your Address'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            TextFormField(
+              controller: _addressController,
+              decoration: InputDecoration(labelText: 'Address'),
+              validator: validateRequired,
+            ),
+            TextFormField(
+              controller: _cityController,
+              decoration: InputDecoration(labelText: 'City'),
+              validator: validateRequired,
+            ),
+            TextFormField(
+              controller: _stateController,
+              decoration: InputDecoration(labelText: 'State'),
+              validator: validateRequired,
+            ),
+            TextFormField(
+              controller: _phoneAreaController,
+              decoration: InputDecoration(labelText: 'Mobile Number'),
+              validator: _validateMobileNumber,
+            ),
+            TextFormField(
+              controller: _countryController,
+              decoration: InputDecoration(labelText: 'Country'),
+              validator: validateRequired,
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              Navigator.pop(context);
+              widget.onSubmit(
+                _addressController.text,
+                _cityController.text,
+                _stateController.text,
+                _phoneAreaController.text,
+                _countryController.text,
+              );
+            }
+          },
+          child: Text('Submit'),
+        ),
+      ],
+    ));
+  }
+}
 class GoogleSignin {
   static final _googleSingin = GoogleSignIn();
   static Future<GoogleSignInAccount?> login() => _googleSingin.signIn();
   static Future<GoogleSignInAccount?> logout() => _googleSingin.disconnect();
+  static Future<GoogleSignInAccount?> disconnect() {
+    _googleSingin.disconnect();
+    return _googleSingin.signOut();
+  }
+
 }

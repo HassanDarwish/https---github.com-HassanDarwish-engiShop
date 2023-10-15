@@ -264,6 +264,7 @@ const String PRICE_LBL = 'Price';
 const String SUBTOTAL = 'SubTotal';
 const String QUANTITY_LBL = 'Qty';
 const String ADDADDRESS = 'Add New Address';
+const String UPDATEADDRESS = 'Update Address';
 const String CONTINUE = 'Continue';
 const String NAME_LBL = 'Name';
 const String ALT_MOB = 'Alternate Mobile Number';
