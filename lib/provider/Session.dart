@@ -99,14 +99,44 @@ class SessionImplementation extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> reloadAddress(WoocommerceProvider custWoocommerceProvider,displayName,email) async {
+    // email = user!.email;
+    // id = user.id;
+
+    await custWoocommerceProvider.api_Woocommerce.searchCustomerByEmail(email);
+    List<WooCustomer>? cutomer =
+      await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
+
+  WooCustomer? cuserUstomer = cutomer?.firstWhere(
+          (cuserUstomer) =>
+      cuserUstomer.username == displayName && cuserUstomer.email == email,
+      orElse: () => WooCustomer());
+
+  // If the user is found, print their name. Otherwise, print 'User not found'.
+  if (cuserUstomer?.username == null) {
+  return false;
+  }else{
+  _userID=cuserUstomer!.id.toString();
+  addressList= [
+  {
+  "address": cuserUstomer?.billing?.address1,
+  "area": cuserUstomer?.billing?.state,
+  "city":  cuserUstomer?.billing?.city,
+  "state": cuserUstomer?.billing?.state,
+  "country": cuserUstomer?.billing?.country,
+  "mobile": cuserUstomer?.billing?.phone
+  }
+  ];
+  return true;
+  }
+}
+
   Future<bool> initSession(GoogleSignInAccount? user,WoocommerceProvider custWoocommerceProvider) async {
     email = user!.email;
     id = user.id;
     if (user.displayName != null) displayName = user.displayName!;
 
     status = sessionEnums.login;
-
-
 
      await custWoocommerceProvider.getCustomerByEmail(user.email);
      List<WooCustomer>? cutomer =

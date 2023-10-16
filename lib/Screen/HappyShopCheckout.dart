@@ -999,10 +999,14 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
 
           widget.isExist =
           await widget.sessionImp.updateAddress(widget.sessionImp.userID,user!.email, custWoocommerceProvider,address, city, state, phoneArea, country);
+
+          await widget.sessionImp.reloadAddress(custWoocommerceProvider,user!.displayName,user!.email);
+
           if(widget.isExist)
             setState(() {
 
             });
+
         },
       ),
     );
