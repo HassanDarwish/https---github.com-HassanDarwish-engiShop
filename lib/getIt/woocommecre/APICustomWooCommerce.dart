@@ -27,28 +27,6 @@ abstract class APICustomWooCommerce {
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
-  Future<customers> updateWooCustomer(String id,WooCustomer cust) async
-  {
-    customers customer;
-    String json = jsonEncode(cust);
-    try {
-      // TODO: implement getProductByCategory
-      var response = await http.put(
-          Uri.parse(getOAuthURL("PUT",
-              'http://engy.jerma.net/wp-json/wc/v3/customers/${id}/')),
-          headers: {"Content-Type": "Application/json"},
-          body: getOAuthURL("PUT",json));
-
-      List<dynamic> Json = jsonDecode(response.body);
-      !Json.isEmpty
-          ? customer = customers.fromJson(jsonDecode(response.body))
-          : customer = customers(email: "empty");
-    } catch (e) {
-      throw e;
-    }
-
-    return customer;
-  }
   Future<customers> getCustomer(String name, String email) async {
     //http://engy.jerma.net/wp-json/wc/v3/customers/?search=john.doe&email=john.doe@example.com&role=customer
 
@@ -128,6 +106,31 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
     product_List = products.fromJson(response.body);
 
     return product_List;
+  }
+
+
+  Future<customers> updateWooCustomer(String id,WooCustomer cust) async
+  {
+    customers customer;
+    String json = jsonEncode(cust);
+    try {
+      // TODO: implement getProductByCategory
+      var response = await http.post(
+        Uri.parse(getOAuthURL("PUT",
+            'http://engy.jerma.net/wp-json/wc/v3/customers/${id}')),
+        headers: {"Content-Type": "Application/json"},
+        body: json,
+      );
+
+      List<dynamic> Json = jsonDecode(response.body);
+      !Json.isEmpty
+          ? customer = customers.fromJson(jsonDecode(response.body))
+          : customer = customers(email: "empty");
+    } catch (e) {
+      throw e;
+    }
+
+    return customer;
   }
 
   String getOAuthURL(String requestMethod, String queryUrl) {

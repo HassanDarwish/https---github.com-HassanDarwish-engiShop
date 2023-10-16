@@ -51,10 +51,23 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   }
   Future updateAddressWooCustomer(String id,String email,String username,address, city, state, phoneArea, country) async{
 
-    WooCustomer data=WooCustomer(email: email,username: username,billing: Billing( firstName: username ,email: email,address1: address, city: city,country: country,state: state,phone: phoneArea));
+    //WooCustomer data=WooCustomer(email: email,username: username,billing: Billing( firstName: username ,email: email,address1: address, city: city,country: country,state: state,phone: phoneArea));
 
 
-      customers result= await api_CustomWoocommerce.updateWooCustomer(id,data);
+    Map? data = {
+        "email": email,
+        "username":username,
+        "billing": {
+          "address_1": address,
+          "city":city,
+          "state":state,
+          "phone":phoneArea,
+          "country":country,
+          "email":email
+        },
+    };
+
+    WooCustomer result=await api_Woocommerce.updateWooCustomer(id, data);
 
     if(result!=null)
       return true;

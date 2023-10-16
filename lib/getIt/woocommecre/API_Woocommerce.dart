@@ -39,6 +39,7 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
   Future<WooCustomer> updateWooCustomer(String userID,Map mapData) async{
     String consumerKey = getIt<API_Config>().config.consumerKey;
     String consumerSecret = getIt<API_Config>().config.consumerSecret;
+
     WooCommerce woocommerce = WooCommerce(
         baseUrl: baseUrl,
         consumerKey: consumerKey,

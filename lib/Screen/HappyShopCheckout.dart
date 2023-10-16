@@ -987,12 +987,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
             },
           ),
         );
-
-
-
-
     }
-
     }
 
   Future updateAddress(context, WoocommerceProvider custWoocommerceProvider) async {
