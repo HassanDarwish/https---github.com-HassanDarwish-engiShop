@@ -227,8 +227,11 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                       _curIndex = _curIndex + 1;
                     });
                   } else if (_curIndex == 2) {
+                    SessionImplementation sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+                    CartImplementation cartImp = Provider.of<CartImplementation>(context,listen: false);
 
-                    bool x= await widget.CustWoocommerceProvider.createOrder();
+                    bool x= await widget.CustWoocommerceProvider.createOrder(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
+                    ,cartImp.cartFinalPrice,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode);
 
                    // CONTINUE
                     Navigator.of(context).pushNamed(HappyShopHome.routeName);

@@ -124,7 +124,8 @@ class SessionImplementation extends ChangeNotifier {
   "city":  cuserUstomer?.billing?.city,
   "state": cuserUstomer?.billing?.state,
   "country": cuserUstomer?.billing?.country,
-  "mobile": cuserUstomer?.billing?.phone
+  "mobile": cuserUstomer?.billing?.phone,
+  "country":cuserUstomer?.billing?.country
   }
   ];
   return true;
