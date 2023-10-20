@@ -21,7 +21,7 @@ class HappyShopCheckout extends StatefulWidget {
   static const routeName = '/HappyShopCheckout';
   HappyShopCheckout({Key? key}) : super(key: key);
   late var cartProvider;
-
+  late var CustWoocommerceProvider;
   @override
   _HappyShopCheckoutState createState() => _HappyShopCheckoutState();
 }
@@ -40,6 +40,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
     super.initState();
     widget.cartProvider =
         Provider.of<CartImplementation>(context, listen: false);
+    widget.CustWoocommerceProvider=Provider.of<WoocommerceProvider>(context, listen: false);
 
     fragments = [Delivery(), Address(), const Payment()];
     buttonController = AnimationController(
@@ -188,6 +189,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 
   @override
   Widget build(BuildContext context) {
+    //widget.CustWoocommerceProvider=Provider.of<WoocommerceProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: onBackArrowPressed,
       child: Scaffold(
@@ -215,7 +217,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_curIndex == 0) {
                     setState(() {
                       _curIndex = _curIndex + 1;
@@ -225,6 +227,10 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                       _curIndex = _curIndex + 1;
                     });
                   } else if (_curIndex == 2) {
+
+                    bool x= await widget.CustWoocommerceProvider.createOrder();
+
+                   // CONTINUE
                     Navigator.of(context).pushNamed(HappyShopHome.routeName);
                     /*  Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => const HappyShopHome()));*/
@@ -262,7 +268,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 
 class Delivery extends StatefulWidget {
   late var cartProvider;
-
+  late WoocommerceProvider CustWoocommerceProvider;
   Delivery({super.key});
 
   get provider => null;
@@ -278,7 +284,6 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
   late AnimationController buttonController;
   final TextEditingController _textFieldController = TextEditingController();
   TextEditingController get textFieldController => _textFieldController;
-
   bool _isLoading = false;
   bool _couponApplyed = false;
   Future<void> asyncApply(CartImplementation cart) async {
@@ -320,7 +325,8 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
     widget.cartProvider =
         Provider.of<CartImplementation>(context, listen: false);
-
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
     /*  _textFieldController.addListener(() {
       final String text = _textFieldController.text.toLowerCase();
       _textFieldController.value = _textFieldController.value.copyWith(

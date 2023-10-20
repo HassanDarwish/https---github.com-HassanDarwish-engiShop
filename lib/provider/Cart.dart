@@ -21,6 +21,18 @@ class CartImplementation extends ChangeNotifier implements Cart{
   String _discountValue="0";
 
   String get discountValue => _discountValue;
+  late List<product> _products =[];
+  var _itemMap = Map<String, int>();
+
+
+  double _promocodeValue=0;
+  String _promocode="";
+  final API_Config config;
+  double get promocodeValue => _promocodeValue;
+  String _cartTotalPrice ="0";
+
+  String _cartFinalPrice ="0";
+  String _totalTax="0";
 
   set discountValue(String value) {
     _discountValue = value;
@@ -29,21 +41,10 @@ class CartImplementation extends ChangeNotifier implements Cart{
   late String _CUR_CART_COUNTT="0";
   String get CUR_CART_COUNTT => _CUR_CART_COUNTT;
 
-  late List<product> _products =[];
+
   List<product> get products => _products;
-  var _itemMap = Map<String, int>();
-
-  double _promocodeValue=0;
-  String _promocode="";
-
-  double get promocodeValue => _promocodeValue;
   var _itemTotalPriceMap = Map<String, int>();
-  String _cartTotalPrice ="0";
 
-  String _cartFinalPrice ="0";
-  String _totalTax="0";
-
-  final API_Config config;
   CartImplementation({required this.config});
 
   set promocodeValue(double value) {

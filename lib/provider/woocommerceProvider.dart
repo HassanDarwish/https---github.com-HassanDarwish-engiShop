@@ -12,6 +12,12 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   WoocommerceProvider(
       {required this.api_Woocommerce, required this.api_CustomWoocommerce});
 
+
+  Future<bool>  createOrder()
+  {
+
+    return api_Woocommerce.createOrder();
+  }
   Future getCategories() {
     return api_Woocommerce.listAllCategories;
   }
