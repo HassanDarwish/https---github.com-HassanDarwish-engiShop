@@ -212,7 +212,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: Text(
-                    "$TOTAL : $CUR_CURRENCY 6100",
+                    "$TOTAL : $ECUR_CURRENCY " +widget.cartProvider.cartFinalPrice,
                     textAlign: TextAlign.left,
                   ),
                 ),
