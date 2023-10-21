@@ -3,6 +3,7 @@ import 'package:GiorgiaShop/pojo/location/Area.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'Cart.dart';
@@ -15,14 +16,7 @@ class SessionImplementation extends ChangeNotifier {
   late Map<String, dynamic> _attribute;
 
   late List _addressList = [
-    {
-      "address": "lorem ipsum",
-      "area": "Bhuj",
-      "city": "Bhuj",
-      "state": "Gujrat",
-      "country": "India",
-      "mobile": "0123456789"
-    }
+
   ];
 
   List get addressList => _addressList;
@@ -39,7 +33,6 @@ class SessionImplementation extends ChangeNotifier {
   sessionEnums get status => _status;
 
   set status(sessionEnums value) {
-
     _status = value;
   }
 
@@ -72,21 +65,25 @@ class SessionImplementation extends ChangeNotifier {
 
 // notifyListeners();
   String get userID => _userID;
+
   set userID(String value) {
     _userID = value;
   }
 
   String get password => _password;
+
   set password(String value) {
     _password = value;
   }
 
   DeliveryArea get area => _area;
+
   set area(DeliveryArea value) {
     _area = value;
   }
 
   CartImplementation get cart => _cart;
+
   set cart(CartImplementation value) {
     _cart = value;
   }
@@ -99,72 +96,75 @@ class SessionImplementation extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> reloadAddress(WoocommerceProvider custWoocommerceProvider,displayName,email) async {
+  Future<bool> reloadAddress(WoocommerceProvider custWoocommerceProvider,
+      displayName, email) async {
     // email = user!.email;
     // id = user.id;
 
     await custWoocommerceProvider.api_Woocommerce.searchCustomerByEmail(email);
     List<WooCustomer>? cutomer =
-      await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
+    await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
 
-  WooCustomer? cuserUstomer = cutomer?.firstWhere(
-          (cuserUstomer) =>
-      cuserUstomer.username == displayName && cuserUstomer.email == email,
-      orElse: () => WooCustomer());
+    WooCustomer? cuserUstomer = cutomer?.firstWhere(
+            (cuserUstomer) =>
+        cuserUstomer.username == displayName && cuserUstomer.email == email,
+        orElse: () => WooCustomer());
 
-  // If the user is found, print their name. Otherwise, print 'User not found'.
-  if (cuserUstomer?.username == null) {
-  return false;
-  }else{
-  _userID=cuserUstomer!.id.toString();
-  addressList= [
-  {
-  "address": cuserUstomer?.billing?.address1,
-  "area": cuserUstomer?.billing?.state,
-  "city":  cuserUstomer?.billing?.city,
-  "state": cuserUstomer?.billing?.state,
-  "country": cuserUstomer?.billing?.country,
-  "mobile": cuserUstomer?.billing?.phone,
-  "country":cuserUstomer?.billing?.country
+    // If the user is found, print their name. Otherwise, print 'User not found'.
+    if (cuserUstomer?.username == null) {
+      return false;
+    } else {
+      _userID = cuserUstomer!.id.toString();
+      addressList = [
+        {
+          "address": cuserUstomer?.billing?.address1,
+          "area": cuserUstomer?.billing?.state,
+          "city": cuserUstomer?.billing?.city,
+          "state": cuserUstomer?.billing?.state,
+          "country": cuserUstomer?.billing?.country,
+          "mobile": cuserUstomer?.billing?.phone,
+          "country": cuserUstomer?.billing?.country
+        }
+      ];
+      return true;
+    }
   }
-  ];
-  return true;
-  }
-}
 
-  Future<bool> initSession(GoogleSignInAccount? user,WoocommerceProvider custWoocommerceProvider) async {
+  Future<bool> initRegister(GoogleSignInAccount? user,
+      WoocommerceProvider custWoocommerceProvider) async {
     email = user!.email;
     id = user.id;
     if (user.displayName != null) displayName = user.displayName!;
 
     status = sessionEnums.login;
 
-     await custWoocommerceProvider.getCustomerByEmail(user.email);
-     List<WooCustomer>? cutomer =
-        await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
+    await custWoocommerceProvider.getCustomerByEmail(user.email);
+    List<WooCustomer>? cutomer =
+    await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
 
-     WooCustomer? cuserUstomer = cutomer?.firstWhere(
-             (cuserUstomer) =>
-             cuserUstomer.username == user.displayName && cuserUstomer.email == user.email,
+    WooCustomer? cuserUstomer = cutomer?.firstWhere(
+            (cuserUstomer) =>
+        cuserUstomer.username == user.displayName &&
+            cuserUstomer.email == user.email,
         orElse: () => WooCustomer());
 
-     // If the user is found, print their name. Otherwise, print 'User not found'.
-     if (cuserUstomer?.username == null) {
-       return false;
-     }else{
-       _userID=cuserUstomer!.id.toString();
-       addressList= [
-         {
-           "address": cuserUstomer?.billing?.address1,
-           "area": cuserUstomer?.billing?.state,
-           "city":  cuserUstomer?.billing?.city,
-           "state": cuserUstomer?.billing?.state,
-           "country": cuserUstomer?.billing?.country,
-           "mobile": cuserUstomer?.billing?.phone
-         }
-       ];
-       return true;
-     }
+    // If the user is found, print their name. Otherwise, print 'User not found'.
+    if (cuserUstomer?.username == null) {
+      return false;
+    } else {
+      _userID = cuserUstomer!.id.toString();
+      addressList = [
+        {
+          "address": cuserUstomer?.billing?.address1,
+          "area": cuserUstomer?.billing?.state,
+          "city": cuserUstomer?.billing?.city,
+          "state": cuserUstomer?.billing?.state,
+          "country": cuserUstomer?.billing?.country,
+          "mobile": cuserUstomer?.billing?.phone
+        }
+      ];
+      return true;
+    }
 
 
     // email = "";
@@ -174,25 +174,106 @@ class SessionImplementation extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> updateAddress(String userID,String email,WoocommerceProvider custWoocommerceProvider,address, city, state, phoneArea, country) async
+  Future<bool> initSession(GoogleSignInAccount? user,
+      WoocommerceProvider custWoocommerceProvider) async {
+    email = user!.email;
+    id = user.id;
+    if (user.displayName != null) displayName = user.displayName!;
+
+    status = sessionEnums.login;
+
+    await custWoocommerceProvider.getCustomerByEmail(user.email);
+    List<WooCustomer>? cutomer =
+    await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
+
+    WooCustomer? cuserUstomer = cutomer?.firstWhere(
+            (cuserUstomer) =>
+        cuserUstomer.username == user.displayName &&
+            cuserUstomer.email == user.email,
+        orElse: () => WooCustomer());
+
+    // If the user is found, print their name. Otherwise, print 'User not found'.
+    if (cuserUstomer?.username == null) {
+      return false;
+    } else {
+      _userID = cuserUstomer!.id.toString();
+      addressList = [
+        {
+          "address": cuserUstomer?.billing?.address1,
+          "area": cuserUstomer?.billing?.state,
+          "city": cuserUstomer?.billing?.city,
+          "state": cuserUstomer?.billing?.state,
+          "country": cuserUstomer?.billing?.country,
+          "mobile": cuserUstomer?.billing?.phone
+        }
+      ];
+      return true;
+    }
+
+
+    // email = "";
+    // id = "";
+    // displayName = "";
+    // status = sessionEnums.logout;
+    notifyListeners();
+  }
+
+  Future<bool> updateAddress(String userID, String email,
+      WoocommerceProvider custWoocommerceProvider, address, city, state,
+      phoneArea, country) async
   {
-    bool result=await custWoocommerceProvider.updateAddressWooCustomer(userID,email,displayName,address, city, state, phoneArea, country);
+    bool result = await custWoocommerceProvider.updateAddressWooCustomer(
+        userID,
+        email,
+        displayName,
+        address,
+        city,
+        state,
+        phoneArea,
+        country);
 
     return result;
   }
-    Future<bool> register(GoogleSignInAccount? user,WoocommerceProvider custWoocommerceProvider,address, city, state, phoneArea, country) async
+
+  Future<bool> register(GoogleSignInAccount? user,
+      WoocommerceProvider custWoocommerceProvider, address, city, state,
+      phoneArea, country) async
   {
     email = user!.email;
     id = user.id;
     if (user.displayName != null) displayName = user.displayName!;
 
-    bool result=await custWoocommerceProvider.createWooCustomer(user.email,displayName,address, city, state, phoneArea, country);
+    bool result = await custWoocommerceProvider.createWooCustomer(
+        user.email,
+        displayName,
+        address,
+        city,
+        state,
+        phoneArea,
+        country);
 
-    if(result==true)
-    status = sessionEnums.login;
+    if (result == true)
+      status = sessionEnums.login;
 
     return result;
   }
 
-
+  void showMessageDialog(BuildContext context, String message) {
+    if (message != null) {
+      showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(
+              title: Text('Warning'),
+              content: Text(message!),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+      );
+    }
+  }
 }

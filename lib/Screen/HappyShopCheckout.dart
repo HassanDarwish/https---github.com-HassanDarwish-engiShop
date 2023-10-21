@@ -137,6 +137,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
               ],
             ),
             onTap: () {
+
               setState(() {
                 _curIndex = 1;
               });
@@ -218,23 +219,32 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
               ),
               ElevatedButton(
                 onPressed: () async {
+                  SessionImplementation sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+                  CartImplementation cartImp = Provider.of<CartImplementation>(context,listen: false);
                   if (_curIndex == 0) {
                     setState(() {
                       _curIndex = _curIndex + 1;
                     });
-                  } else if (_curIndex == 1) {
-                    setState(() {
-                      _curIndex = _curIndex + 1;
-                    });
+                  } else if (_curIndex == 1 ) {
+                    if(sessionImp.addressList.isNotEmpty) {
+                      setState(() {
+                        _curIndex = _curIndex + 1;
+                      });
+                    }else{
+                      // will add you have no address
+                      sessionImp.showMessageDialog(context,"You Do not Have Address");
+                    }
                   } else if (_curIndex == 2) {
-                    SessionImplementation sessionImp = Provider.of<SessionImplementation>(context,listen: false);
-                    CartImplementation cartImp = Provider.of<CartImplementation>(context,listen: false);
-
-                    bool x= await widget.CustWoocommerceProvider.createOrder(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
+                   bool isOrderCreated= await widget.CustWoocommerceProvider.createOrder(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
                     ,cartImp.cartFinalPrice,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode);
-
                    // CONTINUE
-                    Navigator.of(context).pushNamed(HappyShopHome.routeName);
+                    if(isOrderCreated) {
+                      sessionImp.showMessageDialog(context,"Add Order Success");
+                      Navigator.of(context).pushNamed(HappyShopHome.routeName);
+                    }else{
+                      // will create Dialog order faild
+                      sessionImp.showMessageDialog(context,"Add Order Faild");
+                    }
                     /*  Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => const HappyShopHome()));*/
                   }
@@ -393,7 +403,9 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                           const Spacer(),
                           InkWell(
                             child: const Icon(Icons.refresh),
-                            onTap: () {},
+                            onTap: () {
+                              print("Woow");
+                            },
                           )
                         ],
                       ),
@@ -750,7 +762,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Visibility(
-            visible: widget.haveAddress,
+            visible: widget.haveAddress || widget.sessionImp.addressList.isEmpty!=true,
             child: Expanded(
               child: widget.sessionImp.addressList.isEmpty
                   ? const Text(NOADDRESS)
@@ -930,10 +942,12 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
                 size: 17,
               ),
             ),
-            onTap: () async {},
+            onTap: () async {
+              print("OK");
+            },
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {print("fine");},
             child: const Padding(
               padding: EdgeInsets.all(5.0),
               child: Icon(
@@ -999,11 +1013,9 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
               if(widget.isExist) {
                 setState(() {});
               }else{
-
               callFaild("Register Falid");
+              await GoogleSignin.disconnect();
               }
-
-
             },
           ),
         );
@@ -1031,6 +1043,8 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
       ),
     );
   }
+
+
     Future signIn(context, WoocommerceProvider custWoocommerceProvider) async {
     final user = await GoogleSignin.login();
 
@@ -1077,11 +1091,11 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
 
   List<String> paymentMethodList = [
     COD_LBL,
-    PAYPAL_LBL,
-    PAYUMONEY_LBL,
-    RAZORPAY_LBL,
-    PAYSTACK_LBL,
-    FLUTTERWAVE_LBL
+    // PAYPAL_LBL,
+    // PAYUMONEY_LBL,
+    // RAZORPAY_LBL,
+    // PAYSTACK_LBL,
+    // FLUTTERWAVE_LBL
   ];
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
@@ -1120,58 +1134,58 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
             mobile: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Card(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CheckboxListTile(
-                    dense: true,
-                    contentPadding: const EdgeInsets.all(0),
-                    value: _isUseWallet,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _isUseWallet = value!;
-                      });
-                    },
-                    title: const Text(
-                      USE_WALLET,
-                      style: TextStyle(fontSize: 15, color: primary),
-                    ),
-                    subtitle: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        "250.0",
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                )),
-                Card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          PREFERED_TIME,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ),
-                      Container(
-                        height: 80,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return dateCell(index);
-                            }),
-                      ),
-                      const Divider(),
-                    ],
-                  ),
-                ),
+                // Card(
+                //     child: Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //   child: CheckboxListTile(
+                //     dense: true,
+                //     contentPadding: const EdgeInsets.all(0),
+                //     value: _isUseWallet,
+                //     onChanged: (bool? value) {
+                //       setState(() {
+                //         _isUseWallet = value!;
+                //       });
+                //     },
+                //     title: const Text(
+                //       USE_WALLET,
+                //       style: TextStyle(fontSize: 15, color: primary),
+                //     ),
+                //     subtitle: const Padding(
+                //       padding: EdgeInsets.symmetric(vertical: 8.0),
+                //       child: Text(
+                //         "250.0",
+                //         style: TextStyle(fontSize: 15, color: Colors.black),
+                //       ),
+                //     ),
+                //   ),
+                // )),
+                // Card(
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.all(8.0),
+                //         child: Text(
+                //           PREFERED_TIME,
+                //           style: Theme.of(context).textTheme.titleLarge,
+                //         ),
+                //       ),
+                //       Container(
+                //         height: 80,
+                //         padding: const EdgeInsets.symmetric(horizontal: 10),
+                //         child: ListView.builder(
+                //             shrinkWrap: true,
+                //             scrollDirection: Axis.horizontal,
+                //             itemCount: 5,
+                //             itemBuilder: (context, index) {
+                //               return dateCell(index);
+                //             }),
+                //       ),
+                //       const Divider(),
+                //     ],
+                //   ),
+                // ),
                 Card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1187,7 +1201,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                       ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 6,
+                          itemCount: paymentMethodList.length,
                           itemBuilder: (context, index) {
                             return paymentItem(index);
                           }),
@@ -1276,7 +1290,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
                             ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 6,
+                                itemCount: paymentMethodList.length,
                                 itemBuilder: (context, index) {
                                   return paymentItem(index);
                                 }),
