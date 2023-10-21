@@ -963,7 +963,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
   Future logOut() async {
     widget.sessionImp.clear();
     if(widget.isLoggedIn)
-    await GoogleSignin.logout();
+      await GoogleSignin.disconnect();
     widget.sessionImp.addressList.clear();
     widget.isExist=false;
     widget.haveAddress=false;
@@ -1039,6 +1039,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
           widget.haveAddress=false;
           }else{
           widget.haveAddress=true;
+          widget.isLoggedIn=true;
           setState(() {});
           }
         }
