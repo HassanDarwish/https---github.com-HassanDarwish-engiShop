@@ -962,7 +962,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
 
   Future logOut() async {
     widget.sessionImp.clear();
-    if(widget.isLoggedIn)
+   // if(widget.isLoggedIn)
       await GoogleSignin.disconnect();
     widget.sessionImp.addressList.clear();
     widget.isExist=false;
@@ -971,6 +971,13 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
     setState(() {
 
     });
+  }
+
+
+  void callFaild(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(duration:const  Duration(seconds: 7),content: Text( message)));
+
   }
   Future registe_r(context, WoocommerceProvider custWoocommerceProvider) async {
    // if(widget.isLoggedIn)
@@ -989,10 +996,14 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
 
               widget.isExist =
                   await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
-              if(widget.isExist)
-                setState(() {
+              if(widget.isExist) {
+                setState(() {});
+              }else{
 
-                });
+              callFaild("Register Falid");
+              }
+
+
             },
           ),
         );
