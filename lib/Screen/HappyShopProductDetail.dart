@@ -25,8 +25,8 @@ class HappyShopProductDetail extends StatefulWidget {
     this.tag, this.description,this.shortdescription, this.rating, this.price, this.title, this.user_rating, this.review,
       this.attributess,
   }) : super(key: key);
-  final String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,id;
-   final  List <attribute>? attributess;
+    String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,id;
+      List <attribute>? attributess;
     List <String> selectedAttribute=[];
     Map<String,String> toViewSelectedAttribute=Map<String,String>();
   @override
@@ -305,6 +305,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     int identify_value=temp_value+int.parse(widget.id!);
     if(widget.attributess!.length>0){
       if(!widget.toViewSelectedAttribute.isEmpty ){
+
         cart.addToCart(
             1,
             widget.shortdescription,
@@ -318,6 +319,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
             widget.attributess,
             widget.toViewSelectedAttribute,
             identify_value);
+        cleanWidget();
         Navigator.of(context)
             .pushNamed(HappyShopCart.routeName);
       }else{
@@ -866,5 +868,10 @@ _attribute(List<attribute> list) {
             _showContent(),
           ],
         ));
+  }
+
+  void cleanWidget() {
+    widget.toViewSelectedAttribute= {};
+
   }
 }

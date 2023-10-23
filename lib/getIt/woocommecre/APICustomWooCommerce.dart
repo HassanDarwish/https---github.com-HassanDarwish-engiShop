@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:GiorgiaShop/pojo/order/lineItems.dart';
 import 'package:flutter_wp_woocommerce/models/customer.dart';
 import 'package:GiorgiaShop/pojo/coupon/coupons.dart';
 import 'package:GiorgiaShop/pojo/products.dart';
@@ -22,11 +23,101 @@ abstract class APICustomWooCommerce {
   Future get_coupon(String code);
   Future<customers> getCustomer(String name, String email);
   Future<customers> updateWooCustomer(String id,WooCustomer cust);
+  Future<bool> createOrder2(String userID,String displayName,Map addressList
+      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) ;
+
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
+  Future<bool> createOrder2(String userID,String displayName,Map addressList
+      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) async{
+
+    late var product_List;
+    // TODO: implement getProductByCategory
+
+
+    Map<String,int> lineItemsMap= {};
+    List<Map<String, dynamic>> lineItems=List.empty(growable: true);
+    List<Map<String, dynamic>> listmetaMap=List.empty(growable: true);
+
+
+    for (var product in products) {
+      if(lineItemsMap.isNotEmpty)
+        lineItemsMap={};
+
+           lineItemsMap['"product_id"']=int.parse(product.id);
+
+          if(product.SelectedAttribute!.length>0) {
+            lineItemsMap['"quantity"'] =itemMap[product.identify_value.toString()];
+            for (var attr in product.attributes!) {
+              Map<String, dynamic> meta_data={};
+              meta_data['"key"']='"${attr.name+'_'+getRandomString()}"';
+              meta_data['"value"']='"${product.SelectedAttribute![attr.name]!}"';
+              listmetaMap.add(meta_data);
+
+            }
+          }else{
+            lineItemsMap['"quantity"'] = itemMap[product.id];
+          }
+           lineItems.add(lineItemsMap);
+    }
+    dynamic C={
+      '"payment_method"': '"COD"',
+      '"payment_method_title"': '"CASH On Delever"',
+    '"set_paid"': '"false"',
+
+      '"billing"': {
+        '"first_name"': '"${displayName}"',
+        '"last_name"': '""',
+        '"address_1"': '"${addressList["address"]}"',
+        '"city"': '"${addressList["city"]}"',
+        '"state"': '"${addressList["state"]}"',
+        '"postcode"': '""',
+        '"country"': '"${addressList["country"]}"',
+        '"email"': '"${email}"',
+        '"phone"': '"${addressList["mobile"]}"',
+      },
+      '"shipping"': {
+        '"first_name"': '"${displayName}"',
+        '"last_name"': '""',
+        '"address_1"': '"${addressList["address"]}"',
+        '"city"': '"${addressList["city"]}"',
+        '"state"': '"${addressList["state"]}"',
+        '"postcode"': '""',
+        '"country"':  '"${addressList["country"]}"',
+      },
+      '"line_items"': "${lineItems}",
+      '"meta_data"':"${listmetaMap}"
+
+      //"${listmetaMap}",
+    };
+
+print (C.toString());
+
+    var response = await http.post(
+        Uri.parse(getOAuthURL(
+            "POST",
+            'http://engy.jerma.net/wp-json/wc/v3/orders' )),
+        headers: {"Content-Type": "Application/json"},
+        body: C.toString()
+
+    );
+
+    product_List = response.body;
+print(product_List);
+
+    if (product_List != null) {
+      return true;
+    } else {
+      return false;
+      // The order failed to be created.
+    }
+  }
+
+
+
   Future<customers> getCustomer(String name, String email) async {
     //http://engy.jerma.net/wp-json/wc/v3/customers/?search=john.doe&email=john.doe@example.com&role=customer
 
@@ -132,7 +223,15 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
     return customer;
   }
-
+  String getRandomString(){
+    Random rand = Random();
+    List<int> codeUnits = List.generate(10, (index) {
+      return rand.nextInt(26) + 97;
+    });
+    /// Random string uniquely generated to identify each signed request
+    String nonce = String.fromCharCodes(codeUnits);
+    return nonce;
+  }
   String getOAuthURL(String requestMethod, String queryUrl) {
     String consumerKey = getIt<API_Config>().config.consumerKey;
     String consumerSecret = getIt<API_Config>().config.consumerSecret;
@@ -193,7 +292,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
     String signingKey = consumerSecret + "&" + token;
     crypto.Hmac hmacSha1 =
-        crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
+    crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
 
     /// The Signature is used by the server to verify the
     /// authenticity of the request and prevent unauthorized access.

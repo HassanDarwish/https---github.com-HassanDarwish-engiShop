@@ -79,6 +79,7 @@ class CartImplementation extends ChangeNotifier implements Cart{
   String addToCart(int count, shortdescription,  description,  price,  title,  id
   ,  img,  review,index,attributess,toViewSelectedAttribute,identify_value){
     int returnFlag=1;
+    product? _product=null;
     if (CUR_CART_COUNT=="")
       _CUR_CART_COUNTT="0";
 
@@ -86,8 +87,9 @@ class CartImplementation extends ChangeNotifier implements Cart{
     CUR_CART_COUNT=temp.toString();_CUR_CART_COUNTT=temp.toString();
     bool itemExist=_itemMap.containsKey(id);
     if(attributess.length>0) {
+      _products.length;
       if (!toViewSelectedAttribute.isEmpty) {
-         product _product = product(id: id,
+           _product = product(id: id,
             name: title,
             slug: "",
             permalink: "",
@@ -123,6 +125,8 @@ class CartImplementation extends ChangeNotifier implements Cart{
         _product.identify_value=identify_value;
         _products.add(_product);
       }
+
+
     }
     add_to_itemMap(id.toString(),int.parse(price),identify_value);
 
@@ -308,5 +312,18 @@ class CartImplementation extends ChangeNotifier implements Cart{
     notifyListeners();
 
   }
+  void clean(){
+    this._products.clear();
+    this._cartFinalPrice="0";
+    this._cartTotalPrice="0";
+    this._CUR_CART_COUNTT="0";
+    this._CUR_CART_COUNTT="0";
+    this._discountValue="0";
+    this._itemMap.clear();
+    this._itemTotalPriceMap.clear();
+    this._promocode="";
+    this._promocodeValue=0;
+    this._totalTax="0";
 
+  }
 }

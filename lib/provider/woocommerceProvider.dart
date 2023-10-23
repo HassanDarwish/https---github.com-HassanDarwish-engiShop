@@ -12,7 +12,13 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   WoocommerceProvider(
       {required this.api_Woocommerce, required this.api_CustomWoocommerce});
 
+  Future<bool>  createOrder2(String userID,String displayName,Map addressList
+      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email)
+  {
 
+    return api_CustomWoocommerce.createOrder2(  userID,  displayName,  addressList
+        ,  cartFinalPrice,  CUR_CART_COUNTT,  itemMap,  products,  promocode,  email);
+  }
 
   Future<bool>  createOrder(String userID,String displayName,Map addressList
       ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode)

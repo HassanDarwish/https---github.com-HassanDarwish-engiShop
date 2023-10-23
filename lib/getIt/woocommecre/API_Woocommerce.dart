@@ -161,12 +161,12 @@ try {
 
       item.name=product.name;
       item.productId=int.parse(product.id);
-      if(product.SelectedAttribute.length>0) {
+      if(product.SelectedAttribute!.length>0) {
         item.quantity = itemMap[product.identify_value.toString()];
-        for (var attr in product.attributes) {
+        for (var attr in product.attributes!) {
           WooOrderPayloadMetaData itemdMetaData=WooOrderPayloadMetaData();
-          itemdMetaData.key=attr.name;
-          itemdMetaData.value=product.SelectedAttribute[attr.name];
+          itemdMetaData.key=attr.name+"_"+getRandomString();
+          itemdMetaData.value=product.SelectedAttribute![attr.name];
           listMetaData.add(itemdMetaData);
         }
 
@@ -192,11 +192,17 @@ try {
     if(key=="country")
       shippingInfo.country=addressList["country"];
   }
+
+
+
   WooOrder order = await woocommerce.createOrder(WooOrderPayload(
+
+
       shipping: shippingInfo,
       metaData: listMetaData,
       lineItems: line_Item
   ));
+
   if (order != null) {
     return true;
   } else {
@@ -219,7 +225,15 @@ return false;
 
 
   }
-
+  String getRandomString(){
+    Random rand = Random();
+    List<int> codeUnits = List.generate(10, (index) {
+      return rand.nextInt(26) + 97;
+    });
+    /// Random string uniquely generated to identify each signed request
+    String nonce = String.fromCharCodes(codeUnits);
+    return nonce;
+  }
 }
 
 /////

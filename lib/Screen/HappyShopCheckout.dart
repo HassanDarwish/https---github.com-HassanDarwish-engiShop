@@ -235,16 +235,21 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                       sessionImp.showMessageDialog(context,"You Do not Have Address");
                     }
                   } else if (_curIndex == 2) {
-                   bool isOrderCreated= await widget.CustWoocommerceProvider.createOrder(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
-                    ,cartImp.cartFinalPrice,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode);
+                       // bool isOrderCreated= await widget.CustWoocommerceProvider.createOrder(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
+                       // ,cartImp.cartFinalPrice,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode);
+                        bool isOrderCreated= await widget.CustWoocommerceProvider.createOrder2(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
+                         ,cartImp.cartFinalPrice,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode,sessionImp.email);
                    // CONTINUE
                     if(isOrderCreated) {
                       sessionImp.showMessageDialog(context,"Add Order Success");
+                      widget.cartProvider.clean();
+                      setState(() {});
                       Navigator.of(context).pushNamed(HappyShopHome.routeName);
                     }else{
                       // will create Dialog order faild
                       sessionImp.showMessageDialog(context,"Add Order Faild");
                     }
+
                     /*  Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => const HappyShopHome()));*/
                   }
@@ -639,10 +644,11 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
   orderItem(int index) {
     List<int> itemMapValues = [];
-    widget.cartProvider.itemMap.forEach((k, v) => itemMapValues.add(v));
+    //widget.cartProvider.itemMap.forEach((k, v) => itemMapValues.add(v));
+    itemMapValues = widget.cartProvider.itemMap.values.toList();
     List<int> itemTotalPriceMapValues = [];
-    widget.cartProvider.itemTotalPriceMap
-        .forEach((k, v) => itemTotalPriceMapValues.add(v));
+    //widget.cartProvider.itemTotalPriceMap.forEach((k, v) => itemTotalPriceMapValues.add(v));
+    itemTotalPriceMapValues = widget.cartProvider.itemTotalPriceMap.values.toList();
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
