@@ -266,7 +266,7 @@ class SessionImplementation extends ChangeNotifier {
         context: context,
         builder: (context) =>
             AlertDialog(
-              title: Text('Warning'),
+              title: Text('Info'),
               content: Text(message!),
               actions: [
                 TextButton(
