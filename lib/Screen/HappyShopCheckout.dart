@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Helper/cartEnums.dart';
@@ -244,7 +246,8 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                       sessionImp.showMessageDialog(context,"Add Order Success");
                       widget.cartProvider.clean();
                       setState(() {});
-                      Navigator.of(context).pushNamed(HappyShopHome.routeName);
+
+
                     }else{
                       // will create Dialog order faild
                       sessionImp.showMessageDialog(context,"Add Order Faild");
@@ -282,6 +285,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
       ),
     );
   }
+
 }
 
 class Delivery extends StatefulWidget {

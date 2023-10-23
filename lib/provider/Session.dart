@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../Screen/HappyShopHome.dart';
 import 'Cart.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 class SessionImplementation extends ChangeNotifier {
@@ -257,7 +258,8 @@ class SessionImplementation extends ChangeNotifier {
 
     return result;
   }
-
+  //var duration = Duration(milliseconds: 1000);
+  //Timer(duration, await navigationPage);
   void showMessageDialog(BuildContext context, String message) {
     if (message != null) {
       showDialog(
@@ -268,7 +270,7 @@ class SessionImplementation extends ChangeNotifier {
               content: Text(message!),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => Navigator.of(context).pushNamed(HappyShopHome.routeName),
                   child: Text('OK'),
                 ),
               ],
