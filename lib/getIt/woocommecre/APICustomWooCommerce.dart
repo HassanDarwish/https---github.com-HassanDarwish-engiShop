@@ -94,7 +94,6 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
       //"${listmetaMap}",
     };
 
-print (C.toString());
 
     var response = await http.post(
         Uri.parse(getOAuthURL(
@@ -105,10 +104,7 @@ print (C.toString());
 
     );
 
-    product_List = response.body;
-print(product_List);
-
-    if (product_List != null) {
+    if (response.statusCode== 201) {
       return true;
     } else {
       return false;

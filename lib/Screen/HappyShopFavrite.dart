@@ -207,9 +207,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
               itemCount: favList.length,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                print(
-                    "load more****$offset***$total***${favList.length}***$isLoadingmore**$index");
-                return listItem(index);
+                 return listItem(index);
               },
             ),
             desktop: GridView.count(

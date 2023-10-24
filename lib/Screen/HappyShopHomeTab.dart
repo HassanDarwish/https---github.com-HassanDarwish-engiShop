@@ -643,8 +643,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       );
                                     });
                               } else if (snapshot.hasError) {
-                                print(snapshot.error);
-                                print(snapshot.data);
+
                                 return Text(
                                     "Server Can not be reached please check connection"); //Text(snapshot.error.toString());
                               } else {

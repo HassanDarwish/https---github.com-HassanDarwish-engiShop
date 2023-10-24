@@ -405,7 +405,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                           InkWell(
                             child: const Icon(Icons.refresh),
                             onTap: () {
-                              print("Woow");
+
                             },
                           )
                         ],
@@ -945,11 +945,11 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
               ),
             ),
             onTap: () async {
-              print("OK");
+
             },
           ),
           InkWell(
-            onTap: () {print("fine");},
+            onTap: () {},
             child: const Padding(
               padding: EdgeInsets.all(5.0),
               child: Icon(
@@ -1352,7 +1352,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
       onTap: () {
         setState(() {
           selsectindex = index;
-          print('SELSECTINDEX: $selsectindex');
+
           isselect != true ? isselect = true : isselect = false;
         });
       },
@@ -1405,7 +1405,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
           selectedRadioTile = index as int;
         });
 
-        print("Radio Tile pressed $index");
+
         // setSelectedRadioTile(index);
       },
       // activeColor: Colors.red,

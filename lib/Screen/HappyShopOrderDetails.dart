@@ -589,7 +589,6 @@ class _HappyShopOrderDetailsState extends State<HappyShopOrderDetails>
       List d = rDate.split(" ");
       rDate = d[0] + "\n" + d[1] + "\n" + d[2];
     }
-    print("length=========${model.itemList.length}");
     return Column(
       children: [
         Row(

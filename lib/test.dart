@@ -136,11 +136,10 @@ Future<void> main() async {
     // Check the status code of the response.
     if (response.statusCode == 200) {
       // The request was successful.
-      print('Response body: ${response.body}');
+
     } else {
       // The request failed.
-      print('Error: ${response.statusCode}');
-      print('Response body: ${response.body}');
+
     }
   if (i == 0) {
     _getByBrand(response);

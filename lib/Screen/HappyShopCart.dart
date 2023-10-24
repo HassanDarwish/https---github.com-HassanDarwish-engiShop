@@ -344,7 +344,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                                 }
                                 }
                               }catch (e){
-                                print(e);
+
 
                               }
 

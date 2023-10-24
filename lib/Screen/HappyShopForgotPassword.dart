@@ -171,13 +171,13 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
               builder: _buildCountryPicker,
               onChanged: (CountryCode countryCode) {
                 countrycode = countryCode.toString().replaceFirst("+", "");
-                print("New Country selected: $countryCode");
+
                 countryName = countryCode.name!;
               },
               onInit: (code) {
-                print("on init ${code!.name} ${code.dialCode} ${code.name}");
+
                 countrycode = code.toString().replaceFirst("+", "");
-                print("New Country selected: $code");
+
               }),
         ));
   }
@@ -224,7 +224,7 @@ class _HappyShopForgotPasswordState extends State<HappyShopForgotPassword>
         controller: mobileController,
         onSaved: (String? value) {
           mobile = value!;
-          print('Mobile no:$mobile');
+
         },
         decoration: InputDecoration(
             prefixIcon: const Icon(Icons.call),

@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.hasData) {
             // Create a list of products
             List<WooProductCategory> WooProductCategorydata = snapshot.data;
-            print(snapshot.data);
+
             return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
