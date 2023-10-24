@@ -196,7 +196,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
     return WillPopScope(
       onWillPop: onBackArrowPressed,
       child: Scaffold(
-        key: _scaffoldKey,
+
         appBar: getAppBar(CHECKOUT, context),
         body: Column(
           children: [
@@ -349,15 +349,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
         Provider.of<CartImplementation>(context, listen: false);
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
-    /*  _textFieldController.addListener(() {
-      final String text = _textFieldController.text.toLowerCase();
-      _textFieldController.value = _textFieldController.value.copyWith(
-        text: text,
-        selection:
-        TextSelection(baseOffset: text.length, extentOffset: text.length),
-        composing: TextRange.empty,
-      );
-    });*/
+
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 
@@ -1097,7 +1089,6 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
   late String allowDay, startingDate;
   late bool cod, paypal, razorpay, paumoney, paystack, flutterwave;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<String> paymentMethodList = [
     COD_LBL,
@@ -1138,7 +1129,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
+
         body: SingleChildScrollView(
           child: ScreenTypeLayout(
             mobile: Column(

@@ -322,7 +322,7 @@ class CartImplementation extends ChangeNotifier implements Cart{
     this._itemMap.clear();
     this._itemTotalPriceMap.clear();
     this._promocode="";
-    this._promocodeValue=0;
+    _promocodeValue=0;
     this._totalTax="0";
 
   }
