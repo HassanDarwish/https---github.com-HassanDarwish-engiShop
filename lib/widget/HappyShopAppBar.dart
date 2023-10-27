@@ -109,7 +109,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
         const SizedBox(
           width: 10.0,
         ),
-        InkWell(
+        /*InkWell(
           child: Icon(
             Icons.account_circle,
             color: IconThemeColor.withOpacity(0.5),
@@ -122,7 +122,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
                   builder: (context) => const HappyShopPeofile(),
                 ));
           },
-        ),
+        ),*/
         const SizedBox(
           width: 10.0,
         ),

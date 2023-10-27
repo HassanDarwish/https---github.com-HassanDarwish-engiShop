@@ -297,7 +297,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
                           shortDescprice: Bidi.stripHtmlIfNeeded(
                               snapshot.data![index].short_description),
                           price: snapshot.data?[index].price,
-                          id: snapshot.data?[index].id.toString(),
+                          itemid: snapshot.data?[index].id.toString(),
                           attributess: snapshot.data?[index].attributes,
                           shrim: shrim),
                     ),
@@ -322,7 +322,7 @@ class StaggerdCard extends StatefulWidget {
   const StaggerdCard({
     Key? key,
     this.imgurl,
-    this.id,
+    this.itemid,
     this.itemname,
     this.price,
     this.descprice,
@@ -330,7 +330,7 @@ class StaggerdCard extends StatefulWidget {
     this.attributess,
     this.shrim,
   }) : super(key: key);
-  final String? imgurl, id, itemname, price, descprice, shortDescprice;
+  final String? imgurl, itemid, itemname, price, descprice, shortDescprice;
   final bool? shrim;
   final List<attribute>? attributess;
   @override
@@ -362,7 +362,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                 pageBuilder: (BuildContext context, Animation<double> animation,
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
-                    id: widget.id,
+                    itemid: widget.itemid,
                     imgurl: widget.imgurl!,
                     tag: Random().nextInt(1000).toString(),
                     title: widget.itemname!,

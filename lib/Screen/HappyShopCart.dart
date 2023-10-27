@@ -260,7 +260,7 @@ class _HappyShopCartState extends State<HappyShopCart>
             PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 200),
               pageBuilder: (_, __, ___) => HappyShopProductDetail(
-                id: widget.provider.products.elementAt(index).id.toString(),
+                itemid: widget.provider.products.elementAt(index).id.toString(),
                 imgurl:widget.provider.products.elementAt(index).img,
                 description: widget.provider.products.elementAt(index).description,
                 price: widget.provider.products.elementAt(index).price,

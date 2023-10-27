@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
+import '../pojo/favorit/Favorit.dart';
 import '../pojo/products.dart';
 import 'abstracted/Woocommerce.dart';
 import 'package:flutter_wp_woocommerce/models/customer.dart';
@@ -12,6 +13,9 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   WoocommerceProvider(
       {required this.api_Woocommerce, required this.api_CustomWoocommerce});
 
+   Future<List<dynamic>>  ListFavorit(String userId) async {
+    return   await api_CustomWoocommerce.ListFavorit(userId);
+  }
   Future<bool>  createOrder2(String userID,String displayName,Map addressList
       ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email)
   {
@@ -94,3 +98,5 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
     return result;
   }
 }
+
+

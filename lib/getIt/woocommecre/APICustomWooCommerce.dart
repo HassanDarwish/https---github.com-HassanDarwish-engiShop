@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:GiorgiaShop/pojo/favorit/Favorit.dart';
 import 'package:GiorgiaShop/pojo/order/lineItems.dart';
 import 'package:flutter_wp_woocommerce/models/customer.dart';
 import 'package:GiorgiaShop/pojo/coupon/coupons.dart';
@@ -25,12 +26,37 @@ abstract class APICustomWooCommerce {
   Future<customers> updateWooCustomer(String id,WooCustomer cust);
   Future<bool> createOrder2(String userID,String displayName,Map addressList
       ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) ;
-
+  Future<List<Favorit>> ListFavorit(userId);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
+
+  Future<List<Favorit>> ListFavorit(userId) async{
+     List  listFavorit=List<Favorit>.empty(growable: true);
+     List<dynamic>   list_=List<Favorit>.empty(growable: true);
+
+     Map<String, dynamic> responseMap;
+     Favorit favorit;
+     try {
+       // TODO: implement getProductByCategory
+       var response = await http.get(
+           Uri.parse(
+               'http://engy.jerma.net/wp-json/wc/v3/favorites/${userId}/'),
+           headers: {"Content-Type": "Application/json"});
+
+       responseMap = jsonDecode(response.body);
+       list_=responseMap["products"];
+         favorit=Favorit.fromJson(list_);
+
+     } catch (e) {
+       throw e;
+       return List<Favorit>.empty(growable: true);
+     }
+
+    return   favorit.favorit_List;
+  }
   Future<bool> createOrder2(String userID,String displayName,Map addressList
       ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) async{
 

@@ -619,7 +619,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                           ? shrim = true
                                           : shrim = false;
                                       return ItemCard(
-                                        id: snapshot.data![index].id
+                                        itemid: snapshot.data![index].id
                                             .toString(),
                                         imagurl: snapshot.data?[index].img,
                                         itemname: snapshot.data?[index].name,
@@ -1094,7 +1094,7 @@ class ItemCard extends StatefulWidget {
       this.shadow,
       this.shortdescription,
       this.shrim,
-      this.id,
+      this.itemid,
       required this.AppBarr,
       required this.privatescaffoldKey,
       this.attributess})
@@ -1106,7 +1106,7 @@ class ItemCard extends StatefulWidget {
       itemname,
       descprice,
       price,
-      id;
+      itemid;
   final bool? shadow, shrim;
   final List<attribute>? attributess;
   final HappyShopAppBar AppBarr;
@@ -1257,7 +1257,7 @@ class _ItemCardState extends State<ItemCard> {
                 pageBuilder: (BuildContext context, Animation<double> animation,
                     Animation<double> secondaryAnimation) {
                   return HappyShopProductDetail(
-                    id: widget.id,
+                    itemid: widget.itemid,
                     imgurl: widget.imagurl!,
                     tag: Random().nextInt(1000).toString(),
                     description: widget.descprice,

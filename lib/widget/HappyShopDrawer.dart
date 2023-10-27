@@ -1,5 +1,6 @@
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:GiorgiaShop/Screen/HappyShopSplash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/scheduler/binding.dart';
@@ -8,12 +9,18 @@ import 'package:in_app_update/in_app_update.dart';
 
 import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
 import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
+import 'package:provider/provider.dart';
+import '../Screen/HappyShopCheckout.dart';
+import '../provider/Session.dart';
+import '../provider/woocommerceProvider.dart';
 
 class HappyShopDrawer extends StatefulWidget {
-  const HappyShopDrawer({
+    HappyShopDrawer({
     Key? key,
   }) : super(key: key);
-
+  late    SessionImplementation sessionImp ;
+  late WoocommerceProvider CustWoocommerceProvider;
+   bool isLoggedIn=false,haveAddress=false,register=false,isExist=false;
   @override
   State<HappyShopDrawer> createState() => _HappyShopDrawerState();
 }
@@ -25,6 +32,15 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
   bool _flexibleUpdateAvailable = false;
+
+  @override
+  void initState() {
+    super.initState();
+      widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
+  }
+
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> checkForUpdate() async {
@@ -205,7 +221,10 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
           HappyShopDrawerListTile(
             title: "LOGIN",
             icon: Icons.login,
+
             route: () {
+              login(context);
+
               /*
               Navigator.of(context).pop();
               Navigator.push(
@@ -267,6 +286,52 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
       ),
     );
   }
+
+  Future login(context) async {
+    final user = await GoogleSignin.login();
+
+    if (user == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("SignIn Falied")));
+    } else {
+      widget.isExist=await widget.sessionImp.initSession(user,  widget.CustWoocommerceProvider);
+      if(widget.isExist==false) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
+        logOut();
+        widget.register=true;
+      }else{
+        if(widget.sessionImp.addressList.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
+          widget.haveAddress=false;
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(duration: const Duration(seconds: 5),content: Text("welcome Back .....")));
+          widget.isExist=true;
+          widget.haveAddress=true;
+          widget.isLoggedIn=true;
+          widget.sessionImp.status=sessionEnums.login;
+          setState(() {});
+        }
+      }
+    }
+    Navigator.pop(context);
+  }
+
+  Future logOut() async {
+    widget.sessionImp.clear();
+    // if(widget.isLoggedIn)
+    await GoogleSignin.disconnect();
+    widget.sessionImp.addressList.clear();
+    widget.isExist=false;
+    widget.haveAddress=false;
+
+    setState(() {
+
+    });
+  }
+
+
 }
 
 class HappyShopDrawerListTile extends StatelessWidget {
@@ -306,6 +371,7 @@ class HappyShopDrawerListTile extends StatelessWidget {
           color: happyshopcolor2,
         ),
         onTap: () {
+
           SchedulerBinding.instance.addPostFrameCallback((_) {
             route();
           });

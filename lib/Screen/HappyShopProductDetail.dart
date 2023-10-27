@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,8 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
-import '../pojo/products.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
+import 'package:GiorgiaShop/provider/Session.dart';
 import 'HappyShopCart.dart';
 
 
@@ -21,13 +23,15 @@ class HappyShopProductDetail extends StatefulWidget {
 
     HappyShopProductDetail({
     Key? key,
-    this.imgurl,this.id,
+    this.imgurl,this.itemid,
     this.tag, this.description,this.shortdescription, this.rating, this.price, this.title, this.user_rating, this.review,
       this.attributess,
   }) : super(key: key);
-    String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,id;
+    String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,itemid;
       List <attribute>? attributess;
     List <String> selectedAttribute=[];
+    late final SessionImplementation sessionImp;
+    String userId="";
     Map<String,String> toViewSelectedAttribute=Map<String,String>();
   @override
   _HappyShopProductDetailState createState() => _HappyShopProductDetailState();
@@ -66,9 +70,11 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     //SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
-
+      widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
+
+    if(widget.sessionImp.status==sessionEnums.login) widget.userId=widget.sessionImp.id;
 
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
@@ -80,8 +86,8 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
         0.150,
       ),
     ));
-  }
 
+  }
   List reviewList = [
     {""}
   ];
@@ -203,6 +209,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             : Container()
                                       ]),
                                       onTap: () async {
+
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -223,7 +230,10 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                                 .withOpacity(0.5),
                                           ),
                                         ),
-                                        onTap: () {}),
+                                        onTap: () {
+                                          showMessageDialog(context,"Favorite");
+
+                                        }),
                                   ),
                                   const SizedBox(
                                     width: 10.0,
@@ -299,10 +309,32 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       ],
     );
   }
+
+  void showMessageDialog(BuildContext context, String message) {
+    if (message != null) {
+      showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(
+              title: Text('Info'),
+              content: Text(message!),
+              actions: [
+                TextButton(
+                  onPressed: () {
+
+                        Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+      );
+    }
+  }
   int temp_value=0;
   void loadCartList(CartImplementation cart) async {
     temp_value++;
-    int identify_value=temp_value+int.parse(widget.id!);
+    int identify_value=temp_value+int.parse(widget.itemid!);
     if(widget.attributess!.length>0){
       if(!widget.toViewSelectedAttribute.isEmpty ){
 
@@ -312,7 +344,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
             widget.description,
             widget.price,
             widget.title,
-            widget.id,
+            widget.itemid,
             widget.imgurl,
             widget.review,
             1,
@@ -342,7 +374,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
           widget.description,
           widget.price,
           widget.title,
-          widget.id,
+          widget.itemid,
           widget.imgurl,
           widget.review,
           1,

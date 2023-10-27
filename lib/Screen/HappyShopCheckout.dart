@@ -813,7 +813,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
             ),
           ),
           Visibility(
-            visible: widget.isExist,
+            visible: widget.sessionImp.status == sessionEnums.login ,
             child: ElevatedButton(
               onPressed: () async {
                 await logOut();
@@ -844,7 +844,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
             ),
           ),
           Visibility(
-            visible: !widget.isExist,
+            visible: widget.sessionImp.status != sessionEnums.login ,
             child: ElevatedButton(
               onPressed: () async {
                   signIN(context, widget.CustWoocommerceProvider);
@@ -1065,6 +1065,9 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
               const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
           widget.haveAddress=false;
           }else{
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(duration: const Duration(seconds: 7),content: Text("welcome Back .....")));
+          widget.isExist=true;
           widget.haveAddress=true;
           widget.isLoggedIn=true;
           setState(() {});

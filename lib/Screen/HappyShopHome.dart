@@ -25,7 +25,6 @@ class _HappyShopHomeState extends State<HappyShopHome> {
   void initState() {
     super.initState();
     _curSelected = 0;
-
     AppBar=HappyShopAppBar(scaffoldKey: scaffoldKey,privatescaffoldKey:privatescaffoldKey);
 
     happyShopBottomeTab = [

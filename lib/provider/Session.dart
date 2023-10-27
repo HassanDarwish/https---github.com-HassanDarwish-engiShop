@@ -6,7 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../Screen/HappyShopHome.dart';
+import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
+import '../pojo/favorit/Favorit.dart';
 import 'Cart.dart';
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 class SessionImplementation extends ChangeNotifier {
@@ -19,17 +20,15 @@ class SessionImplementation extends ChangeNotifier {
   late List _addressList = [
 
   ];
-
   List get addressList => _addressList;
-
   set addressList(List value) {
     _addressList = value;
   }
-
   String _email = "";
   String _id = "";
   String _displayName = "";
   sessionEnums _status = sessionEnums.empty;
+    List<Favorit>   favoritList=List.empty(growable: true);
 
   sessionEnums get status => _status;
 
@@ -94,6 +93,7 @@ class SessionImplementation extends ChangeNotifier {
     id = "";
     displayName = "";
     status = sessionEnums.logout;
+    favoritList.clear();
     notifyListeners();
   }
 
@@ -177,10 +177,13 @@ class SessionImplementation extends ChangeNotifier {
 
   Future<bool> initSession(GoogleSignInAccount? user,
       WoocommerceProvider custWoocommerceProvider) async {
+
+
+
+    favoritList.clear();
     email = user!.email;
     id = user.id;
     if (user.displayName != null) displayName = user.displayName!;
-
     status = sessionEnums.login;
 
     await custWoocommerceProvider.getCustomerByEmail(user.email);
@@ -208,15 +211,18 @@ class SessionImplementation extends ChangeNotifier {
           "mobile": cuserUstomer?.billing?.phone
         }
       ];
+      loadFavoritList(custWoocommerceProvider,_userID);
       return true;
     }
-
-
     // email = "";
     // id = "";
     // displayName = "";
     // status = sessionEnums.logout;
     notifyListeners();
+  }
+
+  loadFavoritList(WoocommerceProvider custWoocommerceProvider,String _userID)async{
+    favoritList= await custWoocommerceProvider.api_CustomWoocommerce.ListFavorit(_userID);
   }
 
   Future<bool> updateAddress(String userID, String email,
