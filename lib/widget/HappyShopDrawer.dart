@@ -11,6 +11,7 @@ import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
 import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
 import 'package:provider/provider.dart';
 import '../Screen/HappyShopCheckout.dart';
+import '../Screen/HappyShopFavrite.dart';
 import '../provider/Session.dart';
 import '../provider/woocommerceProvider.dart';
 
@@ -198,57 +199,86 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
             },
           ),
           _getDivider(),
-          HappyShopDrawerListTile(
-            img: true,
-            imgurl:
-                "https://smartkit.wrteam.in/smartkit/happyshop/pro_favourite.svg",
-            title: FAVORITE,
-            icon: Icons.favorite,
-            route: () {
-              /*
-              Navigator.of(context).pop();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HappyShopSplash(), //HappyShopFavrite(
-                  // appbar: true,
-                  //),
-                ),
-              );*/
-            },
+          Visibility(
+            visible: widget.sessionImp.status == sessionEnums.login,
+            child: HappyShopDrawerListTile(
+              img: true,
+              imgurl:
+                  "https://smartkit.wrteam.in/smartkit/happyshop/pro_favourite.svg",
+              title: FAVORITE,
+              icon: Icons.favorite,
+              route: () {
+
+
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>  HappyShopFavrite(
+                      appbar: true,
+                     ),
+                  ),
+                );
+              },
+            ),
           ),
           _getDivider(),
-          HappyShopDrawerListTile(
-            title: "LOGIN",
-            icon: Icons.login,
+          Visibility(
+            visible: widget.sessionImp.status != sessionEnums.login,
+            child: HappyShopDrawerListTile(
+              title: "LOGIN",
+              icon: Icons.login,
 
-            route: () {
-              login(context);
+              route: () {
+                login(context);
 
-              /*
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HappyShopSplash(), //HappyShopLogin(),
-                ),
-              );*/
-            },
+                /*
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HappyShopSplash(), //HappyShopLogin(),
+                  ),
+                );*/
+              },
+            ),
+          ),
+          Visibility(
+            visible: widget.sessionImp.status == sessionEnums.login,
+            child: HappyShopDrawerListTile(
+              title: "LOGOUT",
+              icon: Icons.login,
+              route: () {
+                logOut();
+                /*
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HappyShopSplash(), //HappyShopLogin(),
+                  ),
+                );*/
+              },
+            ),
           ),
           _getDivider(),
-          HappyShopDrawerListTile(
-            title: "SingUp",
-            icon: Icons.account_box_rounded,
-            route: () {
-              /*s
-              Navigator.of(context).pop();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HappyShopSplash(), //HappyShopSingUp(),
-                ),
-              );*/
-            },
+          Visibility(
+            visible: widget.sessionImp.status != sessionEnums.login,
+            child: HappyShopDrawerListTile(
+              title: "SingUp",
+              icon: Icons.account_box_rounded,
+              route: () {
+                register(context, widget.CustWoocommerceProvider);
+                /*s
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HappyShopSplash(), //HappyShopSingUp(),
+                  ),
+                );*/
+              },
+            ),
           ),
           _getDivider(),
           HappyShopDrawerListTile(
@@ -331,7 +361,45 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     });
   }
 
+  void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)async {
 
+    logOut();
+    await registe_r(context,custWoocommerceProvider );
+  }
+
+  Future registe_r(context, WoocommerceProvider custWoocommerceProvider) async {
+    // if(widget.isLoggedIn)
+    await GoogleSignin.disconnect();
+
+    final user = await GoogleSignin.login();
+    if (user == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Register Falied")));
+    } else {
+
+      showDialog(
+        context: context,
+        builder: (context) => AddressDialog(
+          onSubmit: (address, city, state, phoneArea, country) async{
+
+            widget.isExist =
+            await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
+            if(widget.isExist) {
+              setState(() {});
+            }else{
+              callFaild("Register Falid");
+              await GoogleSignin.disconnect();
+            }
+          },
+        ),
+      );
+    }
+  }
+  void callFaild(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(duration:const  Duration(seconds: 7),content: Text( message)));
+
+  }
 }
 
 class HappyShopDrawerListTile extends StatelessWidget {

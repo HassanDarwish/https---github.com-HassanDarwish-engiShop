@@ -16,7 +16,9 @@ class SessionImplementation extends ChangeNotifier {
   late DeliveryArea _area;
   late CartImplementation _cart;
   late Map<String, dynamic> _attribute;
+  late List<Favorit> _userFavoritList=List.empty(growable: true);
 
+  Map<String, dynamic> get attribute => _attribute;
   late List _addressList = [
 
   ];
@@ -177,9 +179,6 @@ class SessionImplementation extends ChangeNotifier {
 
   Future<bool> initSession(GoogleSignInAccount? user,
       WoocommerceProvider custWoocommerceProvider) async {
-
-
-
     favoritList.clear();
     email = user!.email;
     id = user.id;
@@ -201,6 +200,9 @@ class SessionImplementation extends ChangeNotifier {
       return false;
     } else {
       _userID = cuserUstomer!.id.toString();
+        _userFavoritList=await custWoocommerceProvider.api_CustomWoocommerce.ListFavorit(_userID);
+
+
       addressList = [
         {
           "address": cuserUstomer?.billing?.address1,

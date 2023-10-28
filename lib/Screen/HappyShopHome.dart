@@ -29,7 +29,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
 
     happyShopBottomeTab = [
         HappyShopHpmeTab(AppBarr:AppBar,privatescaffoldKey:privatescaffoldKey),
-      const HappyShopFavrite(
+        HappyShopFavrite(
         appbar: false,
       ),
       const HappyShopNotification(

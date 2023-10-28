@@ -753,10 +753,16 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
   //     "mobile": "0123456789"
   //   }
   // ];
+  @override
+  initstate(){
+    super.initState();
+    widget.sessionImp = Provider.of<SessionImplementation>(context);
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    widget.sessionImp = Provider.of<SessionImplementation>(context);
+
     if(widget.sessionImp.status!=sessionEnums.login)
       widget.register=true;
 
