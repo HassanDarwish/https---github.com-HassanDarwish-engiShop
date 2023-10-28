@@ -11,7 +11,7 @@ import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
 import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
 import 'package:provider/provider.dart';
 import '../Screen/HappyShopCheckout.dart';
-import '../Screen/HappyShopFavrite.dart';
+import 'package:GiorgiaShop/Screen/HappyShopFavrite.dart';
 import '../provider/Session.dart';
 import '../provider/woocommerceProvider.dart';
 

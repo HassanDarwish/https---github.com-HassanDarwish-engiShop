@@ -179,65 +179,68 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                           ],
                         ),
                       ),
-                      Row(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              InkWell(
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      right: 8, top: 8, bottom: 8),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius:
-                                          const BorderRadius.all(Radius.circular(5))),
-                                  child: const Icon(
-                                    Icons.remove,
-                                    size: 12,
-                                    color: Colors.grey,
+                      Visibility(
+                        visible: !bool.parse(favList[index].has_attributes),
+                        child: Row(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                InkWell(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                        right: 8, top: 8, bottom: 8),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius:
+                                            const BorderRadius.all(Radius.circular(5))),
+                                    child: const Icon(
+                                      Icons.remove,
+                                      size: 12,
+                                      color: Colors.grey,
+                                    ),
                                   ),
+                                  onTap: () {},
                                 ),
-                                onTap: () {},
-                              ),
-                              Text("",
-                                //favList[index]['cartCount'],
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  margin: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius:
-                                          const BorderRadius.all(Radius.circular(5))),
-                                  child: const Icon(
-                                    Icons.add,
-                                    size: 12,
-                                    color: Colors.grey,
+                                Text("",
+                                  //favList[index]['cartCount'],
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                InkWell(
+                                  child: Container(
+                                    margin: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius:
+                                            const BorderRadius.all(Radius.circular(5))),
+                                    child: const Icon(
+                                      Icons.add,
+                                      size: 12,
+                                      color: Colors.grey,
+                                    ),
                                   ),
+                                  onTap: () {},
+                                )
+                              ],
+                            ),
+                            const Spacer(),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  favList[index].post_excerpt,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(
+                                          decoration: TextDecoration.lineThrough,
+                                          letterSpacing: 0.7),
                                 ),
-                                onTap: () {},
-                              )
-                            ],
-                          ),
-                          const Spacer(),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                favList[index].post_excerpt,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelSmall
-                                    ?.copyWith(
-                                        decoration: TextDecoration.lineThrough,
-                                        letterSpacing: 0.7),
-                              ),
-                              Text("",
-                                  //favList[index]['price'],
-                                  style: Theme.of(context).textTheme.titleLarge),
-                            ],
-                          )
-                        ],
+                                Text("",
+                                    //favList[index]['price'],
+                                    style: Theme.of(context).textTheme.titleLarge),
+                              ],
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),

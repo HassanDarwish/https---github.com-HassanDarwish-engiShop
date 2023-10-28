@@ -9,10 +9,11 @@ class Favorit{
   late final String post_title;
   late String post_excerpt;
   late String post_type;
+  late String has_attributes;
   List<Favorit> favorit_List=List.empty(growable: true);
 
 
-  Favorit({required id,required image_url,required post_content,required post_title,required post_excerpt,required post_type}) {
+  Favorit({required id,required image_url,required post_content,required post_title,required post_excerpt,required post_type,required has_attributes}) {
 
     this.id = id.toString();
     this.image_url = image_url.toString();
@@ -20,10 +21,11 @@ class Favorit{
     this.post_title = post_title.toString();
     this.post_excerpt = post_excerpt.toString();
     this.post_type = post_type.toString();
+    this.has_attributes=has_attributes.toString();
   }
   factory Favorit.short(List<Favorit> favorit_List ){
     Favorit fav=new Favorit(id:"",image_url:"",post_content:"",post_title:"",post_excerpt:""
-        ,post_type:"");
+        ,post_type:"",has_attributes:"false");
     fav.favorit_List=favorit_List;
     return fav;
   }
@@ -35,7 +37,8 @@ class Favorit{
         post_content: item["post_content"],
         post_title: item["post_title"],
         post_excerpt: item["post_excerpt"]  ,
-        post_type: item["post_type"]  ,);
+        post_type: item["post_type"]  ,
+          has_attributes:item["has_attributes"],);
       favorit_List.add(favorit);
     });
 
