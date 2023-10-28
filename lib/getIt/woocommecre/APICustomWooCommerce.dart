@@ -39,7 +39,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
      Map<String, dynamic> responseMap;
      Favorit favorit;
-     try {
+
        // TODO: implement getProductByCategory
        var response = await http.get(
            Uri.parse(
@@ -48,12 +48,9 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
        responseMap = jsonDecode(response.body);
        list_=responseMap["products"];
-         favorit=Favorit.fromJson(list_);
+         favorit=Favorit.fromJson(response.body);
 
-     } catch (e) {
-       throw e;
-       return List<Favorit>.empty(growable: true);
-     }
+
 
     return   favorit.favorit_List;
   }

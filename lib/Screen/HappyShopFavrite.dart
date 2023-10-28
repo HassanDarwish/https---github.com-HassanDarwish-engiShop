@@ -104,7 +104,16 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                 pageBuilder: (_, __, ___) => HappyShopProductDetail(
                       itemid:favList[index].id.toString(),
                       imgurl: favList[index].image_url,
-                      tag: favList[index].post_title,
+                      tag: Random().nextInt(100000).toString(),
+                      title: favList[index].post_title,
+                      shortdescription: favList[index].post_excerpt,
+                      description:favList[index].post_content ,
+                      attributess: [],
+                      price:favList[index].price ,
+                      rating:"" ,
+                      review: "",
+                      user_rating: "",
+
                     )),
           );
         },
