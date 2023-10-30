@@ -411,6 +411,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
   _rate(String rating) {
     double star_fraction = random.nextDouble();
 
+
     // Round the fraction to one decimal place.
     double star_rate = double.parse(star_fraction.toStringAsFixed(1));
     if(star_rate<5)

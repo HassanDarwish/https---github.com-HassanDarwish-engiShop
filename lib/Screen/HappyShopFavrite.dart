@@ -1,14 +1,15 @@
 import 'dart:math';
-
+import 'package:intl/intl.dart';
 import 'package:GiorgiaShop/pojo/favorit/Favorit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
-
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
 import 'HappyShopHome.dart';
 import 'HappyShopProductDetail.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +67,13 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
     buttonController.dispose();
     super.dispose();
   }
+  List<Favorit> loadProducts(){
+
+    return  widget.sessionImp.favoritList; ;
+
+  }
+
+
 
   _showContent() {
     return favList.isEmpty
@@ -73,23 +81,43 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
             padding: const EdgeInsets.only(top: kToolbarHeight),
             child: Center(child: Text(msg)),
           )
-        : LayoutBuilder(
-            builder: ((context, constraints) {
-              return ListView.builder(
-                shrinkWrap: true,
-                controller: controller,
-                itemCount: favList.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return listItem(index);
-                },
-              );
-            })
+        : GridView.builder(
+            itemCount: favList.length,
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.7,
+            ),
+            itemBuilder: (context, index) {
 
+              return GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: StaggerdCard(
+                      imgurl: favList[index].image_url,
+                      itemname: favList[index].post_title,
+                      descprice: Bidi.stripHtmlIfNeeded(
+                          favList[index].post_content),
+                      shortDescprice: Bidi.stripHtmlIfNeeded(
+                          favList[index].post_excerpt),
+                      price: favList[index].price,
+                      itemid: favList[index].id.toString(),
+                      attributess: favList[index].attributes,
+                      shrim: false),
+                ),
+              );
+            },
           );
+
+
+
   }
 
   Widget listItem(int index) {
+    double star_rate=double.parse(Random().nextDouble().toStringAsFixed(1));
+    if(star_rate<5)
+      star_rate=star_rate+4;
     return Card(
       elevation: 0.1,
       shadowColor: happyshopcolor5,
@@ -110,7 +138,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                       description:favList[index].post_content ,
                       attributess: [],
                       price:favList[index].price ,
-                      rating:"" ,
+                      rating:star_rate.toString() ,
                       review: "",
                       user_rating: "",
 
@@ -178,7 +206,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                               size: 12,
                             ),
                             Text(
-                              " " ,//+ favList[index]['rating'],
+                              " " + star_rate.toString(),
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                             Text("",
@@ -208,7 +236,9 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    //navigation
+                                  },
                                 ),
                                 Text("",
                                   //favList[index]['cartCount'],
@@ -227,7 +257,9 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    //navigation
+                                  },
                                 )
                               ],
                             ),
@@ -243,7 +275,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                                           decoration: TextDecoration.lineThrough,
                                           letterSpacing: 0.7),
                                 ),
-                                Text("",
+                                Text(favList[index].price,
                                     //favList[index]['price'],
                                     style: Theme.of(context).textTheme.titleLarge),
                               ],
@@ -278,6 +310,10 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
       child: Scaffold(
         appBar: widget.appbar == true
             ? AppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+                  onPressed: () => Navigator.of(context).pushNamed(HappyShopHome.routeName),
+                ),
                 title: const Text(
                   "Favrite",
                   style: TextStyle(color: Colors.white),
@@ -288,6 +324,195 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
           children: <Widget>[
             _showContent(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+/**901**/
+class StaggerdCard extends StatefulWidget {
+  const StaggerdCard({
+    Key? key,
+    this.imgurl,
+    this.itemid,
+    this.itemname,
+    this.price,
+    this.descprice,
+    this.shortDescprice,
+    this.attributess,
+    this.shrim,
+  }) : super(key: key);
+  final String? imgurl, itemid, itemname, price, descprice, shortDescprice;
+  final bool? shrim;
+  final List<attribute>? attributess;
+  @override
+  _StaggerdCardState createState() => _StaggerdCardState();
+}
+class _StaggerdCardState extends State<StaggerdCard> {
+  final random = new Random();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: widget.shrim!
+          ? const BoxDecoration(
+        boxShadow: [BoxShadow(color: happyshopcolor5, blurRadius: 10)],
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+      )
+          : const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+      ),
+      child: Card(
+        elevation: 1.0,
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                transitionDuration: const Duration(milliseconds: 1000),
+                pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) {
+                  return HappyShopProductDetail(
+                    itemid: widget.itemid,
+                    imgurl: widget.imgurl!,
+                    tag: Random().nextInt(1000).toString(),
+                    title: widget.itemname!,
+                    description: widget.descprice!,
+                    shortdescription: widget.shortDescprice!,
+                    price: widget.price!,
+                    rating: random.nextInt(100).toString(), //"5",
+                    review: "",
+                    user_rating: "",
+                    attributess: widget.attributess,
+                  );
+                },
+                reverseTransitionDuration: const Duration(milliseconds: 800),
+              ),
+            );
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    ClipRRect(
+                        borderRadius: widget.itemname != null
+                            ? const BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5))
+                            : BorderRadius.circular(5.0),
+                        child: widget.shrim == true
+                            ? Hero(
+                          tag: Random().nextInt(1000).toString(),
+                          child: Shimmer(
+                            child: CachedNetworkImage(
+                              imageUrl: widget.imgurl!,
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                            ),
+                          ),
+                        )
+                            : Hero(
+                          tag: Random().nextInt(1000).toString(),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.imgurl!,
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                          ),
+                        )),
+                    /* we did removre rating and ad id
+                    widget.rating != null
+                        ? Card(
+                            child: Padding(
+                            padding: const EdgeInsets.all(1.5),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                  size: 10,
+                                ),
+                                Text(
+                                  widget.rating!,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(letterSpacing: 0.2),
+                                ),
+                              ],
+                            ),
+                          ))
+                        : Container(),*/
+                  ],
+                ),
+              ),
+              widget.itemname != null
+                  ? Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        widget.itemname!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall
+                            ?.copyWith(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                            letterSpacing: 0.5),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+                  : Container(),
+              widget.price != null
+                  ? Padding(
+                padding: const EdgeInsets.only(left: 5.0, bottom: 5),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        //" $CUR_CURRENCY ${widget.price!}",
+                          " $ECUR_CURRENCY ${widget.price!}",
+                          style: const TextStyle(color: primary)),
+                    ),
+                    const SizedBox(
+                      width: 5.0,
+                    ),
+                    widget.price != null
+                        ? Flexible(
+                      child: Text(
+                        //"$CUR_CURRENCY${widget.descprice!}",
+                        widget.shortDescprice!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall
+                            ?.copyWith(
+                            decoration: TextDecoration.none,
+                            fontSize: 12,
+                            letterSpacing: 1),
+                      ),
+                    )
+                        : Container(),
+                  ],
+                ),
+              )
+                  : Container()
+            ],
+          ),
         ),
       ),
     );

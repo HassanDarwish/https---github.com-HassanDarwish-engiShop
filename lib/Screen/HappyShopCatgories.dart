@@ -104,39 +104,39 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
     return Scaffold(
         appBar: getAppBar(ALL_CAT, context),
         body: Container(
-    child: FutureBuilder(
-    future: context.read<WoocommerceProvider>().getCategories(),
-    builder: (BuildContext context, AsyncSnapshot snapshot) {
-    if (snapshot.hasData) {
-      List<WooProductCategory>? WooProductCategorydata =
-          snapshot.data;
-    return GridView.builder(
-    itemCount: snapshot.data!.length-1,
-    padding: const EdgeInsets.only(top: 5),
+        child: FutureBuilder(
+        future: context.read<WoocommerceProvider>().getCategories(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          List<WooProductCategory>? WooProductCategorydata =
+              snapshot.data;
+        return GridView.builder(
+        itemCount: snapshot.data!.length-1,
+        padding: const EdgeInsets.only(top: 5),
 
-    shrinkWrap: true,
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 4,
-    childAspectRatio: 0.8,
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        childAspectRatio: 0.8,
 
-    ),
-        physics: const BouncingScrollPhysics(),
-    itemBuilder: (context, index) {
-      WooProductCategory? category =
-      WooProductCategorydata?[index];
-    return catItem(category!, context);
-    }
-    );} else if (snapshot.hasError) {
-      return Text("Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
-    } else {
-    // Show a circular progress indicator while loading products
-    return Center(
-    child: CircularProgressIndicator(),
-    );}
+        ),
+            physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          WooProductCategory? category =
+          WooProductCategorydata?[index];
+        return catItem(category!, context);
+        }
+        );} else if (snapshot.hasError) {
+          return Text("Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
+        } else {
+        // Show a circular progress indicator while loading products
+        return Center(
+        child: CircularProgressIndicator(),
+        );}
 
 
 
-    }))
+        }))
 
 
 

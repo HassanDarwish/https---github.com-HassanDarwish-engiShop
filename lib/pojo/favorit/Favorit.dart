@@ -16,10 +16,16 @@ class Favorit{
   late String has_attributes;
   late String price;
   List<Favorit> favorit_List=List.empty(growable: true);
-  late List <dynamic> attributes= List.empty();
+  late List <attribute> _attributes= List.empty();
 
 
-  Favorit({required id,required image_url,required post_content,required post_title,required post_excerpt,required post_type,required has_attributes,required price,required List<dynamic> attributes}) {
+  List<attribute> get attributes => _attributes;
+
+  set attributes(List<attribute> value) {
+    _attributes = value;
+  }
+
+  Favorit({required id,required image_url,required post_content,required post_title,required post_excerpt,required post_type,required has_attributes,required price,required List<attribute> attributes}) {
 
     try{
     this.id = id.toString();
@@ -30,8 +36,7 @@ class Favorit{
     this.post_type = post_type.toString();
     this.has_attributes=has_attributes.toString();
     this.price=price;
-    print(attributes);
-    print("Ali");
+
 
     this.attributes=attributes;
   } catch (e) {
@@ -51,6 +56,8 @@ class Favorit{
       Map<String, dynamic> productList = jsonDecode(json);
       List<dynamic> pro_list = productList["products"];
       pro_list.forEach((item) {
+
+
         Favorit favorit = new Favorit(id: item["ID"],
             image_url: item["image_url"],
             post_content: item["post_content"],
@@ -59,7 +66,7 @@ class Favorit{
             post_type: item["post_type"],
             has_attributes: item["has_attributes"],
             price: item["price"],
-            attributes: item["has_attributes"]==false ? [] : item["product_attributes"]);
+            attributes:  attribute.getAttributeList(json:item["attributes"]));
         favorit_List.add(favorit);
       });
 
@@ -69,5 +76,36 @@ class Favorit{
       Favorit temp_Favorit = Favorit.short(favorit_List);
 
     return temp_Favorit;
+  }
+  List<attribute> convertToAttributesList(){
+    List<attribute> attributeList=List<attribute>.empty();
+    attributes.forEach((item) {
+
+      attributeList.add(attribute(
+        id: attributeList.length,
+        name: item.name,
+        position: 0,
+        visible: true,
+        variation: true,
+        options: item.options,
+      ));
+    });
+/*
+ "id": "",
+                    "name": "Foundation",
+                    "position": "",
+                    "visible": "",
+                    "variation": "",
+                    "options": [
+                        "5 ",
+                        " 10 ",
+                        " 17 ",
+                        " 21 ",
+                        " 24 ",
+                        " 25 ",
+                        " 30"
+                    ]
+* */
+  return attributeList;
   }
 }

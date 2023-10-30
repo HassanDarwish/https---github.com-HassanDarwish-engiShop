@@ -221,14 +221,28 @@ class product {
 }
 
 class attribute {
-
-  attribute( {required this.id,required this.name,required this.position,required this.visible,required this.variation,required this.options}) ;
-
-    int id= 0;
+  int id= 0;
   String name= "";
   int position= 0;
   bool visible= true;
   bool variation= true;
   List<String> options= [];
+
+  attribute( {required this.id,required this.name,required this.position,required this.visible,required this.variation,required this.options}) ;
+
+  static List<attribute> getAttributeList({required List<dynamic> json}){
+    List<dynamic> productList = json;
+    List<attribute> attributeList=List<attribute>.empty(growable: true);
+if(productList.isNotEmpty) {
+
+  String _name=productList[0]['name'];
+  List<dynamic> dynamicOptions=productList[0]['options'];
+  List<String> _options = dynamicOptions.cast<String>();
+  attributeList.add(attribute(id: productList[0]['id'], name: _name, position: productList[0]['position'], visible: productList[0]['visible'], variation: productList[0]['variation'], options: _options));
+    }
+  return attributeList;
+  }
+
+
 
 }
