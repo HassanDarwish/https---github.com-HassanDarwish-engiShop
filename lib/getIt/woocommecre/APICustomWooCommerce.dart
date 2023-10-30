@@ -27,13 +27,36 @@ abstract class APICustomWooCommerce {
   Future<bool> createOrder2(String userID,String displayName,Map addressList
       ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) ;
   Future<List<Favorit>> ListFavorit(userId);
+  Future<bool> deleteFromFavoritlist(userId,productId);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
 
-  Future<List<Favorit>> ListFavorit(userId) async{
+  @override
+  Future<bool> deleteFromFavoritlist(userId, productId) async {
+    // TODO: implement deleteFromFavoritlist http://engy.jerma.net/wp-json/wc/v3/favor/${userId}/${productId}/
+    try {
+      // TODO: implement getProductByCategory
+      var response = await http.delete(
+        Uri.parse('http://engy.jerma.net/wp-json/wc/v3/favor/${userId}/${productId}') ,
+        headers: {"Content-Type": "Application/json"}
+      );
+
+      dynamic JsonResponse = jsonDecode(response.body);
+      print(JsonResponse);
+    } catch (e) {
+      throw e;
+    return false;
+      //throw e;
+    }
+    return true;
+
+
+}
+
+Future<List<Favorit>> ListFavorit(userId) async{
      List  listFavorit=List<Favorit>.empty(growable: true);
      List<dynamic>   list_=List<Favorit>.empty(growable: true);
 
@@ -338,7 +361,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
 
     return requestUrl;
   }
-}
+}//class end
 
 class QueryString {
   /// Parses the given query string into a Map.

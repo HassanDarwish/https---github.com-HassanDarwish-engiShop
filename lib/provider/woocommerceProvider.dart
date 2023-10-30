@@ -97,6 +97,10 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
     bool result=await api_Woocommerce.createWooCustomer(userID, username,address, city, state, phoneArea, country);
     return result;
   }
+  Future deleteFromFavorite(String userID,String productId) async{
+    bool result=await api_CustomWoocommerce.deleteFromFavoritlist(userID,productId);
+    return result;
+  }
 }
 
 

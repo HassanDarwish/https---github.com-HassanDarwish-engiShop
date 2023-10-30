@@ -337,10 +337,10 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
 /**901**/
 class StaggerdCard extends StatefulWidget {
-  const StaggerdCard({
+    StaggerdCard({
     Key? key,
     this.imgurl,
-    this.itemid,
+    required this.itemid,
     this.itemname,
     this.price,
     this.descprice,
@@ -348,13 +348,25 @@ class StaggerdCard extends StatefulWidget {
     this.attributess,
     this.shrim,
   }) : super(key: key);
-  final String? imgurl, itemid, itemname, price, descprice, shortDescprice;
+  final String? imgurl,   itemname, price, descprice, shortDescprice;
+    String itemid;
   final bool? shrim;
+  late    SessionImplementation sessionImp ;
+  late WoocommerceProvider CustWoocommerceProvider;
+
   final List<attribute>? attributess;
   @override
   _StaggerdCardState createState() => _StaggerdCardState();
 }
 class _StaggerdCardState extends State<StaggerdCard> {
+
+  void initState() {
+    super.initState();
+    widget.sessionImp =
+        Provider.of<SessionImplementation>(context, listen: false);
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
+  }
   final random = new Random();
   @override
   Widget build(BuildContext context) {
@@ -396,122 +408,152 @@ class _StaggerdCardState extends State<StaggerdCard> {
               ),
             );
           },
-          child: Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    ClipRRect(
-                        borderRadius: widget.itemname != null
-                            ? const BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5))
-                            : BorderRadius.circular(5.0),
-                        child: widget.shrim == true
-                            ? Hero(
-                          tag: Random().nextInt(1000).toString(),
-                          child: Shimmer(
-                            child: CachedNetworkImage(
-                              imageUrl: widget.imgurl!,
-                              fit: BoxFit.contain,
-                              width: double.infinity,
-                            ),
-                          ),
-                        )
-                            : Hero(
-                          tag: Random().nextInt(1000).toString(),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.imgurl!,
-                            fit: BoxFit.contain,
-                            width: double.infinity,
-                          ),
-                        )),
-                    /* we did removre rating and ad id
-                    widget.rating != null
-                        ? Card(
-                            child: Padding(
-                            padding: const EdgeInsets.all(1.5),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                  size: 10,
-                                ),
-                                Text(
-                                  widget.rating!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall
-                                      ?.copyWith(letterSpacing: 0.2),
-                                ),
-                              ],
-                            ),
-                          ))
-                        : Container(),*/
-                  ],
+          child: Stack(
+            children: [Column(
+              children: [
+                InkWell(
+                  child: const Padding(
+                    padding: EdgeInsets.only(
+                        left: 8.0, right: 8, bottom: 8),
+                    child: Icon(
+                      Icons.close,
+                      size: 21,
+                    ),
+                  ),
+                  onTap: () {
+                    widget.CustWoocommerceProvider.deleteFromFavorite(widget.sessionImp.userID,widget.itemid);
+                    setState(() {
+
+
+                    });
+                  },
                 ),
-              ),
-              widget.itemname != null
-                  ? Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        widget.itemname!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall
-                            ?.copyWith(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            letterSpacing: 0.5),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration:BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1.0,
                       ),
                     ),
-                  ],
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        ClipRRect(
+                            borderRadius: widget.itemname != null
+                                ? const BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5))
+                                : BorderRadius.circular(5.0),
+                            child: widget.shrim == true
+                                ? Hero(
+                              tag: Random().nextInt(1000).toString(),
+                              child: Shimmer(
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.imgurl!,
+                                  fit: BoxFit.contain,
+                                  width: double.infinity,
+                                ),
+                              ),
+                            )
+                                : Hero(
+                              tag: Random().nextInt(1000).toString(),
+                              child: CachedNetworkImage(
+                                imageUrl: widget.imgurl!,
+                                fit: BoxFit.contain,
+                                width: double.infinity,
+                              ),
+                            )),
+                        /* we did removre rating and ad id
+                        widget.rating != null
+                            ? Card(
+                                child: Padding(
+                                padding: const EdgeInsets.all(1.5),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                      size: 10,
+                                    ),
+                                    Text(
+                                      widget.rating!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall
+                                          ?.copyWith(letterSpacing: 0.2),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                            : Container(),*/
+                      ],
+                    ),
+                  ),
                 ),
-              )
-                  : Container(),
-              widget.price != null
-                  ? Padding(
-                padding: const EdgeInsets.only(left: 5.0, bottom: 5),
-                child: Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: Text(
-                        //" $CUR_CURRENCY ${widget.price!}",
-                          " $ECUR_CURRENCY ${widget.price!}",
-                          style: const TextStyle(color: primary)),
-                    ),
-                    const SizedBox(
-                      width: 5.0,
-                    ),
-                    widget.price != null
-                        ? Flexible(
-                      child: Text(
-                        //"$CUR_CURRENCY${widget.descprice!}",
-                        widget.shortDescprice!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall
-                            ?.copyWith(
-                            decoration: TextDecoration.none,
-                            fontSize: 12,
-                            letterSpacing: 1),
+                widget.itemname != null
+                    ? Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          widget.itemname!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.copyWith(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              letterSpacing: 0.5),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    )
-                        : Container(),
-                  ],
-                ),
-              )
-                  : Container()
-            ],
+                    ],
+                  ),
+                )
+                    : Container(),
+                widget.price != null
+                    ? Padding(
+                  padding: const EdgeInsets.only(left: 5.0, bottom: 5),
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Text(
+                          //" $CUR_CURRENCY ${widget.price!}",
+                            " $ECUR_CURRENCY ${widget.price!}",
+                            style: const TextStyle(color: primary)),
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      widget.price != null
+                          ? Flexible(
+                        child: Text(
+                          //"$CUR_CURRENCY${widget.descprice!}",
+                          widget.shortDescprice!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.copyWith(
+                              decoration: TextDecoration.none,
+                              fontSize: 12,
+                              letterSpacing: 1),
+                        ),
+                      )
+                          : Container(),
+                    ],
+                  ),
+                )
+                    : Container()
+              ],
+            )],
           ),
         ),
       ),
