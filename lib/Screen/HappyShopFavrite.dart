@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:GiorgiaShop/pojo/favorit/Favorit.dart';
@@ -14,18 +15,23 @@ import 'HappyShopHome.dart';
 import 'HappyShopProductDetail.dart';
 import 'package:provider/provider.dart';
 
-class HappyShopFavrite extends StatefulWidget {
+class HappyShopFavrite extends StatefulWidget  {
   final bool? appbar;
     HappyShopFavrite({Key? key, this.appbar}) : super(key: key);
   late    SessionImplementation sessionImp ;
   late WoocommerceProvider CustWoocommerceProvider;
-
   @override
   _HappyShopFavriteState createState() => _HappyShopFavriteState();
+
+
+
+
 }
 
 class _HappyShopFavriteState extends State<HappyShopFavrite>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin ,ChangeNotifier {
+
+
   ScrollController controller = ScrollController();
   List tempList = [];
   String msg = noFav;
@@ -36,16 +42,22 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
   bool isLoadingmore = true;
   List<Favorit> favList = List.empty(growable: true);
 
+
+  void refresh(String itemid) {
+    favList.removeWhere((Favorit favorit) => favorit.id == itemid);
+    notifyListeners();
+  }
   @override
   void initState() {
     super.initState();
-    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
     offset = 0;
     total = 0;
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     if(widget.sessionImp.favoritList.isNotEmpty)
-    favList=widget.sessionImp.favoritList;
+     favList=widget.sessionImp.favoritList;
 
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
@@ -74,7 +86,13 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
   }
 
 
+  void onSubmit(String itemid) {
+    favList.removeWhere((element) => element.id==itemid);
+    setState(() {
 
+    });
+    notifyListeners();
+  }
   _showContent() {
     return favList.isEmpty
         ? Padding(
@@ -104,7 +122,9 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                       price: favList[index].price,
                       itemid: favList[index].id.toString(),
                       attributess: favList[index].attributes,
-                      shrim: false),
+                      shrim: false,
+                      onSubmit: onSubmit,
+                  ),
                 ),
               );
             },
@@ -296,6 +316,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       onWillPop: () async {
         bool? result = await Navigator.pushReplacement(
@@ -337,7 +358,8 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
 /**901**/
 class StaggerdCard extends StatefulWidget {
-    StaggerdCard({
+   void Function( String itemid) onSubmit;
+  StaggerdCard({
     Key? key,
     this.imgurl,
     required this.itemid,
@@ -347,10 +369,15 @@ class StaggerdCard extends StatefulWidget {
     this.shortDescprice,
     this.attributess,
     this.shrim,
-  }) : super(key: key);
-  final String? imgurl,   itemname, price, descprice, shortDescprice;
-    String itemid;
+    required this.onSubmit,
+  }) : super(key: key) {
+
+  }
+  final String? imgurl, itemname, price, descprice, shortDescprice;
+  String itemid;
+  HappyShopFavrite? HappyShop_Favrite;
   final bool? shrim;
+
   late    SessionImplementation sessionImp ;
   late WoocommerceProvider CustWoocommerceProvider;
 
@@ -362,14 +389,16 @@ class _StaggerdCardState extends State<StaggerdCard> {
 
   void initState() {
     super.initState();
-    widget.sessionImp =
-        Provider.of<SessionImplementation>(context, listen: false);
-    widget.CustWoocommerceProvider =
-        Provider.of<WoocommerceProvider>(context, listen: false);
+
+
   }
   final random = new Random();
   @override
   Widget build(BuildContext context) {
+    widget.sessionImp =
+        Provider.of<SessionImplementation>(context, listen: false);
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
     return Container(
       decoration: widget.shrim!
           ? const BoxDecoration(
@@ -420,12 +449,14 @@ class _StaggerdCardState extends State<StaggerdCard> {
                       size: 21,
                     ),
                   ),
-                  onTap: () {
-                    widget.CustWoocommerceProvider.deleteFromFavorite(widget.sessionImp.userID,widget.itemid);
+                  onTap: ()async {
+                    bool result=await widget.CustWoocommerceProvider.deleteFromFavorite(widget.sessionImp.userID,widget.itemid);
+                    //widget.HappyShop_Favrite?.refresh(widget.itemid);
+                    widget.onSubmit(widget.itemid);
                     setState(() {
 
-
                     });
+
                   },
                 ),
                 SizedBox(
