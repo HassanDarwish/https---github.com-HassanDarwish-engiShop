@@ -108,7 +108,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     setState(() {
 
     });
-
+    Color _iconColor = const Color(0xFF333333);
     return Column(
       children: <Widget>[
         Expanded(
@@ -221,19 +221,26 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                   ),
                                   Material(
                                     color: Colors.transparent,
-                                    child: InkWell(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.favorite,
-                                            color: const Color(0xFF333333)
-                                                .withOpacity(0.5),
+                                    child: StatefulBuilder(
+                                      builder: (context, setState) {
+                                        return InkWell(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.favorite,
+                                              color: _iconColor.withOpacity(0.5),
+                                            ),
                                           ),
-                                        ),
-                                        onTap: () {
-                                          showMessageDialog(context,"Favorite");
+                                          onTap: () {
 
-                                        }),
+                                            setState(() {
+                                              _iconColor= _iconColor.value  != Colors.red.value  ? Colors.red : Color(0xFF333333);
+
+                                              });
+                                          },
+                                        );
+                                      },
+                                    )
                                   ),
                                   const SizedBox(
                                     width: 10.0,
