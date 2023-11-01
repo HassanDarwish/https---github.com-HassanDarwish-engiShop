@@ -28,12 +28,34 @@ abstract class APICustomWooCommerce {
       ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) ;
   Future<List<Favorit>> ListFavorit(userId);
   Future<bool> deleteFromFavoritlist(userId,productId);
+  Future<bool> addToFavorite(String userID,String itemId);
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
+  @override
+  Future<bool> addToFavorite(String userId,String productId)async{
+    // TODO: implement addToFavorite http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=150&user_id=8
+    try {
+      // TODO: implement getProductByCategory
+      String url="http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=${productId}&user_id=${userId}";
+      var response = await http.post(
+          Uri.parse('http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=${productId}&user_id=${userId}') ,
+          headers: {"Content-Type": "Application/json"}
+      );
 
+      dynamic JsonResponse = jsonDecode(response.body);
+
+    } catch (e) {
+      return false;
+      throw e;
+      return false;
+      //throw e;
+    }
+    return true;
+
+  }
   @override
   Future<bool> deleteFromFavoritlist(userId, productId) async {
     // TODO: implement deleteFromFavoritlist http://engy.jerma.net/wp-json/wc/v3/favor/${userId}/${productId}/
@@ -47,6 +69,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
       dynamic JsonResponse = jsonDecode(response.body);
       print(JsonResponse);
     } catch (e) {
+    return false;
       throw e;
     return false;
       //throw e;
@@ -72,8 +95,6 @@ Future<List<Favorit>> ListFavorit(userId) async{
        responseMap = jsonDecode(response.body);
        list_=responseMap["products"];
          favorit=Favorit.fromJson(response.body);
-
-
 
     return   favorit.favorit_List;
   }

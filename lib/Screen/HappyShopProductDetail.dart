@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
+import '../pojo/favorit/Favorit.dart';
+import '../provider/woocommerceProvider.dart';
 import 'HappyShopCart.dart';
 
 
@@ -31,8 +33,10 @@ class HappyShopProductDetail extends StatefulWidget {
       List <attribute>? attributess;
     List <String> selectedAttribute=[];
     late final SessionImplementation sessionImp;
-    String userId="";
+    String userId="";late WoocommerceProvider CustWoocommerceProvider;
     Map<String,String> toViewSelectedAttribute=Map<String,String>();
+
+
   @override
   _HappyShopProductDetailState createState() => _HappyShopProductDetailState();
 }
@@ -71,10 +75,12 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
       widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 
-    if(widget.sessionImp.status==sessionEnums.login) widget.userId=widget.sessionImp.id;
+    if(widget.sessionImp.status==sessionEnums.login) widget.userId=widget.sessionImp.userID;
 
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
@@ -103,13 +109,21 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     buttonController.dispose();
     super.dispose();
   }
-
+  Color _iconColor = const Color(0xFF333333);
+  bool skip=true;
+  Color isExistInFaoritList(bool skip){
+    if(skip==true) {
+      if (widget.sessionImp.status==sessionEnums.login && widget.sessionImp.favoritList.isNotEmpty) {
+        Favorit favorit = widget.sessionImp.favoritList.firstWhere((item) =>item.id == widget.itemid, orElse: () => Favorit.short(List.empty() ));
+        if (favorit.id.isNotEmpty)
+          return _iconColor = Colors.red;
+      }
+      return _iconColor.withOpacity(0.5);
+    }
+    return _iconColor;
+  }
   _showContent() {
-    setState(() {
-
-    });
-    Color _iconColor = const Color(0xFF333333);
-    return Column(
+     return Column(
       children: <Widget>[
         Expanded(
           child: SingleChildScrollView(
@@ -228,15 +242,29 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             padding: const EdgeInsets.all(8.0),
                                             child: Icon(
                                               Icons.favorite,
-                                              color: _iconColor.withOpacity(0.5),
+                                              color: isExistInFaoritList(skip) ,
                                             ),
                                           ),
                                           onTap: () {
-
+                                            if(widget.sessionImp.status==sessionEnums.login){
                                             setState(() {
+                                               skip= skip==true ?  false : true;
                                               _iconColor= _iconColor.value  != Colors.red.value  ? Colors.red : Color(0xFF333333);
-
                                               });
+
+                                            if(_iconColor.value == Colors.red.value){
+                                              // calling to add  into favorite list
+
+                                              widget.CustWoocommerceProvider.addToFavorite(widget.sessionImp,widget.userId,widget.itemid!);
+
+                                            }else{
+                                               // calling to remove into favorite list
+                                              widget.CustWoocommerceProvider.deleteFromFavorite(widget.sessionImp,widget.userId,widget.itemid!);
+
+                                            }
+                                            }else{
+                                              // inform client to login
+                                            }
                                           },
                                         );
                                       },
@@ -896,7 +924,8 @@ _attribute(List<attribute> list) {
 
   @override
   Widget build(BuildContext context) {
-
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
     return Scaffold(
         key: _scaffoldKey,
         // appBar: PreferredSize(

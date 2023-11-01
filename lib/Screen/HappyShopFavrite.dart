@@ -351,12 +351,6 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
   }
 }
 
-
-
-
-
-
-/**901**/
 class StaggerdCard extends StatefulWidget {
    void Function( String itemid) onSubmit;
   StaggerdCard({
@@ -450,7 +444,7 @@ class _StaggerdCardState extends State<StaggerdCard> {
                     ),
                   ),
                   onTap: ()async {
-                    bool result=await widget.CustWoocommerceProvider.deleteFromFavorite(widget.sessionImp.userID,widget.itemid);
+                    bool result=await widget.CustWoocommerceProvider.deleteFromFavorite(widget.sessionImp,widget.sessionImp.userID,widget.itemid);
                     //widget.HappyShop_Favrite?.refresh(widget.itemid);
                     widget.onSubmit(widget.itemid);
                     setState(() {

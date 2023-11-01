@@ -5,6 +5,7 @@ import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import '../pojo/favorit/Favorit.dart';
 import '../pojo/products.dart';
+import 'Session.dart';
 import 'abstracted/Woocommerce.dart';
 import 'package:flutter_wp_woocommerce/models/customer.dart';
 class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
@@ -16,6 +17,13 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
    Future<List<dynamic>>  ListFavorit(String userId) async {
     return   await api_CustomWoocommerce.ListFavorit(userId);
   }
+  Future<bool>  addToFavorite(SessionImplementation sessionImp,String userID,String itemId)async{
+    bool result=await api_CustomWoocommerce.addToFavorite(userID,itemId);
+    if(result==true)sessionImp.loadFavoritList(this,userID);
+    return result;
+
+  }
+
   Future<bool>  createOrder2(String userID,String displayName,Map addressList
       ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email)
   {
@@ -97,8 +105,9 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
     bool result=await api_Woocommerce.createWooCustomer(userID, username,address, city, state, phoneArea, country);
     return result;
   }
-  Future<bool> deleteFromFavorite(String userID,String productId) async{
+  Future<bool> deleteFromFavorite(SessionImplementation sessionImp,String userID,String productId) async{
     bool result=await api_CustomWoocommerce.deleteFromFavoritlist(userID,productId);
+    if(result==true)sessionImp.loadFavoritList(this,userID);
     return result;
   }
 }
