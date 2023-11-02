@@ -82,7 +82,7 @@ class _HappyShopPeofileState extends State<HappyShopPeofile>
       Future.delayed(const Duration(seconds: 2)).then((_) async {
         await buttonController.reverse();
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HappyShopHome()));
+            context, MaterialPageRoute(builder: (context) => HappyShopHome()));
       });
     }
   }
@@ -422,7 +422,7 @@ class _HappyShopPeofileState extends State<HappyShopPeofile>
         bool resul = await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HappyShopHome(),
+            builder: (context) => HappyShopHome(),
           ),
         );
         resul ??= false;

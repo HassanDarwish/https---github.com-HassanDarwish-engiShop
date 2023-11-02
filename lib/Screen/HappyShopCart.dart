@@ -550,7 +550,7 @@ class _HappyShopCartState extends State<HappyShopCart>
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => const HappyShopHome()),
+                  builder: (BuildContext context) =>   HappyShopHome()),
               ModalRoute.withName('/'));
         },
       ),

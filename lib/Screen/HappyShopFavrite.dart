@@ -22,10 +22,6 @@ class HappyShopFavrite extends StatefulWidget  {
   late WoocommerceProvider CustWoocommerceProvider;
   @override
   _HappyShopFavriteState createState() => _HappyShopFavriteState();
-
-
-
-
 }
 
 class _HappyShopFavriteState extends State<HappyShopFavrite>

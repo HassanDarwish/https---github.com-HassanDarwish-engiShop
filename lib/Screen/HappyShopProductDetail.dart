@@ -264,6 +264,8 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                                             }
                                             }else{
                                               // inform client to login
+                                               showMessageDialog(context,goToLogin);
+
                                             }
                                           },
                                         );

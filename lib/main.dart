@@ -73,8 +73,8 @@ void main() async {
             fontFamily: 'Open sans',
           ),
           routes: {
-            HappyShopHome.routeName: (context) => const HappyShopHome(),
-            HappyShopCatogeryAll.routeName:(context) => const HappyShopCatogeryAll(),
+            HappyShopHome.routeName: (context) =>   HappyShopHome(),
+            HappyShopCatogeryAll.routeName:(context) =>   HappyShopCatogeryAll(),
             HappyShopCart.routeName:(context) =>  HappyShopCart(),
             HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
 
