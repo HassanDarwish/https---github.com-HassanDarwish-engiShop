@@ -756,13 +756,13 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
   @override
   initstate(){
     super.initState();
-    widget.sessionImp = Provider.of<SessionImplementation>(context);
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
   }
 
 
   @override
   Widget build(BuildContext context) {
-
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     if(widget.sessionImp.status!=sessionEnums.login)
       widget.register=true;
 
