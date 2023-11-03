@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
 import 'package:GiorgiaShop/pojo/favorit/Favorit.dart';
 import 'package:GiorgiaShop/pojo/order/lineItems.dart';
 import 'package:flutter_wp_woocommerce/models/customer.dart';
@@ -29,11 +29,41 @@ abstract class APICustomWooCommerce {
   Future<List<Favorit>> ListFavorit(userId);
   Future<bool> deleteFromFavoritlist(userId,productId);
   Future<bool> addToFavorite(String userID,String itemId);
+
+  Future<List<orderr.WooOrder>> getOrderByUserId(String userId);
+
 }
 
 class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
+  Future<List<orderr.WooOrder>> getOrderByUserId(String userId)async{
+    var orderList = <orderr.WooOrder>[];
+    try {
+      // TODO: implement getProductByCategory
+      var response = await http.get(
+          Uri.parse(getOAuthURL("GET",
+              'http://engy.jerma.net/wp-json/wc/v3/orders?customer_id=${userId}')),
+          headers: {"Content-Type": "Application/json"});
+
+      // Decode the JSON response into a list of WooCommerce order objects.
+
+
+      var orders = jsonDecode(response.body) as List<dynamic>;
+
+      var orderList = <orderr.WooOrder>[];
+
+      for (var order in orders) {
+        orderList.add(orderr.WooOrder.fromJson(order));
+      }
+
+      return orderList;
+
+    } catch (e) {
+      throw e;
+    }
+    return orderList;
+  }
   @override
   Future<bool> addToFavorite(String userId,String productId)async{
     // TODO: implement addToFavorite http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=150&user_id=8

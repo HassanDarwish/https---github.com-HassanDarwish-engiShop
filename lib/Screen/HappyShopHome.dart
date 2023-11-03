@@ -7,9 +7,14 @@ import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
 import 'package:GiorgiaShop/widget/HappyShopDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
- class HappyShopHome extends StatefulWidget {
-  const HappyShopHome({Key? key}) : super(key: key);
+import 'package:provider/provider.dart';
+import '../provider/Session.dart';
+import '../provider/woocommerceProvider.dart';
+import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
+class HappyShopHome extends StatefulWidget {
+    HappyShopHome({Key? key}) : super(key: key);
   static const routeName = '/HappyShopHome';
+  late SessionImplementation sessionImp;
   @override
   _HappyShopHomeState createState() => _HappyShopHomeState();
 }
@@ -20,13 +25,15 @@ class _HappyShopHomeState extends State<HappyShopHome> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> privatescaffoldKey = GlobalKey<ScaffoldState>();
   late HappyShopAppBar AppBar;
+  late WoocommerceProvider CustWoocommerceProvider;
+  late var orderList = <orderr.WooOrder>[];
 
   @override
   void initState() {
     super.initState();
     _curSelected = 0;
     AppBar=HappyShopAppBar(scaffoldKey: scaffoldKey,privatescaffoldKey:privatescaffoldKey);
-
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     happyShopBottomeTab = [
         HappyShopHpmeTab(AppBarr:AppBar,privatescaffoldKey:privatescaffoldKey),
         HappyShopFavrite(
@@ -43,6 +50,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
 
   @override
   Widget build(BuildContext context) {
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     return WillPopScope(
           onWillPop: () async {
             /* bool result = await Navigator.pushReplacement(
@@ -72,6 +80,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
   }
 
   getBottomBar() {
+
     return BottomAppBar(
       child: Container(
           decoration: const BoxDecoration(
@@ -216,6 +225,10 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     icon: LikeButton(
                       size: 24.0,
                       onTap: (bool isLiked) {
+
+                        CustWoocommerceProvider =
+                            Provider.of<WoocommerceProvider>(context, listen: false);
+                       CustWoocommerceProvider.api_CustomWoocommerce.getOrderByUserId(widget.sessionImp.userID);
                         return onNavigationTap(isLiked, 3);
                       },
                       circleColor: CircleColor(
@@ -233,7 +246,11 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                       },
                     ),
                     activeIcon: LikeButton(
-                      onTap: (bool isLiked) {
+                      onTap: (bool isLiked) async {
+                        CustWoocommerceProvider =
+                            Provider.of<WoocommerceProvider>(context, listen: false);
+
+                        orderList=await CustWoocommerceProvider.api_CustomWoocommerce.getOrderByUserId(widget.sessionImp.userID);
                         return onNavigationTap(isLiked, 3);
                       },
                       circleColor: CircleColor(

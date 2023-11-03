@@ -111,7 +111,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HappyShopHome()));
+                                      builder: (context) =>   HappyShopHome()));
                             });
                           },
                           child: Padding(
@@ -202,7 +202,7 @@ class _HappyShopLoginState extends State<HappyShopLogin>
     await buttonController.reverse();
     Future.delayed(const Duration(milliseconds: 500)).then((_) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HappyShopHome()));
+          context, MaterialPageRoute(builder: (context) =>   HappyShopHome()));
     });
   }
 

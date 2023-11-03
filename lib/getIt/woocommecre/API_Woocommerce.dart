@@ -21,11 +21,12 @@ abstract class API_Woocommerce {
   Future<WooCustomer> updateWooCustomer(String id,Map data);
   Future<bool>  createOrder(String userID,String displayName,Map addressList
   ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode) ;
+
   
   late Future<List<WooProductCategory>> listCategories;
   late Future<List<WooProductCategory>> listAllCategories;
   late Future<List<WooCustomer>> listWooCustomer;
-   
+
 
   //http://engy.jerma.net/wp-json/wc/v3/customers?username=HassanAli&email=hassanaly@msn.com&password&first_name=Hassan&last_name=Ali
 }
@@ -44,6 +45,7 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
   https://woocommerce.github.io/woocommerce-rest-api-docs/
 
    */
+
   Future<WooCustomer> updateWooCustomer(String userID,Map mapData) async{
     String consumerKey = getIt<API_Config>().config.consumerKey;
     String consumerSecret = getIt<API_Config>().config.consumerSecret;

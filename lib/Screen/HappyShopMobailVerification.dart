@@ -92,7 +92,7 @@ class _HappyShopMobailVerificationState
     _playAnimation();
     Future.delayed(const Duration(milliseconds: 500)).then((_) async {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HappyShopHome()));
+          context, MaterialPageRoute(builder: (context) =>   HappyShopHome()));
       await buttonController.reverse();
     });
   }

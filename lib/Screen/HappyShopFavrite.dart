@@ -72,8 +72,8 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
   @override
   void dispose() {
-    buttonController.dispose();
     super.dispose();
+    buttonController.dispose();
   }
   List<Favorit> loadProducts(){
 
@@ -318,7 +318,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
         bool? result = await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HappyShopHome(),
+            builder: (context) =>   HappyShopHome(),
           ),
         );
         result ??= false;

@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Open sans',
       ),
       routes: {
-        HappyShopHome.routeName: (context) => const HappyShopHome(),
+        HappyShopHome.routeName: (context) =>   HappyShopHome(),
         HappyShopCatogeryAll.routeName:(context) => const HappyShopCatogeryAll(),
         HappyShopCart.routeName:(context) =>  HappyShopCart(),
         HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),

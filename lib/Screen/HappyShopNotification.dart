@@ -106,7 +106,7 @@ class _HappyShopNotificationState extends State<HappyShopNotification>
         bool result = await Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HappyShopHome(),
+            builder: (context) =>   HappyShopHome(),
           ),
         );
         result ??= false;
