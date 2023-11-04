@@ -137,50 +137,56 @@ loadTrackingOrders() async {
                               Text("$ORDER_ID_LBL : " + orderList[index].id.toString()),
                               Text("$ORDER_DATE : " +
                                   orderList[index].orderDate),
-                              Text("$TOTAL_PRICE:$CUR_CURRENCY " +
+                              Text("$TOTAL_PRICE:$ECUR_CURRENCY " +
                                   orderList[index].total),
+                              Text(orderList[index].listStatus,
+                                  textAlign: TextAlign.center,
+                                  style:TextStyle(fontSize: 16,color:Colors.red[700])),
                             ],
                           ),
                         ),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_right,
-                              color: primary,
-                            ),
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const HappyShopOrderDetails()),
-                              );
-                            })
+                        // IconButton(
+                        //     icon: const Icon(
+                        //       Icons.keyboard_arrow_right,
+                        //       color: primary,
+                        //     ),
+                        //     onPressed: () async {
+                        //       await Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) =>
+                        //                 const HappyShopOrderDetails()),
+                        //       );
+                        //     })
                       ],
                     ),
                     const Divider(),
-                    ListView.builder(
+                    GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
                       shrinkWrap: true,
                       itemCount: orderList[index].itemList.length,
-                      physics: const NeverScrollableScrollPhysics(),
+                      physics:   NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i) {
                         return productItem(i, orderList[index].itemList);
                       },
                     ),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          getPlaced("2-2-2020"),
-                          getProcessed("3-2-2020", "4-2-2020"),
-                          getShipped("4-2-2020", "4-2-2020"),
-                          getDelivered("5-2-2021", "4-2-2020"),
-                          getCanceled("5-2-2021"),
-                          getReturned("6-2-2021", index),
-                        ],
-                      ),
-                    )
+                    //const Divider(),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Row(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: [
+                    //           //getPlaced("2-2-2020"),
+                    //         //getProcessed("3-2-2020", "4-2-2020"),
+                    //        // getShipped("4-2-2020", "4-2-2020"),
+                    //        // getDelivered("5-2-2021", "4-2-2020"),
+                    //       // getCanceled("5-2-2021"),
+                    //       // getReturned("6-2-2021", index),
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -490,29 +496,54 @@ loadTrackingOrders() async {
     );
   }
 
-  productItem(int index, orderItem) {
-    print("I am Hassan Ali ${index}");
-
-    print(orderItem[index].image);
-
-    return Row(
-      children: [
-        CachedNetworkImage(
-          imageUrl: orderItem[index].image.toString(),
-          height: 100.0,
-          width: 100.0,
-        ),
-        Expanded(
+  productItem(int index, List<Item> orderItem) {
+    return GestureDetector(
+      child:
+      ConstrainedBox(
+        constraints: BoxConstraints.expand(),
+        child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                child: CachedNetworkImage(
+                  imageUrl: orderItem[index].image,
+                  width: 140.0,
+                  height: 140.0,
+                   fit: BoxFit.contain,
+                ),
+              ),
               Text(orderItem[index].name),
-              Text("$QUANTITY_LBL: " + orderItem[index].qty.toString()),
-              Text("$CUR_CURRENCY " + orderItem[index].price.toString()),
+               Text("$QUANTITY_LBL: " + orderItem[index].qty.toString()),
+              Text("$ECUR_CURRENCY " + orderItem[index].price.toString()),
             ],
           ),
-        )
-      ],
+        ),
+      ),
+
+
     );
   }
+  // productItem(int index, orderItem) {
+  //
+  //
+  //   return Row(
+  //     children: [
+  //       CachedNetworkImage(
+  //         imageUrl: orderItem[index].image.toString(),
+  //         height: 100.0,
+  //         width: 100.0,
+  //       ),
+  //       Expanded(
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text(orderItem[index].name),
+  //             Text("$QUANTITY_LBL: " + orderItem[index].qty.toString()),
+  //             Text("$ECUR_CURRENCY " + orderItem[index].price.toString()),
+  //           ],
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 }
