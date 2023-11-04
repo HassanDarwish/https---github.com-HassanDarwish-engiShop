@@ -49,6 +49,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
   @override
   void dispose() {
     buttonController.dispose();
+    controller.dispose();
     super.dispose();
   }
 

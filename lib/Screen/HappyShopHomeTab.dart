@@ -412,6 +412,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   @override
   void dispose() {
     buttonController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 

@@ -77,6 +77,12 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
     WidgetsBinding.instance.addPostFrameCallback((_) =>
         woocommerceprovider.getCategories());
   }
+  @override
+  void dispose() {
+
+    controller.dispose();
+    super.dispose();
+  }
 
   //Future<List<WooProductCategory>> listAllCategories =getIt<API_Woocommerce>().listAllCategories;
 

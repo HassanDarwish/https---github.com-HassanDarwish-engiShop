@@ -25,7 +25,7 @@ class HappyShopFavrite extends StatefulWidget  {
 }
 
 class _HappyShopFavriteState extends State<HappyShopFavrite>
-    with TickerProviderStateMixin ,ChangeNotifier {
+    with TickerProviderStateMixin {
 
 
   ScrollController controller = ScrollController();
@@ -41,7 +41,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
   void refresh(String itemid) {
     favList.removeWhere((Favorit favorit) => favorit.id == itemid);
-    notifyListeners();
+   // notifyListeners();
   }
   @override
   void initState() {
@@ -72,8 +72,11 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
   @override
   void dispose() {
+     buttonController.dispose();
+
     super.dispose();
-    buttonController.dispose();
+
+
   }
   List<Favorit> loadProducts(){
 
@@ -87,7 +90,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
     setState(() {
 
     });
-    notifyListeners();
+    //notifyListeners();
   }
   _showContent() {
     return favList.isEmpty
