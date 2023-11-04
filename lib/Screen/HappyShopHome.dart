@@ -8,6 +8,7 @@ import 'package:GiorgiaShop/widget/HappyShopDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
+import '../pojo/tracking/TrackingOrder.dart';
 import '../provider/Session.dart';
 import '../provider/woocommerceProvider.dart';
 import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
@@ -25,8 +26,8 @@ class _HappyShopHomeState extends State<HappyShopHome> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> privatescaffoldKey = GlobalKey<ScaffoldState>();
   late HappyShopAppBar AppBar;
-  late WoocommerceProvider CustWoocommerceProvider;
-  late var orderList = <orderr.WooOrder>[];
+
+
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
       const HappyShopNotification(
         appbar: false,
       ),
-      const HappyShopTreackOrder(
+        HappyShopTreackOrder(
         appbar: false,
       )
     ];
@@ -226,9 +227,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                       size: 24.0,
                       onTap: (bool isLiked) {
 
-                        CustWoocommerceProvider =
-                            Provider.of<WoocommerceProvider>(context, listen: false);
-                       CustWoocommerceProvider.api_CustomWoocommerce.getOrderByUserId(widget.sessionImp.userID);
+
                         return onNavigationTap(isLiked, 3);
                       },
                       circleColor: CircleColor(
@@ -247,11 +246,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     ),
                     activeIcon: LikeButton(
                       onTap: (bool isLiked) async {
-                        CustWoocommerceProvider =
-                            Provider.of<WoocommerceProvider>(context, listen: false);
-
-                        orderList=await CustWoocommerceProvider.api_CustomWoocommerce.getOrderByUserId(widget.sessionImp.userID);
-                        return onNavigationTap(isLiked, 3);
+                         return onNavigationTap(isLiked, 3);
                       },
                       circleColor: CircleColor(
                           start: primary, end: primary.withOpacity(0.1)),

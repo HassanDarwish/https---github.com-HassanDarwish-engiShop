@@ -2,13 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../pojo/tracking/TrackingOrder.dart';
+import '../provider/Session.dart';
+import '../provider/woocommerceProvider.dart';
+import '../pojo/tracking/TrackingOrder.dart';
+import '../provider/Session.dart';
+import '../provider/woocommerceProvider.dart';
 import 'HappyShopOrderDetails.dart';
-
+import '../pojo/tracking/TrackingOrder.dart';import '../provider/woocommerceProvider.dart';
 class HappyShopTreackOrder extends StatefulWidget {
   final bool? appbar;
-  const HappyShopTreackOrder({Key? key, this.appbar}) : super(key: key);
-
+    HappyShopTreackOrder({Key? key, this.appbar}) : super(key: key);
+  late WoocommerceProvider CustWoocommerceProvider;
+  late SessionImplementation sessionImp;
   @override
   _HappyShopTreackOrderState createState() => _HappyShopTreackOrderState();
 }
@@ -21,12 +28,13 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
     with TickerProviderStateMixin {
   List tempList = [];
 
-  ScrollController controller = ScrollController();
+  late var orderList = List<TrackingOrder>.empty();
+ScrollController controller = ScrollController();
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
 
   @override
-  void initState() {
+  initState()   {
     offset = 0;
     total = 0;
 
@@ -43,6 +51,10 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
         0.150,
       ),
     ));
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+    loadTrackingOrders();
     super.initState();
   }
 
@@ -53,25 +65,34 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
     super.dispose();
   }
 
-  List orderList = [
-    {
-      'id': "0123456",
-      'listStatus': "returned",
-      'orderDate': "5-2-2021",
-      'total': "150",
-      'itemList': [
-        {
-          'image': "https://smartkit.wrteam.in/smartkit/images/Nikereak4.jpg",
-          'name': "test",
-          'qty': "2",
-          'price': "75"
-        }
-      ]
-    },
-  ];
+  // List orderList = [
+  //   {
+  //     'id': "0123456",
+  //     'listStatus': "returned",
+  //     'orderDate': "5-2-2021",
+  //     'total': "150",
+  //     'itemList': [
+  //       {
+  //         'image': "https://smartkit.wrteam.in/smartkit/images/Nikereak4.jpg",
+  //         'name': "test",
+  //         'qty': "2",
+  //         'price': "75"
+  //       }
+  //     ]
+  //   },
+  // ];
+loadTrackingOrders() async {
+  orderList= await widget.CustWoocommerceProvider.getOrderByUserId(widget.sessionImp.userID);
+  setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    widget.CustWoocommerceProvider =
+        Provider.of<WoocommerceProvider>(context, listen: false);
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+    loadTrackingOrders();
+
     return WillPopScope(
       onWillPop: () async {
         /* bool result = await Navigator.pushReplacement(
@@ -113,11 +134,11 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("$ORDER_ID_LBL : " + orderList[index]['id']),
+                              Text("$ORDER_ID_LBL : " + orderList[index].id.toString()),
                               Text("$ORDER_DATE : " +
-                                  orderList[index]['orderDate']),
+                                  orderList[index].orderDate),
                               Text("$TOTAL_PRICE:$CUR_CURRENCY " +
-                                  orderList[index]['total']),
+                                  orderList[index].total),
                             ],
                           ),
                         ),
@@ -139,10 +160,10 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
                     const Divider(),
                     ListView.builder(
                       shrinkWrap: true,
-                      itemCount: orderList[index]['itemList'].length,
+                      itemCount: orderList[index].itemList.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i) {
-                        return productItem(index, orderList[index]['itemList']);
+                        return productItem(i, orderList[index].itemList);
                       },
                     ),
                     const Divider(),
@@ -251,7 +272,7 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
   }
 
   getReturned(String rDate, int index) {
-    return orderList[index]['listStatus'].contains(RETURNED)
+    return orderList[index].listStatus.contains(RETURNED)
         ? Flexible(
             flex: 1,
             child: Row(
@@ -470,10 +491,14 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
   }
 
   productItem(int index, orderItem) {
+    print("I am Hassan Ali ${index}");
+
+    print(orderItem[index].image);
+
     return Row(
       children: [
         CachedNetworkImage(
-          imageUrl: orderItem[index]['image'],
+          imageUrl: orderItem[index].image.toString(),
           height: 100.0,
           width: 100.0,
         ),
@@ -481,9 +506,9 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(orderItem[index]['name']),
-              Text("$QUANTITY_LBL: " + orderItem[index]['qty']),
-              Text("$CUR_CURRENCY " + orderItem[index]['price']),
+              Text(orderItem[index].name),
+              Text("$QUANTITY_LBL: " + orderItem[index].qty.toString()),
+              Text("$CUR_CURRENCY " + orderItem[index].price.toString()),
             ],
           ),
         )

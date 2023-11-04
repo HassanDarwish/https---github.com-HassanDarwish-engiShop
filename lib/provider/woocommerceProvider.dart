@@ -5,14 +5,25 @@ import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import '../pojo/favorit/Favorit.dart';
 import '../pojo/products.dart';
+import '../pojo/tracking/TrackingOrder.dart';
 import 'Session.dart';
 import 'abstracted/Woocommerce.dart';
 import 'package:flutter_wp_woocommerce/models/customer.dart';
+import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
 class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   final API_Woocommerce api_Woocommerce;
   final APICustomWooCommerce api_CustomWoocommerce;
   WoocommerceProvider(
       {required this.api_Woocommerce, required this.api_CustomWoocommerce});
+
+   Future<List<TrackingOrder>> getOrderByUserId(String userId)async
+  {
+    List<TrackingOrder>WooOrders=  await api_CustomWoocommerce.getOrderByUserId(userId);
+
+
+    return WooOrders;
+  }
+
 
    Future<List<dynamic>>  ListFavorit(String userId) async {
     return   await api_CustomWoocommerce.ListFavorit(userId);
