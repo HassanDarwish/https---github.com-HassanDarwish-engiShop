@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../pojo/tracking/TrackingOrder.dart';
-import '../provider/Session.dart';
-import '../provider/woocommerceProvider.dart';
-import '../pojo/tracking/TrackingOrder.dart';
-import '../provider/Session.dart';
-import '../provider/woocommerceProvider.dart';
-import 'HappyShopOrderDetails.dart';
-import '../pojo/tracking/TrackingOrder.dart';import '../provider/woocommerceProvider.dart';
+import 'package:GiorgiaShop/pojo/tracking/TrackingOrder.dart';
+import 'package:GiorgiaShop/provider/Session.dart';
+import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
+
+import '../Helper/SmartKitColor.dart';
+import 'HappyShopHome.dart';
 class HappyShopTreackOrder extends StatefulWidget {
   final bool? appbar;
     HappyShopTreackOrder({Key? key, this.appbar}) : super(key: key);
@@ -54,7 +54,9 @@ ScrollController controller = ScrollController();
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
     widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
+    if(widget.sessionImp.status==sessionEnums.login)
     loadTrackingOrders();
+
     super.initState();
   }
 
@@ -82,41 +84,65 @@ ScrollController controller = ScrollController();
   //   },
   // ];
 loadTrackingOrders() async {
+
   orderList= await widget.CustWoocommerceProvider.getOrderByUserId(widget.sessionImp.userID);
   setState(() {});
   }
+  void showMessageDialog(BuildContext context, String message) {
+    if (message != null) {
+      showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(
+              title: Text('Info'),
+              content: Text(message!),
+              actions: [
+                TextButton(
+                  onPressed: () {
 
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
     widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
-    loadTrackingOrders();
+    if(widget.sessionImp.status==sessionEnums.login) {
+      loadTrackingOrders();
+    }
+     // showMessageDialog(context,"Please Login to your Order List");
+   // if(widget.sessionImp.status!=sessionEnums.login)
+   // showMessageDialog(context, "Please Login");
 
-    return WillPopScope(
+    return  WillPopScope(
       onWillPop: () async {
-        /* bool result = await Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Giorgia Shop'),
-          ),
-        );
-        if (result == null) result = false;*/
-
-        //return result;
         return false;
       },
       child: Scaffold(
+        backgroundColor:smarKitcolor1,
         appBar: widget.appbar == true
             ? AppBar(
-                title: const Text(
-                  "Track order",
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
+          title: const Text(
+            "Track order",
+            style: TextStyle(color: Colors.white),
+          ),
+        )
             : PreferredSize(
-                preferredSize: const Size.fromHeight(0), child: AppBar()),
-        body: ListView.builder(
+            preferredSize: const Size.fromHeight(0), child: AppBar()),
+        body:
+        widget.sessionImp.status!=sessionEnums.login
+              ? Padding(
+              padding: const EdgeInsets.only(top: kToolbarHeight),
+              child: Center(child: Text(goToLogin,style: TextStyle(fontSize: 18),)),
+            )
+        :  ListView.builder(
           shrinkWrap: true,
           controller: controller,
           itemCount: orderList.length,
@@ -194,9 +220,80 @@ loadTrackingOrders() async {
           },
         ),
       ),
+    ) ;
+
+  }
+  cartEmpty() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          noCartImage(context),
+          noCartText(context),
+          noCartDec(context),
+          shopNow()
+        ]),
+      ),
+    );
+  }
+  noCartImage(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: 'http://jerma.net/Engi/icons/login-icon-305.png',
+      fit: BoxFit.contain,
     );
   }
 
+  noCartText(BuildContext context) {
+    return Container(
+        child: Text(NO_LOGIN,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(color: primary, fontWeight: FontWeight.normal)));
+  }
+
+  noCartDec(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+      child: Text(Login_DESC,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: lightblack,
+            fontWeight: FontWeight.normal,
+          )),
+    );
+  }
+  shopNow() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 28.0),
+      child: CupertinoButton(
+        child: Container(
+            width: deviceWidth * 0.7,
+            height: 45,
+            alignment: FractionalOffset.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [primaryLight2, primaryLight3],
+                  stops: [0, 1]),
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            ),
+            child: Text(LOGIN_LBL,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(color: white, fontWeight: FontWeight.normal))),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>   HappyShopHome()),
+              ModalRoute.withName('/'));
+        },
+      ),
+    );
+  }
   getDelivered(String dDate, String cDate) {
     return cDate == null
         ? Flexible(

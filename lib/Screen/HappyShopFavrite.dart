@@ -96,7 +96,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
     return favList.isEmpty
         ? Padding(
             padding: const EdgeInsets.only(top: kToolbarHeight),
-            child: Center(child: Text(msg)),
+            child: Center(child: Text(msg,style: TextStyle(fontSize: 18))),
           )
         : GridView.builder(
             itemCount: favList.length,

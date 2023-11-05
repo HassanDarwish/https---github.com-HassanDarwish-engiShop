@@ -121,90 +121,90 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
                   .pushNamed(HappyShopCart.routeName);
             },
           ),
-          _getDivider(),
-          HappyShopDrawerListTile(
-            img: true,
-            imgurl:
-                "https://smartkit.wrteam.in/smartkit/happyshop/pro_trackorder.svg",
-            title: TRACK_ORDER,
-            icon: Icons.bike_scooter,
-            route: () {
-              /*
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      HappyShopSplash(), //HappyShopTreackOrder(
-                  // appbar: true,
-                  //),
-                ),
-              );*/
-            },
-          ),
-          _getDivider(),
-          HappyShopDrawerListTile(
-            img: true,
-            imgurl: "https://smartkit.wrteam.in/smartkit/happyshop/profile.svg",
-            title: PROFILE,
-            icon: Icons.person,
-            route: () {
-              /*
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HappyShopSplash(), //HappyShopPeofile(),
-                ),
-              );*/
-            },
-          ),
-          _getDivider(),
-          HappyShopDrawerListTile(
-            img: true,
-            imgurl: "https://smartkit.wrteam.in/smartkit/happyshop/pro_od.svg",
-            title: ORDER_DETAIL,
-            icon: Icons.content_paste_sharp,
-            route: () {
-              /*
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      HappyShopSplash(), //HappyShopOrderDetails(),
-                ),
-              );*/
-            },
-          ),
-          _getDivider(),
-          HappyShopDrawerListTile(
-            img: true,
-            imgurl:
-                "https://smartkit.wrteam.in/smartkit/happyshop/pro_notification.svg",
-            title: NOTIFICATION,
-            icon: Icons.notification_important,
-            route: () {
-              /*
-              Navigator.of(context).pop();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      HappyShopSplash(), //HappyShopNotification(
-                  // appbar: true,
-                  //),
-                ),
-              );*/
-            },
-          ),
+          // _getDivider(),
+          // HappyShopDrawerListTile(
+          //   img: true,
+          //   imgurl:
+          //       "http://jerma.net/Engi/icons/pro_trackorder.png",
+          //   title: TRACK_ORDER,
+          //   icon: Icons.bike_scooter,
+          //   route: () {
+          //     /*
+          //     Navigator.of(context).pop();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) =>
+          //             HappyShopSplash(), //HappyShopTreackOrder(
+          //         // appbar: true,
+          //         //),
+          //       ),
+          //     );*/
+          //   },
+          // ),
+          // _getDivider(),
+          // HappyShopDrawerListTile(
+          //   img: true,
+          //   imgurl: "http://jerma.net/Engi/icons/profile.png",
+          //   title: PROFILE,
+          //   icon: Icons.person,
+          //   route: () {
+          //     /*
+          //     Navigator.of(context).pop();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => HappyShopSplash(), //HappyShopPeofile(),
+          //       ),
+          //     );*/
+          //   },
+          // ),
+          // _getDivider(),
+          // HappyShopDrawerListTile(
+          //   img: true,
+          //   imgurl: "http://jerma.net/Engi/icons/pro_od.png",
+          //   title: ORDER_DETAIL,
+          //   icon: Icons.content_paste_sharp,
+          //   route: () {
+          //     /*
+          //     Navigator.of(context).pop();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) =>
+          //             HappyShopSplash(), //HappyShopOrderDetails(),
+          //       ),
+          //     );*/
+          //   },
+          // ),
+          //_getDivider(),
+          // HappyShopDrawerListTile(
+          //   img: true,
+          //   imgurl:
+          //       "http://jerma.net/Engi/icons/pro_notification.png",
+          //   title: NOTIFICATION,
+          //   icon: Icons.notification_important,
+          //   route: () {
+          //     /*
+          //     Navigator.of(context).pop();
+          //     Navigator.pushReplacement(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) =>
+          //             HappyShopSplash(), //HappyShopNotification(
+          //         // appbar: true,
+          //         //),
+          //       ),
+          //     );*/
+          //   },
+          // ),
           _getDivider(),
           Visibility(
             visible: widget.sessionImp.status == sessionEnums.login,
             child: HappyShopDrawerListTile(
               img: true,
               imgurl:
-                  "https://smartkit.wrteam.in/smartkit/happyshop/pro_favourite.svg",
+                  "http://jerma.net/Engi/icons/pro_favourite.png",
               title: FAVORITE,
               icon: Icons.favorite,
               route: () {
@@ -465,7 +465,7 @@ class HappyShopDrawerHeader extends StatelessWidget {
             child: Row(
               children: [
                 SvgPicture.network(
-                  'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
+                  'http://jerma.net/Engi/images/happyshopwhitelogopng',
                   width: 60.0,
                 ),
                 SizedBox(

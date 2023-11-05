@@ -40,9 +40,9 @@ class _HappyShopHomeState extends State<HappyShopHome> {
         HappyShopFavrite(
         appbar: false,
       ),
-      const HappyShopNotification(
-        appbar: false,
-      ),
+      // const HappyShopNotification(
+      //   appbar: false,
+      // ),
         HappyShopTreackOrder(
         appbar: false,
       )
@@ -180,55 +180,53 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                       },
                     ),
                   ),
-                  BottomNavigationBarItem(
-                    label: 'Notifications',
-                    icon: LikeButton(
-                      size: 24.0,
-                      onTap: (bool isLiked) {
-                        return onNavigationTap(isLiked, 2);
-                      },
-                      circleColor: CircleColor(
-                          start: primary, end: primary.withOpacity(0.1)),
-                      bubblesColor: BubblesColor(
-                        dotPrimaryColor: primary,
-                        dotSecondaryColor: primary.withOpacity(0.1),
-                      ),
-                      likeBuilder: (bool isLiked) {
-                        return Icon(
-                          Icons.notifications_none,
-                          size: 24,
-                          color: const Color(0x31333333).withOpacity(0.5),
-                        );
-                      },
-                    ),
-                    activeIcon: LikeButton(
-                      size: 24.0,
-                      onTap: (bool isLiked) {
-                        return onNavigationTap(isLiked, 2);
-                      },
-                      circleColor: CircleColor(
-                          start: primary, end: primary.withOpacity(0.1)),
-                      bubblesColor: BubblesColor(
-                        dotPrimaryColor: primary,
-                        dotSecondaryColor: primary.withOpacity(0.1),
-                      ),
-                      likeBuilder: (bool isLiked) {
-                        return const Icon(
-                          Icons.notifications,
-                          size: 24,
-                          color: happyshopcolor2,
-                        );
-                      },
-                    ),
-                  ),
+                  // BottomNavigationBarItem(
+                  //   label: 'Notifications',
+                  //   icon: LikeButton(
+                  //     size: 24.0,
+                  //     onTap: (bool isLiked) {
+                  //       return onNavigationTap(isLiked, 2);
+                  //     },
+                  //     circleColor: CircleColor(
+                  //         start: primary, end: primary.withOpacity(0.1)),
+                  //     bubblesColor: BubblesColor(
+                  //       dotPrimaryColor: primary,
+                  //       dotSecondaryColor: primary.withOpacity(0.1),
+                  //     ),
+                  //     likeBuilder: (bool isLiked) {
+                  //       return Icon(
+                  //         Icons.notifications_none,
+                  //         size: 24,
+                  //         color: const Color(0x31333333).withOpacity(0.5),
+                  //       );
+                  //     },
+                  //   ),
+                  //   activeIcon: LikeButton(
+                  //     size: 24.0,
+                  //     onTap: (bool isLiked) {
+                  //       return onNavigationTap(isLiked, 2);
+                  //     },
+                  //     circleColor: CircleColor(
+                  //         start: primary, end: primary.withOpacity(0.1)),
+                  //     bubblesColor: BubblesColor(
+                  //       dotPrimaryColor: primary,
+                  //       dotSecondaryColor: primary.withOpacity(0.1),
+                  //     ),
+                  //     likeBuilder: (bool isLiked) {
+                  //       return const Icon(
+                  //         Icons.notifications,
+                  //         size: 24,
+                  //         color: happyshopcolor2,
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   BottomNavigationBarItem(
                     label: 'Track Order',
                     icon: LikeButton(
                       size: 24.0,
                       onTap: (bool isLiked) {
-
-
-                        return onNavigationTap(isLiked, 3);
+                       return onNavigationTap(isLiked, 2);
                       },
                       circleColor: CircleColor(
                           start: primary, end: primary.withOpacity(0.1)),
@@ -246,7 +244,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     ),
                     activeIcon: LikeButton(
                       onTap: (bool isLiked) async {
-                         return onNavigationTap(isLiked, 3);
+                         return onNavigationTap(isLiked, 2);
                       },
                       circleColor: CircleColor(
                           start: primary, end: primary.withOpacity(0.1)),

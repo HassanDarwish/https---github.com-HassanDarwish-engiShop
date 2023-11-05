@@ -227,7 +227,7 @@ const int perPage = 10;
 const String noItem = 'No Item Found..!!';
 const String noFav = 'No Favorite Found..!!';
 const String noNoti = 'No Notification Found..!!';
-const String goToLogin = 'Please login to access favorite..!!';
+const String goToLogin = 'Please login to access Orders..!!';
 const String searchHint = 'Find Grocery items here..';
 const String selectVarient = 'Select Varient';
 const String addressWarning = 'Please Select Address..!!';
@@ -318,9 +318,11 @@ const String RETURN_ORDER = 'Return Order';
 const String ORDER_CNCLE_SUCC = 'Order Cancled Successfully..!!';
 
 const String NO_CART = 'Your Cart Is Empty';
+const String NO_LOGIN = 'Please Login In';
 const String CART_DESC =
     "Looking like you haven't added anything to your cart yet";
-
+const String Login_DESC =
+    "Please Open Drawer To login";
 const String NO_INTERNET = "No Internet";
 const String NO_INTERNET_DISC =
     "Please check your connection again, or connect to Wi-Fi";

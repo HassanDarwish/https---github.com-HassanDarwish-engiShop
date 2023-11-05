@@ -498,7 +498,7 @@ class _HappyShopCartState extends State<HappyShopCart>
 
   noCartImage(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: 'https://smartkit.wrteam.in/smartkit/images/empty_cart.png',
+      imageUrl: 'http://jerma.net/Engi/icons/empty_cart.png',
       fit: BoxFit.contain,
     );
   }
