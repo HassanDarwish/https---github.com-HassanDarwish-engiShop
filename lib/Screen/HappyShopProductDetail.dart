@@ -32,7 +32,7 @@ class HappyShopProductDetail extends StatefulWidget {
     String? imgurl, tag,description,rating,price,title,user_rating, review,shortdescription,itemid;
       List <attribute>? attributess;
     List <String> selectedAttribute=[];
-    late final SessionImplementation sessionImp;
+    late  SessionImplementation sessionImp;
     String userId="";late WoocommerceProvider CustWoocommerceProvider;
     Map<String,String> toViewSelectedAttribute=Map<String,String>();
 
@@ -928,6 +928,7 @@ _attribute(List<attribute> list) {
   Widget build(BuildContext context) {
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     return Scaffold(
         key: _scaffoldKey,
         // appBar: PreferredSize(

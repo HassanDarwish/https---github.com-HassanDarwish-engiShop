@@ -30,9 +30,16 @@ class CartImplementation extends ChangeNotifier implements Cart{
   final API_Config config;
   double get promocodeValue => _promocodeValue;
   String _cartTotalPrice ="0";
-
   String _cartFinalPrice ="0";
   String _totalTax="0";
+
+  String _deliveryFeess="0";
+
+  String get deliveryFeess => _deliveryFeess;
+
+  set deliveryFeess(String value) {
+    _deliveryFeess = value;
+  }
 
   set discountValue(String value) {
     _discountValue = value;
@@ -254,13 +261,14 @@ class CartImplementation extends ChangeNotifier implements Cart{
     if (deliveryFes==null)
       deliveryFes=0;
 
-
     tax.forEach((element) {
       temPelement=temPelement+double.tryParse(element)!;
     });
     totalTax=((double.parse(_cartTotalPrice)+deliveryFes)*temPelement)/100;
 
       _totalTax=totalTax.toString();
+      _deliveryFeess=deliveryFees;
+
       _cartFinalPrice=(double.parse(_cartTotalPrice)+deliveryFes+totalTax).toString();
   }
 
@@ -324,6 +332,7 @@ class CartImplementation extends ChangeNotifier implements Cart{
     this._promocode="";
     _promocodeValue=0;
     this._totalTax="0";
+    this.deliveryFeess="0";
 
   }
 }

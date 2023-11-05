@@ -27,7 +27,7 @@ abstract class APICustomWooCommerce {
   Future<customers> getCustomer(String name, String email);
   Future<customers> updateWooCustomer(String id,WooCustomer cust);
   Future<bool> createOrder2(String userID,String displayName,Map addressList
-      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) ;
+      ,String cartFinalPrice,String shippingFees,String totalTax,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) ;
   Future<List<Favorit>> ListFavorit(userId);
   Future<bool> deleteFromFavoritlist(userId,productId);
   Future<bool> addToFavorite(String userID,String itemId);
@@ -131,11 +131,13 @@ Future<List<Favorit>> ListFavorit(userId) async{
     return   favorit.favorit_List;
   }
   Future<bool> createOrder2(String userID,String displayName,Map addressList
-      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) async{
+      ,String cartFinalPrice,String shippingFees,String totalTax,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) async{
 
     late var product_List;
     // TODO: implement getProductByCategory
-
+    String shippingFees1;
+    double finalExpanses=double.parse(shippingFees)+double.parse(totalTax);
+    shippingFees1=finalExpanses.toString();
 
     Map<String,int> lineItemsMap= {};
     List<Map<String, dynamic>> lineItems=List.empty(growable: true);
@@ -165,8 +167,8 @@ Future<List<Favorit>> ListFavorit(userId) async{
     dynamic C={
       '"payment_method"': '"COD"',
       '"payment_method_title"': '"CASH On Delever"',
-    '"set_paid"': '"false"',
-
+      '"set_paid"': '"false"',
+       '"total"': double.parse(cartFinalPrice),
       '"billing"': {
         '"first_name"': '"${displayName}"',
         '"last_name"': '""',
@@ -188,7 +190,14 @@ Future<List<Favorit>> ListFavorit(userId) async{
         '"country"':  '"${addressList["country"]}"',
       },
       '"line_items"': "${lineItems}",
-      '"meta_data"':"${listmetaMap}"
+      '"meta_data"':"${listmetaMap}",
+      '"shipping_lines"': [
+        {
+          '"method_id"': '"flat_rate"',
+          '"method_title"': '"Flat Rate"',
+            '"total"': '"${shippingFees1}"',
+        }
+      ]
 
       //"${listmetaMap}",
     };

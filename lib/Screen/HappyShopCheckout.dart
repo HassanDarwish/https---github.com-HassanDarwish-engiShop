@@ -240,7 +240,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
                        // bool isOrderCreated= await widget.CustWoocommerceProvider.createOrder(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
                        // ,cartImp.cartFinalPrice,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode);
                         bool isOrderCreated= await widget.CustWoocommerceProvider.createOrder2(sessionImp.userID,sessionImp.displayName,sessionImp.addressList[0]
-                         ,cartImp.cartFinalPrice,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode,sessionImp.email);
+                         ,cartImp.cartFinalPrice,cartImp.deliveryFeess,cartImp.totalTax,cartImp.CUR_CART_COUNTT,cartImp.itemMap,cartImp.products,cartImp.promocode,sessionImp.email);
                    // CONTINUE
                     if(isOrderCreated) {
                       sessionImp.showMessageDialog(context,"Add Order Success");

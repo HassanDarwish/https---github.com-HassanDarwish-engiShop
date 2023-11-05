@@ -36,11 +36,10 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   }
 
   Future<bool>  createOrder2(String userID,String displayName,Map addressList
-      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email)
+      ,String cartFinalPrice,String shippingFees,String totalTax,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email)
   {
-
     return api_CustomWoocommerce.createOrder2(  userID,  displayName,  addressList
-        ,  cartFinalPrice,  CUR_CART_COUNTT,  itemMap,  products,  promocode,  email);
+        ,  cartFinalPrice, shippingFees, totalTax , CUR_CART_COUNTT,  itemMap,  products,  promocode,  email);
   }
 
   Future<bool>  createOrder(String userID,String displayName,Map addressList
