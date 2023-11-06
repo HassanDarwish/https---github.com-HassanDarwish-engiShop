@@ -59,7 +59,17 @@ ScrollController controller = ScrollController();
 
     super.initState();
   }
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
 
+  Future<void> _refresh() async {
+    // Replace this delay with the code to be executed during refresh.
+    // and return a Future when code finishes execution.
+    await Future<void>.delayed(const Duration(milliseconds: 1500));
+
+    // Reload the data.
+    setState(() {});
+  }
   @override
   void dispose() {
     buttonController.dispose();
@@ -126,7 +136,7 @@ loadTrackingOrders() async {
         return false;
       },
       child: Scaffold(
-        backgroundColor:smarKitcolor1,
+
         appBar: widget.appbar == true
             ? AppBar(
           title: const Text(
@@ -137,87 +147,115 @@ loadTrackingOrders() async {
             : PreferredSize(
             preferredSize: const Size.fromHeight(0), child: AppBar()),
         body:
-        widget.sessionImp.status!=sessionEnums.login
-              ? Padding(
+        RefreshIndicator(
+          key: _refreshIndicatorKey,
+          onRefresh: _refresh,
+          child:  widget.sessionImp.status!=sessionEnums.login
+            ? Padding(
               padding: const EdgeInsets.only(top: kToolbarHeight),
               child: Center(child: Text(goToLogin,style: TextStyle(fontSize: 18),)),
             )
-        :  ListView.builder(
-          shrinkWrap: true,
-          controller: controller,
-          itemCount: orderList.length,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("$ORDER_ID_LBL : " + orderList[index].id.toString()),
-                              Text("$ORDER_DATE : " +
-                                  orderList[index].orderDate),
-                              Text("$TOTAL_PRICE:$ECUR_CURRENCY " +
-                                  orderList[index].total),
-                              Text(orderList[index].listStatus,
-                                  textAlign: TextAlign.center,
-                                  style:TextStyle(fontSize: 16,color:Colors.red[700])),
-                            ],
+            :  FutureBuilder(
+           future: context
+          .read<WoocommerceProvider>()
+          .getOrderByUserId(widget.sessionImp.userID),
+          builder:
+    (BuildContext context, AsyncSnapshot snapshot) {
+      if (snapshot.hasData) {
+          // Create a list of products
+          List<TrackingOrder> orderList = snapshot.data;
+
+          return ListView.builder(
+            shrinkWrap: true,
+            controller: controller,
+            itemCount: snapshot.data.length - 1,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("$ORDER_ID_LBL : " +
+                                    orderList[index].id.toString()),
+                                Text("$ORDER_DATE : " +
+                                    orderList[index].orderDate),
+                                Text("$TOTAL_PRICE:$ECUR_CURRENCY " +
+                                    orderList[index].total),
+                                Text(orderList[index].listStatus,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.red[700])),
+                              ],
+                            ),
                           ),
-                        ),
-                        // IconButton(
-                        //     icon: const Icon(
-                        //       Icons.keyboard_arrow_right,
-                        //       color: primary,
-                        //     ),
-                        //     onPressed: () async {
-                        //       await Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) =>
-                        //                 const HappyShopOrderDetails()),
-                        //       );
-                        //     })
-                      ],
-                    ),
-                    const Divider(),
-                    GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                          // IconButton(
+                          //     icon: const Icon(
+                          //       Icons.keyboard_arrow_right,
+                          //       color: primary,
+                          //     ),
+                          //     onPressed: () async {
+                          //       await Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) =>
+                          //                 const HappyShopOrderDetails()),
+                          //       );
+                          //     })
+                        ],
                       ),
-                      shrinkWrap: true,
-                      itemCount: orderList[index].itemList.length,
-                      physics:   NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, i) {
-                        return productItem(i, orderList[index].itemList);
-                      },
-                    ),
-                    //const Divider(),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Row(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: [
-                    //           //getPlaced("2-2-2020"),
-                    //         //getProcessed("3-2-2020", "4-2-2020"),
-                    //        // getShipped("4-2-2020", "4-2-2020"),
-                    //        // getDelivered("5-2-2021", "4-2-2020"),
-                    //       // getCanceled("5-2-2021"),
-                    //       // getReturned("6-2-2021", index),
-                    //     ],
-                    //   ),
-                    // )
-                  ],
+                      const Divider(),
+                      GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        shrinkWrap: true,
+                        itemCount: orderList[index].itemList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, i) {
+                          return productItem(i, orderList[index].itemList);
+                        },
+                      ),
+                      //const Divider(),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Row(
+                      //     mainAxisSize: MainAxisSize.min,
+                      //     children: [
+                      //           //getPlaced("2-2-2020"),
+                      //         //getProcessed("3-2-2020", "4-2-2020"),
+                      //        // getShipped("4-2-2020", "4-2-2020"),
+                      //        // getDelivered("5-2-2021", "4-2-2020"),
+                      //       // getCanceled("5-2-2021"),
+                      //       // getReturned("6-2-2021", index),
+                      //     ],
+                      //   ),
+                      // )
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          );
+      } else if (snapshot.hasError) {
+          return Text(
+              "Server Can not be reached  please check connection or Login Please"); //Text(snapshot.error.toString());
+      } else {
+          // Show a circular progress indicator while loading products
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+      }
+
+    }
+    ),
         ),
       ),
     ) ;
