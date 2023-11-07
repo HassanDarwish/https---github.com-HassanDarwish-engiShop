@@ -15,6 +15,7 @@ import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 import 'provider/Cart.dart';
+import 'package:flutter_uxcam/flutter_uxcam.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -37,10 +38,8 @@ loadRepository()async{
 }
 
 void main() async {
+
   loadRepository();
-
-
-
   runApp(
 
       MultiProvider(
@@ -95,8 +94,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Confirm that you have user permission for screen recording
+    FlutterUxcam.optIntoSchematicRecordings();
 
-    return  MaterialApp(
+    // Configuration
+    FlutterUxConfig config = FlutterUxConfig(
+      userAppKey: 'UXCAM_API_KEY',
+      // Important as this is handled by automatic screenTagging https://developer.uxcam.com/docs/tag-of-screens#control-automatic-tagging
+      enableAutomaticScreenNameTagging: false,
+    );
+
+    FlutterUxcam.startWithConfiguration(config);
+    return    MaterialApp(
         home: HappyShopSplash()      ,
       title: App_title,
       theme: ThemeData(
@@ -118,7 +127,7 @@ class MyApp extends StatelessWidget {
         HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
 
       },
-    );
+    ) ;
 
 
   }

@@ -19,7 +19,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import '../pojo/products.dart';
 import '../provider/woocommerceProvider.dart';
 import 'HappyShopStaggeredList.dart';
-
+import 'package:flutter_uxcam/flutter_uxcam.dart';
 List sectList = [
   {
     'section': "Offers on men's Fashion",
@@ -492,6 +492,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                               ),
                             ),
                             onTap: () async {
+                              FlutterUxcam.tagScreenName('HappyShopCatogeryAll');
                               await Navigator.of(context)
                                   .pushNamed(HappyShopCatogeryAll.routeName);
                               /* await Navigator.push(
@@ -563,6 +564,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       ),
                                     ),
                                     onTap: () {
+                                      FlutterUxcam.tagScreenName('Display category: ${category.name}');
                                       Navigator.push(
                                         context,
                                         PageRouteBuilder(
@@ -902,6 +904,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
               InkWell(
                 splashColor: primary.withOpacity(0.2),
                 onTap: () {
+                  FlutterUxcam.tagScreenName('All Deals');
                   Navigator.push(
                     context,
                     PageRouteBuilder(
@@ -1252,6 +1255,7 @@ class _ItemCardState extends State<ItemCard> {
             ],
           ),
           onTap: () {
+            FlutterUxcam.tagScreenName('item name${widget.itemname}');
             Navigator.of(context).push(
               PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 1000),
