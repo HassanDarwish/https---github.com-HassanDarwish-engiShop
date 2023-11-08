@@ -8,11 +8,9 @@ import 'package:GiorgiaShop/widget/HappyShopDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
-import '../pojo/tracking/TrackingOrder.dart';
-import '../provider/Session.dart';
-import '../provider/woocommerceProvider.dart';
-import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
-import 'package:flutter_uxcam/flutter_uxcam.dart';
+import 'package:GiorgiaShop/provider/Session.dart';
+
+
 class HappyShopHome extends StatefulWidget {
     HappyShopHome({Key? key}) : super(key: key);
   static const routeName = '/HappyShopHome';
@@ -104,7 +102,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     icon: LikeButton(
                       size: 24.0,
                       onTap: (bool isLiked) {
-                        FlutterUxcam.tagScreenName('Home Screen');
+
                         return onNavigationTap(isLiked, 0);
                       },
                       circleColor: CircleColor(
@@ -124,7 +122,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     activeIcon: LikeButton(
                       size: 24.0,
                       onTap: (bool isLiked) {
-                        FlutterUxcam.tagScreenName('Home Screen');
+
                         return onNavigationTap(isLiked, 0);
                       },
                       circleColor: CircleColor(
@@ -147,7 +145,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     icon: LikeButton(
                       size: 24.0,
                       onTap: (bool isLiked) {
-                        FlutterUxcam.tagScreenName('Favorite Screen');
+
                         return onNavigationTap(isLiked, 1);
                       },
                       circleColor: CircleColor(
@@ -167,7 +165,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     activeIcon: LikeButton(
                       size: 24.0,
                       onTap: (bool isLiked) {
-                        FlutterUxcam.tagScreenName('Favorite Screen');
+
                         return onNavigationTap(isLiked, 1);
                       },
                       circleColor: CircleColor(
@@ -231,7 +229,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     icon: LikeButton(
                       size: 24.0,
                       onTap: (bool isLiked) {
-                        FlutterUxcam.tagScreenName('Track Order Screen');
+
                        return onNavigationTap(isLiked, 2);
                       },
                       circleColor: CircleColor(
@@ -250,7 +248,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
                     ),
                     activeIcon: LikeButton(
                       onTap: (bool isLiked) async {
-                        FlutterUxcam.tagScreenName('Track Order Screen');
+
                          return onNavigationTap(isLiked, 2);
                       },
                       circleColor: CircleColor(

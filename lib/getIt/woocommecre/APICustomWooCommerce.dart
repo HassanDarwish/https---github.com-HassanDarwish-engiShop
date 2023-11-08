@@ -11,10 +11,9 @@ import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-
-import '../../pojo/customer/customers.dart';
-import '../../pojo/tracking/TrackingOrder.dart';
-import '../config/APIConfig.dart';
+import 'package:GiorgiaShop/pojo/customer/customers.dart';
+import 'package:GiorgiaShop/pojo/tracking/TrackingOrder.dart';
+import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 
 GetIt getIt = GetIt.instance;
 
