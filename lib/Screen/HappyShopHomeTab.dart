@@ -15,11 +15,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-
-import '../pojo/products.dart';
-import '../provider/woocommerceProvider.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
+import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'HappyShopStaggeredList.dart';
-
 List sectList = [
   {
     'section': "Offers on men's Fashion",
@@ -492,6 +490,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                               ),
                             ),
                             onTap: () async {
+
                               await Navigator.of(context)
                                   .pushNamed(HappyShopCatogeryAll.routeName);
                               /* await Navigator.push(
@@ -563,6 +562,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       ),
                                     ),
                                     onTap: () {
+
                                       Navigator.push(
                                         context,
                                         PageRouteBuilder(
@@ -902,6 +902,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
               InkWell(
                 splashColor: primary.withOpacity(0.2),
                 onTap: () {
+
                   Navigator.push(
                     context,
                     PageRouteBuilder(
@@ -1252,6 +1253,7 @@ class _ItemCardState extends State<ItemCard> {
             ],
           ),
           onTap: () {
+
             Navigator.of(context).push(
               PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 1000),

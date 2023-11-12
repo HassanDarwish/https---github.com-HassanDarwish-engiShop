@@ -37,10 +37,8 @@ loadRepository()async{
 }
 
 void main() async {
+
   loadRepository();
-
-
-
   runApp(
 
       MultiProvider(
@@ -95,8 +93,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Confirm that you have user permission for screen recording
 
-    return  MaterialApp(
+
+    return    MaterialApp(
         home: HappyShopSplash()      ,
       title: App_title,
       theme: ThemeData(
@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
         HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
 
       },
-    );
+    ) ;
 
 
   }
@@ -149,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
         consumerKey: "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56",
         consumerSecret: "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf");
     Future<List<WooProductCategory>> x = woocommerce.getProductCategories();
-    Future<List<WooProductCategory>> u = x;
+
     return x;
   }
 

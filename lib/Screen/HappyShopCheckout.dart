@@ -951,20 +951,25 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
               ),
             ),
             onTap: () async {
+              await updateAddress(context,widget.CustWoocommerceProvider);
+              if(widget.isExist==true)
+              setState(() {});
 
             },
           ),
-          InkWell(
-            onTap: () {},
-            child: const Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Icon(
-                Icons.delete,
-                color: Colors.black54,
-                size: 17,
-              ),
-            ),
-          )
+          // InkWell(
+          //   onTap: () {
+          //
+          //   },
+          //   child: const Padding(
+          //     padding: EdgeInsets.all(5.0),
+          //     child: Icon(
+          //       Icons.delete,
+          //       color: Colors.black54,
+          //       size: 17,
+          //     ),
+          //   ),
+          // )
         ],
       ),
       isThreeLine: true,

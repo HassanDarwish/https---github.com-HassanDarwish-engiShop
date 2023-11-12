@@ -2,14 +2,10 @@ import 'dart:math';
 
 import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:flutter_wp_woocommerce/models/customer.dart';
-
-
 import 'package:get_it/get_it.dart';
-
-import 'package:flutter_wp_woocommerce/models/order.dart' as order;
 import 'package:flutter_wp_woocommerce/models/order_payload.dart';
-import '../../pojo/products.dart';
-import '../config/APIConfig.dart';
+import 'package:GiorgiaShop/pojo/products.dart';
+import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 
 GetIt getIt = GetIt.instance;
 

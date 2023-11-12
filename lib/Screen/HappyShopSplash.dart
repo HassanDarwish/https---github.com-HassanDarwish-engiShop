@@ -6,8 +6,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../getIt/config/APIConfig.dart';
-import '../getIt/woocommecre/API_Woocommerce.dart';
+import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+import 'package:GiorgiaShop/getIt/woocommecre/API_Woocommerce.dart';
 import 'HappyShopHome.dart';
 
 GetIt getIt = GetIt.instance;
