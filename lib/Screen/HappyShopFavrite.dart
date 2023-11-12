@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:GiorgiaShop/pojo/favorit/Favorit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -92,12 +93,81 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
     });
     //notifyListeners();
   }
+  cartEmpty() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          noCartImage(context),
+          noCartText(context),
+          noCartDec(context),
+          shopNow()
+        ]),
+      ),
+    );
+  }
+  noCartText(BuildContext context) {
+    return Container(
+        child: Text(NO_FavoritList,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(color: primary, fontWeight: FontWeight.normal)));
+  }
+  noCartDec(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+      child: Text(Favorit_DESC,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: lightblack,
+            fontWeight: FontWeight.normal,
+          )),
+    );
+  }
+
+  shopNow() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 28.0),
+      child: CupertinoButton(
+        child: Container(
+            width: deviceWidth * 0.7,
+            height: 45,
+            alignment: FractionalOffset.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [primaryLight2, primaryLight3],
+                  stops: [0, 1]),
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            ),
+            child: Text(SHOP_NOW,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(color: white, fontWeight: FontWeight.normal))),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>   HappyShopHome()),
+              ModalRoute.withName('/'));
+        },
+      ),
+    );
+  }
+
+  noCartImage(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: 'http://jerma.net/Engi/icons/empty_cart.png',
+      fit: BoxFit.contain,
+    );
+  }
+
   _showContent() {
     return favList.isEmpty
-        ? Padding(
-            padding: const EdgeInsets.only(top: kToolbarHeight),
-            child: Center(child: Text(msg,style: TextStyle(fontSize: 18))),
-          )
+        ? cartEmpty()
         : GridView.builder(
             itemCount: favList.length,
             shrinkWrap: true,

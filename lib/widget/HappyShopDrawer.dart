@@ -6,14 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/scheduler/binding.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:in_app_update/in_app_update.dart';
-
 import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
 import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
-import 'package:provider/provider.dart';
-import '../Screen/HappyShopCheckout.dart';
+import 'package:GiorgiaShop/Screen/HappyShopCheckout.dart';
 import 'package:GiorgiaShop/Screen/HappyShopFavrite.dart';
-import '../provider/Session.dart';
-import '../provider/woocommerceProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:GiorgiaShop/provider/Session.dart';
+import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 
 class HappyShopDrawer extends StatefulWidget {
     HappyShopDrawer({

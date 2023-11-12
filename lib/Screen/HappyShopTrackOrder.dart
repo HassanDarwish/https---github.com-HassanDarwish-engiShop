@@ -8,7 +8,7 @@ import 'package:GiorgiaShop/pojo/tracking/TrackingOrder.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:GiorgiaShop/Helper/cartEnums.dart';
-
+import "package:google_sign_in/google_sign_in.dart" ;
 import '../Helper/SmartKitColor.dart';
 import 'HappyShopHome.dart';
 class HappyShopTreackOrder extends StatefulWidget {
@@ -16,6 +16,7 @@ class HappyShopTreackOrder extends StatefulWidget {
     HappyShopTreackOrder({Key? key, this.appbar}) : super(key: key);
   late WoocommerceProvider CustWoocommerceProvider;
   late SessionImplementation sessionImp;
+  bool isLoggedIn=false,haveAddress=false,register=false,isExist=false;
   @override
   _HappyShopTreackOrderState createState() => _HappyShopTreackOrderState();
 }
@@ -32,6 +33,11 @@ class _HappyShopTreackOrderState extends State<HappyShopTreackOrder>
 ScrollController controller = ScrollController();
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
+
+  late    SessionImplementation sessionImp ;
+  late WoocommerceProvider CustWoocommerceProvider;
+
+
 
   @override
   initState()   {
@@ -153,24 +159,14 @@ loadTrackingOrders() async {
           child: SingleChildScrollView(
             child: widget.sessionImp.status!=sessionEnums.login
             ? SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(3.0),
-                height: 1500,
-                child: Column(
-                  children:[ Padding(
-                    padding: const EdgeInsets.only(top: kToolbarHeight),
-                    child: Center(child: Text(goToLogin,style: TextStyle(fontSize: 18),)),
-                  )],
-                ),
-              ),
+              child: cartEmpty(),
             )
             :  FutureBuilder(
            future: context
           .read<WoocommerceProvider>()
           .getOrderByUserId(widget.sessionImp.userID),
           builder:
-    (BuildContext context, AsyncSnapshot snapshot) {
+          (BuildContext context, AsyncSnapshot snapshot) {
       if (snapshot.hasData) {
           // Create a list of products
           List<TrackingOrder> orderList = snapshot.data;
@@ -333,6 +329,7 @@ loadTrackingOrders() async {
                     .titleLarge
                     ?.copyWith(color: white, fontWeight: FontWeight.normal))),
         onPressed: () {
+
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
@@ -341,6 +338,36 @@ loadTrackingOrders() async {
         },
       ),
     );
+  }
+  Future login(context) async {
+    final user = await GoogleSignin.login();
+
+    if (user == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("SignIn Falied")));
+    } else {
+      widget.isExist=await widget.sessionImp.initSession(user,  widget.CustWoocommerceProvider);
+      if(widget.isExist==false) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
+        logOut();
+        widget.register=true;
+      }else{
+        if(widget.sessionImp.addressList.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
+          widget.haveAddress=false;
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(duration: const Duration(seconds: 5),content: Text("welcome Back .....")));
+          widget.isExist=true;
+          widget.haveAddress=true;
+          widget.isLoggedIn=true;
+          widget.sessionImp.status=sessionEnums.login;
+          setState(() {});
+        }
+      }
+    }
+    Navigator.pop(context);
   }
   getDelivered(String dDate, String cDate) {
     return cDate == null
@@ -668,6 +695,19 @@ loadTrackingOrders() async {
 
     );
   }
+
+  Future logOut() async {
+    widget.sessionImp.clear();
+    // if(widget.isLoggedIn)
+    await GoogleSignin.disconnect();
+    widget.sessionImp.addressList.clear();
+    widget.isExist=false;
+    widget.haveAddress=false;
+
+    setState(() {
+
+    });
+  }
   // productItem(int index, orderItem) {
   //
   //
@@ -691,4 +731,14 @@ loadTrackingOrders() async {
   //     ],
   //   );
   // }
+}
+class GoogleSignin {
+  static final _googleSingin = GoogleSignIn();
+  static Future<GoogleSignInAccount?> login() => _googleSingin.signIn();
+  static Future<GoogleSignInAccount?> logout() => _googleSingin.disconnect();
+  static Future<GoogleSignInAccount?> disconnect() {
+    _googleSingin.disconnect();
+    return _googleSingin.signOut();
+  }
+
 }

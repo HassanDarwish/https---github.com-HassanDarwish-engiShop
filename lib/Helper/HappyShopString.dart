@@ -318,9 +318,12 @@ const String RETURN_ORDER = 'Return Order';
 const String ORDER_CNCLE_SUCC = 'Order Cancled Successfully..!!';
 
 const String NO_CART = 'Your Cart Is Empty';
+const String NO_FavoritList = 'Your Favorit List Is Empty';
 const String NO_LOGIN = 'Please Login In';
 const String CART_DESC =
     "Looking like you haven't added anything to your cart yet";
+const String Favorit_DESC =
+    "Looking like you haven't added anything to your Favorit List yet";
 const String Login_DESC =
     "Please Open Drawer To login";
 const String NO_INTERNET = "No Internet";
