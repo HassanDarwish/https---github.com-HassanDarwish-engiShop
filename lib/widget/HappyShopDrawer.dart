@@ -15,10 +15,11 @@ import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 
 class HappyShopDrawer extends StatefulWidget {
-    HappyShopDrawer({
+    HappyShopDrawer(  {required this.scaffoldKey,
     Key? key,
   }) : super(key: key);
   late    SessionImplementation sessionImp ;
+  final GlobalKey<ScaffoldState> scaffoldKey;
   late WoocommerceProvider CustWoocommerceProvider;
    bool isLoggedIn=false,haveAddress=false,register=false,isExist=false;
   @override
@@ -213,8 +214,8 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>  HappyShopFavrite(
-                      appbar: true,
+                    builder: (context) =>  HappyShopFavrite(scaffoldKey:widget.scaffoldKey,
+                      appbar: false,
                      ),
                   ),
                 );
@@ -344,6 +345,10 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
         }
       }
     }
+
+    setState(() {
+
+    });
     Navigator.pop(context);
   }
 
@@ -420,7 +425,7 @@ class HappyShopDrawerListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         leading: img == true
-            ? SvgPicture.network(
+            ? Image.network(
                 imgurl!,
                 width: 28.0,
                 color: happyshopcolor2,
@@ -463,8 +468,8 @@ class HappyShopDrawerHeader extends StatelessWidget {
             // margin: EdgeInsets.all(35),
             child: Row(
               children: [
-                SvgPicture.network(
-                  'http://jerma.net/Engi/images/happyshopwhitelogopng',
+                Image.network(
+                  'http://jerma.net/Engi/images/happyshopwhitelogo.png',
                   width: 60.0,
                 ),
                 SizedBox(

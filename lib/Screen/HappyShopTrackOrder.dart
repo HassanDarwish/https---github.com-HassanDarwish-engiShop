@@ -9,11 +9,11 @@ import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import "package:google_sign_in/google_sign_in.dart" ;
-import '../Helper/SmartKitColor.dart';
-import 'HappyShopHome.dart';
+
 class HappyShopTreackOrder extends StatefulWidget {
   final bool? appbar;
-    HappyShopTreackOrder({Key? key, this.appbar}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey ;
+  HappyShopTreackOrder({Key? key, this.appbar, required this.scaffoldKey}) : super(key: key);
   late WoocommerceProvider CustWoocommerceProvider;
   late SessionImplementation sessionImp;
   bool isLoggedIn=false,haveAddress=false,register=false,isExist=false;
@@ -269,13 +269,18 @@ loadTrackingOrders() async {
   }
   cartEmpty() {
     return Center(
+
       child: SingleChildScrollView(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          noCartImage(context),
-          noCartText(context),
-          noCartDec(context),
-          shopNow()
-        ]),
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.9,
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+            noCartImage(context),
+            noCartText(context),
+            noCartDec(context),
+            shopNow()
+          ]),
+        ),
       ),
     );
   }
@@ -329,46 +334,18 @@ loadTrackingOrders() async {
                     .titleLarge
                     ?.copyWith(color: white, fontWeight: FontWeight.normal))),
         onPressed: () {
+          widget.scaffoldKey.currentState?.openDrawer();
 
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>   HappyShopHome()),
-              ModalRoute.withName('/'));
+          // Navigator.pushAndRemoveUntil(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (BuildContext context) =>   HappyShopHome()),
+          //     ModalRoute.withName('/'));
         },
       ),
     );
   }
-  Future login(context) async {
-    final user = await GoogleSignin.login();
 
-    if (user == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("SignIn Falied")));
-    } else {
-      widget.isExist=await widget.sessionImp.initSession(user,  widget.CustWoocommerceProvider);
-      if(widget.isExist==false) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
-        logOut();
-        widget.register=true;
-      }else{
-        if(widget.sessionImp.addressList.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
-          widget.haveAddress=false;
-        }else{
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(duration: const Duration(seconds: 5),content: Text("welcome Back .....")));
-          widget.isExist=true;
-          widget.haveAddress=true;
-          widget.isLoggedIn=true;
-          widget.sessionImp.status=sessionEnums.login;
-          setState(() {});
-        }
-      }
-    }
-    Navigator.pop(context);
-  }
   getDelivered(String dDate, String cDate) {
     return cDate == null
         ? Flexible(

@@ -132,7 +132,8 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
           WooProductCategorydata?[index];
         return catItem(category!, context);
         }
-        );} else if (snapshot.hasError) {
+        );
+        } else if (snapshot.hasError) {
           return Text("Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
         } else {
         // Show a circular progress indicator while loading products

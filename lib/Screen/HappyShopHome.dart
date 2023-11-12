@@ -37,14 +37,13 @@ class _HappyShopHomeState extends State<HappyShopHome> {
     happyShopBottomeTab = [
         HappyShopHpmeTab(AppBarr:AppBar,privatescaffoldKey:privatescaffoldKey),
         HappyShopFavrite(
-        appbar: false,
+        appbar: false,scaffoldKey: scaffoldKey
       ),
       // const HappyShopNotification(
       //   appbar: false,
       // ),
         HappyShopTreackOrder(
-        appbar: false,
-      )
+        appbar: false,scaffoldKey: scaffoldKey)
     ];
   }
 
@@ -70,7 +69,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
               preferredSize: const Size.fromHeight(56),
               child: AppBar,
             ),
-            drawer:   HappyShopDrawer(),
+            drawer:   HappyShopDrawer(scaffoldKey:scaffoldKey),
             backgroundColor: Colors.white10,
             extendBodyBehindAppBar: true,
             bottomNavigationBar: getBottomBar(),

@@ -18,7 +18,8 @@ import 'package:provider/provider.dart';
 
 class HappyShopFavrite extends StatefulWidget  {
   final bool? appbar;
-    HappyShopFavrite({Key? key, this.appbar}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey ;
+    HappyShopFavrite({Key? key, this.appbar, required this.scaffoldKey}) : super(key: key);
   late    SessionImplementation sessionImp ;
   late WoocommerceProvider CustWoocommerceProvider;
   @override
@@ -96,12 +97,16 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
   cartEmpty() {
     return Center(
       child: SingleChildScrollView(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          noCartImage(context),
-          noCartText(context),
-          noCartDec(context),
-          shopNow()
-        ]),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 1.1,
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            noCartImage(context),
+            noCartText(context),
+            noCartDec(context),
+            shopNow()
+          ]),
+        ),
       ),
     );
   }
@@ -141,18 +146,20 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                   stops: [0, 1]),
               borderRadius: BorderRadius.all(Radius.circular(50.0)),
             ),
-            child: Text(SHOP_NOW,
+            child: Text(Login_DESC,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge
                     ?.copyWith(color: white, fontWeight: FontWeight.normal))),
         onPressed: () {
-          Navigator.pushAndRemoveUntil(
+
+          widget.scaffoldKey.currentState?.openDrawer();
+          /*Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>   HappyShopHome()),
-              ModalRoute.withName('/'));
+              ModalRoute.withName('/'));*/
         },
       ),
     );
@@ -167,37 +174,39 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
   _showContent() {
     return favList.isEmpty
-        ? cartEmpty()
-        : GridView.builder(
-            itemCount: favList.length,
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.7,
-            ),
-            itemBuilder: (context, index) {
+        ? SingleChildScrollView(
+            child: cartEmpty(),
+            )
 
-              return GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  child: StaggerdCard(
-                      imgurl: favList[index].image_url,
-                      itemname: favList[index].post_title,
-                      descprice: Bidi.stripHtmlIfNeeded(
-                          favList[index].post_content),
-                      shortDescprice: Bidi.stripHtmlIfNeeded(
-                          favList[index].post_excerpt),
-                      price: favList[index].price,
-                      itemid: favList[index].id.toString(),
-                      attributess: favList[index].attributes,
-                      shrim: false,
-                      onSubmit: onSubmit,
-                  ),
-                ),
-              );
-            },
-          );
+        :  GridView.builder(
+    itemCount: favList.length-1,
+    padding: const EdgeInsets.only(top: 5),
+    shrinkWrap: true,
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    childAspectRatio: 0.8,
+
+    ),
+    physics: const BouncingScrollPhysics(),
+    itemBuilder: (context, index) {
+
+    return StaggerdCard(
+    imgurl: favList[index].image_url,
+    itemname: favList[index].post_title,
+    descprice: Bidi.stripHtmlIfNeeded(
+    favList[index].post_content),
+    shortDescprice: Bidi.stripHtmlIfNeeded(
+    favList[index].post_excerpt),
+    price: favList[index].price,
+    itemid: favList[index].id.toString(),
+    attributess: favList[index].attributes,
+    shrim: false,
+    onSubmit: onSubmit,
+    );
+    }
+    );
+
+    ;
 
 
 
@@ -385,7 +394,18 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+    GlobalKey<RefreshIndicatorState>();
+    if(widget.sessionImp.favoritList.isNotEmpty)
+      favList=widget.sessionImp.favoritList;
+    Future<void> _refresh() async {
+      // Replace this delay with the code to be executed during refresh.
+      // and return a Future when code finishes execution.
+      await Future<void>.delayed(const Duration(milliseconds: 1500));
 
+      // Reload the data.
+      setState(() {});
+    }
     return WillPopScope(
       onWillPop: () async {
         bool? result = await Navigator.pushReplacement(
@@ -410,10 +430,16 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                 ),
               )
             : PreferredSize(preferredSize: const Size.fromHeight(0), child: AppBar()),
-        body: Stack(
-          children: <Widget>[
-            _showContent(),
-          ],
+        body: RefreshIndicator(
+          key: _refreshIndicatorKey,
+          onRefresh: _refresh,
+          child: SingleChildScrollView(
+            child: Stack(
+              children: <Widget>[
+                _showContent(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -526,67 +552,59 @@ class _StaggerdCardState extends State<StaggerdCard> {
                   width: 10,
                 ),
                 Expanded(
-                  child: Container(
-                    decoration:BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        ClipRRect(
-                            borderRadius: widget.itemname != null
-                                ? const BorderRadius.only(
-                                topLeft: Radius.circular(5),
-                                topRight: Radius.circular(5))
-                                : BorderRadius.circular(5.0),
-                            child: widget.shrim == true
-                                ? Hero(
-                              tag: Random().nextInt(1000).toString(),
-                              child: Shimmer(
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.imgurl!,
-                                  fit: BoxFit.contain,
-                                  width: double.infinity,
-                                ),
-                              ),
-                            )
-                                : Hero(
-                              tag: Random().nextInt(1000).toString(),
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      ClipRRect(
+                          borderRadius: widget.itemname != null
+                              ? const BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5))
+                              : BorderRadius.circular(5.0),
+                          child: widget.shrim == true
+                              ? Hero(
+                            tag: Random().nextInt(1000).toString(),
+                            child: Shimmer(
                               child: CachedNetworkImage(
                                 imageUrl: widget.imgurl!,
                                 fit: BoxFit.contain,
                                 width: double.infinity,
                               ),
-                            )),
-                        /* we did removre rating and ad id
-                        widget.rating != null
-                            ? Card(
-                                child: Padding(
-                                padding: const EdgeInsets.all(1.5),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                      size: 10,
-                                    ),
-                                    Text(
-                                      widget.rating!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(letterSpacing: 0.2),
-                                    ),
-                                  ],
-                                ),
-                              ))
-                            : Container(),*/
-                      ],
-                    ),
+                            ),
+                          )
+                              : Hero(
+                            tag: Random().nextInt(1000).toString(),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.imgurl!,
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                            ),
+                          )),
+                      /* we did removre rating and ad id
+                      widget.rating != null
+                          ? Card(
+                              child: Padding(
+                              padding: const EdgeInsets.all(1.5),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 10,
+                                  ),
+                                  Text(
+                                    widget.rating!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(letterSpacing: 0.2),
+                                  ),
+                                ],
+                              ),
+                            ))
+                          : Container(),*/
+                    ],
                   ),
                 ),
                 widget.itemname != null
