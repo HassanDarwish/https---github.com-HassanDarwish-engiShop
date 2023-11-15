@@ -99,9 +99,7 @@ class SessionImplementation extends ChangeNotifier {
     favoritList.clear();
     notifyListeners();
   }
-  noti(){
-    notifyListeners();
-  }
+
 
   Future<bool> reloadAddress(WoocommerceProvider custWoocommerceProvider,
       displayName, email) async {
@@ -204,7 +202,6 @@ class SessionImplementation extends ChangeNotifier {
       return false;
     } else {
       _userID = cuserUstomer!.id.toString();
-        _userFavoritList=await custWoocommerceProvider.api_CustomWoocommerce.ListFavorit(_userID);
 
 
       addressList = [
@@ -218,7 +215,7 @@ class SessionImplementation extends ChangeNotifier {
         }
       ];
       loadFavoritList(custWoocommerceProvider,_userID);
-
+      custWoocommerceProvider.getOrderByUserId(_userID);
       return true;
     }
     notifyListeners();

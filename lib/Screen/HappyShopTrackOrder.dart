@@ -161,20 +161,10 @@ loadTrackingOrders() async {
             ? SingleChildScrollView(
               child: cartEmpty(),
             )
-            :  FutureBuilder(
-           future: context
-          .read<WoocommerceProvider>()
-          .getOrderByUserId(widget.sessionImp.userID),
-          builder:
-          (BuildContext context, AsyncSnapshot snapshot) {
-      if (snapshot.hasData) {
-          // Create a list of products
-          List<TrackingOrder> orderList = snapshot.data;
-
-          return ListView.builder(
+            :  ListView.builder(
             shrinkWrap: true,
             controller: controller,
-            itemCount: snapshot.data.length - 1,
+            itemCount:Provider.of<WoocommerceProvider>(context).WooOrders.length- 1,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return Card(
@@ -190,12 +180,12 @@ loadTrackingOrders() async {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("$ORDER_ID_LBL : " +
-                                    orderList[index].id.toString()),
+                                    Provider.of<WoocommerceProvider>(context).WooOrders[index].id.toString()),
                                 Text("$ORDER_DATE : " +
-                                    orderList[index].orderDate),
+                                    Provider.of<WoocommerceProvider>(context).WooOrders[index].orderDate),
                                 Text("$TOTAL_PRICE:$ECUR_CURRENCY " +
-                                    orderList[index].total),
-                                Text(orderList[index].listStatus,
+                                    Provider.of<WoocommerceProvider>(context).WooOrders[index].total),
+                                Text(Provider.of<WoocommerceProvider>(context).WooOrders[index].listStatus,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.red[700])),
@@ -223,10 +213,10 @@ loadTrackingOrders() async {
                           crossAxisCount: 2,
                         ),
                         shrinkWrap: true,
-                        itemCount: orderList[index].itemList.length,
+                        itemCount: Provider.of<WoocommerceProvider>(context).WooOrders[index].itemList.length,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, i) {
-                          return productItem(i, orderList[index].itemList);
+                          return productItem(i, Provider.of<WoocommerceProvider>(context).WooOrders[index].itemList);
                         },
                       ),
                       //const Divider(),
@@ -249,19 +239,10 @@ loadTrackingOrders() async {
                 ),
               );
             },
-          );
-      } else if (snapshot.hasError) {
-          return Text(
-              "Server Can not be reached  please check connection or Login Please"); //Text(snapshot.error.toString());
-      } else {
-          // Show a circular progress indicator while loading products
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-      }
+          ),
 
-    }
-    ),
+
+
         )),
       ),
     ) ;

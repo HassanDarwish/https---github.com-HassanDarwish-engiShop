@@ -231,9 +231,9 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
               return HappyShopDrawerListTile(
               title: "LOGIN",
               icon: Icons.login,
-              route: () {
+              route: () async {
                 login(context,sessionImp);
-                /*
+                 /*
                 Navigator.of(context).pop();
                 Navigator.push(
                   context,
@@ -348,12 +348,14 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
       }
     }
 
+
     setState(() {
 
     });
 
     Navigator.pop(context);
   }
+
 
   Future logOut() async {
     widget.sessionImp.clear();

@@ -47,7 +47,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Push the replacement route after the widget tree is complete.
-      startTime(3000);
+      startTime(1000);
     });
     return WillPopScope(
       onWillPop: () async {

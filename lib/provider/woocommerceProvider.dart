@@ -13,15 +13,18 @@ import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
 class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   final API_Woocommerce api_Woocommerce;
   final APICustomWooCommerce api_CustomWoocommerce;
+  late List<TrackingOrder> _WooOrders=List<TrackingOrder>.empty();
+
+  List<TrackingOrder> get WooOrders => _WooOrders;
+
   WoocommerceProvider(
       {required this.api_Woocommerce, required this.api_CustomWoocommerce});
 
    Future<List<TrackingOrder>> getOrderByUserId(String userId)async
   {
-    List<TrackingOrder>WooOrders=  await api_CustomWoocommerce.getOrderByUserId(userId);
-
-
-    return WooOrders;
+    _WooOrders=  await api_CustomWoocommerce.getOrderByUserId(userId);
+    notifyListeners();
+     return _WooOrders;
   }
 
 

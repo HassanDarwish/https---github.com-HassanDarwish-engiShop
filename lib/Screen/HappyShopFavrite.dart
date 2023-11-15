@@ -50,15 +50,12 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
   @override
   void initState() {
     super.initState();
-
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
     offset = 0;
     total = 0;
-
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
-
     buttonSqueezeanimation = Tween(
       begin: deviceWidth * 0.7,
       end: 50.0,
@@ -74,22 +71,14 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
   @override
   void dispose() {
      buttonController.dispose();
-
     super.dispose();
-
-
   }
   List<Favorit> loadProducts(){
-
     return  widget.sessionImp.favoritList; ;
-
   }
-
-
   void onSubmit(String itemid) {
     widget.sessionImp.favoritList.removeWhere((element) => element.id==itemid);
     setState(() {
-
     });
     //notifyListeners();
   }
