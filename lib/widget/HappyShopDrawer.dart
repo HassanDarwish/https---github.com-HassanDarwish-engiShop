@@ -233,7 +233,8 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
               icon: Icons.login,
               route: () async {
                 login(context,sessionImp);
-                 /*
+                await widget.CustWoocommerceProvider.getOrderByUserId(widget.sessionImp.userID);
+                /*
                 Navigator.of(context).pop();
                 Navigator.push(
                   context,
