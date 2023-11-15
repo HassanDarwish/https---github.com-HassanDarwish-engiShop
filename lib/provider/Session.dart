@@ -216,9 +216,10 @@ class SessionImplementation extends ChangeNotifier {
       ];
       loadFavoritList(custWoocommerceProvider,_userID);
       custWoocommerceProvider.getOrderByUserId(_userID);
+      notifyListeners();
       return true;
     }
-    notifyListeners();
+
     // email = "";
     // id = "";
     // displayName = "";
