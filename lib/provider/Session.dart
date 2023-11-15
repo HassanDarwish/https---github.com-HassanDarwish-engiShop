@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
 import '../pojo/favorit/Favorit.dart';
 import 'Cart.dart';
@@ -17,6 +16,7 @@ class SessionImplementation extends ChangeNotifier {
   late CartImplementation _cart;
   late Map<String, dynamic> _attribute;
   late List<Favorit> _userFavoritList=List.empty(growable: true);
+  late GlobalKey<ScaffoldState> FavoriteScaffold;
 
   Map<String, dynamic> get attribute => _attribute;
   late List _addressList = [
@@ -30,8 +30,9 @@ class SessionImplementation extends ChangeNotifier {
   String _id = "";
   String _displayName = "";
   sessionEnums _status = sessionEnums.empty;
-    List<Favorit>   favoritList=List.empty(growable: true);
+    List<Favorit>   _favoritList=List.empty(growable: true);
 
+  List<Favorit> get favoritList => _favoritList;
   sessionEnums get status => _status;
 
   set status(sessionEnums value) {
@@ -96,6 +97,9 @@ class SessionImplementation extends ChangeNotifier {
     displayName = "";
     status = sessionEnums.logout;
     favoritList.clear();
+    notifyListeners();
+  }
+  noti(){
     notifyListeners();
   }
 
@@ -214,17 +218,20 @@ class SessionImplementation extends ChangeNotifier {
         }
       ];
       loadFavoritList(custWoocommerceProvider,_userID);
+
       return true;
     }
+    notifyListeners();
     // email = "";
     // id = "";
     // displayName = "";
     // status = sessionEnums.logout;
-    notifyListeners();
+    //notifyListeners();
   }
 
   loadFavoritList(WoocommerceProvider custWoocommerceProvider,String _userID)async{
-    favoritList= await custWoocommerceProvider.api_CustomWoocommerce.ListFavorit(_userID);
+    _favoritList= await custWoocommerceProvider.api_CustomWoocommerce.ListFavorit(_userID);
+    notifyListeners();
   }
 
   Future<bool> updateAddress(String userID, String email,

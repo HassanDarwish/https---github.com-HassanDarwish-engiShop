@@ -29,11 +29,7 @@ class _HappyShopAppBarState extends State<HappyShopAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    void update(){
-      setState(() {
-        CUR_CART_COUNT;
-      });
-    }
+
     return AppBar(
       key: widget.privatescaffoldKey,
       leading: IconButton(

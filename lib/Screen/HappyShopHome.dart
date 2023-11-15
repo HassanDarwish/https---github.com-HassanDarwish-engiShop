@@ -10,7 +10,6 @@ import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 
-
 class HappyShopHome extends StatefulWidget {
     HappyShopHome({Key? key}) : super(key: key);
   static const routeName = '/HappyShopHome';

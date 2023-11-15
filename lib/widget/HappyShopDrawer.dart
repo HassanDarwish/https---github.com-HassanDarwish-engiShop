@@ -95,6 +95,8 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
   }
   @override
   Widget build(BuildContext context) {
+    widget.sessionImp = Provider.of<SessionImplementation>(context,listen: true);
+
     return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(0),
@@ -225,13 +227,12 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
           _getDivider(),
           Visibility(
             visible: widget.sessionImp.status != sessionEnums.login,
-            child: HappyShopDrawerListTile(
+            child: Consumer<SessionImplementation>(builder:(context ,sessionImp,child) {
+              return HappyShopDrawerListTile(
               title: "LOGIN",
               icon: Icons.login,
-
               route: () {
-                login(context);
-
+                login(context,sessionImp);
                 /*
                 Navigator.of(context).pop();
                 Navigator.push(
@@ -241,7 +242,8 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
                   ),
                 );*/
               },
-            ),
+            );
+  }),
           ),
           Visibility(
             visible: widget.sessionImp.status == sessionEnums.login,
@@ -317,20 +319,20 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     );
   }
 
-  Future login(context) async {
+  Future login(context, SessionImplementation sessionImp) async {
     final user = await GoogleSignin.login();
 
     if (user == null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("SignIn Falied")));
     } else {
-      widget.isExist=await widget.sessionImp.initSession(user,  widget.CustWoocommerceProvider);
+      widget.isExist=await sessionImp.initSession(user,  widget.CustWoocommerceProvider);
       if(widget.isExist==false) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
         logOut();
         widget.register=true;
       }else{
-        if(widget.sessionImp.addressList.isEmpty) {
+        if(sessionImp.addressList.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
           widget.haveAddress=false;
@@ -340,7 +342,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
           widget.isExist=true;
           widget.haveAddress=true;
           widget.isLoggedIn=true;
-          widget.sessionImp.status=sessionEnums.login;
+          sessionImp.status=sessionEnums.login;
           setState(() {});
         }
       }
@@ -349,6 +351,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     setState(() {
 
     });
+
     Navigator.pop(context);
   }
 
