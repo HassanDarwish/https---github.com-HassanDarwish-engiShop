@@ -159,7 +159,7 @@ loadTrackingOrders() async {
           child: SingleChildScrollView(
             child: widget.sessionImp.status!=sessionEnums.login
             ? SingleChildScrollView(
-              child: Text("Hassan ${Provider.of<WoocommerceProvider>(context).WooOrders.length}")//cartEmpty(),
+              child: cartEmpty()//Text("Hassan Ali ${Provider.of<WoocommerceProvider>(context).WooOrders.length}")//cartEmpty(),
             )
             :  ListView.builder(
             shrinkWrap: true,
@@ -274,11 +274,20 @@ loadTrackingOrders() async {
 
   noCartText(BuildContext context) {
     return Container(
-        child: Text(NO_LOGIN,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall
-                ?.copyWith(color: primary, fontWeight: FontWeight.normal)));
+        child: Column(
+          children: [
+            Text("${Provider.of<WoocommerceProvider>(context).WooOrders.length} ",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(color: white, fontWeight: FontWeight.normal)),
+            Text( NO_LOGIN,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(color: primary, fontWeight: FontWeight.normal)),
+          ],
+        ));
   }
 
   noCartDec(BuildContext context) {
