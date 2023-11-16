@@ -323,9 +323,13 @@ const String NO_LOGIN = 'Please Login In';
 const String CART_DESC =
     "Looking like you haven't added anything to your cart yet";
 const String Favorit_DESC =
-    "Looking like you haven't added anything to your Favorit List yet";
+    "Looking like you haven't added anything to your Favorite List yet";
+const String Favorit_DESCNotLogin =
+    "You did not login Yet Please login";
 const String Login_DESC =
     "Please Open Drawer To login";
+const String No_Orders =
+    "You Did not make any order Yet";
 const String NO_INTERNET = "No Internet";
 const String NO_INTERNET_DISC =
     "Please check your connection again, or connect to Wi-Fi";

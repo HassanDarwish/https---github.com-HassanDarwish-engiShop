@@ -13,6 +13,7 @@ import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:GiorgiaShop/pojo/products.dart';
 import 'HappyShopHome.dart';
+import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'HappyShopProductDetail.dart';
 import 'package:provider/provider.dart';
 
@@ -91,8 +92,12 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             noCartImage(context),
             noCartText(context),
-            noCartDec(context),
-            shopNow()
+            widget.sessionImp.status == sessionEnums.login
+            ?noCartDeclogin(context)
+            :noCartDec(context) ,
+            widget.sessionImp.status != sessionEnums.login
+            ? shopNow()
+            : Container()
           ]),
         ),
       ),
@@ -106,7 +111,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                 .headlineSmall
                 ?.copyWith(color: primary, fontWeight: FontWeight.normal)));
   }
-  noCartDec(BuildContext context) {
+  noCartDeclogin(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
       child: Text(Favorit_DESC,
@@ -117,7 +122,17 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
           )),
     );
   }
-
+  noCartDec(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+      child: Text(Favorit_DESCNotLogin,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: lightblack,
+            fontWeight: FontWeight.normal,
+          )),
+    );
+  }
   shopNow() {
     return Padding(
       padding: const EdgeInsets.only(top: 28.0),
@@ -152,14 +167,12 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
       ),
     );
   }
-
   noCartImage(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: 'http://jerma.net/Engi/icons/empty_cart.png',
       fit: BoxFit.contain,
     );
   }
-
   _showContent() {
     return  Consumer<SessionImplementation>(builder:(context ,sessionImp,child) {
              return sessionImp.favoritList.isEmpty
@@ -192,13 +205,7 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
                         }
                     );
                 },);
-
-
-
-
-
   }
-
   Widget listItem(int index) {
     double star_rate=double.parse(Random().nextDouble().toStringAsFixed(1));
     if(star_rate<5)

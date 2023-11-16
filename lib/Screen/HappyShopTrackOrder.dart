@@ -258,8 +258,12 @@ loadTrackingOrders() async {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
             noCartImage(context),
             noCartText(context),
-            noCartDec(context),
-            shopNow()
+            widget.sessionImp.status != sessionEnums.login
+            ? noCartDecNotLogin(context)
+            : noCartDec(context) ,
+            widget.sessionImp.status != sessionEnums.login
+            ? shopNow()
+            : Container()
           ]),
         ),
       ),
@@ -267,7 +271,7 @@ loadTrackingOrders() async {
   }
   noCartImage(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: 'http://jerma.net/Engi/icons/login-icon-305.png',
+      imageUrl: 'http://jerma.net/Engi/icons/order_list.png',
       fit: BoxFit.contain,
     );
   }
@@ -281,16 +285,22 @@ loadTrackingOrders() async {
                     .textTheme
                     .headlineSmall
                     ?.copyWith(color: white, fontWeight: FontWeight.normal)),
-            Text( NO_LOGIN,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(color: primary, fontWeight: FontWeight.normal)),
-          ],
+            ],
         ));
   }
 
   noCartDec(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+      child: Text(No_Orders,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: lightblack,
+            fontWeight: FontWeight.normal,
+          )),
+    );
+  }
+  noCartDecNotLogin(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
       child: Text(Login_DESC,
