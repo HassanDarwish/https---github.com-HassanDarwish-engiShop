@@ -286,7 +286,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
           _getDivider(),
           HappyShopDrawerListTile(
             title: "Update",
-            icon: Icons.account_box_rounded,
+            icon: Icons.download ,
             route: () {
               checkForUpdate();
               /*s
