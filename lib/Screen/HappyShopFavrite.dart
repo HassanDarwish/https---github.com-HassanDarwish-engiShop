@@ -162,37 +162,35 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
 
   _showContent() {
     return  Consumer<SessionImplementation>(builder:(context ,sessionImp,child) {
-      if (sessionImp.favoritList.isEmpty) {
-        return SingleChildScrollView(
-          child: cartEmpty(),
-        );
-      }
-            return GridView.builder(
-              itemCount: sessionImp.favoritList.length ,
-              padding: const EdgeInsets.only(top: 5),
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.8,
-
-              ),
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return StaggerdCard(
-                  imgurl: sessionImp.favoritList[index].image_url,
-                  itemname: sessionImp.favoritList[index].post_title,
-                  descprice: Bidi.stripHtmlIfNeeded(
-                      sessionImp.favoritList[index].post_content),
-                  shortDescprice: Bidi.stripHtmlIfNeeded(
-                      sessionImp.favoritList[index].post_excerpt),
-                  price: sessionImp.favoritList[index].price,
-                  itemid: sessionImp.favoritList[index].id.toString(),
-                  attributess: sessionImp.favoritList[index].attributes,
-                  shrim: false,
-                  onSubmit: onSubmit,
-                );
-              }
-          );
+             return sessionImp.favoritList.isEmpty
+                  ? SingleChildScrollView(
+                    child: cartEmpty(),
+                  )
+                  : GridView.builder(
+                        itemCount: sessionImp.favoritList.length ,
+                        padding: const EdgeInsets.only(top: 5),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.8,
+                        ),
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return StaggerdCard(
+                            imgurl: sessionImp.favoritList[index].image_url,
+                            itemname: sessionImp.favoritList[index].post_title,
+                            descprice: Bidi.stripHtmlIfNeeded(
+                                sessionImp.favoritList[index].post_content),
+                            shortDescprice: Bidi.stripHtmlIfNeeded(
+                                sessionImp.favoritList[index].post_excerpt),
+                            price: sessionImp.favoritList[index].price,
+                            itemid: sessionImp.favoritList[index].id.toString(),
+                            attributess: sessionImp.favoritList[index].attributes,
+                            shrim: false,
+                            onSubmit: onSubmit,
+                          );
+                        }
+                    );
                 },);
 
 
