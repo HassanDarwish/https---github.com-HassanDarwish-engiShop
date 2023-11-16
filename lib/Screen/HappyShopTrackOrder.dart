@@ -161,89 +161,89 @@ loadTrackingOrders() async {
             ? SingleChildScrollView(
               child: cartEmpty()//Text("Hassan Ali ${Provider.of<WoocommerceProvider>(context).WooOrders.length}")//cartEmpty(),
             )
-            :  ListView.builder(
-            shrinkWrap: true,
-            controller: controller,
-            itemCount:Provider.of<WoocommerceProvider>(context).WooOrders.length- 1,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+            : Provider.of<WoocommerceProvider>(context).WooOrders.isEmpty
+                ? cartEmpty()
+                : ListView.builder(
+                shrinkWrap: true,
+                controller: controller,
+                itemCount:Provider.of<WoocommerceProvider>(context).WooOrders.length,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("$ORDER_ID_LBL : " +
-                                    Provider.of<WoocommerceProvider>(context).WooOrders[index].id.toString()),
-                                Text("$ORDER_DATE : " +
-                                    Provider.of<WoocommerceProvider>(context).WooOrders[index].orderDate),
-                                Text("$TOTAL_PRICE:$ECUR_CURRENCY " +
-                                    Provider.of<WoocommerceProvider>(context).WooOrders[index].total),
-                                Text(Provider.of<WoocommerceProvider>(context).WooOrders[index].listStatus,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.red[700])),
-                              ],
-                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("$ORDER_ID_LBL : " +
+                                        Provider.of<WoocommerceProvider>(context).WooOrders[index].id.toString()),
+                                    Text("$ORDER_DATE : " +
+                                        Provider.of<WoocommerceProvider>(context).WooOrders[index].orderDate),
+                                    Text("$TOTAL_PRICE:$ECUR_CURRENCY " +
+                                        Provider.of<WoocommerceProvider>(context).WooOrders[index].total),
+                                    Text(Provider.of<WoocommerceProvider>(context).WooOrders[index].listStatus,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.red[700])),
+                                  ],
+                                ),
+                              ),
+                              // IconButton(
+                              //     icon: const Icon(
+                              //       Icons.keyboard_arrow_right,
+                              //       color: primary,
+                              //     ),
+                              //     onPressed: () async {
+                              //       await Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) =>
+                              //                 const HappyShopOrderDetails()),
+                              //       );
+                              //     })
+                            ],
                           ),
-                          // IconButton(
-                          //     icon: const Icon(
-                          //       Icons.keyboard_arrow_right,
-                          //       color: primary,
-                          //     ),
-                          //     onPressed: () async {
-                          //       await Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //             builder: (context) =>
-                          //                 const HappyShopOrderDetails()),
-                          //       );
-                          //     })
+                          const Divider(),
+                          GridView.builder(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                            shrinkWrap: true,
+                            itemCount: Provider.of<WoocommerceProvider>(context).WooOrders[index].itemList.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return productItem(i, Provider.of<WoocommerceProvider>(context).WooOrders[index].itemList);
+                            },
+                          ),
+                          //const Divider(),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: Row(
+                          //     mainAxisSize: MainAxisSize.min,
+                          //     children: [
+                          //           //getPlaced("2-2-2020"),
+                          //         //getProcessed("3-2-2020", "4-2-2020"),
+                          //        // getShipped("4-2-2020", "4-2-2020"),
+                          //        // getDelivered("5-2-2021", "4-2-2020"),
+                          //       // getCanceled("5-2-2021"),
+                          //       // getReturned("6-2-2021", index),
+                          //     ],
+                          //   ),
+                          // )
                         ],
                       ),
-                      const Divider(),
-                      GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                        ),
-                        shrinkWrap: true,
-                        itemCount: Provider.of<WoocommerceProvider>(context).WooOrders[index].itemList.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, i) {
-                          return productItem(i, Provider.of<WoocommerceProvider>(context).WooOrders[index].itemList);
-                        },
-                      ),
-                      //const Divider(),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Row(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: [
-                      //           //getPlaced("2-2-2020"),
-                      //         //getProcessed("3-2-2020", "4-2-2020"),
-                      //        // getShipped("4-2-2020", "4-2-2020"),
-                      //        // getDelivered("5-2-2021", "4-2-2020"),
-                      //       // getCanceled("5-2-2021"),
-                      //       // getReturned("6-2-2021", index),
-                      //     ],
-                      //   ),
-                      // )
-                    ],
-                  ),
-                ),
-              );
+                    ),
+                  );
             },
           ),
-
-
-
-        )),
+        )
+        ),
       ),
     ) ;
 
