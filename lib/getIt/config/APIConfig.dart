@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:GiorgiaShop/Helper/SSLLoder.dart';
 import 'package:GiorgiaShop/pojo/config.dart';
 import 'package:http/io_client.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,7 @@ abstract class API_Config {
   late Config config;
 }
 
-class API_Config_Implementation extends API_Config {
+class API_Config_Implementation extends API_Config with SSLLoader {
 
 
   Future<bool> isInternet() async {
@@ -33,18 +34,10 @@ class API_Config_Implementation extends API_Config {
   Future<Config> getConfig() async {
     // TODO: implement getProductByCategory
     // Read the certificate content from the file
-    int maxRetries = 10;
+    int maxRetries = 20;
     int currentRetry = 0;
 
-    final certificateAsset = await rootBundle.load('assets/certificate.pem');
-    final certificateContent = utf8.decode(
-        certificateAsset.buffer.asUint8List());
-
-    // Convert certificate content to bytes
-    List<int> certificateBytes = utf8.encode(certificateContent);
-    // Create a SecurityContext and add the certificate to it
-    SecurityContext securityContext = SecurityContext.defaultContext;
-    securityContext.setTrustedCertificatesBytes(certificateBytes);
+    ConfigSSLLoader();
 
     while (currentRetry < maxRetries) {
       try {

@@ -1,5 +1,7 @@
-import 'dart:math';
 
+import 'dart:io';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +124,10 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
     }
     return _iconColor;
   }
+
   _showContent() {
+
+
      return Column(
       children: <Widget>[
         Expanded(
@@ -152,8 +157,15 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
                             child: Shimmer(
                               child: CachedNetworkImage(
                                 imageUrl: widget.imgurl!,
-                                // fit: BoxFit.fill,
-                              ),
+                                errorWidget: (context, url, error) {
+                                  // Retry after a short delay
+                                  Future.delayed(Duration(seconds: 5), () {
+                                    // Trigger a rebuild to reload the image
+                                    setState(() {});
+                                  });
+                                  return Icon(Icons.error);
+                                },
+                                ),
                             ),
                           ),
                         ),
