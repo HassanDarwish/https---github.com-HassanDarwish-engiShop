@@ -83,6 +83,7 @@ flutter:
   assets:
     - images/appstore.png
     - assets/certificate.pem
+    - assets/WooCertificate.pem
 
   #   - images/a_dot_ham.jpeg
 

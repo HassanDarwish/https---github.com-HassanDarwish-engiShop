@@ -16,6 +16,8 @@ import '../../pojo/customer/customers.dart';
 import '../../pojo/tracking/TrackingOrder.dart';
 import '../config/APIConfig.dart';
 
+import 'package:GiorgiaShop/Helper/SSLLoder.dart';
+
 GetIt getIt = GetIt.instance;
 
 abstract class APICustomWooCommerce {
@@ -36,7 +38,7 @@ abstract class APICustomWooCommerce {
 
 }
 
-class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
+class APICustomWooCommerce_Implementation extends APICustomWooCommerce  with SSLLoader{
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
   Future<List<TrackingOrder>> getOrderByUserId(String userId)async{
@@ -247,6 +249,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
   Future get_coupon(String code) async {
     coupons? coupon;
     try {
+
       // TODO: implement getProductByCategory
       var response = await http.get(
           Uri.parse(getOAuthURL("GET",
@@ -267,17 +270,31 @@ Future<List<Favorit>> ListFavorit(userId) async{
   Future<products> getProductByCategory(String catId) async {
     late products product_List;
     // TODO: implement getProductByCategory
+    int maxRetries = 20;
+    int currentRetry = 0;
 
-    var response = await http.get(
-        Uri.parse(getOAuthURL(
-            "GET",
-            'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
-                catId +
-                "&status=publish")),
-        headers: {"Content-Type": "Application/json"});
+    WooSSLLoader();
+    while (currentRetry < maxRetries) {
+      try {
+        var response = await http.get(
+            Uri.parse(getOAuthURL(
+                "GET",
+                'https://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                    catId +
+                    "&status=publish")),
+            headers: {"Content-Type": "Application/json"}).timeout(
+            Duration(seconds: 7));
 //List<dynamic> list = jsonDecode(jsonString);
-    product_List = products.fromJson(response.body);
-
+        if (response.statusCode == 200) {
+          product_List = products.fromJson(response.body);
+        break;
+        }
+      } catch (error) {
+        // Handle error
+        currentRetry++;
+      }
+    }
+    print("www");
     return product_List;
   }
 
