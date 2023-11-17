@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:GiorgiaShop/pojo/config.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
+import 'package:flutter/services.dart';
+ import 'package:http/http.dart' as http;
 abstract class API_Config {
   Future<Config> getConfig();
   Future<bool> isInternet();
@@ -28,12 +31,37 @@ class API_Config_Implementation extends API_Config {
   }
 
 
+
   Future<Config> getConfig() async {
     // TODO: implement getProductByCategory
-    var response = await http.get(Uri.parse('http://www.jerma.net/Engi/api/config.php'),
-        headers: {"Content-Type": "Application/json"});
-//List<dynamic> list = jsonDecode(jsonString);
-      config = Config.fromJson(jsonDecode(response.body));
+
+    // Read the certificate content from the file
+    final certificateAsset = await rootBundle.load('assets/certificate.pem');
+    final certificateContent = utf8.decode(certificateAsset.buffer.asUint8List());
+
+    // Convert certificate content to bytes
+    List<int> certificateBytes = utf8.encode(certificateContent);
+     // Create a SecurityContext and add the certificate to it
+    SecurityContext securityContext = SecurityContext.defaultContext;
+    securityContext.setTrustedCertificatesBytes(certificateBytes);
+
+
+
+
+    // Make the HTTP request with the custom security context
+    var response = await http.get(
+      Uri.parse('https://www.jerma.net/Engi/api/config.php'), // Use 'https' instead of 'http'
+      headers: {"Content-Type": "application/json"},
+    ).timeout(Duration(seconds: 10));
+
+    // Check the response status
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON and return the config
+      config= Config.fromJson(jsonDecode(response.body));
       return config;
+    } else {
+      // If the server returns an error response, throw an exception with the error message
+      throw Exception('Failed to load config: ${response.statusCode}');
+    }
   }
 }
