@@ -249,30 +249,32 @@ Future<List<Favorit>> ListFavorit(userId) async{
 
   Future get_coupon(String code) async {
     coupons? coupon;
-    try {
+    int maxRetries = 5;
+    int currentRetry = 0;
 
-      // TODO: implement getProductByCategory
-      var response = await http.get(
-          Uri.parse(getOAuthURL("GET",
-              'http://engy.jerma.net/wp-json/wc/v3/coupons?code=' + code)),
-          headers: {"Content-Type": "Application/json"});
+    while (currentRetry < maxRetries) {
+      try {
+        var request = await client.getUrl(
+          Uri.parse(getOAuthURL(
+              "GET",
+              'https://engy.jerma.net/wp-json/wc/v3/coupons?code=' + code)),
+        ).timeout(
+            Duration(seconds: 12));
+        request.headers.set('Content-Type', 'application/json');
+        //request.headers.set('Authorization', 'Bearer YourAccessToken');
+        HttpClientResponse response = await request.close();
+        // TODO: implement getProductByCategory
+        String responseBody = await response.transform(utf8.decoder).join();
 
-      List<dynamic> Json = jsonDecode(response.body);
-      !Json.isEmpty
-          ? coupon = coupons.fromJson(jsonDecode(response.body))
-          : coupon = null;
-    } catch (e) {
-      throw e;
+        List<dynamic> Json = jsonDecode(responseBody);
+        !Json.isEmpty
+            ? coupon = coupons.fromJson(jsonDecode(responseBody))
+            : coupon = null;
+      } catch (e) {
+        throw e;
+      }
     }
     return coupon;
-  }
-  Duration calculateTimeout(int currentRetry) {
-    // Calculate timeout based on retry attempt, e.g., exponential backoff
-    int baseTimeout = 5; // seconds
-    int maxTimeout = 60; // seconds
-
-    int calculatedTimeout = baseTimeout * (2 ^ currentRetry);
-    return Duration(seconds: calculatedTimeout.clamp(0, maxTimeout));
   }
   @override
   Future<products> getProductByCategory(String catId) async {
@@ -283,8 +285,6 @@ Future<List<Favorit>> ListFavorit(userId) async{
 
     while (currentRetry < maxRetries) {
       try {
-
-
         var request = await client.getUrl(
             Uri.parse(getOAuthURL(
                 "GET",
@@ -317,19 +317,37 @@ Future<List<Favorit>> ListFavorit(userId) async{
     // TODO: implement getProductByCategory
     late products product_List;
 
-    var response = await http.get(
-        Uri.parse(getOAuthURL(
-            "GET",
-            'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
-                catId +
-                "&order=" +
-                order +
-                "&per_page=" +
-                per_page +
-                "&status=publish")),
-        headers: {"Content-Type": "Application/json"});
-//List<dynamic> list = jsonDecode(jsonString);
-    product_List = products.fromJson(response.body);
+    int maxRetries = 5;
+    int currentRetry = 0;
+
+    while (currentRetry < maxRetries) {
+      try {
+     var request = await client.getUrl(
+          Uri.parse(getOAuthURL(
+              "GET",
+              'https://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                  catId +
+                  "&order=" +
+                  order +
+                  "&per_page=" +
+                  per_page +
+                  "&status=publish")),
+        ).timeout(
+            Duration(seconds: 12));
+        request.headers.set('Content-Type', 'application/json');
+        //request.headers.set('Authorization', 'Bearer YourAccessToken');
+        HttpClientResponse response = await request.close();
+        if (response.statusCode == 200) {
+          // If the server returns a 200 OK response, parse the JSON and return the config
+          String responseBody = await response.transform(utf8.decoder).join();
+          product_List = products.fromJson(responseBody);
+          break;
+        }
+      } catch (error) {
+        // Handle error
+        currentRetry++;
+      }
+    }
 
     return product_List;
   }
@@ -337,26 +355,36 @@ Future<List<Favorit>> ListFavorit(userId) async{
 
   Future<customers> updateWooCustomer(String id,WooCustomer cust) async
   {
-    customers customer;
+    customers customer= customers(email: "empty");
     String json = jsonEncode(cust);
     try {
       // TODO: implement getProductByCategory
-      var response = await http.post(
-        Uri.parse(getOAuthURL("PUT",
-            'http://engy.jerma.net/wp-json/wc/v3/customers/${id}')),
-        headers: {"Content-Type": "Application/json"},
-        body: json,
-      );
 
-      List<dynamic> Json = jsonDecode(response.body);
-      !Json.isEmpty
-          ? customer = customers.fromJson(jsonDecode(response.body))
-          : customer = customers(email: "empty");
+      var request = await client.postUrl(
+        Uri.parse(getOAuthURL(
+            "PUT",
+            'https://engy.jerma.net/wp-json/wc/v3/customers/${id}')),
+      ).timeout(
+          Duration(seconds: 12));
+      request.headers.set('Content-Type', 'application/json');
+      request.write(json);
+      HttpClientResponse response = await request.close();
+
+
+      if (response.statusCode == 200) {
+        // If the server returns a 200 OK response, parse the JSON and return the config
+        String responseBody = await response.transform(utf8.decoder).join();
+        List<dynamic> Json = jsonDecode(jsonDecode(responseBody));
+        !Json.isEmpty
+            ? customer = customers.fromJson(jsonDecode(responseBody))
+            : customer = customers(email: "empty");
+        }
+      return customer;
     } catch (e) {
       throw e;
     }
 
-    return customer;
+
   }
   String getRandomString(){
     Random rand = Random();
