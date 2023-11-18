@@ -1,32 +1,44 @@
-
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:http_client/http_client.dart';
+import 'package:http_client/console.dart';
 import 'package:flutter/services.dart';
 
 class SSLLoader{
 
 
-    ConfigSSLLoader() async {
-    final certificateAsset = await rootBundle.load('assets/certificate.pem');
-    final certificateContent = utf8.decode(
-        certificateAsset.buffer.asUint8List());
+  Future<void>  ConfigSSLLoader() async {
+    HttpClient client = HttpClient();
+    client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+/*
+    final certificateAsset = await rootBundle.load('assets/WooCertificate.pem');
+    final certificateBytes = certificateAsset.buffer.asUint8List();
 
-    // Convert certificate content to bytes
-    List<int> certificateBytes = utf8.encode(certificateContent);
-    // Create a SecurityContext and add the certificate to it
     SecurityContext securityContext = SecurityContext.defaultContext;
     securityContext.setTrustedCertificatesBytes(certificateBytes);
-  }
-    WooSSLLoader() async {
-        final certificateAsset = await rootBundle.load('assets/WooCertificate.pem');
-        final certificateContent = utf8.decode(
-            certificateAsset.buffer.asUint8List());
+    securityContext.useCertificateChainBytes(certificateBytes);
 
-        // Convert certificate content to bytes
-        List<int> certificateBytes = utf8.encode(certificateContent);
-        // Create a SecurityContext and add the certificate to it
-        SecurityContext securityContext = SecurityContext.defaultContext;
-        securityContext.setTrustedCertificatesBytes(certificateBytes);
-    }
+
+    List<String> alpnProtocols = ['h2', 'http/1.1'];
+    securityContext.setAlpnProtocols(alpnProtocols, true);
+*/
+  }
+
+  Future<void> WooSSLLoader() async {
+    HttpClient client = HttpClient();
+    client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+/*
+    final certificateAsset = await rootBundle.load('assets/WooCertificate.pem');
+    final certificateBytes = certificateAsset.buffer.asUint8List();
+
+    SecurityContext securityContext = SecurityContext.defaultContext;
+    securityContext.setTrustedCertificatesBytes(certificateBytes);
+    securityContext.useCertificateChainBytes(certificateBytes);
+
+
+    List<String> alpnProtocols = ['h2', 'http/1.1'];
+    securityContext.setAlpnProtocols(alpnProtocols, true); */
+  }
+
 }

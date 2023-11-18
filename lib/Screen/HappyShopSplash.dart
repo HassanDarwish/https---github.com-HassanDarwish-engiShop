@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 import 'package:GiorgiaShop/getIt/woocommecre/API_Woocommerce.dart';
+import 'package:GiorgiaShop/Helper/SSLLoder.dart';
 import 'HappyShopHome.dart';
 
 GetIt getIt = GetIt.instance;
@@ -125,7 +126,9 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
       await getIt<API_Config>().getConfig();
       await getIt<API_Woocommerce>().getCategoriesByCount(8);
       await getIt<API_Woocommerce>().getCategories();
-
+      SSLLoader SSL=SSLLoader();
+      await SSL.ConfigSSLLoader();
+      await SSL.WooSSLLoader();
       //navigationPage();
       return Timer(duration, await navigationPage);
     } else {

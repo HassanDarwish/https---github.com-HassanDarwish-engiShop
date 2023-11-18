@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'Helper/HappyShopColor.dart';
 import 'Helper/HappyShopString.dart';
+import 'Helper/MyHttpOverrides.dart';
 import 'Screen/HappyShopCart.dart';
 import 'Screen/HappyShopCatgories.dart';
 import 'Screen/HappyShopCheckout.dart';
@@ -15,7 +18,6 @@ import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 import 'provider/Cart.dart';
-
 GetIt getIt = GetIt.instance;
 
 
@@ -37,8 +39,8 @@ loadRepository()async{
 }
 
 void main() async {
-
-  loadRepository();
+  HttpOverrides.global = MyHttpOverrides();
+  await loadRepository();
   runApp(
 
       MultiProvider(
