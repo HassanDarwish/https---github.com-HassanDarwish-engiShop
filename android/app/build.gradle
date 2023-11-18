@@ -61,6 +61,12 @@ android {
             storeFile file('giorgiashop-keystore.jks')
             storePassword 'giorgiashop'
         }
+        release{
+            keyAlias 'giorgiashop'
+            keyPassword 'giorgiashop'
+            storeFile file('giorgiashop-keystore.jks')
+            storePassword 'giorgiashop'
+        }
     }
     buildTypes {
         
@@ -72,7 +78,10 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true // Add these lines
+            shrinkResources true // Add these lines
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
     }
 }
