@@ -1,7 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
-
+import 'package:http/http.dart' show IOClient;
 import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
 import 'package:GiorgiaShop/pojo/favorit/Favorit.dart';
 import 'package:GiorgiaShop/pojo/order/lineItems.dart';
@@ -15,6 +16,7 @@ import 'package:http/http.dart' as http;
 import '../../pojo/customer/customers.dart';
 import '../../pojo/tracking/TrackingOrder.dart';
 import '../config/APIConfig.dart';
+
 
 GetIt getIt = GetIt.instance;
 
@@ -33,10 +35,11 @@ abstract class APICustomWooCommerce {
   Future<bool> addToFavorite(String userID,String itemId);
 
   Future<List<TrackingOrder>> getOrderByUserId(String userId);
+  HttpClient client = HttpClient()..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
 
 }
 
-class APICustomWooCommerce_Implementation extends APICustomWooCommerce {
+class APICustomWooCommerce_Implementation extends APICustomWooCommerce{
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
   Future<List<TrackingOrder>> getOrderByUserId(String userId)async{
@@ -247,6 +250,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
   Future get_coupon(String code) async {
     coupons? coupon;
     try {
+
       // TODO: implement getProductByCategory
       var response = await http.get(
           Uri.parse(getOAuthURL("GET",
@@ -262,21 +266,47 @@ Future<List<Favorit>> ListFavorit(userId) async{
     }
     return coupon;
   }
+  Duration calculateTimeout(int currentRetry) {
+    // Calculate timeout based on retry attempt, e.g., exponential backoff
+    int baseTimeout = 5; // seconds
+    int maxTimeout = 60; // seconds
 
+    int calculatedTimeout = baseTimeout * (2 ^ currentRetry);
+    return Duration(seconds: calculatedTimeout.clamp(0, maxTimeout));
+  }
   @override
   Future<products> getProductByCategory(String catId) async {
     late products product_List;
     // TODO: implement getProductByCategory
+    int maxRetries = 5;
+    int currentRetry = 0;
 
-    var response = await http.get(
-        Uri.parse(getOAuthURL(
-            "GET",
-            'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
-                catId +
-                "&status=publish")),
-        headers: {"Content-Type": "Application/json"});
-//List<dynamic> list = jsonDecode(jsonString);
-    product_List = products.fromJson(response.body);
+    while (currentRetry < maxRetries) {
+      try {
+
+
+        var request = await client.getUrl(
+            Uri.parse(getOAuthURL(
+                "GET",
+                'https://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                    catId +
+                    "&status=publish")),
+        ).timeout(
+            Duration(seconds: 12));
+        request.headers.set('Content-Type', 'application/json');
+        //request.headers.set('Authorization', 'Bearer YourAccessToken');
+        HttpClientResponse response = await request.close();
+        if (response.statusCode == 200) {
+          // If the server returns a 200 OK response, parse the JSON and return the config
+          String responseBody = await response.transform(utf8.decoder).join();
+          product_List = products.fromJson(responseBody);
+        break;
+        }
+      } catch (error) {
+        // Handle error
+        currentRetry++;
+      }
+    }
 
     return product_List;
   }
