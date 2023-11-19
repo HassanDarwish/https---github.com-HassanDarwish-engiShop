@@ -192,6 +192,8 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 
   @override
   Widget build(BuildContext context) {
+    widget.cartProvider =
+        Provider.of<CartImplementation>(context, listen: false);
     //widget.CustWoocommerceProvider=Provider.of<WoocommerceProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: onBackArrowPressed,
@@ -762,6 +764,7 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
 
   @override
   Widget build(BuildContext context) {
+
     widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     if(widget.sessionImp.status!=sessionEnums.login)
       widget.register=true;
@@ -1142,6 +1145,7 @@ class StatePayment extends State<Payment> with TickerProviderStateMixin {
   var _isUseWallet = false;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
         body: SingleChildScrollView(
@@ -1478,6 +1482,7 @@ class _AddressDialogState extends State<AddressDialog> {
 
   @override
   Widget build(BuildContext context) {
+
     return Form(
         key: _formKey,
         child: AlertDialog(

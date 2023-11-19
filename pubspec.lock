@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  buffer:
+    dependency: transitive
+    description:
+      name: buffer
+      sha256: "94f60815065a8f0fd4f05be51faf86cf86519327e039d5c2aac72e1d1cc1dad4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   cached_network_image:
     dependency: "direct dev"
     description:
@@ -129,6 +137,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  executor:
+    dependency: transitive
+    description:
+      name: executor
+      sha256: "87d935b31b2bdf7fe2af0b77dd8ffe8864eaade25715e9c68bc49497e48c9851"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
   fake_async:
     dependency: transitive
     description:
@@ -329,13 +345,21 @@ packages:
     source: hosted
     version: "0.12.0+5"
   http:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: http
       sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
     version: "0.13.6"
+  http_client:
+    dependency: "direct dev"
+    description:
+      name: http_client
+      sha256: "9e6e1cf0064d78da50754d7b7f8d342a55eea9790d029594073087b2e5d38012"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.2"
   http_parser:
     dependency: transitive
     description:

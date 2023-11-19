@@ -211,6 +211,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
 
     );
 
+    print( C.toString());
     if (response.statusCode== 201) {
       return true;
     } else {
