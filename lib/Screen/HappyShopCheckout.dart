@@ -186,8 +186,7 @@ class _HappyShopCheckoutState extends State<HappyShopCheckout>
 
   Future<bool> onBackArrowPressed() async {
     // TODO: Implement your back arrow logic here.
-    widget.cartProvider.dispose();
-    return await true;
+     return await true;
   }
 
   @override
@@ -333,6 +332,9 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    widget.cartProvider =
+        Provider.of<CartImplementation>(context, listen: false);
+
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -644,9 +646,12 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
     List<int> itemMapValues = [];
     //widget.cartProvider.itemMap.forEach((k, v) => itemMapValues.add(v));
     itemMapValues = widget.cartProvider.itemMap.values.toList();
+    String tempQuentity=widget.cartProvider.itemMap[widget.cartProvider.products.elementAt(index).id].toString()=="null" ? "1" : widget.cartProvider.itemMap[widget.cartProvider.products.elementAt(index).id].toString() ;
     List<int> itemTotalPriceMapValues = [];
     //widget.cartProvider.itemTotalPriceMap.forEach((k, v) => itemTotalPriceMapValues.add(v));
     itemTotalPriceMapValues = widget.cartProvider.itemTotalPriceMap.values.toList();
+    String tempTotalPrice=widget.cartProvider.itemTotalPriceMap[widget.cartProvider.products.elementAt(index).id.toString()].toString();
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
@@ -659,7 +664,7 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
           Expanded(
               flex: 1,
               child: Text(
-                itemMapValues.elementAt(index).toString(),
+                tempQuentity.toString(),
                 textAlign: TextAlign.end,
               )),
           Expanded(
@@ -671,12 +676,14 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
           Expanded(
               flex: 2,
               child: Text(
-                itemTotalPriceMapValues.elementAt(index).toString(),
+                tempTotalPrice=="null" ? widget.cartProvider.products.elementAt(index).price.toString():tempTotalPrice,
                 textAlign: TextAlign.end,
               )),
         ],
       ),
     );
+
+
   }
 
   bool get isLoading => _isLoading;

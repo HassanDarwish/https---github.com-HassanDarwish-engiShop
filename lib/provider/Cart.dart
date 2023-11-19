@@ -132,8 +132,6 @@ class CartImplementation extends ChangeNotifier implements Cart{
         _product.identify_value=identify_value;
         _products.add(_product);
       }
-
-
     }
     add_to_itemMap(id.toString(),int.parse(price),identify_value);
 

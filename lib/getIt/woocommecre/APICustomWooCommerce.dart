@@ -11,9 +11,10 @@ import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:GiorgiaShop/pojo/customer/customers.dart';
-import 'package:GiorgiaShop/pojo/tracking/TrackingOrder.dart';
-import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+
+import '../../pojo/customer/customers.dart';
+import '../../pojo/tracking/TrackingOrder.dart';
+import '../config/APIConfig.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -211,7 +212,6 @@ Future<List<Favorit>> ListFavorit(userId) async{
 
     );
 
-    print( C.toString());
     if (response.statusCode== 201) {
       return true;
     } else {

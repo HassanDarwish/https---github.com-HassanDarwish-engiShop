@@ -312,7 +312,7 @@ class _HappyShopCartState extends State<HappyShopCart>
                                 left: 8.0, right: 8, bottom: 8),
                             child: Icon(
                               Icons.close,
-                              size: 13,
+                              size: 18,
                             ),
                           ),
                           onTap: () {
@@ -571,7 +571,7 @@ class _HappyShopCartState extends State<HappyShopCart>
 
   @override
   Widget build(BuildContext context) {
-
+    widget.provider = Provider.of<CartImplementation>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
       appBar: getAppBar(CART, context),
