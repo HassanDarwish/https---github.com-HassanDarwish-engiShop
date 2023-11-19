@@ -156,6 +156,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
               Map<String, dynamic> meta_data={};
               meta_data['"key"']='"${attr.name+'_'+getRandomString()}"';
               meta_data['"value"']='"${product.SelectedAttribute![attr.name]!}"';
+              lineItemsMap['"quantity"']=1;
               listmetaMap.add(meta_data);
 
             }
