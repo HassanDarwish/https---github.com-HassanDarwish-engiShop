@@ -230,37 +230,47 @@ Future<List<Favorit>> ListFavorit(userId) async{
     //http://engy.jerma.net/wp-json/wc/v3/customers/?search=john.doe&email=john.doe@example.com&role=customer
 
     customers customer;
-    try {
-      // TODO: implement getProductByCategory
-      var response = await http.get(
-          Uri.parse(getOAuthURL("GET",
-              'http://engy.jerma.net/wp-json/wc/v3/customers?search=${name}')),
-          headers: {"Content-Type": "Application/json"});
-
-      List<dynamic> Json = jsonDecode(response.body);
+     var request = await client.getUrl(
+      Uri.parse(getOAuthURL(
+          "GET",
+          'https://engy.jerma.net/wp-json/wc/v3/customers?search=${name}')),
+    ) ;
+    request.headers.set('Content-Type', 'application/json');
+    //request.headers.set('Authorization', 'Bearer YourAccessToken');
+    HttpClientResponse response = await request.close();
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON and return the config
+      String responseBody = await response.transform(utf8.decoder).join();
+      List<dynamic> Json = jsonDecode(responseBody);
       !Json.isEmpty
-          ? customer = customers.fromJson(jsonDecode(response.body))
+          ? customer = customers.fromJson(jsonDecode(responseBody))
           : customer = customers(email: "empty");
-    } catch (e) {
-      throw e;
+    }else{
+      customer = customers(email: "empty");
     }
+
     return customer;
   }
 
   Future get_coupon(String code) async {
     coupons? coupon;
     try {
-
-      // TODO: implement getProductByCategory
-      var response = await http.get(
-          Uri.parse(getOAuthURL("GET",
-              'http://engy.jerma.net/wp-json/wc/v3/coupons?code=' + code)),
-          headers: {"Content-Type": "Application/json"});
-
-      List<dynamic> Json = jsonDecode(response.body);
+      var request = await client.getUrl(
+        Uri.parse(getOAuthURL(
+            "GET",
+            'https://engy.jerma.net/wp-json/wc/v3/coupons?code=' + code)),
+      ) ;
+      request.headers.set('Content-Type', 'application/json');
+      //request.headers.set('Authorization', 'Bearer YourAccessToken');
+      HttpClientResponse response = await request.close();
+       if (response.statusCode == 200) {
+        // If the server returns a 200 OK response, parse the JSON and return the config
+        String responseBody = await response.transform(utf8.decoder).join();
+       List<dynamic> Json = jsonDecode(responseBody);
       !Json.isEmpty
-          ? coupon = coupons.fromJson(jsonDecode(response.body))
+          ? coupon = coupons.fromJson(jsonDecode(responseBody))
           : coupon = null;
+      }
     } catch (e) {
       throw e;
     }
@@ -278,21 +288,14 @@ Future<List<Favorit>> ListFavorit(userId) async{
   Future<products> getProductByCategory(String catId) async {
     late products product_List;
     // TODO: implement getProductByCategory
-    int maxRetries = 5;
-    int currentRetry = 0;
 
-    while (currentRetry < maxRetries) {
-      try {
-
-
-        var request = await client.getUrl(
+            var request = await client.getUrl(
             Uri.parse(getOAuthURL(
                 "GET",
                 'https://engy.jerma.net/wp-json/wc/v3/products?category=' +
                     catId +
                     "&status=publish")),
-        ).timeout(
-            Duration(seconds: 12));
+        ) ;
         request.headers.set('Content-Type', 'application/json');
         //request.headers.set('Authorization', 'Bearer YourAccessToken');
         HttpClientResponse response = await request.close();
@@ -300,13 +303,8 @@ Future<List<Favorit>> ListFavorit(userId) async{
           // If the server returns a 200 OK response, parse the JSON and return the config
           String responseBody = await response.transform(utf8.decoder).join();
           product_List = products.fromJson(responseBody);
-        break;
-        }
-      } catch (error) {
-        // Handle error
-        currentRetry++;
-      }
-    }
+         }
+
 
     return product_List;
   }
@@ -316,20 +314,25 @@ Future<List<Favorit>> ListFavorit(userId) async{
       String catId, String order, String per_page) async {
     // TODO: implement getProductByCategory
     late products product_List;
-
-    var response = await http.get(
-        Uri.parse(getOAuthURL(
-            "GET",
-            'http://engy.jerma.net/wp-json/wc/v3/products?category=' +
-                catId +
-                "&order=" +
-                order +
-                "&per_page=" +
-                per_page +
-                "&status=publish")),
-        headers: {"Content-Type": "Application/json"});
-//List<dynamic> list = jsonDecode(jsonString);
-    product_List = products.fromJson(response.body);
+    var request = await client.getUrl(
+      Uri.parse(getOAuthURL(
+          "GET",
+          'https://engy.jerma.net/wp-json/wc/v3/products?category=' +
+              catId +
+              "&order=" +
+              order +
+              "&per_page=" +
+              per_page +
+              "&status=publish")),
+    ) ;
+    request.headers.set('Content-Type', 'application/json');
+    //request.headers.set('Authorization', 'Bearer YourAccessToken');
+    HttpClientResponse response = await request.close();
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON and return the config
+      String responseBody = await response.transform(utf8.decoder).join();
+      product_List = products.fromJson(responseBody);
+    }
 
     return product_List;
   }
