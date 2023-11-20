@@ -452,7 +452,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
     return product_List;
   }
 
-
+/*
   Future<customers> updateWooCustomer(String id,WooCustomer cust) async
   {
     customers customer;
@@ -495,6 +495,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
 
     return customer;
   }
+  */
   String getRandomString(){
     Random rand = Random();
     List<int> codeUnits = List.generate(10, (index) {
