@@ -102,7 +102,7 @@ ScrollController controller = ScrollController();
 loadTrackingOrders() async {
 
   orderList= await widget.CustWoocommerceProvider.getOrderByUserId(widget.sessionImp.userID);
-  setState(() {});
+  //setState(() {});
   }
   void showMessageDialog(BuildContext context, String message) {
     if (message != null) {

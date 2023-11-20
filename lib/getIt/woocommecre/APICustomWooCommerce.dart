@@ -43,27 +43,43 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce{
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
   Future<List<TrackingOrder>> getOrderByUserId(String userId)async{
-    var orderList = <orderr.WooOrder>[];
+    //var orderList = <orderr.WooOrder>[];
+    var orderList = List<TrackingOrder>.empty(growable: true);
     try {
       // TODO: implement getProductByCategory
-      var response = await http.get(
-          Uri.parse(getOAuthURL("GET",
-              'http://engy.jerma.net/wp-json/wc/v3/orders?customer_id=${userId}')),
-          headers: {"Content-Type": "Application/json"});
 
+      var request = await client.getUrl(
+        Uri.parse(getOAuthURL(
+            "GET",
+            'https://engy.jerma.net/wp-json/wc/v3/orders?customer_id=${userId}')),
+      ) ;
+      request.headers.set('Content-Type', 'application/json');
+      //request.headers.set('Authorization', 'Bearer YourAccessToken');
+      HttpClientResponse response = await request.close();
+      if (response.statusCode == 200) {
+        String responseBody = await response.transform(utf8.decoder).join();
+
+       var orders = jsonDecode(responseBody) as List<dynamic>;
+
+
+        for (var order in orders) {
+          orderList.add(TrackingOrder.fromJson(order));
+        }
+
+      }
+      // var response = await http.get(
+      //     Uri.parse(getOAuthURL("GET",
+      //         'http://engy.jerma.net/wp-json/wc/v3/orders?customer_id=${userId}')),
+      //     headers: {"Content-Type": "Application/json"});
       // Decode the JSON response into a list of WooCommerce order objects.
 
-
-      var orders = jsonDecode(response.body) as List<dynamic>;
-
-      var orderList = List<TrackingOrder>.empty(growable: true);
-
-      for (var order in orders) {
-        orderList.add(TrackingOrder.fromJson(order));
-      }
-
+      // var orders = jsonDecode(response.body) as List<dynamic>;
+      // var orderList = List<TrackingOrder>.empty(growable: true);
+      // for (var order in orders) {
+      //   orderList.add(TrackingOrder.fromJson(order));
+      // }
+      // return orderList;
       return orderList;
-
     } catch (e) {
       throw e;
     }
@@ -73,14 +89,26 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce{
   Future<bool> addToFavorite(String userId,String productId)async{
     // TODO: implement addToFavorite http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=150&user_id=8
     try {
-      // TODO: implement getProductByCategory
-      String url="http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=${productId}&user_id=${userId}";
-      var response = await http.post(
-          Uri.parse('http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=${productId}&user_id=${userId}') ,
-          headers: {"Content-Type": "Application/json"}
-      );
+      var request = await client.postUrl(
+        Uri.parse(getOAuthURL(
+            "POST",
+            'https://engy.jerma.net/wp-json/wc/v3/favorites?product_id=${productId}&user_id=${userId}')),
+      ) ;
+      request.headers.set('Content-Type', 'application/json');
+      //request.headers.set('Authorization', 'Bearer YourAccessToken');
+      HttpClientResponse response = await request.close();
+      if (response.statusCode == 200) {
 
-      dynamic JsonResponse = jsonDecode(response.body);
+      }
+
+
+       // String url="http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=${productId}&user_id=${userId}";
+      // var response = await http.post(
+      //     Uri.parse('http://engy.jerma.net/wp-json/wc/v3/favorites?product_id=${productId}&user_id=${userId}') ,
+      //     headers: {"Content-Type": "Application/json"}
+      // );
+      //
+      // dynamic JsonResponse = jsonDecode(response.body);
 
     } catch (e) {
       return false;
@@ -94,21 +122,44 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce{
   @override
   Future<bool> deleteFromFavoritlist(userId, productId) async {
     // TODO: implement deleteFromFavoritlist http://engy.jerma.net/wp-json/wc/v3/favor/${userId}/${productId}/
-    try {
-      // TODO: implement getProductByCategory
-      var response = await http.delete(
-        Uri.parse('http://engy.jerma.net/wp-json/wc/v3/favor/${userId}/${productId}') ,
-        headers: {"Content-Type": "Application/json"}
-      );
 
-      dynamic JsonResponse = jsonDecode(response.body);
-      print(JsonResponse);
-    } catch (e) {
-    return false;
-      throw e;
-    return false;
-      //throw e;
+    /*******************************************************************/
+    try{
+    var request = await client.deleteUrl(
+      Uri.parse(getOAuthURL(
+          "DELETE",
+          'https://engy.jerma.net/wp-json/wc/v3/favor/${userId}/${productId}')),
+    ) ;
+    request.headers.set('Content-Type', 'application/json');
+    //request.headers.set('Authorization', 'Bearer YourAccessToken');
+    HttpClientResponse response = await request.close();
+     if (response.statusCode == 200) {
+
     }
+
+  } catch (e) {
+  return false;
+  throw e;
+  return false;
+  //throw e;
+  }
+  return true;
+
+    // try {
+    //   // TODO: implement getProductByCategory
+    //   var response = await http.delete(
+    //     Uri.parse('http://engy.jerma.net/wp-json/wc/v3/favor/${userId}/${productId}') ,
+    //     headers: {"Content-Type": "Application/json"}
+    //   );
+    //
+    //   dynamic JsonResponse = jsonDecode(response.body);
+    //   print(JsonResponse);
+    // } catch (e) {
+    // return false;
+    //   throw e;
+    // return false;
+    //   //throw e;
+    // }
     return true;
 
 
@@ -299,14 +350,6 @@ Future<List<Favorit>> ListFavorit(userId) async{
       throw e;
     }
     return coupon;
-  }
-  Duration calculateTimeout(int currentRetry) {
-    // Calculate timeout based on retry attempt, e.g., exponential backoff
-    int baseTimeout = 5; // seconds
-    int maxTimeout = 60; // seconds
-
-    int calculatedTimeout = baseTimeout * (2 ^ currentRetry);
-    return Duration(seconds: calculatedTimeout.clamp(0, maxTimeout));
   }
   @override
   Future<products> getProductByCategory(String catId) async {
