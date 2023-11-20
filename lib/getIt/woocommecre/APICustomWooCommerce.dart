@@ -28,7 +28,7 @@ abstract class APICustomWooCommerce {
       String catId, String order, String per_page);
   Future get_coupon(String code);
   Future<customers> getCustomer(String name, String email);
-  Future<customers> updateWooCustomer(String id,WooCustomer cust);
+  //Future<customers> updateWooCustomer(String id,WooCustomer cust);
   Future<bool> createOrder2(String userID,String displayName,Map addressList
       ,String cartFinalPrice,String shippingFees,String totalTax,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode,String email) ;
   Future<List<Favorit>> ListFavorit(userId);
@@ -251,14 +251,23 @@ Future<List<Favorit>> ListFavorit(userId) async{
 
            lineItems.add(lineItemsMap);
     }
-    Billing Bi=new Billing(email: email,last_name:"" ,postcode:"" ,city: addressList["city"],state: addressList["state"],
-        country:addressList["country"] ,
-        first_name: displayName,phone:addressList["mobile"] ,address_1: utf8.encode(addressList["address"]).toString());
+    Billing Bi=new Billing(email: email,last_name:"" ,postcode:"" ,
+         city: utf8.decode(utf8.encode(addressList["city"])),
+         state:utf8.decode(utf8.encode(addressList["state"]))  ,
+        country:utf8.decode(utf8.encode(addressList["country"])) ,
+        first_name: displayName,
+        phone: utf8.decode(utf8.encode(addressList["mobile"])) ,
+        address_1:utf8.decode(utf8.encode(addressList["address"]))
+    );
 
 
-    Shipping Shi=new Shipping(last_name:"" ,postcode:"" ,city: addressList["city"],state: addressList["state"],
-        country:addressList["country"] ,
-        first_name: displayName ,address_1: utf8.encode(addressList["address"]).toString());
+    Shipping Shi=new Shipping(last_name:"" ,postcode:"" ,city:
+         utf8.decode(utf8.encode(addressList["city"])),
+        state: utf8.decode(utf8.encode(addressList["state"]))  ,
+        country: utf8.decode(utf8.encode(addressList["country"])) ,
+        first_name: displayName ,
+        address_1:utf8.decode(utf8.encode(addressList["address"]))
+    );
 
     ShippingLine Shipping_Line=new ShippingLine(methodId: "flat_rate", method_title:"Flat Rate",total:shippingFees1);
     List<ShippingLine> ShipingList=List<ShippingLine>.empty(growable: true);
@@ -310,12 +319,10 @@ Future<List<Favorit>> ListFavorit(userId) async{
     String json = jsonEncode(h.toJson());
 
     try {
-      // TODO: implement getProductByCategory
-
       var request = await HttpClient().postUrl(
         Uri.parse(getOAuthURL("POST", 'https://engy.jerma.net/wp-json/wc/v3/orders')),
       );
-      request.headers.set('Content-Type', 'application/json');
+      request.headers.set('Content-Type', 'application/json; charset=UTF-8');
       request.write(json);
       // Send the request
       HttpClientResponse response = await request.close();
