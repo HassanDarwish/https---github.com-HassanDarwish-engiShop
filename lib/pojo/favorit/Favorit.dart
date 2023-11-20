@@ -24,7 +24,24 @@ class Favorit{
   set attributes(List<attribute> value) {
     _attributes = value;
   }
+  Favorit.empty(){
 
+    try{
+      this.id = "0";
+      this.image_url ="";
+      this.post_content ="";
+      this.post_title = "";
+      this.post_excerpt = "";
+      this.post_type = "";
+      this.has_attributes="";
+      this.price="";
+
+
+      this.attributes=List.empty(growable: true);
+    } catch (e) {
+      throw e;
+    }
+  }
   Favorit({required id,required image_url,required post_content,required post_title,required post_excerpt,required post_type,required has_attributes,required price,required List<attribute> attributes}) {
 
     try{
@@ -49,12 +66,12 @@ class Favorit{
     fav.favorit_List=favorit_List;
     return fav;
   }
-  factory Favorit.fromJson(String json) {
+  factory Favorit.fromJson(Map<String, dynamic> json) {
     List<Favorit> favorit_List = List.empty(growable: true);
     try {
 
-      Map<String, dynamic> productList = jsonDecode(json);
-      List<dynamic> pro_list = productList["products"];
+    // Map<String, dynamic> productList = jsonDecode(json);
+      List<dynamic> pro_list = json["products"];
       pro_list.forEach((item) {
 
 
