@@ -46,7 +46,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
   flutter_svg: ^2.0.7
   like_button: ^2.0.5
   responsive_builder: ^0.7.0
