@@ -117,7 +117,31 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce{
 Future<List<Favorit>> ListFavorit(userId) async{
      List  listFavorit=List<Favorit>.empty(growable: true);
      List<dynamic>   list_=List<Favorit>.empty(growable: true);
+     Map<String, dynamic> responseMap;
+     Favorit favorit;
+     /*******************************************************************/
+  var request = await client.getUrl(
+    Uri.parse(getOAuthURL(
+        "GET",
+        'https://engy.jerma.net/wp-json/wc/v3/favorites/${userId}/')),
+  ) ;
+  request.headers.set('Content-Type', 'application/json');
+  //request.headers.set('Authorization', 'Bearer YourAccessToken');
+  HttpClientResponse response = await request.close();
+  if (response.statusCode == 200) {
+    // If the server returns a 200 OK response, parse the JSON and return the config
+    String responseBody = await response.transform(utf8.decoder).join();
 
+     responseMap = jsonDecode(responseBody);
+    List<dynamic> Json=responseMap["products"];
+    !Json.isEmpty
+        ? favorit=Favorit.fromJson(responseMap)
+        : favorit = Favorit.fromJson(responseMap);
+  }else{
+    favorit = Favorit.empty();
+  }
+
+     /******************************************
      Map<String, dynamic> responseMap;
      Favorit favorit;
 
@@ -130,7 +154,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
        responseMap = jsonDecode(response.body);
        list_=responseMap["products"];
          favorit=Favorit.fromJson(response.body);
-
+*/
     return   favorit.favorit_List;
   }
   Future<bool> createOrder2(String userID,String displayName,Map addressList
