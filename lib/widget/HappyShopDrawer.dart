@@ -4,7 +4,6 @@ import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:GiorgiaShop/Screen/HappyShopSplash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/scheduler/binding.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:GiorgiaShop/Screen/HappyShopCart.dart';
 import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
@@ -250,7 +249,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
             visible: widget.sessionImp.status == sessionEnums.login,
             child: HappyShopDrawerListTile(
               title: "LOGOUT",
-              icon: Icons.login,
+              icon: Icons.logout,
               route: () {
                 logOut();
                 /*
@@ -268,10 +267,11 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
           Visibility(
             visible: widget.sessionImp.status != sessionEnums.login,
             child: HappyShopDrawerListTile(
-              title: "SingUp",
-              icon: Icons.account_box_rounded,
+              title: "Sing Up",
+              icon: Icons.person_add,
               route: () {
                 register(context, widget.CustWoocommerceProvider);
+
                 /*s
                 Navigator.of(context).pop();
                 Navigator.pushReplacement(
@@ -299,6 +299,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
               );*/
             },
           ),
+
         ],
       ),
     );
@@ -391,23 +392,31 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
         context: context,
         builder: (context) => AddressDialog(
           onSubmit: (address, city, state, phoneArea, country) async{
+            bool isPhoneAreaValid = RegExp(r'^01\d{9}$').hasMatch(phoneArea);
 
+            if (isPhoneAreaValid) {
             widget.isExist =
             await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
+            }else{
+              callFaild('Invalid phone area. Please enter a valid number.',Colors.red);
+              Navigator.of(context).pop();
+             }
             if(widget.isExist) {
               setState(() {});
             }else{
-              callFaild("Register Falid");
+              callFaild("Register Falid",Colors.red);
               await GoogleSignin.disconnect();
+              Navigator.of(context).pop();
             }
+
           },
         ),
       );
     }
   }
-  void callFaild(String message) {
+  void callFaild(String message, MaterialColor backGroundColor) {
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(duration:const  Duration(seconds: 7),content: Text( message)));
+        .showSnackBar(SnackBar(duration:const  Duration(seconds: 7,),backgroundColor:backGroundColor ,content: Text( message)));
 
   }
 }

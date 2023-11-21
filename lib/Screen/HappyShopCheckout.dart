@@ -1008,9 +1008,9 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
   }
 
 
-  void callFaild(String message) {
+  void callFaild(String message, MaterialColor backGroundColor) {
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(duration:const  Duration(seconds: 7),content: Text( message)));
+        .showSnackBar(SnackBar(duration:const  Duration(seconds: 7,),backgroundColor:backGroundColor ,content: Text( message)));
 
   }
   Future registe_r(context, WoocommerceProvider custWoocommerceProvider) async {
@@ -1023,22 +1023,30 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
           .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Register Falied")));
     } else {
 
-        showDialog(
-          context: context,
-          builder: (context) => AddressDialog(
-            onSubmit: (address, city, state, phoneArea, country) async{
+      showDialog(
+        context: context,
+        builder: (context) => AddressDialog(
+          onSubmit: (address, city, state, phoneArea, country) async{
+            bool isPhoneAreaValid = RegExp(r'^01\d{9}$').hasMatch(phoneArea);
 
+            if (isPhoneAreaValid) {
               widget.isExist =
-                  await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
-              if(widget.isExist) {
-                setState(() {});
-              }else{
-              callFaild("Register Falid");
+              await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
+            }else{
+              callFaild('Invalid phone area. Please enter a valid number.',Colors.red);
+              Navigator.of(context).pop();
+            }
+            if(widget.isExist) {
+              setState(() {});
+            }else{
+              callFaild("Register Falid",Colors.red);
               await GoogleSignin.disconnect();
-              }
-            },
-          ),
-        );
+              Navigator.of(context).pop();
+            }
+
+          },
+        ),
+      );
     }
     }
 
