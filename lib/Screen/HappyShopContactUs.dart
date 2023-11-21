@@ -107,7 +107,7 @@ class _HappyShopContactUsState extends State<HappyShopContactUs>
       padding: const EdgeInsets.only(top: 50.0),
       child: Center(
         child: SvgPicture.network(
-          'http://jerma.net/Engi/images/happyshopwhitelogo.svg',
+          'https://jerma.net/Engi/images/happyshopwhitelogo.svg',
           width: 80.0,
           fit: BoxFit.fill,
         ),

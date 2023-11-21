@@ -308,7 +308,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
         _getDivider(),
           HappyShopDrawerListTile(
           title: "Contact US",
-          icon: Icons.download ,
+          icon: Icons.phone ,
           route: () async {
              await Navigator.of(context)
                 .pushNamed(HappyShopContactUs.routeName);
