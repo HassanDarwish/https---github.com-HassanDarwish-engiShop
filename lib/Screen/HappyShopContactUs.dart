@@ -411,9 +411,9 @@ class _HappyShopContactUsState extends State<HappyShopContactUs>
                 width: width,
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Container(
-                  padding: EdgeInsets.only(left: 16.0,right: 5.0),
+                  padding: EdgeInsets.only(left: 16.0,right: 16.0),
                   child: RichText(
-                    text: TextSpan(
+                    text: const TextSpan(
                       children: [
                         TextSpan(text: 'Welcome to Giorgia Cosmetics Shop, your premier destination for all things beauty!', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                         TextSpan(text: ' At Giorgia Cosmetics Shop, we believe in the transformative power of cosmetics to enhance your confidence and express your unique personality.', style: TextStyle(fontSize: 16)),
