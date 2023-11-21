@@ -18,6 +18,7 @@ import 'HappyShopProductDetail.dart';
 import 'package:provider/provider.dart';
 
 class HappyShopFavrite extends StatefulWidget  {
+  static const routeName = '/HappyShopFavrite';
   final bool? appbar;
   final GlobalKey<ScaffoldState> scaffoldKey ;
     HappyShopFavrite({Key? key, this.appbar, required this.scaffoldKey}) : super(key: key);

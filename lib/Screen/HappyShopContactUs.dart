@@ -7,18 +7,20 @@ import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/widget/HappyShopbtn.dart';
 
+import '../widget/HappyShopAppBar.dart';
+import '../widget/HappyShopDrawer.dart';
 import 'HappyShopLogin.dart';
 import 'HappyShopMobailVerification.dart';
 
-class HappyShopSingUp extends StatefulWidget {
-  static const routeName = '/HappyShopSingUp';
-  const HappyShopSingUp({Key? key}) : super(key: key);
+class HappyShopContactUs extends StatefulWidget {
+  static const routeName = '/HappyShopContactUs';
+  const HappyShopContactUs({Key? key}) : super(key: key);
 
   @override
-  _HappyShopSingUpState createState() => _HappyShopSingUpState();
+  _HappyShopContactUsState createState() => _HappyShopContactUsState();
 }
 
-class _HappyShopSingUpState extends State<HappyShopSingUp>
+class _HappyShopContactUsState extends State<HappyShopContactUs>
     with TickerProviderStateMixin {
   bool _showPassword = false;
   bool visible = false;
@@ -30,7 +32,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   String? name, email, password, mobile, id, countrycode, countryName;
-
+  final GlobalKey<ScaffoldState> privatescaffoldKey = GlobalKey<ScaffoldState>();
   late Animation buttonSqueezeanimation;
 
   late AnimationController buttonController;
@@ -72,6 +74,9 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar:getAppBar("Home",context),
+      drawer:   HappyShopDrawer( scaffoldKey: _scaffoldKey),
+      bottomNavigationBar: null,
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: back(),
@@ -340,7 +345,7 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
     );
   }
 
-  expandedBottomView() {
+  expandedBottomViewold() {
     double width = MediaQuery.of(context).size.width;
     return ScreenTypeLayout(
       mobile: SizedBox(
@@ -394,7 +399,62 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
       ),*/
     );
   }
-
+  expandedBottomView() {
+    double width = MediaQuery.of(context).size.width;
+    return ScreenTypeLayout(
+      mobile: SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: width,
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Container(
+                  padding: EdgeInsets.only(left: 16.0,right: 5.0),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(text: 'Welcome to Giorgia Cosmetics Shop, your premier destination for all things beauty!', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        TextSpan(text: ' At Giorgia Cosmetics Shop, we believe in the transformative power of cosmetics to enhance your confidence and express your unique personality.', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: ' \nOur vision ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800,decoration: TextDecoration.underline)),
+                        TextSpan(text: '  is to redefine beauty standards by offering a diverse range of high-quality products that cater to various styles, skin tones, and preferences.', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: ' Our commitment extends beyond selling cosmetics; we aim to inspire self-expression and empower individuals to embrace their inner beauty.', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: ' Giorgia Cosmetics Shop envisions a world where everyone feels confident and beautiful in their own skin.', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: ' We constantly strive to stay ahead of beauty trends, ensuring our customers have access to the latest innovations and timeless classics.', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: '\nFor inquiries, personalized beauty advice, or to share your beauty journey with us, feel free to connect via email at ', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: 'Giorgia@jerma.net', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800,decoration: TextDecoration.underline)),
+                        TextSpan(text: ' or give us a call at ', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: '01211116529.', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800)),
+                        TextSpan(text: '\nThank you for joining us on this beauty adventure at Giorgia Cosmetics Shop, where our vision is to make every face a canvas of confidence.', style: TextStyle(fontSize: 16)),
+                        TextSpan(text: '\nContact us:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        TextSpan(text: '\nEmail: Giorgia@jerma.net', style: TextStyle(fontSize: 18,  fontWeight: FontWeight.w800,decoration: TextDecoration.underline)),
+                        TextSpan(text: '\nPhone: 01211116529', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800,)),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      /*desktop: SingupDesktop(
+        fromkey: _formkey,
+        listwidget: [
+          registerTxt(),
+          setUserName(),
+          setCountryCode(),
+          setMobileNo(),
+          setEmail(),
+          setPass(),
+          showPass(),
+          verifyBtn(),
+          loginTxt(),
+        ],
+      ),*/
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -411,5 +471,23 @@ class _HappyShopSingUpState extends State<HappyShopSingUp>
         0.150,
       ),
     ));
+  }
+
+  getAppBar(String title, BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios, color: primary),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          color: primary,
+        ),
+      ),
+      backgroundColor: Colors.white,
+      //brightness: Brightness.light,
+      elevation: 5,
+    );
   }
 }

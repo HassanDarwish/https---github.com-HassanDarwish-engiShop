@@ -13,6 +13,10 @@ import 'package:provider/provider.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 
+import '../Screen/HappyShopContactUs.dart';
+import '../Screen/HappyShopOnbording.dart';
+import '../Screen/HappyShopSingUp.dart';
+
 class HappyShopDrawer extends StatefulWidget {
     HappyShopDrawer(  {required this.scaffoldKey,
     Key? key,
@@ -284,6 +288,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
             ),
           ),
           _getDivider(),
+
           HappyShopDrawerListTile(
             title: "Update",
             icon: Icons.download ,
@@ -298,6 +303,17 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
                 ),
               );*/
             },
+          ),
+
+        _getDivider(),
+          HappyShopDrawerListTile(
+          title: "Contact US",
+          icon: Icons.download ,
+          route: () async {
+             await Navigator.of(context)
+                .pushNamed(HappyShopContactUs.routeName);
+          }
+
           ),
 
         ],

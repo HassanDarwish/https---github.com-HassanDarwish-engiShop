@@ -11,6 +11,7 @@ import 'package:like_button/like_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class HappyShopOnbording extends StatefulWidget {
+  static const routeName = '/HappyShopOnbording';
   const HappyShopOnbording({
     Key? key,
   }) : super(key: key);

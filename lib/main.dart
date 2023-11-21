@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,11 @@ import 'Helper/MyHttpOverrides.dart';
 import 'Screen/HappyShopCart.dart';
 import 'Screen/HappyShopCatgories.dart';
 import 'Screen/HappyShopCheckout.dart';
+import 'Screen/HappyShopContactUs.dart';
+import 'Screen/HappyShopFavrite.dart';
 import 'Screen/HappyShopHome.dart';
+import 'Screen/HappyShopOnbording.dart';
+import 'Screen/HappyShopSingUp.dart';
 import 'Screen/HappyShopSplash.dart';
 import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
@@ -77,6 +80,8 @@ void main() async {
             HappyShopCatogeryAll.routeName:(context) =>   HappyShopCatogeryAll(),
             HappyShopCart.routeName:(context) =>  HappyShopCart(),
             HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
+            HappyShopContactUs.routeName:(context) =>  HappyShopContactUs(),
+            HappyShopFavrite.routeName:(context) =>  HappyShopFavrite(scaffoldKey: GlobalKey<ScaffoldState>(),),
 
           },
 
