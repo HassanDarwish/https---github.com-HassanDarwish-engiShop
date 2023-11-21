@@ -110,6 +110,7 @@ class _HappyShopContactUsState extends State<HappyShopContactUs>
           'https://jerma.net/Engi/images/happyshopwhitelogo.svg',
           width: 80.0,
           fit: BoxFit.fill,
+          placeholderBuilder: (BuildContext context) => CircularProgressIndicator(),
         ),
       ),
     );

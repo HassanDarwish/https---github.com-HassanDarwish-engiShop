@@ -271,7 +271,8 @@ loadTrackingOrders() async {
   }
   noCartImage(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: 'http://jerma.net/Engi/icons/order_list.png',
+      placeholder: (context, url) => CircularProgressIndicator(),
+      imageUrl: 'https://jerma.net/Engi/icons/order_list.png',
       fit: BoxFit.contain,
     );
   }

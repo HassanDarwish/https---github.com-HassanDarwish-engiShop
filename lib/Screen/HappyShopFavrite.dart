@@ -170,7 +170,8 @@ class _HappyShopFavriteState extends State<HappyShopFavrite>
   }
   noCartImage(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: 'http://jerma.net/Engi/icons/empty_cart.png',
+      placeholder: (context, url) => CircularProgressIndicator(),
+      imageUrl: 'https://jerma.net/Engi/icons/empty_cart.png',
       fit: BoxFit.contain,
     );
   }
