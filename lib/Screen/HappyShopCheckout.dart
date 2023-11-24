@@ -7,6 +7,7 @@ import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 import 'package:GiorgiaShop/provider/Cart.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -420,6 +421,9 @@ class StateDelivery extends State<Delivery> with TickerProviderStateMixin {
                           children: [
                             Expanded(
                               child: TextField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                ],
                                 controller: _textFieldController,
                                 decoration: InputDecoration(
                                   enabled: true,

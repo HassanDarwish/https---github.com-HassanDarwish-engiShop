@@ -16,9 +16,11 @@ import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import '../Screen/HappyShopContactUs.dart';
 import '../Screen/HappyShopOnbording.dart';
 import '../Screen/HappyShopSingUp.dart';
+import '../provider/Cart.dart';
 
 class HappyShopDrawer extends StatefulWidget {
-    HappyShopDrawer(  {required this.scaffoldKey,
+  final VoidCallback closeDrawer;
+    HappyShopDrawer(  {required this.scaffoldKey,required this.closeDrawer,
     Key? key,
   }) : super(key: key);
   late    SessionImplementation sessionImp ;
@@ -251,41 +253,48 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
           ),
           Visibility(
             visible: widget.sessionImp.status == sessionEnums.login,
-            child: HappyShopDrawerListTile(
-              title: "LOGOUT",
-              icon: Icons.logout,
-              route: () {
-                logOut();
-                /*
-                Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HappyShopSplash(), //HappyShopLogin(),
-                  ),
-                );*/
-              },
-            ),
+            child: Consumer<CartImplementation>(builder:(context ,cart,child) {
+              child:
+              return HappyShopDrawerListTile(
+                title: "LOGOUT",
+                icon: Icons.logout,
+                route: () {
+                  logOut(cart);
+                  /*
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HappyShopSplash(), //HappyShopLogin(),
+                    ),
+                  );*/
+                },
+              );
+            }),
           ),
           _getDivider(),
           Visibility(
             visible: widget.sessionImp.status != sessionEnums.login,
-            child: HappyShopDrawerListTile(
-              title: "Sing Up",
-              icon: Icons.person_add,
-              route: () {
-                register(context, widget.CustWoocommerceProvider);
+            child: Consumer<CartImplementation>(builder:(context ,cart,child) {
+              child:
+              return HappyShopDrawerListTile(
+                title: "Sing Up",
+                icon: Icons.person_add,
+                route: () {
+                  register(context, cart,widget.CustWoocommerceProvider);
 
-                /*s
-                Navigator.of(context).pop();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HappyShopSplash(), //HappyShopSingUp(),
-                  ),
-                );*/
-              },
-            ),
+                  /*s
+                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HappyShopSplash(), //HappyShopSingUp(),
+                    ),
+                  );*/
+                },
+              )
+              ;
+            }),
           ),
           _getDivider(),
 
@@ -347,7 +356,7 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
       widget.isExist=await sessionImp.initSession(user,  widget.CustWoocommerceProvider);
       if(widget.isExist==false) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
-        logOut();
+        logOut2();
         widget.register=true;
       }else{
         if(sessionImp.addressList.isEmpty) {
@@ -374,12 +383,28 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     Navigator.pop(context);
   }
 
-
-  Future logOut() async {
+  Future logOut2() async {
     widget.sessionImp.clear();
     // if(widget.isLoggedIn)
     await GoogleSignin.disconnect();
     widget.sessionImp.addressList.clear();
+    widget.sessionImp.clear();
+    Provider.of<CartImplementation>(context,listen: false).clean();
+
+    widget.isExist=false;
+    widget.haveAddress=false;
+
+    setState(() {
+
+    });
+  }
+  Future logOut(CartImplementation cart) async {
+    widget.sessionImp.clear();
+    // if(widget.isLoggedIn)
+    await GoogleSignin.disconnect();
+    widget.sessionImp.addressList.clear();
+    widget.sessionImp.clear();
+    cart.clean();
     widget.isExist=false;
     widget.haveAddress=false;
 
@@ -388,9 +413,9 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     });
   }
 
-  void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)async {
+  void register(BuildContext context, CartImplementation cart,WoocommerceProvider custWoocommerceProvider)async {
 
-    logOut();
+    logOut(cart);
     await registe_r(context,custWoocommerceProvider );
   }
 
@@ -415,14 +440,16 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
             await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
             }else{
               callFaild('Invalid phone area. Please enter a valid number.',Colors.red);
-              Navigator.of(context).pop();
-             }
+              //Navigator.of(context).pop();
+            widget.closeDrawer();
+
+            }
             if(widget.isExist) {
               setState(() {});
             }else{
               callFaild("Register Falid",Colors.red);
               await GoogleSignin.disconnect();
-              Navigator.of(context).pop();
+              widget.closeDrawer();
             }
 
           },

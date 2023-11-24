@@ -79,6 +79,7 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       widget.sessionImp = Provider.of<SessionImplementation>(context,listen: false);
     widget.CustWoocommerceProvider =
         Provider.of<WoocommerceProvider>(context, listen: false);
+
     buttonController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
 

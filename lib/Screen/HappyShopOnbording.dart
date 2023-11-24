@@ -103,7 +103,9 @@ class _HappyShopOnbordingState extends State<HappyShopOnbording>
                 preferredSize: const Size.fromHeight(56),
                 child: HappyShopAppBar(scaffoldKey: scaffoldKey,privatescaffoldKey:privatescaffoldKey),
               ),
-              drawer:   HappyShopDrawer( scaffoldKey: scaffoldKey),
+              drawer:   HappyShopDrawer( scaffoldKey: scaffoldKey,closeDrawer: () {
+                Navigator.of(context).pop();
+              }),
               bottomNavigationBar: getBottomBar(),
               body: Stack(
                 children: [

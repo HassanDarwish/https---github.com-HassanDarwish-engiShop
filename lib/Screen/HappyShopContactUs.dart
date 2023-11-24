@@ -75,7 +75,9 @@ class _HappyShopContactUsState extends State<HappyShopContactUs>
     return Scaffold(
       key: _scaffoldKey,
       appBar:getAppBar("Home",context),
-      drawer:   HappyShopDrawer( scaffoldKey: _scaffoldKey),
+      drawer:   HappyShopDrawer( scaffoldKey: _scaffoldKey,closeDrawer: () {
+        Navigator.of(context).pop();
+      }),
       bottomNavigationBar: null,
       resizeToAvoidBottomInset: false,
       body: Container(

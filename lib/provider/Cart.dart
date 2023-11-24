@@ -331,6 +331,6 @@ class CartImplementation extends ChangeNotifier implements Cart{
     _promocodeValue=0;
     this._totalTax="0";
     this.deliveryFeess="0";
-
+    notifyListeners();
   }
 }
