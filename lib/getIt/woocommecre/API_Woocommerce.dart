@@ -66,6 +66,7 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
 
  String consumerKey = getIt<API_Config>().config.consumerKey;
     String consumerSecret = getIt<API_Config>().config.consumerSecret;
+    bool boolresult=false;
     WooCommerce woocommerce = WooCommerce(
         baseUrl: baseUrl,
         consumerKey: consumerKey,
@@ -80,11 +81,11 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
 
 
     try {
-      await woocommerce.createCustomer(customer);
+       boolresult= await woocommerce.createCustomer(customer);
     }catch(e){
       return false;
     }
-  return true;
+  return boolresult;
   }
   Future searchCustomerByEmail(String email) async {
     String consumerKey = getIt<API_Config>().config.consumerKey;

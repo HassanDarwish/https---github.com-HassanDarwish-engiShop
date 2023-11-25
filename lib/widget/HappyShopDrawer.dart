@@ -434,23 +434,35 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
         builder: (context) => AddressDialog(
           onSubmit: (address, city, state, phoneArea, country) async{
             bool isPhoneAreaValid = RegExp(r'^01\d{9}$').hasMatch(phoneArea);
-
+            bool success=true,drawerClosed=false;
             if (isPhoneAreaValid) {
             widget.isExist =
             await widget.sessionImp.register(user, custWoocommerceProvider,address, city, state, phoneArea, country);
+            widget.closeDrawer();
+            drawerClosed=true;
+            success=true;
             }else{
               callFaild('Invalid phone area. Please enter a valid number.',Colors.red);
               //Navigator.of(context).pop();
             widget.closeDrawer();
-
+            drawerClosed=true;
+              success=false;
             }
-            if(widget.isExist) {
+            if(!widget.isExist) {
+              callFaild('user Already Exist.',Colors.red);
+              success=false;
               setState(() {});
             }else{
-              callFaild("Register Falid",Colors.red);
+              if(success==true) {
+                callFaild('Welcome On Board .', Colors.green);
+              }else{
+                callFaild('Register Failed .', Colors.red);
+              }
               await GoogleSignin.disconnect();
+              if(drawerClosed==false)
               widget.closeDrawer();
             }
+
 
           },
         ),
