@@ -1078,33 +1078,58 @@ void register(BuildContext context, WoocommerceProvider custWoocommerceProvider)
 
 
     Future signIn(context, WoocommerceProvider custWoocommerceProvider) async {
-    final user = await GoogleSignin.login();
-
-    if (user == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("SignIn Falied")));
-    } else {
-      widget.isExist=await widget.sessionImp.initSession(user,  custWoocommerceProvider);
-      if(widget.isExist==false) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
+try {
+  final user = await GoogleSignin.login();
+  if (user == null) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(
+        duration: const Duration(seconds: 7), content: Text("SignIn Falied")));
+  } else {
+    widget.isExist =
+    await widget.sessionImp.initSession(user, custWoocommerceProvider);
+    if (widget.isExist == false) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          duration: const Duration(seconds: 7),
+          content: Text("Please Register..... ")));
       logOut();
-      widget.register=true;
-      }else{
-        if(widget.sessionImp.addressList.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
-          widget.haveAddress=false;
-          }else{
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(duration: const Duration(seconds: 7),content: Text("welcome Back .....")));
-          widget.isExist=true;
-          widget.haveAddress=true;
-          widget.isLoggedIn=true;
-          setState(() {});
-          }
-        }
+      widget.register = true;
+    } else {
+      if (widget.sessionImp.addressList.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(duration: const Duration(seconds: 7),
+                content: Text("Please Add Address .....")));
+        widget.haveAddress = false;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(duration: const Duration(seconds: 7),
+                content: Text("welcome Back .....")));
+        widget.isExist = true;
+        widget.haveAddress = true;
+        widget.isLoggedIn = true;
+        setState(() {});
       }
+    }
+  }
+}catch(e){
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Sign-In Failed'),
+        content: Text(e.toString()),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 
+}
   }
 
 }

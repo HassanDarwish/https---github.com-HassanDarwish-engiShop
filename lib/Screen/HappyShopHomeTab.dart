@@ -359,7 +359,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
         .read<WoocommerceProvider>()
         .getProductBy_Category(catId, order, per_page);
     return listProductByCategory.productList;
-  }
+   }
 
   /*
 
@@ -596,64 +596,68 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                       child: _getHeading("Deals"),
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: ScreenTypeLayout.builder(
-                        mobile: (context) => Container(
-                          child: FutureBuilder<List<product>>(
-                            future: loadProducts("15", "asc", "4"),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return GridView.builder(
-                                    itemCount: snapshot.data?.length,
-                                    padding: const EdgeInsets.only(top: 5),
-                                    shrinkWrap: true,
-                                    gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 0.7,
-                                    ),
-                                    physics:
-                                    const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      raned = Random().nextInt(5);
-                                      raned.remainder(2) > 0
-                                          ? shrim = true
-                                          : shrim = false;
-                                      return ItemCard(
-                                        itemid: snapshot.data![index].id
-                                            .toString(),
-                                        imagurl: snapshot.data?[index].img,
-                                        itemname: snapshot.data?[index].name,
-                                        descprice: Bidi.stripHtmlIfNeeded(
-                                            snapshot
-                                                .data![index].description),
-                                        price: snapshot.data?[index].price,
-                                        shortdescription:
-                                        Bidi.stripHtmlIfNeeded(snapshot
-                                            .data![index]
-                                            .short_description),
-                                        rating:
-                                        Random().nextInt(100).toString(),
-                                        attributess:
-                                        snapshot.data?[index].attributes,
-                                        shadow: shrim,
-                                        shrim: shrim,
-                                        AppBarr: widget.AppBarr,
-                                        privatescaffoldKey:
-                                        widget.AppBarr.privatescaffoldKey,
-                                      );
-                                    });
-                              } else if (snapshot.hasError) {
+                    SizedBox(
+                      height: 600, // Replace with your desired height
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: ScreenTypeLayout.builder(
+                          mobile: (context) => Container(
+                            child: FutureBuilder<List<product>>(
+                              future: loadProducts("15", "asc", "4"),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return GridView.builder(
+                                      itemCount: snapshot.data?.length,
+                                      padding: const EdgeInsets.only(top: 5),
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 0.7,
+                                      ),
+                                      physics:
+                                      const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        raned = Random().nextInt(5);
+                                        raned.remainder(2) > 0
+                                            ? shrim = true
+                                            : shrim = false;
+                                        return ItemCard(
+                                          itemid: snapshot.data![index].id
+                                              .toString(),
+                                          imagurl: snapshot.data?[index].img,
+                                          itemname: snapshot.data?[index].name,
+                                          descprice: Bidi.stripHtmlIfNeeded(
+                                              snapshot
+                                                  .data![index].description),
+                                          price: snapshot.data?[index].price,
+                                          shortdescription:
+                                          Bidi.stripHtmlIfNeeded(snapshot
+                                              .data![index]
+                                              .short_description),
+                                          rating:
+                                          Random().nextInt(100).toString(),
+                                          attributess:
+                                          snapshot.data?[index].attributes,
+                                          shadow: shrim,
+                                          shrim: shrim,
+                                          AppBarr: widget.AppBarr,
+                                          privatescaffoldKey:
+                                          widget.AppBarr.privatescaffoldKey,
+                                        );
+                                      });
+                                } else if (snapshot.hasError) {
 
-                                return Text(
-                                    "Server Can not be reached please check connection"); //Text(snapshot.error.toString());
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
+                                  return Text(
+                                      "Server Can not be reached please check connection"); //Text(snapshot.error.toString());
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
                               }
-                            }
+                            ),
                           ),
                         ),
                       ),
