@@ -51,11 +51,22 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> checkForUpdate() async {
 
-    InAppUpdate.checkForUpdate().then((info) {
+    InAppUpdate.checkForUpdate().then((info) async {
 
-      setState(() {
         _updateInfo = info;
-      });
+        if (_updateInfo?.updateAvailability ==
+            UpdateAvailability.updateAvailable) {
+          print(_updateInfo?.updateAvailability ==
+              UpdateAvailability.updateAvailable);
+           InAppUpdate.startFlexibleUpdate()
+              .catchError((e) {
+            _showMyDialog();
+            return AppUpdateResult.inAppUpdateFailed;
+          });
+        } else {
+          _showMyDialog();
+        }
+
     }).catchError((e) {
       _showMyDialog();
       //showSnack(e.toString());
