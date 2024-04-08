@@ -272,7 +272,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
           backgroundColor: Colors.white,
         ),
         body: FutureBuilder<List<product>>(
-          future: loadProducts(null, null),
+          future: loadProducts("desc","100"),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(

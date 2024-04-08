@@ -422,7 +422,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     // Replace this delay with the code to be executed during refresh.
     // and return a Future when code finishes execution.
     await Future<void>.delayed(const Duration(milliseconds: 1500));
-
+    loadData();
     // Reload the data.
     setState(() {});
   }
