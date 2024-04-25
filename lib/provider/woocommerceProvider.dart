@@ -1,6 +1,6 @@
 import 'package:GiorgiaShop/pojo/customer/customers.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import '../pojo/favorit/Favorit.dart';
@@ -56,8 +56,25 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
     return api_Woocommerce.listAllCategories;
   }
 
-  Future getCategoriesByCount(int count) {
-    return api_Woocommerce.listCategories;
+  Future getCategoriesByCount(int count) async {
+    Future<List<WooProductCategory>> listCategories=Future.value([]);
+    bool tempFlag=true;
+    int tempCount=0;
+    while (tempFlag) {
+      try {
+        tempCount++;
+      listCategories =   api_Woocommerce.listCategories; // Assuming this fetches categories
+        tempFlag = false; // Exit loop on successful fetch (replace with your actual condition)
+      } catch (error) {
+        var duration = Duration(milliseconds: 2000);
+        await Future.delayed(duration); // Simulate retry delay (remove or adjust as needed)
+        if (tempCount == 2) {
+          break;
+        }
+      }
+    }
+    //throw Exception('Simulated network error');
+    return listCategories;
   }
 
   Future<products> getProductByCategory(String catId) async {
@@ -65,15 +82,48 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
 
     result = api_CustomWoocommerce.getProductByCategory(catId);
 
+/*
+    Future<products> result=Future.value(products(productList: [])) ;
+    bool tempFlag=true;
+    int tempCount=0;
+    while (tempFlag) {
+      try {
+        tempCount++;
+        result =    api_CustomWoocommerce.getProductBy_Category(catId, order, per_page);// Assuming this fetches categories
+        tempFlag = false; // Exit loop on successful fetch (replace with your actual condition)
+      } catch (error) {
+        var duration = Duration(milliseconds: 2000);
+        await Future.delayed(duration); // Simulate retry delay (remove or adjust as needed)
+        if (tempCount == 2) {
+          break;
+        }
+      }
+    }*/
     return result;
   }
 
+
+
   Future<products> getProductBy_Category(
       String catId, String order, String per_page) async {
-    Future<products> result;
+    Future<products> result=Future.value(products(productList: [])) ;
+    bool tempFlag=true;
+    int tempCount=0;
+    while (tempFlag) {
+      try {
+        tempCount++;
+        result =    api_CustomWoocommerce.getProductBy_Category(catId, order, per_page);// Assuming this fetches categories
+        tempFlag = false; // Exit loop on successful fetch (replace with your actual condition)
+      } catch (error) {
+        var duration = Duration(milliseconds: 2000);
+        await Future.delayed(duration); // Simulate retry delay (remove or adjust as needed)
+        if (tempCount == 2) {
+          break;
+        }
+      }
+    }
 
-    result =
-        api_CustomWoocommerce.getProductBy_Category(catId, order, per_page);
+
 
     return result;
   }

@@ -352,15 +352,27 @@ class HappyShopHpmeTab extends StatefulWidget {
 class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
     with TickerProviderStateMixin {
   late products listProductByCategory;
+  late Future<dynamic> _CategoriesByCount;
+  late Future<List<product>> _futureCategoriesByCount;
 
   Future<List<product>> loadProducts(
-      String catId, String order, String per_page) async {
-    listProductByCategory = await context
-        .read<WoocommerceProvider>()
-        .getProductBy_Category(catId, order, per_page);
+      String catId, String order, String per_page)  async{
+
+      listProductByCategory = await context
+          .read<WoocommerceProvider>()
+          .getProductBy_Category(catId, order, per_page);
+
     return listProductByCategory.productList;
    }
-
+  Future<List<product>> refreshProducts(
+      String catId, String order, String per_page)  async{
+  setState(() async{
+  listProductByCategory = await context
+      .read<WoocommerceProvider>()
+      .getProductBy_Category(catId, order, per_page);
+  });
+  return listProductByCategory.productList;
+  }
   /*
 
 
@@ -397,6 +409,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
   late Animation buttonSqueezeanimation;
   late AnimationController buttonController;
   late WoocommerceProvider woocommerceprovider;
+  late Future<dynamic> _future;
   @override
   void initState() {
     super.initState();
@@ -406,6 +419,10 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
         Provider.of<WoocommerceProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
+    _future=context
+        .read<WoocommerceProvider>()
+        .getCategoriesByCount(8);
+    _futureCategoriesByCount=loadProducts("15", "asc", "4");
   }
 
   @override
@@ -438,7 +455,13 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
           (_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
 
   }
-
+_refreshCateguryMenu(){
+  setState(() {
+    _future=context
+        .read<WoocommerceProvider>()
+        .getCategoriesByCount(8);
+  });
+}
   @override
   Widget build(BuildContext context) {
        loadData();
@@ -509,9 +532,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                     SizedBox(
                       height: 100,
                       child: FutureBuilder(
-                          future: context
-                              .read<WoocommerceProvider>()
-                              .getCategoriesByCount(8),
+                          future: _future,
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
@@ -580,8 +601,18 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                 },
                               );
                             } else if (snapshot.hasError) {
-                              return Text(
-                                  "Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
+                              return  SizedBox(
+                                height: 100,
+                                width: 300,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _refreshCateguryMenu();
+                                  },
+                                  child: Text('Referesh'),
+                                ),
+                              );
+                                //Text(snapshot.error.toString());
+
                             } else {
                               // Show a circular progress indicator while loading products
                               return Center(
@@ -604,7 +635,7 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                         child: ScreenTypeLayout.builder(
                           mobile: (context) => Container(
                             child: FutureBuilder<List<product>>(
-                              future: loadProducts("15", "asc", "4"),
+                              future: _futureCategoriesByCount,
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return GridView.builder(
@@ -649,8 +680,16 @@ class _HappyShopHpmeTabState extends State<HappyShopHpmeTab>
                                       });
                                 } else if (snapshot.hasError) {
 
-                                  return Text(
-                                      "Server Can not be reached please check connection"); //Text(snapshot.error.toString());
+                                  return  SizedBox(
+                                    height: 300,
+                                    width: 300,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        refreshProducts("15", "asc", "4");
+                                      },
+                                      child: Text('Referesh'),
+                                    ),
+                                  ); //Text(snapshot.error.toString());
                                 } else {
                                   return Center(
                                     child: CircularProgressIndicator(),

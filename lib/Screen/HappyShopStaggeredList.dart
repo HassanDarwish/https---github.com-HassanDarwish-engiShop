@@ -222,7 +222,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
   late products listProductByCategory;
 
   String? get order => null;
-
+  late Future<List<product>> _future;
   late WoocommerceProvider woocommerceprovider;
   @override
   void initState() {
@@ -231,6 +231,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
         Provider.of<WoocommerceProvider>(context, listen: false);
     // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductByCategory("15"));
     // WidgetsBinding.instance.addPostFrameCallback((_) => woocommerceprovider.getProductBy_Category("15", "asc", "4"));
+    _future=loadProducts("desc","100");
   }
 
   @override
@@ -250,6 +251,11 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
     return listProductByCategory.productList;
   }
 
+  _refreshloadProducts(){
+    setState(() {
+      _future=loadProducts("desc","100");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -272,7 +278,7 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
           backgroundColor: Colors.white,
         ),
         body: FutureBuilder<List<product>>(
-          future: loadProducts("desc","100"),
+          future: _future,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
@@ -305,7 +311,18 @@ class _HappyShopStaggeredListState extends State<HappyShopStaggeredList>
                 },
               );
             } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
+              return   SizedBox(
+                width: 300,
+                height: 300,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _refreshloadProducts();
+                  },
+                  child: Text('Referesh'),
+                ),
+              );
+
+
             } else {
               return const Center(
                 child: CircularProgressIndicator(),

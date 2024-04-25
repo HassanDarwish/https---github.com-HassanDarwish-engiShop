@@ -67,6 +67,7 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
   ];
   // late products listProductByCategory;
   late WoocommerceProvider woocommerceprovider;
+  late Future<dynamic> _future;
   @override
   void initState() {
     super.initState();
@@ -76,6 +77,13 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) =>
         woocommerceprovider.getCategories());
+
+
+        _future=context
+            .read<WoocommerceProvider>()
+            .getCategories();
+
+
   }
   @override
   void dispose() {
@@ -103,7 +111,13 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
       elevation: 5,
     );
   }
-
+  _refreshCateguryMenu(){
+    setState(() {
+      _future=context
+          .read<WoocommerceProvider>()
+          .getCategories();
+    });
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -111,7 +125,7 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
         appBar: getAppBar(ALL_CAT, context),
         body: Container(
         child: FutureBuilder(
-        future: context.read<WoocommerceProvider>().getCategories(),
+        future: _future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           List<WooProductCategory>? WooProductCategorydata =
@@ -134,7 +148,16 @@ class _HappyShopCatogeryAllState extends State<HappyShopCatogeryAll> {
         }
         );
         } else if (snapshot.hasError) {
-          return Text("Server Can not be reached  please check connection"); //Text(snapshot.error.toString());
+          return  SizedBox(
+            width: 300,
+            height: 300,
+            child: ElevatedButton(
+              onPressed: () {
+                _refreshCateguryMenu();
+              },
+              child: Text('Referesh'),
+            ),
+          ); //Text(snapshot.error.toString());
         } else {
         // Show a circular progress indicator while loading products
         return Center(
