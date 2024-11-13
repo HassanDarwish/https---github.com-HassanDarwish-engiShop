@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:flutter/material.dart';
 //import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:GiorgiaShop/Screen/SmartKitAppbar.dart';
-
 final List<String> imgList = [
   'https://smartkit.wrteam.in/smartkit/images/1573810839.3215.jpeg',
   'https://smartkit.wrteam.in/smartkit/images/fitness2.jpg',
@@ -16,7 +15,7 @@ final Widget placeholder = Container(color: Colors.grey);
 
 final List child = map<Widget>(
   imgList,
-  (index, i) {
+      (index, i) {
     return Container(
       margin: const EdgeInsets.all(5.0),
       child: ClipRRect(
@@ -82,9 +81,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      CarouselSlider(
+      carousel_slider.CarouselSlider(
         items: child as List<Widget>,
-        options: CarouselOptions(
+        options: carousel_slider.CarouselOptions(
           autoPlay: true,
           enlargeCenterPage: true,
           aspectRatio: 2.0,
@@ -99,7 +98,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: map<Widget>(
           imgList,
-          (index, url) {
+              (index, url) {
             return Container(
               width: 8.0,
               height: 8.0,
@@ -118,16 +117,16 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 }
 
 class Image_Slider extends StatelessWidget {
-  CarouselController buttonCarouselController = CarouselController();
+  carousel_slider.CarouselController buttonCarouselController = carousel_slider.CarouselController();
 
   Image_Slider({super.key});
   //late CustomLayoutOption customLayoutOption;
   @override
   Widget build(BuildContext context) {
     //Manually operated Carousel
-    final CarouselSlider manualCarouselDemo = CarouselSlider(
+    final carousel_slider.CarouselSlider manualCarouselDemo = carousel_slider.CarouselSlider(
       items: child as List<Widget>,
-      options: CarouselOptions(
+      options: carousel_slider.CarouselOptions(
         autoPlay: false,
         enlargeCenterPage: true,
         viewportFraction: 0.9,
@@ -136,9 +135,9 @@ class Image_Slider extends StatelessWidget {
     );
 
     //Auto playing carousel
-    final CarouselSlider autoPlayDemo = CarouselSlider(
+    final carousel_slider.CarouselSlider autoPlayDemo = carousel_slider.CarouselSlider(
       items: imgList.map(
-        (url) {
+            (url) {
           return Container(
             margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
@@ -152,7 +151,7 @@ class Image_Slider extends StatelessWidget {
           );
         },
       ).toList(),
-      options: CarouselOptions(
+      options: carousel_slider.CarouselOptions(
         viewportFraction: 0.9,
         aspectRatio: 2.0,
         autoPlay: true,
@@ -162,10 +161,10 @@ class Image_Slider extends StatelessWidget {
 
     //Button controlled carousel
     Widget buttonDemo() {
-      final basicSlider = CarouselSlider(
+      final basicSlider = carousel_slider.CarouselSlider(
         carouselController: buttonCarouselController,
         items: child as List<Widget>,
-        options: CarouselOptions(
+        options: carousel_slider.CarouselOptions(
           autoPlay: false,
           enlargeCenterPage: true,
           viewportFraction: 0.9,
@@ -204,10 +203,10 @@ class Image_Slider extends StatelessWidget {
     }
 
     //Pages covers entire carousel
-    final CarouselSlider coverScreenExample = CarouselSlider(
+    final carousel_slider.CarouselSlider coverScreenExample = carousel_slider.CarouselSlider(
       items: map<Widget>(
         imgList,
-        (index, i) {
+            (index, i) {
           return Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -216,7 +215,7 @@ class Image_Slider extends StatelessWidget {
           );
         },
       ),
-      options: CarouselOptions(
+      options: carousel_slider.CarouselOptions(
         viewportFraction: 1.0,
         aspectRatio: 2.0,
         autoPlay: false,
@@ -225,9 +224,9 @@ class Image_Slider extends StatelessWidget {
     );
 
     //User input pauses carousels automatic playback
-    final CarouselSlider touchDetectionDemo = CarouselSlider(
+    final carousel_slider.CarouselSlider touchDetectionDemo = carousel_slider.CarouselSlider(
       items: imgList.map(
-        (url) {
+            (url) {
           return Container(
             margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
@@ -241,7 +240,7 @@ class Image_Slider extends StatelessWidget {
           );
         },
       ).toList(),
-      options: CarouselOptions(
+      options: carousel_slider.CarouselOptions(
         viewportFraction: 0.9,
         aspectRatio: 2.0,
         autoPlay: true,
@@ -251,9 +250,9 @@ class Image_Slider extends StatelessWidget {
     );
 
     //Non-looping manual Carousel
-    final CarouselSlider nonLoopingCarousel = CarouselSlider(
+    final carousel_slider.CarouselSlider nonLoopingCarousel = carousel_slider.CarouselSlider(
       items: child as List<Widget>,
-      options: CarouselOptions(
+      options: carousel_slider.CarouselOptions(
         enableInfiniteScroll: false,
         autoPlay: false,
         enlargeCenterPage: true,
@@ -263,9 +262,9 @@ class Image_Slider extends StatelessWidget {
     );
 
     //Vertical carousel
-    final CarouselSlider verticalScrollCarousel = CarouselSlider(
+    final carousel_slider.CarouselSlider verticalScrollCarousel = carousel_slider.CarouselSlider(
       items: imgList.map(
-        (url) {
+            (url) {
           return Container(
             margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
@@ -279,7 +278,7 @@ class Image_Slider extends StatelessWidget {
           );
         },
       ).toList(),
-      options: CarouselOptions(
+      options: carousel_slider.CarouselOptions(
         scrollDirection: Axis.vertical,
         aspectRatio: 2.0,
         autoPlay: true,
