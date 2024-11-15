@@ -8,7 +8,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:GiorgiaShop/Screen/HappyShopHome.dart';
 import '../pojo/favorit/Favorit.dart';
 import 'Cart.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
+
+import 'package:GiorgiaShop/pojo/Woo/WooCustomer.dart' as WooCusomerr;
+import 'package:GiorgiaShop/pojo/Woo/WooProductCategory.dart';
+import 'package:GiorgiaShop/pojo/Woo/WooOrderPayload.dart' as WooOrderPayload;
+import 'package:GiorgiaShop/pojo/Woo/WooOrder.dart' as WooOrder;
+
 class SessionImplementation extends ChangeNotifier {
   late String _userID;
   late String _password;
@@ -107,13 +112,13 @@ class SessionImplementation extends ChangeNotifier {
     // id = user.id;
 
     await custWoocommerceProvider.api_Woocommerce.searchCustomerByEmail(email);
-    List<WooCustomer>? cutomer =
+    List<WooCusomerr.WooCustomer>? cutomer =
     await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
 
-    WooCustomer? cuserUstomer = cutomer?.firstWhere(
+    WooCusomerr.WooCustomer? cuserUstomer = cutomer?.firstWhere(
             (cuserUstomer) =>
         cuserUstomer.username == displayName && cuserUstomer.email == email,
-        orElse: () => WooCustomer());
+        orElse: () => WooCusomerr.WooCustomer());
 
     // If the user is found, print their name. Otherwise, print 'User not found'.
     if (cuserUstomer?.username == null) {
@@ -144,14 +149,14 @@ class SessionImplementation extends ChangeNotifier {
     status = sessionEnums.login;
 
     await custWoocommerceProvider.getCustomerByEmail(user.email);
-    List<WooCustomer>? cutomer =
+    List<WooCusomerr.WooCustomer>? cutomer =
     await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
 
-    WooCustomer? cuserUstomer = cutomer?.firstWhere(
+    WooCusomerr.WooCustomer? cuserUstomer = cutomer?.firstWhere(
             (cuserUstomer) =>
         cuserUstomer.username == user.displayName &&
             cuserUstomer.email == user.email,
-        orElse: () => WooCustomer());
+        orElse: () => WooCusomerr.WooCustomer());
 
     // If the user is found, print their name. Otherwise, print 'User not found'.
     if (cuserUstomer?.username == null) {
@@ -188,14 +193,14 @@ class SessionImplementation extends ChangeNotifier {
     status = sessionEnums.login;
 
     await custWoocommerceProvider.getCustomerByEmail(user.email);
-    List<WooCustomer>? cutomer =
+    List<WooCusomerr.WooCustomer>? cutomer =
     await custWoocommerceProvider.api_Woocommerce.listWooCustomer;
 
-    WooCustomer? cuserUstomer = cutomer?.firstWhere(
+    WooCusomerr.WooCustomer? cuserUstomer = cutomer?.firstWhere(
             (cuserUstomer) =>
         cuserUstomer.username == user.displayName &&
             cuserUstomer.email == user.email,
-        orElse: () => WooCustomer());
+        orElse: () => WooCusomerr.WooCustomer());
 
     // If the user is found, print their name. Otherwise, print 'User not found'.
     if (cuserUstomer?.username == null) {

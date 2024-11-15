@@ -6,10 +6,9 @@ import 'package:GiorgiaShop/Helper/HappyShopColor.dart';
 import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import '../main.dart';
 import '../pojo/products.dart';
-
+import 'package:GiorgiaShop/pojo/Woo/WooProductCategory.dart';
 
 import '../provider/woocommerceProvider.dart';
 import 'HappyShopStaggeredList.dart';

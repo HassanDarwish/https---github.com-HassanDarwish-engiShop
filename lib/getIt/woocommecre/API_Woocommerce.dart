@@ -1,12 +1,22 @@
+import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
 import 'dart:math';
-
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
-import 'package:flutter_wp_woocommerce/models/customer.dart';
+import 'package:logger/logger.dart';
+import 'dart:developer' as developer;
+import 'package:GiorgiaShop/pojo/Woo/WooCustomer.dart' as WooCusomerr;
+import 'package:GiorgiaShop/pojo/Woo/WooProductCategory.dart';
+import 'package:GiorgiaShop/pojo/Woo/WooOrderPayload.dart' as WooOrderPayload;
+import 'package:GiorgiaShop/pojo/Woo/WooOrder.dart' as WooOrder;
 import 'package:get_it/get_it.dart';
-import 'package:flutter_wp_woocommerce/models/order_payload.dart';
 import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
+import 'package:http/http.dart' as http;
+import 'package:crypto/crypto.dart' as crypto;
+import 'package:GiorgiaShop/pojo/customer/customers.dart';
 
+import '../../pojo/Woo/WooCustomer.dart';
+import '../../pojo/customer/customer.dart';
 GetIt getIt = GetIt.instance;
 
 abstract class API_Woocommerce {
@@ -14,14 +24,12 @@ abstract class API_Woocommerce {
   Future getCategoriesByCount(int count);
   Future searchCustomerByEmail(String email);
   Future<bool> createWooCustomer(String email,String username,address, city, state, phoneArea, country);
-  Future<WooCustomer> updateWooCustomer(String id,Map data);
-  Future<bool>  createOrder(String userID,String displayName,Map addressList
-  ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode) ;
+  FutureOr<WooCusomerr.WooCustomer> updateWooCustomer(String id,Map data);
 
   
   late Future<List<WooProductCategory>> listCategories;
   late Future<List<WooProductCategory>> listAllCategories;
-  late Future<List<WooCustomer>> listWooCustomer;
+  late Future<List<WooCusomerr.WooCustomer>> listWooCustomer;
 
 
   //http://engy.jerma.net/wp-json/wc/v3/customers?username=HassanAli&email=hassanaly@msn.com&password&first_name=Hassan&last_name=Ali
@@ -30,7 +38,7 @@ abstract class API_Woocommerce {
 class API_Woocommerce_Implementation extends API_Woocommerce {
   late Future<List<WooProductCategory>> listCategories;
   late Future<List<WooProductCategory>> listAllCategories;
-  late Future<List<WooCustomer>> listWooCustomer;
+  late Future<List<WooCusomerr.WooCustomer>> listWooCustomer;
   var baseUrl = "http://engy.jerma.net";
 
   //var consumerKey = "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
@@ -42,34 +50,43 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
 
    */
 
-  Future<WooCustomer> updateWooCustomer(String userID,Map mapData) async{
-    String consumerKey = getIt<API_Config>().config.consumerKey;
-    String consumerSecret = getIt<API_Config>().config.consumerSecret;
+  FutureOr<WooCusomerr.WooCustomer> updateWooCustomer(String userID,Map mapData) async{
 
-    WooCommerce woocommerce = WooCommerce(
-        baseUrl: baseUrl,
-        consumerKey: consumerKey,
-        consumerSecret: consumerSecret);
-  //  WooCustomer customer=WooCustomer();
+    String jsonData = json.encode(mapData);
+    late WooCustomer result;
+    //WooCustomer result=await woocommerce.updateCustomer(id: int.parse(userID),data:mapData);
+    //var url = Uri.parse('https://yourstore.com/wp-json/wc/v3/customers/$userID');
+    try {
+    var response = await http.put(
+      Uri.parse(getOAuthURL("PUT",
+          'http://engy.jerma.net/wp-json/wc/v3/customers/${userID}')),
+      headers: {"Content-Type": "Application/json"},
+      body: json,
+    );
+   late customers customer;
+// Convert the customer data to JSON format
+      if (response.statusCode == 200) {
+        result = json.decode(response.body);
 
-    // var order = await woocommerce.createOrder(userID, mapData);
-    //   productId,
-    //   quantity,
-    //   attributeValues: attributeValues,
-    // );
-    WooCustomer result=await woocommerce.updateCustomer(id: int.parse(userID),data:mapData);
-  return result;
+
+        List<dynamic> Json = jsonDecode(response.body);
+        !Json.isEmpty
+            ? customer = customers.fromJson(jsonDecode(response.body))
+            : customer = customers(email: "empty");
+      }
+      }catch(e){
+      Logger().e(e.toString()+'GiorgiaShop Error erro in updateWooCustomer');
+    }
+
+      // Check the response status
+
+
+    return result;
   }
   Future<bool> createWooCustomer(String email,String username,address, city, state, phoneArea, country) async{
 
 
 
- String consumerKey = getIt<API_Config>().config.consumerKey;
-    String consumerSecret = getIt<API_Config>().config.consumerSecret;
-    WooCommerce woocommerce = WooCommerce(
-        baseUrl: baseUrl,
-        consumerKey: consumerKey,
-        consumerSecret: consumerSecret);
     WooCustomer customer=WooCustomer();
     customer.email=email;
     customer.firstName=username;
@@ -77,49 +94,88 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
     customer.password=randomString();
     customer.billing=Billing(phone: phoneArea,country: country,state: state,address1: address,firstName: username,
     lastName: "",city: city,postcode: "",company: "",email: email,address2: "");
-
-
+    String jsonData = json.encode(customer);
     try {
-      await woocommerce.createCustomer(customer);
+      var response = await http.post(
+        Uri.parse(getOAuthURL("POST",
+            'http://engy.jerma.net/wp-json/wc/v3/customers/')),
+        headers: {"Content-Type": "Application/json"},
+        body: jsonData,
+      );
     }catch(e){
-      return false;
+      Logger().e(e.toString()+'GiorgiaShop Error erro in createWooCustomer');
     }
+
   return true;
   }
   Future searchCustomerByEmail(String email) async {
-    String consumerKey = getIt<API_Config>().config.consumerKey;
-    String consumerSecret = getIt<API_Config>().config.consumerSecret;
 
-    final WooCommerce woocommerce = WooCommerce(
-        baseUrl: baseUrl,
-        consumerKey: consumerKey,
-        consumerSecret: consumerSecret);
+    try {
+      var response = await http.get(
+        Uri.parse(getOAuthURL("GET",
+            'http://engy.jerma.net/wp-json/wc/v3/customers/${email}')),
+        headers: {"Content-Type": "Application/json"},
 
-    listWooCustomer = woocommerce.getCustomers();
+      );
+      late customers customer;
+// Convert the customer data to JSON format
+      if (response.statusCode == 200) {
+         listWooCustomer = jsonDecode(response.body);
+
+      }
+    }catch(e){
+      Logger().e(e.toString()+'GiorgiaShop Error erro in searchCustomerByEmail');
+    }
+
   }
+  Future<List<WooProductCategory>> get_Categories() async {
 
+    try {
+      var response = await http.get(
+        Uri.parse(getOAuthURL("GET",
+            'http://engy.jerma.net/wp-json/wc/v3/products/categories')),
+        headers: {"Content-Type": "Application/json"},
+      );
+      late customers customer;
+// Convert the customer data to JSON format
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        return jsonList.map((json) => WooProductCategory.fromJson(json)).toList();
+
+      }
+    }catch(e){
+      Logger().e(e.toString()+'GiorgiaShop Error erro in searchCustomerByEmail');
+    }
+    return [];
+  }
   Future getCategories() async {
-    String consumerKey = getIt<API_Config>().config.consumerKey;
-    String consumerSecret = getIt<API_Config>().config.consumerSecret;
-    WooCommerce woocommerce = WooCommerce(
-        baseUrl: baseUrl,
-        consumerKey: consumerKey,
-        consumerSecret: consumerSecret);
-    listAllCategories = woocommerce.getProductCategories(
-      perPage: 100,
-    );
+    listAllCategories=get_Categories();
+  }
+  Future<List<WooProductCategory>>  get_CategoriesByCount(int count) async {
+    try {
+      var response = await http.get(
+        Uri.parse(getOAuthURL("GET",
+            'http://engy.jerma.net/wp-json/wc/v3/products/categories?per_page=${count}')),
+        headers: {"Content-Type": "Application/json"},
+      );
+      late customers customer;
+// Convert the customer data to JSON format
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        return jsonList.map((json) => WooProductCategory.fromJson(json)).toList();
+    }
+    }catch(e){
+    Logger().e(e.toString()+'GiorgiaShop Error  in searchCustomerByEmail');
+    }
+
+    return [];
+  }
+  Future getCategoriesByCount(int count) async {
+    //wp-json/wc/v3/products/categories?per_page=8
+    listCategories=get_CategoriesByCount(count);
+
   }
 
-  Future getCategoriesByCount(int count) async {
-    String consumerKey = getIt<API_Config>().config.consumerKey;
-    String consumerSecret = getIt<API_Config>().config.consumerSecret;
-    WooCommerce woocommerce = WooCommerce(
-        baseUrl: baseUrl,
-        consumerKey: consumerKey,
-        consumerSecret: consumerSecret);
-    listCategories = woocommerce.getProductCategories(
-      perPage: count,
-    );
   }
   String randomString(){
     Random rand = Random();
@@ -132,96 +188,7 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
     return nonce;
   }
 
-  @override
-  Future<bool> createOrder(String userID,String displayName,Map addressList
-      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode) async {
-try {
-  String consumerKey = getIt<API_Config>().config.consumerKey;
-  String consumerSecret = getIt<API_Config>().config.consumerSecret;
-  WooCommerce woocommerce = WooCommerce(
-      baseUrl: baseUrl,
-      consumerKey: consumerKey,
-      consumerSecret: consumerSecret);
 
-  // quantity , attribute
-  // if SelectedAttribute > 0 then get _identify_value to be Map key to get quantity
-  // else get id as Map key to get value as quantity
-
-  // if SelectedAttribute >0 then attribute name from attributes in index order 0=>0  1=>1  SelectedAttribute[0]=attributes[0]
-  // SelectedAttribute contain value of attribute selection
-  List<WooOrderPayloadMetaData> listMetaData=List<WooOrderPayloadMetaData>.empty(growable: true);
-  List<LineItems>  line_Item=List<LineItems>.empty(growable: true);
-
-  int counter=0;
-  for (var product in products) {
-    LineItems item=LineItems();
-
-
-      item.name=product.name;
-      item.productId=int.parse(product.id);
-      if(product.SelectedAttribute!.length>0) {
-        item.quantity = itemMap[product.identify_value.toString()];
-        for (var attr in product.attributes!) {
-          WooOrderPayloadMetaData itemdMetaData=WooOrderPayloadMetaData();
-          itemdMetaData.key=attr.name+"_"+getRandomString();
-          itemdMetaData.value=product.SelectedAttribute![attr.name];
-          listMetaData.add(itemdMetaData);
-        }
-
-
-      }else{
-        item.quantity = itemMap[product.id];
-      }
-
-    line_Item.add(item);
-  }
-  //String userID,String displayName,Map addressList
-  WooOrderPayloadShipping  shippingInfo=WooOrderPayloadShipping();
-  shippingInfo.firstName=displayName;
-  for (String key in addressList.keys) {
-    if(key=="address")
-      shippingInfo.address1=addressList["address"];
-    if(key=="city")
-      shippingInfo.city=addressList["city"];
-    if(key=="state")
-      shippingInfo.state=addressList["state"];
-    if(key=="mobile")
-      shippingInfo.address2=addressList["mobile"];
-    if(key=="country")
-      shippingInfo.country=addressList["country"];
-  }
-
-
-
-  WooOrder order = await woocommerce.createOrder(WooOrderPayload(
-
-
-      shipping: shippingInfo,
-      metaData: listMetaData,
-      lineItems: line_Item
-  ));
-
-  if (order != null) {
-    return true;
-  } else {
-    return false;
-    // The order failed to be created.
-  }
-}catch(e)
-    {
-
-    }
-return false;
-    // WooOrder order2=WooOrder(id:4);
-    // List<LineItems>? lineItems;
-    // LineItems Line_Items=LineItems();
-    //
-    // lineItems?.add(Line_Items);
-    //
-    // order2.lineItems=lineItems;
-
-
-  }
   String getRandomString(){
     Random rand = Random();
     List<int> codeUnits = List.generate(10, (index) {
@@ -231,6 +198,110 @@ return false;
     String nonce = String.fromCharCodes(codeUnits);
     return nonce;
   }
-}
+  String getOAuthURL(String requestMethod, String queryUrl) {
+    String consumerKey = getIt<API_Config>().config.consumerKey;
+    String consumerSecret = getIt<API_Config>().config.consumerSecret;
+    String token = "";
+    String url = queryUrl;
+    bool containsQueryParams = url.contains("?");
 
-/////
+    Random rand = Random();
+    List<int> codeUnits = List.generate(10, (index) {
+      return rand.nextInt(26) + 97;
+    });
+
+    /// Random string uniquely generated to identify each signed request
+    String nonce = String.fromCharCodes(codeUnits);
+
+    /// The timestamp allows the Service Provider to only keep nonce values for a limited time
+    int timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+    String parameters = "oauth_consumer_key=" +
+        consumerKey +
+        "&oauth_nonce=" +
+        nonce +
+        "&oauth_signature_method=HMAC-SHA1&oauth_timestamp=" +
+        timestamp.toString() +
+        "&oauth_token=" +
+        token +
+        "&oauth_version=1.0&";
+
+    if (containsQueryParams == true) {
+      parameters = parameters + url.split("?")[1];
+    } else {
+      parameters = parameters.substring(0, parameters.length - 1);
+    }
+
+    Map<dynamic, dynamic> params = QueryString.parse(parameters);
+    Map<dynamic, dynamic> treeMap = new SplayTreeMap<dynamic, dynamic>();
+    treeMap.addAll(params);
+
+    String parameterString = "";
+
+    for (var key in treeMap.keys) {
+      parameterString = parameterString +
+          Uri.encodeQueryComponent(key) +
+          "=" +
+          treeMap[key] +
+          "&";
+    }
+
+    parameterString = parameterString.substring(0, parameterString.length - 1);
+
+    String method = requestMethod;
+    String baseString = method +
+        "&" +
+        Uri.encodeQueryComponent(
+            containsQueryParams == true ? url.split("?")[0] : url) +
+        "&" +
+        Uri.encodeQueryComponent(parameterString);
+
+    String signingKey = consumerSecret + "&" + token;
+    crypto.Hmac hmacSha1 =
+    crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
+
+    /// The Signature is used by the server to verify the
+    /// authenticity of the request and prevent unauthorized access.
+    /// Here we use HMAC-SHA1 method.
+    crypto.Digest signature = hmacSha1.convert(utf8.encode(baseString));
+
+    String finalSignature = base64Encode(signature.bytes);
+
+    String requestUrl = "";
+
+    if (containsQueryParams == true) {
+      requestUrl = url.split("?")[0] +
+          "?" +
+          parameterString +
+          "&oauth_signature=" +
+          Uri.encodeQueryComponent(finalSignature);
+    } else {
+      requestUrl = url +
+          "?" +
+          parameterString +
+          "&oauth_signature=" +
+          Uri.encodeQueryComponent(finalSignature);
+    }
+
+    return requestUrl;
+  }
+
+class QueryString {
+  /// Parses the given query string into a Map.
+  static Map parse(String query) {
+    var search = new RegExp('([^&=]+)=?([^&]*)');
+    var result = new Map();
+
+// Get rid off the beginning ? in query strings.
+    if (query.startsWith('?')) query = query.substring(1);
+
+// A custom decoder.
+    decode(String s) => Uri.decodeComponent(s.replaceAll('+', ' '));
+
+// Go through all the matches and build the result map.
+    for (Match match in search.allMatches(query)) {
+      result[decode(match.group(1)!)] = decode(match.group(2)!);
+    }
+
+    return result;
+  }}

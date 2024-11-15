@@ -1,9 +1,8 @@
 import 'dart:io';
-import 'package:http/http.dart' as http;
+import 'package:GiorgiaShop/pojo/Woo/WooProductCategory.dart';
 import 'package:GiorgiaShop/provider/Session.dart';
 import 'package:GiorgiaShop/provider/woocommerceProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'Helper/HappyShopColor.dart';
@@ -146,11 +145,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future _getProducts() async {
-    WooCommerce woocommerce = WooCommerce(
-        baseUrl: "http://engy.jerma.net",
-        consumerKey: "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56",
-        consumerSecret: "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf");
-    Future<List<WooProductCategory>> x = woocommerce.getProductCategories();
+    await getIt<API_Woocommerce>().getCategories();
+    Future<List<WooProductCategory>> x = getIt<API_Woocommerce>().listAllCategories;
 
     return x;
   }
