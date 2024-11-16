@@ -130,7 +130,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
            headers: {"Content-Type": "Application/json"});
 
        responseMap = jsonDecode(response.body);
-       list_=responseMap["products"];
+
          favorit=Favorit.fromJson(response.body);
 
     return   favorit.favorit_List;

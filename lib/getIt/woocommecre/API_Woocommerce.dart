@@ -39,16 +39,9 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
   late Future<List<WooProductCategory>> listCategories;
   late Future<List<WooProductCategory>> listAllCategories;
   late Future<List<WooCusomerr.WooCustomer>> listWooCustomer;
-  var baseUrl = "http://engy.jerma.net";
 
-  //var consumerKey = "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
-  //var consumerSecret = "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
 
-  /*
-  Notes
-  https://woocommerce.github.io/woocommerce-rest-api-docs/
 
-   */
 
   Future updateWooCustomer(String userID,Map mapData) async {
     late WooCusomerr.WooCustomer result;
@@ -118,12 +111,20 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
   Future<List<WooCusomerr.WooCustomer>> search_CustomerByEmail(String email) async {
 
     try {
-      var response = await http.get(
-        Uri.parse(getOAuthURL("GET",
-            'https://engy.jerma.net/wp-json/wc/v3/customers?email=${email}')),
-        headers: {"Content-Type": "Application/json"},
+      var url = Uri.parse('https://engy.jerma.net/wp-json/wc/v3/customers?email=$email');
+      String consumerKey = getIt<API_Config>().config.consumerKey;
+      String consumerSecret = getIt<API_Config>().config.consumerSecret;
+      // Encode the keys for Basic Authentication
+      String basicAuth = 'Basic ' + base64Encode(utf8.encode('$consumerKey:$consumerSecret'));
 
+      var response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "Application/json",
+          "Authorization": basicAuth,  // Add the Authorization header
+        },
       );
+
       late customers customer;
 // Convert the customer data to JSON format
       if (response.statusCode == 200) {
