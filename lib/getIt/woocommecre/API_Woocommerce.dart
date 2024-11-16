@@ -98,7 +98,7 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
     try {
       var response = await http.post(
         Uri.parse(getOAuthURL("POST",
-            'http://engy.jerma.net/wp-json/wc/v3/customers/')),
+            'https://engy.jerma.net/wp-json/wc/v3/customers')),
         headers: {"Content-Type": "Application/json"},
         body: jsonData,
       );
@@ -113,7 +113,7 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
     try {
       var response = await http.get(
         Uri.parse(getOAuthURL("GET",
-            'http://engy.jerma.net/wp-json/wc/v3/customers/${email}')),
+            'https://engy.jerma.net/wp-json/wc/v3/customers?email=${email}')),
         headers: {"Content-Type": "Application/json"},
 
       );
