@@ -24,7 +24,7 @@ abstract class API_Woocommerce {
   Future getCategoriesByCount(int count);
   Future searchCustomerByEmail(String email);
   Future<bool> createWooCustomer(String email,String username,address, city, state, phoneArea, country);
-  FutureOr<WooCusomerr.WooCustomer> updateWooCustomer(String id,Map data);
+  Future updateWooCustomer(String id,Map data);
 
   
   late Future<List<WooProductCategory>> listCategories;
@@ -50,10 +50,16 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
 
    */
 
-  FutureOr<WooCusomerr.WooCustomer> updateWooCustomer(String userID,Map mapData) async{
+  Future updateWooCustomer(String userID,Map mapData) async {
+    late WooCusomerr.WooCustomer result;
+    result =await update_WooCustomer(  userID,  mapData);
+    return result;
+  }
+
+  Future<WooCusomerr.WooCustomer> update_WooCustomer(String userID,Map mapData) async{
 
     String jsonData = json.encode(mapData);
-    late WooCustomer result;
+
     //WooCustomer result=await woocommerce.updateCustomer(id: int.parse(userID),data:mapData);
     //var url = Uri.parse('https://yourstore.com/wp-json/wc/v3/customers/$userID');
     try {
@@ -63,25 +69,26 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
       headers: {"Content-Type": "Application/json"},
       body: json,
     );
-   late customers customer;
+
 // Convert the customer data to JSON format
       if (response.statusCode == 200) {
-        result = json.decode(response.body);
 
+        final Map<String, dynamic> jsonList = jsonDecode(response.body);
+        return WooCusomerr.WooCustomer.fromJson(jsonList);
 
+        /*
         List<dynamic> Json = jsonDecode(response.body);
         !Json.isEmpty
             ? customer = customers.fromJson(jsonDecode(response.body))
-            : customer = customers(email: "empty");
+            : customer = customers(email: "empty");*/
       }
       }catch(e){
       Logger().e(e.toString()+'GiorgiaShop Error erro in updateWooCustomer');
     }
 
-      // Check the response status
 
-
-    return result;
+      WooCusomerr.WooCustomer customer=WooCusomerr.WooCustomer (email: "empty");
+    return customer ;
   }
   Future<bool> createWooCustomer(String email,String username,address, city, state, phoneArea, country) async{
 
@@ -108,7 +115,7 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
 
   return true;
   }
-  Future searchCustomerByEmail(String email) async {
+  Future<List<WooCusomerr.WooCustomer>> search_CustomerByEmail(String email) async {
 
     try {
       var response = await http.get(
@@ -120,13 +127,18 @@ class API_Woocommerce_Implementation extends API_Woocommerce {
       late customers customer;
 // Convert the customer data to JSON format
       if (response.statusCode == 200) {
-         listWooCustomer = jsonDecode(response.body);
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        return jsonList.map((json) => WooCusomerr.WooCustomer.fromJson(json)).toList();
+
 
       }
     }catch(e){
       Logger().e(e.toString()+'GiorgiaShop Error erro in searchCustomerByEmail');
     }
-
+  return [];
+  }
+  Future searchCustomerByEmail(String email) async {
+    listWooCustomer=search_CustomerByEmail(email);
   }
   Future<List<WooProductCategory>> get_Categories() async {
 
