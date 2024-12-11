@@ -18,19 +18,22 @@ class API_Config_Implementation extends API_Config  {
 
 
   Future<bool> isInternet() async {
-    bool internet = true;
+    bool internet = false;
+
+    // Try to make an HTTP request to a well-known server (e.g., Google).
     try {
-      final result = await InternetAddress.lookup('www.jerma.net');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      final response = await http.get(Uri.parse('https://www.google.com')).timeout(Duration(seconds: 5));
+
+      // If the response code is 200, internet is available.
+      if (response.statusCode == 200) {
         internet = true;
       }
-    } on SocketException catch (_) {
+    } catch (e) {
+      // If an exception occurs (e.g., no internet or server unreachable), set to false.
       internet = false;
     }
-
     return internet;
-  }
-
+    }
 
   Future<Config> getConfig() async {
     // TODO: implement getProductByCategory

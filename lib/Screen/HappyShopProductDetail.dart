@@ -528,62 +528,62 @@ class _HappyShopProductDetailState extends State<HappyShopProductDetail>
       ),
     );
   }
-_attribute(List<attribute> list) {
-
-  return Container(
-    padding: const EdgeInsets.only(left: 15),
-      child:  GridView.builder(
-      itemCount:list.length,
-      padding: const EdgeInsets.only(top: 5),
-      shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio:11.5,
+  _attribute(List<attribute> list) {
+    return Container(
+      padding: const EdgeInsets.only(left: 15),
+      child: ListView.builder(
+        itemCount: list.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(), // Prevent internal scrolling
+        itemBuilder: (context, index) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    list[index].name,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Expanded(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      items: list[index].options.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(fontSize: 25),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          widget.toViewSelectedAttribute[list[index].name] = value.toString();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+               // Reduced space between DropdownButton and Text
+              Text(
+                widget.toViewSelectedAttribute.isEmpty
+                    ? ""
+                    : widget.toViewSelectedAttribute[list[index].name]?.toString() ?? "",
+                style: const TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 0), // Reduced space between attributes
+            ],
+          );
+        },
       ),
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return Row(
-          children: [
-            Text(
-              list[index].name,
-              style: TextStyle(fontSize: 15),
-            ),SizedBox(
-              width: 15, // <-- SEE HERE
-            ),
-            DropdownButton(items: list[index].options.map<DropdownMenuItem<String>>((String value) {
-
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(
-                  value,
-                  style: TextStyle(fontSize: 30),
-                ),
-              );
-            }).toList(), onChanged: (value) {
-              setState((){
-                //widget.selectedAttribute[index]=value.toString();
-                widget.toViewSelectedAttribute[list[index].name]=value.toString();
-
-              });
-            }
-            ),
-            SizedBox(
-              width: 15, // <-- SEE HERE
-            ),
-            Text(
-              widget.toViewSelectedAttribute.length==0  ? "" : widget.toViewSelectedAttribute[list[index].name].toString(),
-              style: TextStyle(fontSize: 25),
-            ),
-          ],
-        );
-
-      }
-
-        )
-        );
-
-
+    );
   }
+
+
   _title(String title) {
 
 
@@ -607,7 +607,7 @@ _attribute(List<attribute> list) {
 
   _desc(String descriptoin) {
     return  Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
       child: Text(
           ""+descriptoin!,
         textAlign:TextAlign.start,
