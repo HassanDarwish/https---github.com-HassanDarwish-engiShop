@@ -55,21 +55,23 @@ class Favorit{
 
       Map<String, dynamic> productList = jsonDecode(json);
       List<dynamic> pro_list = productList["products"];
-      pro_list.forEach((item) {
-
-
-        Favorit favorit = new Favorit(id: item["ID"],
-            image_url: item["image_url"],
-            post_content: item["post_content"],
-            post_title: item["post_title"],
-            post_excerpt: item["post_excerpt"],
-            post_type: item["post_type"],
-            has_attributes: item["has_attributes"],
-            price: item["price"],
-            attributes:  attribute.getAttributeList(json:item["attributes"]));
-        favorit_List.add(favorit);
-      });
-
+      if(pro_list!=null) {
+        pro_list.forEach((item) {
+          if (item!=null) {
+            Favorit favorit = new Favorit(id: item["ID"],
+                image_url: item["image_url"],
+                post_content: item["post_content"],
+                post_title: item["post_title"],
+                post_excerpt: item["post_excerpt"],
+                post_type: item["post_type"],
+                has_attributes: item["has_attributes"],
+                price: item["price"],
+                attributes: attribute.getAttributeList(
+                    json: item["attributes"]));
+            favorit_List.add(favorit);
+          }
+        });
+      }
     }catch(e){
       throw e;
     }

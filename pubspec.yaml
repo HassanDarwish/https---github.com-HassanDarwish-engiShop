@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 31.0.0+1
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -45,29 +45,30 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
-  cached_network_image: ^3.3.0
-  flutter_svg: ^2.0.7
+  flutter_lints: ^5.0.0
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.0.14
   like_button: ^2.0.5
-  responsive_builder: ^0.7.0
+  responsive_builder: ^0.7.1
   country_code_picker: ^3.0.0
-  shared_preferences: ^2.1.2
-  sms_autofill: ^2.3.0
+  shared_preferences: ^2.3.3
+  sms_autofill: ^2.4.1
   flutter_rating_bar: ^4.0.1
   intl: ^0.18.1
-  carousel_slider: ^4.2.1
-  photo_view: ^0.14.0
-  flutter_staggered_grid_view: ^0.6.2
-  flutter_wp_woocommerce: ^1.0.0
-  in_app_update: ^4.1.4
-  get_it: ^7.6.0
-  crypto: ^3.0.3
-  convert: ^3.1.1
-  shimmer_animation: ^2.1.0+1
-  provider: ^6.0.5
-  google_sign_in: ^6.1.5
-  http: ^0.13.5
-  http_client: ^1.2.3
+  carousel_slider: ^5.0.0
+  photo_view: ^0.15.0
+  flutter_staggered_grid_view: ^0.7.0
+  in_app_update: ^4.2.3
+  win32: ^5.8.0
+  get_it: ^8.0.2
+  crypto: ^3.0.6
+  convert: ^3.1.2
+  logger: ^2.4.0
+  shimmer_animation: ^2.2.1
+  provider: ^6.1.2
+  google_sign_in: ^6.2.2
+  http: ^1.2.2
+  http_client: ^1.5.3
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -98,9 +99,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: DancingScript
-       fonts:
-         - asset: fonts/DancingScript-VariableFont_wght.ttf
+    - family: DancingScript
+      fonts:
+        - asset: fonts/DancingScript-VariableFont_wght.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

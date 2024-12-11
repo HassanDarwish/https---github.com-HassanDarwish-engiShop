@@ -1,6 +1,6 @@
 import 'package:GiorgiaShop/pojo/customer/customers.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:GiorgiaShop/pojo/Woo/WooCustomer.dart' as WooCusomerr;
 import '../getIt/woocommecre/APICustomWooCommerce.dart';
 import '../getIt/woocommecre/API_Woocommerce.dart';
 import '../pojo/favorit/Favorit.dart';
@@ -8,8 +8,6 @@ import '../pojo/products.dart';
 import '../pojo/tracking/TrackingOrder.dart';
 import 'Session.dart';
 import 'abstracted/Woocommerce.dart';
-import 'package:flutter_wp_woocommerce/models/customer.dart';
-import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
 class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
   final API_Woocommerce api_Woocommerce;
   final APICustomWooCommerce api_CustomWoocommerce;
@@ -45,13 +43,6 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
         ,  cartFinalPrice, shippingFees, totalTax , CUR_CART_COUNTT,  itemMap,  products,  promocode,  email);
   }
 
-  Future<bool>  createOrder(String userID,String displayName,Map addressList
-      ,String cartFinalPrice,String CUR_CART_COUNTT,Map itemMap,List<product> products,String promocode)
-  {
-
-    return api_Woocommerce.createOrder(  userID,  displayName,  addressList
-        ,  cartFinalPrice,  CUR_CART_COUNTT,  itemMap,  products,  promocode);
-  }
   Future getCategories() {
     return api_Woocommerce.listAllCategories;
   }
@@ -107,7 +98,7 @@ class WoocommerceProvider extends ChangeNotifier implements Woocommerce {
         },
     };
 
-    WooCustomer result=await api_Woocommerce.updateWooCustomer(id, data);
+    WooCusomerr.WooCustomer result=await api_Woocommerce.updateWooCustomer(id, data);
 
     if(result!=null)
       return true;

@@ -9,7 +9,7 @@ import 'package:GiorgiaShop/widget/HappyShopAppBar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wp_woocommerce/woocommerce.dart';
+import 'package:GiorgiaShop/pojo/Woo/WooProductCategory.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

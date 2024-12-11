@@ -103,8 +103,7 @@ class _HappyShopHomeState extends State<HappyShopHome> {
 
                         return onNavigationTap(isLiked, 0);
                       },
-                      circleColor: CircleColor(
-                          start: primary, end: primary.withOpacity(0.1)),
+
                       bubblesColor: BubblesColor(
                         dotPrimaryColor: primary,
                         dotSecondaryColor: primary.withOpacity(0.1),

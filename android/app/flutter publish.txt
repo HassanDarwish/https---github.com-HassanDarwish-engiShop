@@ -1,0 +1,22 @@
+keytool -genkey -v -keystore giorgiashop-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias GiorgiaShop 
+
+
+
+
+keytool -list -v -alias your_alias_name -keystore your_keystore_path
+
+
+
+
+
+keytool -list -v -alias GiorgiaShop -keystore giorgiashop-keystore.jks
+
+382020@Mido
+SHA1: 11:99:73:C5:57:3C:DD:30:3D:D6:D8:47:EB:7D:31:61:30:96:09:87
+
+
+this file first to sing the application and second create Enviroment SHA1 to put it into google console
+all this to run google sign in
+
+
+put giorgiashop-keystore.jks at android/app/giorgiashop-keystore.jks

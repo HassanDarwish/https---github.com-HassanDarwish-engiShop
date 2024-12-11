@@ -3,16 +3,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:http/http.dart' show IOClient;
-import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
+//import 'package:flutter_wp_woocommerce/models/order.dart' as orderr;
 import 'package:GiorgiaShop/pojo/favorit/Favorit.dart';
 import 'package:GiorgiaShop/pojo/order/lineItems.dart';
-import 'package:flutter_wp_woocommerce/models/customer.dart';
+//import 'package:flutter_wp_woocommerce/models/customer.dart';
 import 'package:GiorgiaShop/pojo/coupon/coupons.dart';
 import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
+import '../../pojo/Woo/WooCustomer.dart';
+import '../../pojo/Woo/WooOrder.dart';
 import '../../pojo/customer/customers.dart';
 import '../../pojo/tracking/TrackingOrder.dart';
 import '../config/APIConfig.dart';
@@ -43,7 +45,7 @@ class APICustomWooCommerce_Implementation extends APICustomWooCommerce{
   //String consumerKey ="";// "ck_314081f754984f4ec9a55e8ca4c2171bd071ea56";
   //String consumerSecret ="";// "cs_8ae1b05d30d722960f3d65136dd82ee0433417cf";
   Future<List<TrackingOrder>> getOrderByUserId(String userId)async{
-    var orderList = <orderr.WooOrder>[];
+    var orderList = <WooOrder>[];
     try {
       // TODO: implement getProductByCategory
       var response = await http.get(
@@ -128,7 +130,7 @@ Future<List<Favorit>> ListFavorit(userId) async{
            headers: {"Content-Type": "Application/json"});
 
        responseMap = jsonDecode(response.body);
-       list_=responseMap["products"];
+
          favorit=Favorit.fromJson(response.body);
 
     return   favorit.favorit_List;

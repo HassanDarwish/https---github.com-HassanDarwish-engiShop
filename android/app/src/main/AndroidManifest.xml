@@ -29,5 +29,15 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Required for Google Sign-In -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.gms.client_id"
+            android:value="715416248714-uf948ivufdnp3uhc3gt1pjc5t2bun6c9.apps.googleusercontent.com" />
+
+
     </application>
 </manifest>
