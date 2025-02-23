@@ -10,7 +10,11 @@ import 'package:GiorgiaShop/getIt/config/APIConfig.dart';
 import 'package:GiorgiaShop/getIt/woocommecre/API_Woocommerce.dart';
 import 'package:GiorgiaShop/Helper/SSLLoder.dart';
 import 'HappyShopHome.dart';
-
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:pub_semver/pub_semver.dart';
+import 'package:firebase_core/firebase_core.dart';
 GetIt getIt = GetIt.instance;
 
 class HappyShopSplash extends StatefulWidget {
@@ -48,6 +52,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Push the replacement route after the widget tree is complete.
+      checkForUpdates(context);
       startTime(1000);
     });
     return WillPopScope(
@@ -107,6 +112,62 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
                   ],
                 ),
               ))),
+    );
+  }
+
+
+
+
+
+  Future<void> checkForUpdates(BuildContext context) async {
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  try {
+  await remoteConfig.fetchAndActivate();
+
+  final minimumAppVersionString = remoteConfig.getString('minimum_app_version');
+  print("Remote Config minimum_app_version: $minimumAppVersionString");
+  if (minimumAppVersionString.isNotEmpty) {
+  final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  print("PackageInfo version: ${packageInfo.version}");
+  final currentVersion = Version.parse(packageInfo.version);
+  final minimumVersion = Version.parse(minimumAppVersionString);
+
+  if (currentVersion < minimumVersion) {
+  _showUpdateDialog(context);
+  }
+  }
+  } catch (e) {
+  print("Remote config error: $e");
+  }
+  }
+
+  void _showUpdateDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Update Available'),
+          content: const Text(
+            'A new version of the app is available. Please update to continue.\n\n'
+                'If you don\'t see an "Update" button, please tap "Open" and the Play Store will show the option to update.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Update'),
+              onPressed: () async {
+                final Uri appStoreUrl = Uri.parse(
+                    'https://play.google.com/store/apps/details?id=com.giorgia.giorgiashop&pli=1'); // Replace with your app's URL
+                if (await canLaunchUrl(appStoreUrl)) {
+                  await launchUrl(appStoreUrl, mode: LaunchMode.externalApplication);
+                } else {
+                  throw 'Could not launch $appStoreUrl';
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

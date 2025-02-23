@@ -17,88 +17,101 @@ import 'getIt/config/APIConfig.dart';
 import 'getIt/woocommecre/APICustomWooCommerce.dart';
 import 'getIt/woocommecre/API_Woocommerce.dart';
 import 'provider/Cart.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:pub_semver/pub_semver.dart';
+import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
+
 GetIt getIt = GetIt.instance;
 
-
-loadRepository()async{
+loadRepository() async {
   getIt.registerSingleton<API_Config>(API_Config_Implementation(),
       signalsReady: true);
   getIt.isReady<API_Config>().then((_) => getIt<API_Config>());
 
-     getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
-        signalsReady: true);
-    getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
+  getIt.registerSingleton<API_Woocommerce>(API_Woocommerce_Implementation(),
+      signalsReady: true);
+  getIt.isReady<API_Woocommerce>().then((_) => getIt<API_Woocommerce>());
 
-    getIt.registerSingleton<APICustomWooCommerce>(
-        APICustomWooCommerce_Implementation(),
-        signalsReady: true);
-    getIt.isReady<APICustomWooCommerce>().then((_) =>
-        getIt<APICustomWooCommerce>());
-
+  getIt.registerSingleton<APICustomWooCommerce>(
+      APICustomWooCommerce_Implementation(),
+      signalsReady: true);
+  getIt.isReady<APICustomWooCommerce>().then((_) =>
+      getIt<APICustomWooCommerce>());
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); // Initialize Firebase
   HttpOverrides.global = MyHttpOverrides();
   await loadRepository();
+  await _initFirebaseRemoteConfig();
+
+
   runApp(
-
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<CartImplementation>(
-            create: (context) => CartImplementation(config: getIt<API_Config>()),
-          ),
-          ChangeNotifierProvider<SessionImplementation>(
-            create: (context) => SessionImplementation(),
-          ),
-          ChangeNotifierProvider<WoocommerceProvider>(
-            create: (context) =>
-                WoocommerceProvider(api_Woocommerce: getIt<API_Woocommerce>(),
-                    api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
-          ),
-        ],
-      child: MaterialApp(
-          home: HappyShopSplash(),
-          title: App_title,
-          theme: ThemeData(
-            primarySwatch: primary_app,
-            textTheme: const TextTheme(
-                titleLarge: TextStyle(
-                  color: primary,
-                  fontWeight: FontWeight.w600,
-                )),
-            textSelectionTheme: const TextSelectionThemeData(
-              cursorColor: primary,
-            ),
-            fontFamily: 'Open sans',
-          ),
-          routes: {
-            HappyShopHome.routeName: (context) =>   HappyShopHome(),
-            HappyShopCatogeryAll.routeName:(context) =>   HappyShopCatogeryAll(),
-            HappyShopCart.routeName:(context) =>  HappyShopCart(),
-            HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
-
-          },
-
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CartImplementation>(
+          create: (context) => CartImplementation(config: getIt<API_Config>()),
         ),
-      ));
+        ChangeNotifierProvider<SessionImplementation>(
+          create: (context) => SessionImplementation(),
+        ),
+        ChangeNotifierProvider<WoocommerceProvider>(
+          create: (context) =>
+              WoocommerceProvider(api_Woocommerce: getIt<API_Woocommerce>(),
+                  api_CustomWoocommerce: getIt<APICustomWooCommerce>()),
+        ),
+      ],
+      child: MaterialApp(
+        home: HappyShopSplash(),
+        title: App_title,
+        theme: ThemeData(
+          primarySwatch: primary_app,
+          textTheme: const TextTheme(
+              titleLarge: TextStyle(
+                color: primary,
+                fontWeight: FontWeight.w600,
+              )),
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: primary,
+          ),
+          fontFamily: 'Open sans',
+        ),
+        routes: {
+          HappyShopHome.routeName: (context) => HappyShopHome(),
+          HappyShopCatogeryAll.routeName: (context) => HappyShopCatogeryAll(),
+          HappyShopCart.routeName: (context) => HappyShopCart(),
+          HappyShopCheckout.routeName: (context) => HappyShopCheckout(),
+        },
+      ),
+    ),
+  );
+}
 
+Future<void> _initFirebaseRemoteConfig() async {
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(seconds: 10),
+    minimumFetchInterval: Duration.zero,
+  ));
+  await remoteConfig.fetchAndActivate();
 }
 
 class MyApp extends StatelessWidget {
-
-    MyApp({
+  MyApp({
     Key? key,
   }) : super(key: key);
 
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // Confirm that you have user permission for screen recording
 
 
-    return    MaterialApp(
-        home: HappyShopSplash()      ,
+
+    return MaterialApp(
+      home: HappyShopSplash(),
       title: App_title,
       theme: ThemeData(
         primarySwatch: primary_app,
@@ -113,78 +126,15 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Open sans',
       ),
       routes: {
-        HappyShopHome.routeName: (context) =>   HappyShopHome(),
-        HappyShopCatogeryAll.routeName:(context) => const HappyShopCatogeryAll(),
-        HappyShopCart.routeName:(context) =>  HappyShopCart(),
-        HappyShopCheckout.routeName:(context) =>  HappyShopCheckout(),
-
+        HappyShopHome.routeName: (context) => HappyShopHome(),
+        HappyShopCatogeryAll.routeName: (context) =>
+        const HappyShopCatogeryAll(),
+        HappyShopCart.routeName: (context) => HappyShopCart(),
+        HappyShopCheckout.routeName: (context) => HappyShopCheckout(),
       },
-    ) ;
-
-
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Future _getProducts() async {
-    await getIt<API_Woocommerce>().getCategories();
-    Future<List<WooProductCategory>> x = getIt<API_Woocommerce>().listAllCategories;
-
-    return x;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: FutureBuilder(
-        future: _getProducts(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            // Create a list of products
-            List<WooProductCategory> WooProductCategorydata = snapshot.data;
-
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                WooProductCategory category = WooProductCategorydata[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    child: Image.network(category.image!.src!),
-                  ),
-                  title: Text(category.name!),
-                  subtitle: Text("Buy now for \$ " + category.name!),
-                );
-              },
-            );
-          }
-
-          // Show a circular progress indicator while loading products
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
     );
   }
 }
+
+
+// ... rest of your MyHomePage class ...
