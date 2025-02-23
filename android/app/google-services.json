@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "571043338322",
+    "project_id": "giorgia-2aac2",
+    "storage_bucket": "giorgia-2aac2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571043338322:android:5eb243b0f23c483746a78b",
+        "android_client_info": {
+          "package_name": "com.giorgia.giorgiashop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX6QM0lE0sbN5e6SzneW0SSHZ-cytmeiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
