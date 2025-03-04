@@ -3,6 +3,7 @@ import 'package:GiorgiaShop/Helper/HappyShopString.dart';
 import 'package:GiorgiaShop/Helper/cartEnums.dart';
 import 'package:GiorgiaShop/Screen/HappyShopSplash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/scheduler/binding.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -320,41 +321,80 @@ class _HappyShopDrawerState extends State<HappyShopDrawer> {
     );
   }
 
-  Future login(context, SessionImplementation sessionImp) async {
-    final user = await GoogleSignin.login();
 
-    if (user == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("SignIn Falied")));
-    } else {
-      widget.isExist=await sessionImp.initSession(user,  widget.CustWoocommerceProvider);
-      if(widget.isExist==false) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
-        logOut();
-        widget.register=true;
-      }else{
-        if(sessionImp.addressList.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
-          widget.haveAddress=false;
+  Future<void> login(context, SessionImplementation sessionImp) async {
+    try {
+      final user = await GoogleSignin.login();
+
+      if (user == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            duration: Duration(seconds: 7),
+            content: Text("Sign-in was canceled."),
+          ),
+        );
+      } else {
+        widget.isExist = await sessionImp.initSession(user, widget.CustWoocommerceProvider);
+        // ... rest of your logic ...
+        if (widget.isExist == false) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Register..... ")));
+          logOut();
+          widget.register=true;
         }else{
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(duration: const Duration(seconds: 5),content: Text("welcome Back .....")));
-          widget.isExist=true;
-          widget.haveAddress=true;
-          widget.isLoggedIn=true;
-          sessionImp.status=sessionEnums.login;
-          setState(() {});
+          if(sessionImp.addressList.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(duration: const Duration(seconds: 7),content: Text("Please Add Address .....")));
+            widget.haveAddress=false;
+          }else{
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(duration: const Duration(seconds: 5),content: Text("welcome Back .....")));
+            widget.isExist=true;
+            widget.haveAddress=true;
+            widget.isLoggedIn=true;
+            sessionImp.status=sessionEnums.login;
+            setState(() {});
+          }
         }
       }
+    } on PlatformException catch (e) {
+      if (e.code == 'network_error') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            duration: Duration(seconds: 7),
+            content: Text("Network error. Please check your connection."),
+          ),
+        );
+      } else if (e.code == 'sign_in_canceled') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            duration: Duration(seconds: 7),
+            content: Text("Sign-in was canceled."),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 7),
+            content: Text("Sign-in failed: ${e.message}"),
+          ),
+        );
+      }
+      print("Google Sign-In Error: ${e.code} - ${e.message}"); // Log the error
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 7),
+          content: Text("An unexpected error occurred: $e"),
+        ),
+      );
+      print("Unexpected error during Google Sign-In: $e"); // Log the error
     }
-
-
     setState(() {
 
     });
 
     Navigator.pop(context);
+
   }
 
 
