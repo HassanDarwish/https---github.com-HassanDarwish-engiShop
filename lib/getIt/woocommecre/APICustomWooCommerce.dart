@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
@@ -12,6 +13,7 @@ import 'package:GiorgiaShop/pojo/products.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+
 
 import '../../pojo/Woo/WooCustomer.dart';
 import '../../pojo/Woo/WooOrder.dart';
@@ -278,38 +280,50 @@ Future<List<Favorit>> ListFavorit(userId) async{
   }
   @override
   Future<products> getProductByCategory(String catId) async {
-    late products product_List;
-    // TODO: implement getProductByCategory
+    products product_List = products.fromJson("[]"); // Initialize with empty list
     int maxRetries = 5;
     int currentRetry = 0;
+    Duration retryDelay = Duration(seconds: 1); // Initial retry delay
+    int retryDelaySeconds = 1;
 
     while (currentRetry < maxRetries) {
       try {
-
-
-        var request = await client.getUrl(
-            Uri.parse(getOAuthURL(
-                "GET",
-                'https://engy.jerma.net/wp-json/wc/v3/products?category=' +
-                    catId +
-                    "&status=publish")),
-        ).timeout(
-            Duration(seconds: 12));
+        var request = await client
+            .getUrl(Uri.parse(getOAuthURL(
+            "GET",
+            'https://engy.jerma.net/wp-json/wc/v3/products?category=' +
+                catId +
+                "&status=publish")))
+            .timeout(Duration(seconds: 20));
         request.headers.set('Content-Type', 'application/json');
-        //request.headers.set('Authorization', 'Bearer YourAccessToken');
         HttpClientResponse response = await request.close();
         if (response.statusCode == 200) {
-          // If the server returns a 200 OK response, parse the JSON and return the config
           String responseBody = await response.transform(utf8.decoder).join();
           product_List = products.fromJson(responseBody);
-        break;
+          break; // Success, exit the loop
+        } else {
+          // Handle other status codes
+          print('HTTP error: ${response.statusCode}');
+          currentRetry++;
         }
+      } on TimeoutException {
+        print('Timeout during request');
+        currentRetry++;
+      } on SocketException {
+        print('Network error');
+        currentRetry++;
+      } on HttpException {
+        print("Http Exception");
+        currentRetry++;
       } catch (error) {
-        // Handle error
+        print('An unexpected error occurred: $error');
         currentRetry++;
       }
+      if (currentRetry < maxRetries) {
+        await Future.delayed(Duration(seconds: retryDelaySeconds)); // Use seconds
+        retryDelaySeconds *= 2; // Double the retry delay
+      }
     }
-
     return product_List;
   }
 

@@ -53,7 +53,7 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Push the replacement route after the widget tree is complete.
       checkForUpdates(context);
-      startTime(1000);
+      startTime(context,1000);
     });
     return WillPopScope(
       onWillPop: () async {
@@ -181,23 +181,28 @@ class _HappyShopSplashState extends State<HappyShopSplash> {
     );
   }
 
-  startTime(int timeInMilli) async {
+  Future<Timer> startTime(BuildContext context, int timeInMilli) async {
     var duration = Duration(milliseconds: timeInMilli);
     if (true == await getIt<API_Config>().isInternet()) {
       await getIt<API_Config>().getConfig();
       await getIt<API_Woocommerce>().getCategoriesByCount(8);
       await getIt<API_Woocommerce>().getCategories();
-      SSLLoader SSL=SSLLoader();
+      SSLLoader SSL = SSLLoader();
       await SSL.ConfigSSLLoader();
       await SSL.WooSSLLoader();
       //navigationPage();
       return Timer(duration, await navigationPage);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No internet connection'),
-        ),
-      );
+      if (context.mounted) { // Check if context is valid
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No internet connection'),
+          ),
+        );
+      } else {
+        print("context not mounted");
+      }
+      return Future.value(null); // Or some other appropriate return
     }
   }
 

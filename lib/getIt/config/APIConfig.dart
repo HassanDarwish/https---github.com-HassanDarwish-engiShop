@@ -22,7 +22,7 @@ class API_Config_Implementation extends API_Config  {
 
     // Try to make an HTTP request to a well-known server (e.g., Google).
     try {
-      final response = await http.get(Uri.parse('https://www.google.com')).timeout(Duration(seconds: 5));
+      final response = await http.get(Uri.parse('https://www.google.com')).timeout(Duration(seconds: 15));
 
       // If the response code is 200, internet is available.
       if (response.statusCode == 200) {
